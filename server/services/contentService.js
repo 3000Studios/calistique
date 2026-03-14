@@ -216,6 +216,12 @@ const DEFAULT_FILES = {
   }
 }
 
+const LEGACY_MIRROR_MAP = {
+  homepage: path.join(contentRoot, 'homepage.json'),
+  features: path.join(contentRoot, 'features.json'),
+  pricing: path.join(contentRoot, 'pricing.json')
+}
+
 function normalize(value) {
   return value.replace(/\\/g, '/')
 }
@@ -316,6 +322,15 @@ async function ensureDefaultFiles() {
   }
 }
 
+async function writeLegacyMirror(slug, payload) {
+  const legacyPath = LEGACY_MIRROR_MAP[slug]
+  if (!legacyPath) {
+    return
+  }
+
+  await writeJson(legacyPath, payload)
+}
+
 async function listJsonDirectory(directory) {
   await ensureDirectory(directory)
 
@@ -402,6 +417,7 @@ export async function createPage(pageName, pagePayload) {
   })
 
   await writeJson(filePath, nextPage)
+  await writeLegacyMirror(slug, nextPage)
 
   return {
     slug,
@@ -420,6 +436,7 @@ export async function updatePageContent(pageName, field, value) {
   page.updatedAt = nowIso()
 
   await writeJson(filePath, page)
+  await writeLegacyMirror(slug, page)
 
   return {
     slug,
@@ -476,6 +493,7 @@ export async function upsertFeatureSection(featureSection) {
   featurePage.updatedAt = nowIso()
 
   await writeJson(filePath, featurePage)
+  await writeLegacyMirror('features', featurePage)
 
   return {
     slug: nextItem.slug,
