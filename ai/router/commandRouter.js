@@ -1,6 +1,7 @@
 import { generateBlogPost, generateFeatureSection, generateLandingPage } from '../generators/contentGenerator.js'
 import { generateBackground, generateImages } from '../media/mediaEngine.js'
 import { deploySite } from '../deployment/deployAgent.js'
+import { previewTrafficTopics, runTrafficCycle } from '../trafficEngine.js'
 import {
   createPage,
   editWorkspaceFile,
@@ -21,7 +22,9 @@ const SUPPORTED_ACTIONS = new Set([
   'deploy_site',
   'update_theme',
   'generate_feature_section',
-  'edit_workspace_file'
+  'edit_workspace_file',
+  'run_traffic_cycle',
+  'discover_topics'
 ])
 
 function assertObject(value, name) {
@@ -116,6 +119,21 @@ export function validateCommand(input) {
         append: Boolean(input.append),
         autoDeploy: parseAutoDeploy(input)
       }
+    case 'run_traffic_cycle':
+      return {
+        action,
+        seedTopics: Array.isArray(input.seedTopics) ? input.seedTopics : [],
+        count: Number.isInteger(input.count) ? input.count : 2,
+        includeImages: typeof input.includeImages === 'boolean' ? input.includeImages : true,
+        autoDeploy: parseAutoDeploy(input)
+      }
+    case 'discover_topics':
+      return {
+        action,
+        seedTopics: Array.isArray(input.seedTopics) ? input.seedTopics : [],
+        limit: Number.isInteger(input.limit) ? input.limit : 6,
+        autoDeploy: false
+      }
     default:
       throw new Error(`Unhandled action "${action}".`)
   }
@@ -189,6 +207,15 @@ export async function routeCommand(input) {
       const file = await editWorkspaceFile(command)
       const deployment = await maybeDeploy(command, `AI workspace edit: ${command.targetPath}`)
       return { success: true, action: command.action, file, deployment }
+    }
+    case 'run_traffic_cycle': {
+      const cycle = await runTrafficCycle(command)
+      const deployment = await maybeDeploy(command, `AI traffic cycle: ${cycle.generated.length} pages`)
+      return { success: true, action: command.action, cycle, deployment }
+    }
+    case 'discover_topics': {
+      const discovery = await previewTrafficTopics(command)
+      return { success: true, action: command.action, discovery }
     }
     default:
       throw new Error(`Unhandled action "${command.action}".`)
