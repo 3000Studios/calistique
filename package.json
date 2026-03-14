@@ -12,6 +12,7 @@
     "preview": "vite preview",
     "server": "node server/index.js",
     "deploy": "node scripts/deploy-site.js",
+    "pages:deploy": "wrangler pages deploy dist",
     "pages:dev": "wrangler pages dev",
     "command": "node scripts/run-command.js",
     "traffic": "node scripts/run-traffic-cycle.js",
