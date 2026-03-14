@@ -46,6 +46,7 @@ function fallbackBlogPost({ topic, length }) {
   return {
     slug: slugify(topic),
     title: `How ${topic} strengthens an AI-run website stack`,
+    description: `A practical look at using ${topic} inside a local-model content and deployment workflow.`,
     excerpt: `A practical look at using ${topic} inside a local-model content and deployment workflow.`,
     publishedAt: today(),
     tags: ['ai', 'automation', slugify(topic)],
@@ -116,7 +117,7 @@ export async function generateBlogPost({ topic, length = 'medium' }) {
     prompt: `
 Create JSON for a blog post.
 Requirements:
-- keys: slug, title, excerpt, publishedAt, tags, sections
+- keys: slug, title, description, excerpt, publishedAt, tags, sections
 - sections must be an array with ${parseLength(length)} sections
 - each section includes heading and body
 - topic: ${topic}
