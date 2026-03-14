@@ -1,0 +1,27 @@
+name: myappai-local
+version: 1.0.0
+schema: v1
+
+models:
+  - name: GPT-4o
+    provider: openai
+    model: gpt-4o
+    apiKey: \
+    roles:
+      - chat
+      - edit
+      - apply
+
+  - name: GPT-4o-mini
+    provider: openai
+    model: gpt-4o-mini
+    apiKey: \
+    roles:
+      - autocomplete
+
+  - name: text-embedding-3-large
+    provider: openai
+    model: text-embedding-3-large
+    apiKey: \
+    roles:
+      - embed
