@@ -1,7 +1,11 @@
-name = "myappai-worker"
-main = "worker/worker.js"
-compatibility_date = "2025-01-01"
+"$schema" = "./node_modules/wrangler/config-schema.json"
+name = "myappai"
+pages_build_output_dir = "./dist"
+compatibility_date = "2026-03-14"
+compatibility_flags = ["nodejs_compat"]
 
 [vars]
 APP_NAME="AI System Manager"
+SITE_ORIGIN="https://myappai.net"
+API_MODE="repo-local"
 
