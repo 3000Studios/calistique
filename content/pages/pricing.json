@@ -1,0 +1,36 @@
+{
+  "headline": "Start local, scale with confidence",
+  "tiers": [
+    {
+      "name": "Launch",
+      "price": "$0",
+      "description": "Local development, manual commands, and one deploy operator.",
+      "features": [
+        "Ollama model routing",
+        "JSON content engine",
+        "Cloudflare-ready build output"
+      ]
+    },
+    {
+      "name": "Studio",
+      "price": "$79",
+      "description": "Daily content automation with deploy telemetry and admin workflows.",
+      "features": [
+        "Automated blog generation",
+        "Media asset discovery",
+        "Deployment history and analytics"
+      ]
+    },
+    {
+      "name": "Operator",
+      "price": "$199",
+      "description": "High-touch orchestration for products, landing pages, and scheduled AI jobs.",
+      "features": [
+        "Multi-product content lanes",
+        "Workspace file editing",
+        "Advanced local model switching"
+      ]
+    }
+  ],
+  "updatedAt": "2026-03-14T00:00:00.000Z"
+}

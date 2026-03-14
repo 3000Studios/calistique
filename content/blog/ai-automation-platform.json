@@ -1,0 +1,25 @@
+{
+  "slug": "ai-automation-platform",
+  "title": "Building an AI-Controlled Web Platform with Local Models",
+  "excerpt": "A blueprint for pairing an AI command router with a content engine, git deployment agent, and Cloudflare Pages.",
+  "publishedAt": "2026-03-14",
+  "tags": [
+    "automation",
+    "ollama",
+    "cloudflare"
+  ],
+  "sections": [
+    {
+      "heading": "Start with a command contract",
+      "body": "Treat every AI request as structured data. When a router validates actions first, automation stops feeling fragile and starts behaving like a system."
+    },
+    {
+      "heading": "Keep content in JSON",
+      "body": "Pages, features, pricing, and blog posts become diffable artifacts when the engine writes them into the repository. That makes review, rollback, and deploy straightforward."
+    },
+    {
+      "heading": "Deploy through git",
+      "body": "Committing and pushing content changes is the cleanest bridge from an AI editor to Cloudflare Pages. The platform stays deterministic because production is always built from source."
+    }
+  ]
+}

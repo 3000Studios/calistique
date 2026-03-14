@@ -1,0 +1,35 @@
+{
+  "headline": "AI builds your app pipeline",
+  "subheadline": "Route local-model commands into content, assets, commits, and Cloudflare-ready builds from one workspace.",
+  "cta": "Open the admin console",
+  "secondaryCta": "View architecture",
+  "heroStats": [
+    {
+      "label": "Local models online",
+      "value": "3"
+    },
+    {
+      "label": "Automated deploy path",
+      "value": "Git -> Cloudflare"
+    },
+    {
+      "label": "Editable content source",
+      "value": "/content"
+    }
+  ],
+  "sections": [
+    {
+      "title": "Command-first publishing",
+      "description": "Send structured JSON actions to a router that validates intent before touching the workspace."
+    },
+    {
+      "title": "Local AI orchestration",
+      "description": "Use Ollama-hosted models for code, reasoning, analysis, and content generation without leaving the repo."
+    },
+    {
+      "title": "Deploy from source control",
+      "description": "Every accepted content mutation can stage, commit, and push for Cloudflare Pages to rebuild automatically."
+    }
+  ],
+  "updatedAt": "2026-03-14T00:00:00.000Z"
+}

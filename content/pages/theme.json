@@ -1,0 +1,16 @@
+{
+  "name": "Signal Sunrise",
+  "palette": {
+    "canvas": "#0d1021",
+    "surface": "#151a35",
+    "ink": "#f7f2e8",
+    "accent": "#ff8a3d",
+    "highlight": "#5be7c4",
+    "line": "#2b335f"
+  },
+  "motion": {
+    "hero": "stagger-rise",
+    "sections": "soft-slide"
+  },
+  "updatedAt": "2026-03-14T00:00:00.000Z"
+}

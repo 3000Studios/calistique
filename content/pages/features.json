@@ -1,0 +1,27 @@
+{
+  "headline": "Five systems, one platform",
+  "intro": "The repository now acts as an AI control plane, content engine, deployment surface, and public website.",
+  "items": [
+    {
+      "slug": "command-router",
+      "title": "Command Router API",
+      "description": "Validates structured actions and dispatches them to generators, media providers, file editors, and deploy agents."
+    },
+    {
+      "slug": "content-engine",
+      "title": "Content Engine",
+      "description": "Creates and edits JSON-driven pages, blog posts, feature blocks, pricing data, and product copy under /content."
+    },
+    {
+      "slug": "media-engine",
+      "title": "Media Engine",
+      "description": "Discovers free assets from Unsplash, Pexels, and Pixabay, then stores local copies in frontend/assets."
+    },
+    {
+      "slug": "deploy-agent",
+      "title": "Deploy Agent",
+      "description": "Stages workspace changes, commits them with AI-aware messages, pushes upstream, and records deployment status."
+    }
+  ],
+  "updatedAt": "2026-03-14T00:00:00.000Z"
+}

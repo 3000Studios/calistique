@@ -1,0 +1,11 @@
+{
+  "visitors": 1248,
+  "conversionRate": 0.086,
+  "revenue": 18240,
+  "aiActivity": {
+    "commandsToday": 12,
+    "deploymentsToday": 2,
+    "lastAction": "bootstrap_platform"
+  },
+  "updatedAt": "2026-03-14T00:00:00.000Z"
+}

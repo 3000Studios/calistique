@@ -1,0 +1,11 @@
+{
+  "slug": "platform-studio",
+  "name": "Platform Studio",
+  "headline": "Run your marketing site like an AI-operated product",
+  "description": "Platform Studio combines local-model task routing, content generation, media sourcing, and git deployment orchestration in one repository.",
+  "bullets": [
+    "Create landing pages from structured JSON commands",
+    "Generate feature sections tied to product messaging",
+    "Push updates directly into a Cloudflare-ready build flow"
+  ]
+}

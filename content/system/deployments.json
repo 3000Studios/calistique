@@ -1,0 +1,13 @@
+{
+  "history": [
+    {
+      "id": "bootstrap-20260314",
+      "status": "idle",
+      "message": "Platform bootstrap ready for first AI-managed deploy.",
+      "branch": "main",
+      "commitSha": null,
+      "startedAt": "2026-03-14T00:00:00.000Z",
+      "finishedAt": "2026-03-14T00:00:00.000Z"
+    }
+  ]
+}

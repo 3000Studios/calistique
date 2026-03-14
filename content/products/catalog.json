@@ -1,0 +1,18 @@
+{
+  "products": [
+    {
+      "slug": "platform-studio",
+      "name": "Platform Studio",
+      "summary": "A command-driven website builder for teams that want content generation, media sourcing, and deploy automation inside one repo.",
+      "outcome": "Launch product pages and campaigns from structured commands.",
+      "priceAnchor": "$79 / month"
+    },
+    {
+      "slug": "deploy-ops",
+      "name": "Deploy Ops",
+      "summary": "A deployment monitor that tracks content changes, commit history, and Cloudflare rebuild expectations.",
+      "outcome": "Move from ad-hoc publishing to predictable AI-assisted releases.",
+      "priceAnchor": "$199 / month"
+    }
+  ]
+}

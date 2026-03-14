@@ -1,0 +1,15 @@
+{
+  "posts": [
+    {
+      "slug": "ai-automation-platform",
+      "title": "Building an AI-Controlled Web Platform with Local Models",
+      "excerpt": "How to combine Ollama, a command router, JSON content, and Cloudflare Pages into one deployable workflow.",
+      "publishedAt": "2026-03-14",
+      "tags": [
+        "automation",
+        "ollama",
+        "cloudflare"
+      ]
+    }
+  ]
+}
