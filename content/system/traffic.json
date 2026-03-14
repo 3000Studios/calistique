@@ -1,6 +1,24 @@
 {
   "queue": [
     {
+      "topic": "how to automate marketing with AI",
+      "keyword": "how to automate marketing with ai",
+      "intent": "informational",
+      "score": 53,
+      "status": "queued",
+      "funnel": "newsletter",
+      "createdAt": "2026-03-14T09:47:35.156Z"
+    },
+    {
+      "topic": "AI productivity tools comparison",
+      "keyword": "ai productivity tools comparison",
+      "intent": "commercial",
+      "score": 52,
+      "status": "queued",
+      "funnel": "product_comparison",
+      "createdAt": "2026-03-14T09:47:35.156Z"
+    },
+    {
       "topic": "AI automation tools for small business",
       "keyword": "ai automation tools for small business",
       "intent": "commercial",
@@ -21,6 +39,14 @@
   ],
   "published": [
     {
+      "slug": "ai-marketing-automation-for-startups",
+      "topic": "AI marketing automation for startups",
+      "score": 60,
+      "conversions": 0,
+      "status": "published",
+      "publishedAt": "2026-03-14T09:47:57.079Z"
+    },
+    {
       "slug": "ai-automation-platform",
       "topic": "AI-controlled web platform",
       "score": 74,
@@ -29,5 +55,5 @@
       "publishedAt": "2026-03-14T00:00:00.000Z"
     }
   ],
-  "updatedAt": "2026-03-14T00:00:00.000Z"
+  "updatedAt": "2026-03-14T09:47:57.079Z"
 }

@@ -1,6 +1,17 @@
 {
   "posts": [
     {
+      "slug": "ai-marketing-automation-for-startups",
+      "title": "Unlock the Power of AI Marketing Automation for Startups",
+      "excerpt": "Learn how to automate repetitive tasks, personalize customer experiences, and gain actionable insights with AI marketing automation.",
+      "publishedAt": "2023-02-20T08:00:00Z",
+      "tags": [
+        "AI",
+        "marketing automation",
+        "startups"
+      ]
+    },
+    {
       "slug": "ai-automation-platform",
       "title": "Building an AI-Controlled Web Platform with Local Models",
       "excerpt": "How to combine Ollama, a command router, JSON content, and Cloudflare Pages into one deployable workflow.",
