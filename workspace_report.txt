@@ -187,3 +187,17 @@ origin	https://github.com/3000Studios/myappai.git (fetch)
 origin	https://github.com/3000Studios/myappai.git (push)
 
 ===== OLLAMA MODELS =====
+NAME                           ID              SIZE      MODIFIED       
+llama3:8b                      365c0bd3c000    4.7 GB    47 minutes ago    
+codellama:13b                  9f438cb9cd58    7.4 GB    47 minutes ago    
+deepseek-coder:6.7b            ce298d984115    3.8 GB    50 minutes ago    
+llama3.1:latest                46e0c10c039e    4.9 GB    2 hours ago       
+mistral:7b                     6577803aa9a0    4.4 GB    6 hours ago       
+codellama:7b                   8fdf8f752f6e    3.8 GB    6 hours ago       
+phi:latest                     e2fd6321a5fe    1.6 GB    8 hours ago       
+codellama:34b                  685be00e1532    19 GB     8 hours ago       
+deepseek-coder:33b             acec7c0b0fd9    18 GB     8 hours ago       
+qwen2.5-coder:7b               dae161e27b0e    4.7 GB    4 days ago        
+gemma3:4b                      a2af6cc3eb7f    3.3 GB    10 days ago       
+llama3:latest                  365c0bd3c000    4.7 GB    11 days ago       
+qwen2.5:14b-instruct-q4_K_M    7cdf5a0187d5    9.0 GB    11 days ago       
