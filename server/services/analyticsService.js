@@ -1,4 +1,4 @@
-import { getContentBundle, readSystemDocument, writeSystemDocument } from './contentService.js'
+import { getContentBundle, getSystemDefault, readSystemDocument, writeSystemDocument } from './contentService.js'
 import { listAvailableModels } from './ollamaService.js'
 
 const DEFAULT_ANALYTICS = {
@@ -37,10 +37,11 @@ export async function recordDeploymentActivity() {
 }
 
 export async function getAnalyticsSnapshot() {
-  const [analytics, bundle, models] = await Promise.all([
+  const [analytics, bundle, models, traffic] = await Promise.all([
     readSystemDocument('analytics.json', DEFAULT_ANALYTICS),
     getContentBundle(),
-    listAvailableModels()
+    listAvailableModels(),
+    readSystemDocument('traffic.json', getSystemDefault('traffic.json'))
   ])
 
   return {
@@ -49,6 +50,11 @@ export async function getAnalyticsSnapshot() {
       pages: bundle.pages.length,
       blog: bundle.blog.length,
       products: bundle.products.length
+    },
+    traffic: {
+      queuedTopics: traffic.queue?.length ?? 0,
+      publishedPages: traffic.published?.length ?? 0,
+      topQueuedTopic: traffic.queue?.[0] ?? null
     },
     models
   }
