@@ -36,6 +36,15 @@ const presets = [
       count: 1,
       autoDeploy: false
     }
+  },
+  {
+    label: 'Traffic cycle',
+    command: {
+      action: 'run_traffic_cycle',
+      count: 2,
+      includeImages: true,
+      autoDeploy: false
+    }
   }
 ]
 

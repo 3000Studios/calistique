@@ -5,6 +5,7 @@ import AnalyticsPanel from '../components/admin/AnalyticsPanel.jsx'
 import CommandConsole from '../components/admin/CommandConsole.jsx'
 import ContentEditor from '../components/admin/ContentEditor.jsx'
 import DeploymentPanel from '../components/admin/DeploymentPanel.jsx'
+import TrafficPanel from '../components/admin/TrafficPanel.jsx'
 
 const defaultCommand = JSON.stringify(
   {
@@ -26,6 +27,7 @@ export default function AdminPage() {
   const [commandBusy, setCommandBusy] = useState(false)
   const [editorBusy, setEditorBusy] = useState(false)
   const [deployBusy, setDeployBusy] = useState(false)
+  const [trafficBusy, setTrafficBusy] = useState(false)
   const [lastResult, setLastResult] = useState(null)
   const [error, setError] = useState('')
 
@@ -109,6 +111,42 @@ export default function AdminPage() {
     }
   }
 
+  async function handleDiscoverTopics() {
+    try {
+      setError('')
+      setTrafficBusy(true)
+      const result = await sendCommand(apiKey, {
+        action: 'discover_topics',
+        limit: 6
+      })
+      setLastResult(result)
+      await refreshDashboard(apiKey)
+    } catch (trafficError) {
+      setError(trafficError.message)
+    } finally {
+      setTrafficBusy(false)
+    }
+  }
+
+  async function handleRunTrafficCycle() {
+    try {
+      setError('')
+      setTrafficBusy(true)
+      const result = await sendCommand(apiKey, {
+        action: 'run_traffic_cycle',
+        count: 2,
+        includeImages: true,
+        autoDeploy: false
+      })
+      setLastResult(result)
+      await refreshDashboard(apiKey)
+    } catch (trafficError) {
+      setError(trafficError.message)
+    } finally {
+      setTrafficBusy(false)
+    }
+  }
+
   return (
     <div className="admin-shell">
       <AuroraBackdrop variant="admin" />
@@ -135,6 +173,13 @@ export default function AdminPage() {
       <div className="admin-grid">
         <AnalyticsPanel analytics={analytics} />
         <DeploymentPanel deployments={deployments} onDeploy={handleDeploy} busy={deployBusy} />
+        <TrafficPanel
+          analytics={analytics}
+          contentBundle={contentBundle}
+          onDiscoverTopics={handleDiscoverTopics}
+          onRunTrafficCycle={handleRunTrafficCycle}
+          busy={trafficBusy}
+        />
         <CommandConsole
           commandText={commandText}
           onCommandTextChange={setCommandText}

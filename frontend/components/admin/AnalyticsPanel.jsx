@@ -37,6 +37,13 @@ export default function AnalyticsPanel({ analytics }) {
           ))}
         </div>
       </div>
+      <div className="admin-subsection">
+        <h3>Traffic loop</h3>
+        <div className="tag-row">
+          <span className="tag">Queued: {analytics?.traffic?.queuedTopics ?? 0}</span>
+          <span className="tag">Published: {analytics?.traffic?.publishedPages ?? 0}</span>
+        </div>
+      </div>
     </section>
   )
 }
