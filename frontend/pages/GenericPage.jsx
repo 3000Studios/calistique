@@ -1,5 +1,5 @@
 import React from 'react'
-import { Navigate, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import RichBlocks from '../components/RichBlocks.jsx'
 import { pageLookup } from '../src/siteData.js'
 import NotFoundPage from './NotFoundPage.jsx'
