@@ -14,6 +14,7 @@
     "deploy": "node scripts/deploy-site.js",
     "pages:dev": "wrangler pages dev",
     "command": "node scripts/run-command.js",
+    "traffic": "node scripts/run-traffic-cycle.js",
     "test": "node scripts/verify-platform.js"
   },
   "keywords": [],
