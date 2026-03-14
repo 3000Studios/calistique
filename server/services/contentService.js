@@ -200,6 +200,39 @@ const DEFAULT_FILES = {
       },
       updatedAt: '2026-03-14T00:00:00.000Z'
     },
+    'traffic.json': {
+      queue: [
+        {
+          topic: 'AI automation tools for small business',
+          keyword: 'ai automation tools for small business',
+          intent: 'commercial',
+          score: 82,
+          status: 'queued',
+          funnel: 'lead_capture',
+          createdAt: '2026-03-14T00:00:00.000Z'
+        },
+        {
+          topic: 'best AI workflow builders',
+          keyword: 'best ai workflow builders',
+          intent: 'commercial',
+          score: 78,
+          status: 'queued',
+          funnel: 'product_comparison',
+          createdAt: '2026-03-14T00:00:00.000Z'
+        }
+      ],
+      published: [
+        {
+          slug: 'ai-automation-platform',
+          topic: 'AI-controlled web platform',
+          score: 74,
+          conversions: 16,
+          status: 'published',
+          publishedAt: '2026-03-14T00:00:00.000Z'
+        }
+      ],
+      updatedAt: '2026-03-14T00:00:00.000Z'
+    },
     'deployments.json': {
       history: [
         {
@@ -547,4 +580,8 @@ export async function readSystemDocument(fileName, fallback) {
 export async function writeSystemDocument(fileName, payload) {
   await bootstrapContent()
   await writeJson(path.join(systemRoot, fileName), payload)
+}
+
+export function getSystemDefault(fileName) {
+  return DEFAULT_FILES.system[fileName]
 }
