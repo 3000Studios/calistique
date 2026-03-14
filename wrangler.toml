@@ -1,0 +1,7 @@
+name = "myappai-worker"
+main = "worker/worker.js"
+compatibility_date = "2025-01-01"
+
+[vars]
+APP_NAME="AI System Manager"
+
