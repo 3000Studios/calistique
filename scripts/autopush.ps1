@@ -1,17 +1,16 @@
-while (\True) {
+while ($true) {
 
     git add .
 
-    \ = git status --porcelain
+    $changes = git status --porcelain
 
-    if (\) {
+    if ($changes) {
+        $time = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
 
-        \ = Get-Date -Format 'yyyy-MM-dd HH:mm:ss'
-
-        git commit -m "auto update \"
+        git commit -m "auto update $time"
         git push
 
-        Write-Host "Auto deploy triggered \"
+        Write-Host "Auto deploy triggered $time"
     }
 
     Start-Sleep -Seconds 5
