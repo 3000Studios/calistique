@@ -2,6 +2,7 @@ import React from 'react'
 import { Navigate, useParams } from 'react-router-dom'
 import RichBlocks from '../components/RichBlocks.jsx'
 import { pageLookup } from '../src/siteData.js'
+import NotFoundPage from './NotFoundPage.jsx'
 
 const reserved = new Set(['admin', 'blog', 'products'])
 
@@ -15,7 +16,7 @@ export default function GenericPage() {
   const page = pageLookup[slug]
 
   if (!page) {
-    return <Navigate to="/not-found" replace />
+    return <NotFoundPage />
   }
 
   return (
