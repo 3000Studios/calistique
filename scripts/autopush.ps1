@@ -1,6 +1,6 @@
 $pollSeconds = 20
-$minIdleSeconds = 45
-$maxPhaseSeconds = 300
+$minPhaseSeconds = 120
+$stablePhaseSeconds = 60
 $minFilesForImmediateCommit = 10
 $lastCommitAt = Get-Date
 $lastChangeAt = $null
@@ -25,18 +25,32 @@ function Get-PhaseLabel {
 
     $labels = @()
 
-    if ($paths -match '^content/') { $labels += 'content' }
-    if ($paths -match '^frontend/') { $labels += 'frontend' }
-    if ($paths -match '^ai/') { $labels += 'ai' }
-    if ($paths -match '^server/') { $labels += 'server' }
-    if ($paths -match '^scripts/') { $labels += 'automation' }
-    if ($paths -match '^worker/' -or $paths -match '^wrangler\.toml$') { $labels += 'cloudflare' }
+    if ($paths -match '^content/' -or $paths -match '^content/blog/') { $labels += 'content generated' }
+    if ($paths -match '^ai/') { $labels += 'ai task completed' }
+    if ($paths -match '^scripts/deploy-site\.js$' -or $paths -match '^worker/' -or $paths -match '^wrangler\.toml$') { $labels += 'deployment phase finished' }
+    if ($paths -match '^dist/' -or $paths -match '^frontend/' -or $paths -match '^src/' -or $paths -match '^vite\.config\.js$') { $labels += 'manual build finished' }
+    if ($paths -match '^scripts/run-traffic-cycle\.js$' -or $paths -match '^content/system/traffic\.json$') { $labels += 'traffic cycle finished' }
+    if ($paths -match '^server/') { $labels += 'server update finished' }
+    if ($paths -match '^scripts/') { $labels += 'automation update finished' }
 
     if (-not $labels) {
-        $labels += 'workspace'
+        $labels += 'workspace phase finished'
     }
 
     ($labels | Select-Object -Unique) -join ', '
+}
+
+function Write-PhaseStatus {
+    param(
+        [int]$FileCount,
+        [double]$SecondsSinceCommit,
+        [double]$SecondsSinceLastChange
+    )
+
+    $waitForCommit = [Math]::Max(0, [int]($minPhaseSeconds - $SecondsSinceCommit))
+    $waitForStable = [Math]::Max(0, [int]($stablePhaseSeconds - $SecondsSinceLastChange))
+
+    Write-Host "Changes detected in $FileCount file(s). Waiting for phase threshold: ${waitForCommit}s since last commit or ${waitForStable}s of stability."
 }
 
 while ($true) {
@@ -54,7 +68,6 @@ while ($true) {
     if ($snapshot -ne $lastSnapshot) {
         $lastSnapshot = $snapshot
         $lastChangeAt = Get-Date
-        Write-Host "Changes detected. Waiting for a stable phase before committing..."
     }
 
     $now = Get-Date
@@ -62,11 +75,12 @@ while ($true) {
     $secondsSinceCommit = ($now - $lastCommitAt).TotalSeconds
     $secondsSinceLastChange = if ($lastChangeAt) { ($now - $lastChangeAt).TotalSeconds } else { 0 }
 
-    $stablePhaseReady = $secondsSinceLastChange -ge $minIdleSeconds
-    $phaseTimedOut = $secondsSinceCommit -ge $maxPhaseSeconds
+    $stablePhaseReady = $secondsSinceLastChange -ge $stablePhaseSeconds
+    $phaseWindowReached = $secondsSinceCommit -ge $minPhaseSeconds
     $batchLargeEnough = $fileCount -ge $minFilesForImmediateCommit
 
-    if (-not ($batchLargeEnough -or $phaseTimedOut -or $stablePhaseReady)) {
+    if (-not $batchLargeEnough -and -not ($phaseWindowReached -and $stablePhaseReady)) {
+        Write-PhaseStatus -FileCount $fileCount -SecondsSinceCommit $secondsSinceCommit -SecondsSinceLastChange $secondsSinceLastChange
         Start-Sleep -Seconds $pollSeconds
         continue
     }
