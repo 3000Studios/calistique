@@ -6,7 +6,7 @@ models:
   - name: GPT-4o
     provider: openai
     model: gpt-4o
-    apiKey: \
+    apiKey: ${OPENAI_API_KEY}
     roles:
       - chat
       - edit
@@ -15,13 +15,13 @@ models:
   - name: GPT-4o-mini
     provider: openai
     model: gpt-4o-mini
-    apiKey: \
+    apiKey: ${OPENAI_API_KEY}
     roles:
       - autocomplete
 
   - name: text-embedding-3-large
     provider: openai
     model: text-embedding-3-large
-    apiKey: \
+    apiKey: ${OPENAI_API_KEY}
     roles:
       - embed
