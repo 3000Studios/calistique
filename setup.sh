@@ -30,6 +30,7 @@ echo "Installing project dependencies..."
 
 if [ -f package.json ]; then
     npm install
+    npm install --save-dev eslint prettier typescript tsx
 fi
 
 if [ -f requirements.txt ]; then
