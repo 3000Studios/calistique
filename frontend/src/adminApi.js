@@ -1,11 +1,12 @@
 const API_BASE = import.meta.env.VITE_API_BASE_URL ?? ''
 
-async function request(path, { apiKey, method = 'GET', body } = {}) {
+async function request(path, { adminEmail, adminCode, method = 'GET', body } = {}) {
   const response = await fetch(`${API_BASE}${path}`, {
     method,
     headers: {
       'content-type': 'application/json',
-      authorization: `Bearer ${apiKey}`
+      'x-admin-email': adminEmail,
+      'x-admin-code': adminCode
     },
     body: body ? JSON.stringify(body) : undefined
   })
@@ -19,21 +20,21 @@ async function request(path, { apiKey, method = 'GET', body } = {}) {
   return payload
 }
 
-export function getAnalytics(apiKey) {
-  return request('/api/analytics', { apiKey })
+export function getAnalytics(adminSession) {
+  return request('/api/analytics', adminSession)
 }
 
-export function getDeployments(apiKey) {
-  return request('/api/deployments', { apiKey })
+export function getDeployments(adminSession) {
+  return request('/api/deployments', adminSession)
 }
 
-export function getContent(apiKey) {
-  return request('/api/content', { apiKey })
+export function getContent(adminSession) {
+  return request('/api/content', adminSession)
 }
 
-export function sendCommand(apiKey, command) {
+export function sendCommand(adminSession, command) {
   return request('/api/command', {
-    apiKey,
+    ...adminSession,
     method: 'POST',
     body: command
   })

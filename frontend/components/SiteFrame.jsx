@@ -7,7 +7,7 @@ const navItems = [
   { label: 'Blog', to: '/blog' },
   { label: 'Products', to: '/products' },
   { label: 'Pricing', to: '/pricing' },
-  { label: 'Admin', to: '/admin' }
+  { label: 'Admin', to: '/admin/login' }
 ]
 
 export default function SiteFrame() {

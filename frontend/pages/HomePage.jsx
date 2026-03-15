@@ -15,11 +15,11 @@ export default function HomePage() {
           <h1>{homepage.headline}</h1>
           <p>{homepage.subheadline}</p>
           <div className="hero__actions">
-            <Link className="button button--primary" to="/admin">
-              {homepage.cta}
+            <Link className="button button--primary" to="/products">
+              Explore products
             </Link>
-            <Link className="button button--ghost" to="/features">
-              {homepage.secondaryCta}
+            <Link className="button button--ghost" to="/pricing">
+              Review plans
             </Link>
           </div>
         </motion.div>

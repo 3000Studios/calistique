@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { Navigate } from 'react-router-dom'
 import AuroraBackdrop from '../backgrounds/AuroraBackdrop.jsx'
 import { getAnalytics, getContent, getDeployments, sendCommand } from '../src/adminApi.js'
 import AnalyticsPanel from '../components/admin/AnalyticsPanel.jsx'
@@ -18,8 +19,17 @@ const defaultCommand = JSON.stringify(
   2
 )
 
+const SESSION_KEY = 'myappai-admin-session'
+
 export default function AdminPage() {
-  const [apiKey, setApiKey] = useState(() => localStorage.getItem('myappai-api-key') ?? 'local-dev-api-key')
+  const [adminSession] = useState(() => {
+    try {
+      const raw = localStorage.getItem(SESSION_KEY)
+      return raw ? JSON.parse(raw) : null
+    } catch {
+      return null
+    }
+  })
   const [commandText, setCommandText] = useState(defaultCommand)
   const [analytics, setAnalytics] = useState(null)
   const [deployments, setDeployments] = useState(null)
@@ -31,15 +41,15 @@ export default function AdminPage() {
   const [lastResult, setLastResult] = useState(null)
   const [error, setError] = useState('')
 
-  async function refreshDashboard(activeKey = apiKey) {
-    if (!activeKey) {
+  async function refreshDashboard(activeSession = adminSession) {
+    if (!activeSession?.adminEmail || !activeSession?.adminCode) {
       return
     }
 
     const [nextAnalytics, nextDeployments, nextContent] = await Promise.all([
-      getAnalytics(activeKey),
-      getDeployments(activeKey),
-      getContent(activeKey)
+      getAnalytics(activeSession),
+      getDeployments(activeSession),
+      getContent(activeSession)
     ])
 
     setAnalytics(nextAnalytics)
@@ -48,17 +58,16 @@ export default function AdminPage() {
   }
 
   useEffect(() => {
-    localStorage.setItem('myappai-api-key', apiKey)
-    refreshDashboard(apiKey).catch((loadError) => setError(loadError.message))
+    refreshDashboard(adminSession).catch((loadError) => setError(loadError.message))
   }, [])
 
   async function handleRunCommand() {
     try {
       setError('')
       setCommandBusy(true)
-      const result = await sendCommand(apiKey, JSON.parse(commandText))
+      const result = await sendCommand(adminSession, JSON.parse(commandText))
       setLastResult(result)
-      await refreshDashboard(apiKey)
+      await refreshDashboard(adminSession)
     } catch (runError) {
       setError(runError.message)
     } finally {
@@ -70,14 +79,14 @@ export default function AdminPage() {
     try {
       setError('')
       setEditorBusy(true)
-      const result = await sendCommand(apiKey, {
+      const result = await sendCommand(adminSession, {
         action: 'edit_workspace_file',
         targetPath,
         contents,
         autoDeploy: false
       })
       setLastResult(result)
-      await refreshDashboard(apiKey)
+      await refreshDashboard(adminSession)
     } catch (saveError) {
       setError(saveError.message)
     } finally {
@@ -89,12 +98,12 @@ export default function AdminPage() {
     try {
       setError('')
       setDeployBusy(true)
-      const result = await sendCommand(apiKey, {
+      const result = await sendCommand(adminSession, {
         action: 'deploy_site',
         message: 'Admin-triggered deploy'
       })
       setLastResult(result)
-      await refreshDashboard(apiKey)
+      await refreshDashboard(adminSession)
     } catch (deployError) {
       setError(deployError.message)
     } finally {
@@ -105,7 +114,7 @@ export default function AdminPage() {
   async function handleConnect() {
     try {
       setError('')
-      await refreshDashboard(apiKey)
+      await refreshDashboard(adminSession)
     } catch (connectError) {
       setError(connectError.message)
     }
@@ -115,12 +124,12 @@ export default function AdminPage() {
     try {
       setError('')
       setTrafficBusy(true)
-      const result = await sendCommand(apiKey, {
+      const result = await sendCommand(adminSession, {
         action: 'discover_topics',
         limit: 6
       })
       setLastResult(result)
-      await refreshDashboard(apiKey)
+      await refreshDashboard(adminSession)
     } catch (trafficError) {
       setError(trafficError.message)
     } finally {
@@ -132,19 +141,28 @@ export default function AdminPage() {
     try {
       setError('')
       setTrafficBusy(true)
-      const result = await sendCommand(apiKey, {
+      const result = await sendCommand(adminSession, {
         action: 'run_traffic_cycle',
         count: 2,
         includeImages: true,
         autoDeploy: false
       })
       setLastResult(result)
-      await refreshDashboard(apiKey)
+      await refreshDashboard(adminSession)
     } catch (trafficError) {
       setError(trafficError.message)
     } finally {
       setTrafficBusy(false)
     }
+  }
+
+  function handleSignOut() {
+    localStorage.removeItem(SESSION_KEY)
+    window.location.href = '/admin/login'
+  }
+
+  if (!adminSession?.adminEmail || !adminSession?.adminCode) {
+    return <Navigate to="/admin/login" replace />
   }
 
   return (
@@ -156,14 +174,11 @@ export default function AdminPage() {
           <h1>Revenue and deployment control room</h1>
         </div>
         <div className="admin-auth">
-          <input
-            type="password"
-            placeholder="Bearer API key"
-            value={apiKey}
-            onChange={(event) => setApiKey(event.target.value)}
-          />
           <button className="button button--primary" type="button" onClick={handleConnect}>
-            Connect
+            Refresh
+          </button>
+          <button className="button button--ghost" type="button" onClick={handleSignOut}>
+            Sign out
           </button>
         </div>
       </header>

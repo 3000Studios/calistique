@@ -7,13 +7,12 @@ import {
   getMetrics,
 } from '../controllers/commandController.js'
 import { adminAuth } from '../middleware/adminAuth.js'
-import { authMiddleware } from '../middleware/authMiddleware.js'
 
 const router = Router()
 
-router.get('/analytics', authMiddleware, getAnalytics)
-router.get('/deployments', authMiddleware, getDeployments)
-router.get('/content', authMiddleware, getContent)
+router.get('/analytics', adminAuth, getAnalytics)
+router.get('/deployments', adminAuth, getDeployments)
+router.get('/content', adminAuth, getContent)
 router.get('/metrics', adminAuth, getMetrics)
 router.use('/command', adminAuth, commandApiRouter)
 

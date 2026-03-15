@@ -8,6 +8,7 @@ import ProductsPage from '../pages/ProductsPage.jsx'
 import ProductPage from '../pages/ProductPage.jsx'
 import GenericPage from '../pages/GenericPage.jsx'
 import AdminPage from '../pages/AdminPage.jsx'
+import AdminLoginPage from '../pages/AdminLoginPage.jsx'
 import NotFoundPage from '../pages/NotFoundPage.jsx'
 import { theme } from './siteData.js'
 import '../styles/app.css'
@@ -35,6 +36,7 @@ export default function App() {
         <Route path="/products/:slug" element={<ProductPage />} />
         <Route path="/:slug" element={<GenericPage />} />
       </Route>
+      <Route path="/admin/login" element={<AdminLoginPage />} />
       <Route path="/admin" element={<AdminPage />} />
       <Route path="*" element={<NotFoundPage />} />
     </Routes>
