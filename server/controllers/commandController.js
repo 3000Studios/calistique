@@ -3,6 +3,7 @@ import { getAnalyticsSnapshot } from '../services/analyticsService.js'
 import { getContentBundle } from '../services/contentService.js'
 import { getDeploymentHistory } from '../services/deploymentService.js'
 import { getRecentCommits } from '../services/gitService.js'
+import { getSystemMetrics } from '../services/metricsService.js'
 
 export async function postCommand(request, response, next) {
   try {
@@ -39,6 +40,15 @@ export async function getContent(request, response, next) {
     const section = typeof request.query.section === 'string' ? request.query.section : 'all'
     const content = await getContentBundle(section)
     response.json(content)
+  } catch (error) {
+    next(error)
+  }
+}
+
+export async function getMetrics(request, response, next) {
+  try {
+    const metrics = await getSystemMetrics()
+    response.json(metrics)
   } catch (error) {
     next(error)
   }
