@@ -1,11 +1,15 @@
 "$schema" = "./node_modules/wrangler/config-schema.json"
 name = "myappai"
 pages_build_output_dir = "dist"
-compatibility_date = "2026-03-14"
+compatibility_date = "2026-03-15"
 compatibility_flags = ["nodejs_compat"]
 
+[build]
+command = "npm run build"
+
 [vars]
-APP_NAME="AI System Manager"
+NODE_ENV="production"
+APP_NAME="myappai"
 SITE_ORIGIN="https://myappai.net"
 API_MODE="repo-local"
 
