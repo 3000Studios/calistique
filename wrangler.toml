@@ -1,6 +1,6 @@
 "$schema" = "./node_modules/wrangler/config-schema.json"
 name = "myappai"
-pages_build_output_dir = "./dist"
+pages_build_output_dir = "dist"
 compatibility_date = "2026-03-14"
 compatibility_flags = ["nodejs_compat"]
 
