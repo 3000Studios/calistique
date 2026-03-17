@@ -1,9 +1,12 @@
-# Codex Autonomous Development Instructions
+# Codex Agent Rules
 
-Project: myappai
-Owner: 3000Studios
+Project: `myappai`
+Owner: `3000Studios`
 
-Purpose:
+You are working inside the myappai AI System Manager project.
+
+## Purpose
+
 Build and maintain an AI system manager platform that converts natural language commands into executable development tasks.
 
 The system acts as a developer command center capable of:
@@ -15,93 +18,73 @@ The system acts as a developer command center capable of:
 - running AI agents
 - providing a web dashboard interface
 
----
+## Primary Responsibilities
 
-# Primary Architecture
+1. Convert natural language tasks into scripts and executable actions.
+2. Build and test features end to end.
+3. Maintain Cloudflare Pages and Worker compatibility.
+4. Ensure code is production-ready before shipping.
 
-The project contains the following modules:
+## Architecture
 
-/dashboard
-Web UI for system control
+Primary modules in this repository:
 
-/engine
-AI command interpreter
+- `/dashboard` - web UI for system control
+- `/engine` - AI command interpreter
+- `/scripts` - script generation and execution engine
+- `/workers` - automation agents
+- `/api` - backend endpoints
+- `/frontend` - public site and admin React application
+- `/server` - local repo-backed API server
 
-/scripts
-Script generation and execution engine
+## Required Workflow
 
-/workers
-Automation agents
-
-/api
-Backend endpoints
-
----
-
-# Core Commands
-
-When working in this repository always follow this execution pipeline.
+Always follow this execution pipeline when making changes:
 
 1. Install dependencies
 2. Validate environment
 3. Run linting
 4. Run tests
-5. Start development server
+5. Start development server when verification needs it
 6. Apply requested code changes
 7. Re-test
-8. Commit changes
+8. Build production output
+9. Commit changes
 
----
-
-# Dependency Setup
+## Dependency Setup
 
 Node.js must be installed.
 
 Install dependencies with:
 
-npm install
+`npm install`
 
 If Python modules exist:
 
-pip install -r requirements.txt
+`pip install -r requirements.txt`
 
----
+## Standard Commands
 
-# Development Server
+- Install: `npm install`
+- Dev server: `npm run dev`
+- Lint: `npm run lint`
+- Test: `npm run test`
+- Build: `npm run build`
+- Deploy Pages build: `npm run pages:deploy`
 
-Start the development server using:
-
-npm run dev
-
-The server should run locally and expose API endpoints.
-
----
-
-# Testing
-
-Before committing changes always run:
-
-npm run test
-
-or
-
-pytest
-
----
-
-# Coding Rules
+## Coding Rules
 
 Follow these standards:
 
-- Prefer TypeScript over JavaScript
+- Prefer TypeScript over JavaScript when expanding or replacing modules
 - Use async/await for async operations
 - Keep modules small and focused
 - Avoid breaking existing API routes
 - Maintain consistent folder structure
+- Prefer Node.js and Python for automation workflows
+- Follow modular architecture
 
----
-
-# Performance Goals
+## Performance Goals
 
 The system must prioritize:
 
@@ -110,46 +93,32 @@ The system must prioritize:
 - minimal blocking operations
 - clean architecture
 
----
+## Security Rules
 
-# Security Rules
+- Never expose API keys or deployment secrets in code
+- Environment variables must be used for secrets
+- Never modify deployment secrets unless explicitly asked
 
-Never expose API keys or secrets in code.
+## Deployment Rules
 
-Environment variables must be used for secrets.
+- Production builds must use `npm run build`
+- Production output should be generated in `dist/`
+- This project is configured for a single production branch workflow, so changes pushed to `main` may go live immediately
 
----
+## Commit Rules
 
-# Deployment
+- Always run lint before committing
+- Always run tests before suggesting a pull request or pushing a release candidate
+- Verify the application still boots when the change affects runtime behavior
 
-Production builds must use:
-
-npm run build
-
-Artifacts should be generated in the build or dist directory.
-
----
-
-# Commit Strategy
-
-When changes are made:
-
-1. run tests
-2. verify application boots
-3. create commit
-4. push branch
-5. open pull request
-
----
-
-# Autonomous Behavior
+## Autonomous Behavior
 
 Codex should:
 
-- automatically install dependencies
+- automatically install dependencies when needed
 - fix build errors
 - run tests
 - improve code quality
 - maintain working builds
 
-The goal is a continuously improving autonomous development workflow.
+The goal is a continuously improving autonomous development workflow without leaving partial implementations behind.

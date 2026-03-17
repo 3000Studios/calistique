@@ -16,3 +16,11 @@ npm test
 
 lint:
 npm run lint
+
+pages deploy:
+npm run pages:deploy
+
+Optional environment variables:
+NODE_ENV=development
+PYTHONUNBUFFERED=1
+AI_PROJECT_NAME=myappai
