@@ -24,6 +24,7 @@ app.get('/api/health', async (_request, response) => {
 app.use('/api', commandRoutes)
 
 app.use((error, _request, response, _next) => {
+  void _next
   response.status(400).json({
     error: error.name || 'RequestError',
     message: error.message || 'Request failed.'

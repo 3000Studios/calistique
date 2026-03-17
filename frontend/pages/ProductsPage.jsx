@@ -1,13 +1,14 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import PrismHeadline from '../components/PrismHeadline.jsx'
 import { productCatalog } from '../src/siteData.js'
 
 export default function ProductsPage() {
   return (
     <div className="stack-xl">
       <section className="section-card">
-        <span className="eyebrow">Product engine</span>
-        <h1>Monetizable building blocks</h1>
+        <span className="eyebrow">Offer matrix</span>
+        <PrismHeadline text="Monetizable building blocks" />
         <p className="section-intro">Use AI-run product pages, pricing, and deploy workflows to turn traffic into offers.</p>
       </section>
 

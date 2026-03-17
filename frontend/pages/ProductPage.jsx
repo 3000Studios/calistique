@@ -1,5 +1,6 @@
 import React from 'react'
 import { Navigate, useParams } from 'react-router-dom'
+import PrismHeadline from '../components/PrismHeadline.jsx'
 import { productLookup } from '../src/siteData.js'
 
 export default function ProductPage() {
@@ -14,7 +15,7 @@ export default function ProductPage() {
     <div className="stack-xl">
       <section className="section-card">
         <span className="eyebrow">Revenue stream</span>
-        <h1>{product.name}</h1>
+        <PrismHeadline text={product.name} />
         <p className="section-intro">{product.description ?? product.summary}</p>
       </section>
 

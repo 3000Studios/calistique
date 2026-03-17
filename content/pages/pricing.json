@@ -1,10 +1,10 @@
 {
-  "headline": "Start local, scale with confidence",
+  "headline": "Start local, then automate the whole surface",
   "tiers": [
     {
       "name": "Launch",
       "price": "$0",
-      "description": "Local development, manual commands, and one deploy operator.",
+      "description": "Local development, manual command routing, and a single operator in the loop.",
       "features": [
         "Ollama model routing",
         "JSON content engine",
@@ -14,7 +14,7 @@
     {
       "name": "Studio",
       "price": "$79",
-      "description": "Daily content automation with deploy telemetry and admin workflows.",
+      "description": "Daily content automation with deployment telemetry, sync awareness, and admin workflows.",
       "features": [
         "Automated blog generation",
         "Media asset discovery",
@@ -24,7 +24,7 @@
     {
       "name": "Operator",
       "price": "$199",
-      "description": "High-touch orchestration for products, landing pages, and scheduled AI jobs.",
+      "description": "High-touch orchestration for products, landing pages, scheduled jobs, and full command-center operations.",
       "features": [
         "Multi-product content lanes",
         "Workspace file editing",
@@ -32,5 +32,5 @@
       ]
     }
   ],
-  "updatedAt": "2026-03-14T00:00:00.000Z"
+  "updatedAt": "2026-03-17T00:00:00.000Z"
 }

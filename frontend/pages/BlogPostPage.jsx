@@ -1,5 +1,6 @@
 import React from 'react'
 import { Navigate, useParams } from 'react-router-dom'
+import PrismHeadline from '../components/PrismHeadline.jsx'
 import { blogLookup } from '../src/siteData.js'
 
 export default function BlogPostPage() {
@@ -14,7 +15,7 @@ export default function BlogPostPage() {
     <article className="stack-xl">
       <section className="section-card article-hero">
         <span className="meta-line">{post.publishedAt}</span>
-        <h1>{post.title}</h1>
+        <PrismHeadline text={post.title} />
         <p className="section-intro">{post.excerpt}</p>
       </section>
 

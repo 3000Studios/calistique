@@ -1,16 +1,23 @@
 {
-  "name": "Signal Sunrise",
+  "name": "HyperViscous Prism",
   "palette": {
-    "canvas": "#0d1021",
-    "surface": "#151a35",
-    "ink": "#f7f2e8",
-    "accent": "#ff8a3d",
-    "highlight": "#5be7c4",
-    "line": "#2b335f"
+    "bg": "#050505",
+    "canvas": "#050505",
+    "surface": "rgba(255,255,255,0.06)",
+    "surface-strong": "rgba(10,10,18,0.78)",
+    "ink": "#f5f5f5",
+    "chrome": "#e0e0e0",
+    "muted": "rgba(224,224,224,0.7)",
+    "accent": "#ff0055",
+    "highlight": "#00ffcc",
+    "prism-1": "#ff0055",
+    "prism-2": "#00ffcc",
+    "prism-3": "#5500ff",
+    "line": "rgba(255,255,255,0.12)"
   },
   "motion": {
-    "hero": "stagger-rise",
-    "sections": "soft-slide"
+    "hero": "prismatic-rise",
+    "sections": "viscous-slide"
   },
-  "updatedAt": "2026-03-14T00:00:00.000Z"
+  "updatedAt": "2026-03-17T00:00:00.000Z"
 }

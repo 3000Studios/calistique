@@ -1,5 +1,6 @@
 import React from 'react'
-import { useParams } from 'react-router-dom'
+import { Navigate, useParams } from 'react-router-dom'
+import PrismHeadline from '../components/PrismHeadline.jsx'
 import RichBlocks from '../components/RichBlocks.jsx'
 import { pageLookup } from '../src/siteData.js'
 import NotFoundPage from './NotFoundPage.jsx'
@@ -23,7 +24,7 @@ export default function GenericPage() {
     <div className="stack-xl">
       <section className="section-card">
         <span className="eyebrow">Dynamic page</span>
-        <h1>{page.headline ?? page.title ?? slug}</h1>
+        <PrismHeadline text={page.headline ?? page.title ?? slug} />
         <p className="section-intro">{page.subheadline ?? page.intro ?? 'Generated from the repo content layer.'}</p>
       </section>
 

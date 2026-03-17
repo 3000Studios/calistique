@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import { Navigate } from 'react-router-dom'
-import AuroraBackdrop from '../backgrounds/AuroraBackdrop.jsx'
+import PrismEnvironment from '../components/PrismEnvironment.jsx'
+import PrismHeadline from '../components/PrismHeadline.jsx'
 import { getAnalytics, getContent, getDeployments, sendCommand } from '../src/adminApi.js'
 import AnalyticsPanel from '../components/admin/AnalyticsPanel.jsx'
 import CommandConsole from '../components/admin/CommandConsole.jsx'
 import ContentEditor from '../components/admin/ContentEditor.jsx'
 import DeploymentPanel from '../components/admin/DeploymentPanel.jsx'
 import TrafficPanel from '../components/admin/TrafficPanel.jsx'
+import { adminNavItems, adminStatusLines, adminTickerItems } from '../src/siteChrome.js'
 
 const defaultCommand = JSON.stringify(
   {
@@ -167,11 +169,16 @@ export default function AdminPage() {
 
   return (
     <div className="admin-shell">
-      <AuroraBackdrop variant="admin" />
+      <PrismEnvironment
+        mode="admin"
+        navItems={adminNavItems}
+        statusLines={adminStatusLines}
+        tickerItems={adminTickerItems}
+      />
       <header className="admin-header">
         <div>
           <span className="eyebrow">Admin dashboard</span>
-          <h1>Revenue and deployment control room</h1>
+          <PrismHeadline text="Revenue and deployment control room" />
         </div>
         <div className="admin-auth">
           <button className="button button--primary" type="button" onClick={handleConnect}>

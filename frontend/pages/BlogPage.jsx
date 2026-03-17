@@ -1,13 +1,14 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import PrismHeadline from '../components/PrismHeadline.jsx'
 import { blogIndex } from '../src/siteData.js'
 
 export default function BlogPage() {
   return (
     <div className="stack-xl">
       <section className="section-card">
-        <span className="eyebrow">SEO growth loop</span>
-        <h1>AI-generated articles</h1>
+        <span className="eyebrow">Signal journal</span>
+        <PrismHeadline text="AI-generated articles" />
         <p className="section-intro">Every post is content-engine output that can be versioned, reviewed, and deployed like product code.</p>
       </section>
 

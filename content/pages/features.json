@@ -1,27 +1,27 @@
 {
-  "headline": "Five systems, one platform",
-  "intro": "The repository now acts as an AI control plane, content engine, deployment surface, and public website.",
+  "headline": "Five systems, one command center",
+  "intro": "The platform now reads like an operating surface: one shell for interpreting intent, editing assets, managing workflows, and deploying changes.",
   "items": [
     {
       "slug": "command-router",
       "title": "Command Router API",
-      "description": "Validates structured actions and dispatches them to generators, media providers, file editors, and deploy agents."
+      "description": "Validates intent, normalizes commands, and dispatches work to generators, editors, scripts, and deployment agents."
     },
     {
       "slug": "content-engine",
       "title": "Content Engine",
-      "description": "Creates and edits JSON-driven pages, blog posts, feature blocks, pricing data, and product copy under /content."
+      "description": "Creates and edits JSON-driven pages, pricing surfaces, product detail views, and blog content under /content."
     },
     {
       "slug": "media-engine",
       "title": "Media Engine",
-      "description": "Discovers free assets from Unsplash, Pexels, and Pixabay, then stores local copies in frontend/assets."
+      "description": "Supports asset sourcing and visual generation workflows so campaigns and product pages can be updated without leaving the workspace."
     },
     {
       "slug": "deploy-agent",
       "title": "Deploy Agent",
-      "description": "Stages workspace changes, commits them with AI-aware messages, pushes upstream, and records deployment status."
+      "description": "Stages workspace changes, commits them with AI-aware messages, pushes upstream, syncs deployment state, and records status."
     }
   ],
-  "updatedAt": "2026-03-14T00:00:00.000Z"
+  "updatedAt": "2026-03-17T00:00:00.000Z"
 }

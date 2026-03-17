@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import AuroraBackdrop from '../backgrounds/AuroraBackdrop.jsx'
+import PrismEnvironment from '../components/PrismEnvironment.jsx'
+import PrismHeadline from '../components/PrismHeadline.jsx'
+import { adminNavItems, adminStatusLines, adminTickerItems } from '../src/siteChrome.js'
 
 const SESSION_KEY = 'myappai-admin-session'
 
@@ -30,11 +32,16 @@ export default function AdminLoginPage() {
 
   return (
     <div className="admin-shell">
-      <AuroraBackdrop variant="admin" />
+      <PrismEnvironment
+        mode="admin"
+        navItems={adminNavItems}
+        statusLines={adminStatusLines}
+        tickerItems={adminTickerItems}
+      />
       <main className="auth-page">
         <section className="auth-card">
           <span className="eyebrow">Admin access</span>
-          <h1>Unlock the private control room</h1>
+          <PrismHeadline text="Unlock the private control room" />
           <p className="section-intro">
             Use your admin email and passcode to access analytics, deployments, content editing, and command execution.
           </p>

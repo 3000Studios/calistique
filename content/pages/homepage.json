@@ -1,35 +1,35 @@
 {
-  "headline": "AI builds your app pipeline",
-  "subheadline": "Route local-model commands into content, assets, commits, and Cloudflare-ready builds from one workspace.",
+  "headline": "Natural language drives the entire build surface",
+  "subheadline": "MyAppAI turns operator prompts into routed tasks across content, scripts, workers, commits, sync, and Cloudflare-ready deployment flows.",
   "cta": "Open the admin console",
   "secondaryCta": "View architecture",
   "heroStats": [
     {
-      "label": "Local models online",
-      "value": "3"
+      "label": "Control layers",
+      "value": "5"
     },
     {
-      "label": "Automated deploy path",
-      "value": "Git -> Cloudflare"
+      "label": "Deploy path",
+      "value": "Git -> Sync -> Cloudflare"
     },
     {
-      "label": "Editable content source",
-      "value": "/content"
+      "label": "Command surface",
+      "value": "/engine /api /workers"
     }
   ],
   "sections": [
     {
-      "title": "Command-first publishing",
-      "description": "Send structured JSON actions to a router that validates intent before touching the workspace."
+      "title": "Command-first execution",
+      "description": "Translate plain-language or structured prompts into validated tasks before anything touches the repo, dashboard, or deploy chain."
     },
     {
-      "title": "Local AI orchestration",
-      "description": "Use Ollama-hosted models for code, reasoning, analysis, and content generation without leaving the repo."
+      "title": "System-wide AI orchestration",
+      "description": "Coordinate code changes, content generation, script execution, resource management, and worker automation from one operator-facing shell."
     },
     {
       "title": "Deploy from source control",
-      "description": "Every accepted content mutation can stage, commit, and push for Cloudflare Pages to rebuild automatically."
+      "description": "Every accepted mutation can flow into staging, commit history, remote sync, and Cloudflare rebuilds with deployment telemetry attached."
     }
   ],
-  "updatedAt": "2026-03-14T00:00:00.000Z"
+  "updatedAt": "2026-03-17T00:00:00.000Z"
 }
