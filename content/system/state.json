@@ -1,9 +1,9 @@
 {
   "scheduler": {
-    "status": "running",
-    "lastTickAt": "2026-03-15T08:32:31.548Z",
+    "status": "idle",
+    "lastTickAt": "2026-03-15T08:46:31.683Z",
     "lastTaskAt": "2026-03-15T08:32:31.558Z",
-    "lastCompletedTaskAt": "2026-03-15T08:31:31.569Z",
+    "lastCompletedTaskAt": "2026-03-15T08:32:33.590Z",
     "lastErrorAt": null,
     "consecutiveFailures": 0
   },
@@ -36,8 +36,13 @@
       }
     },
     "deploy_site": {
-      "status": "running",
-      "lastQueuedAt": "2026-03-15T08:29:31.456Z"
+      "status": "idle",
+      "lastRunAt": "2026-03-15T08:32:33.590Z",
+      "lastSuccessAt": "2026-03-15T08:32:33.590Z",
+      "lastResult": {
+        "action": "deploy_site",
+        "success": true
+      }
     }
   }
 }
