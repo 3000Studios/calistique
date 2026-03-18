@@ -22,7 +22,7 @@ API_MODE=repo-local
 SITE_ORIGIN=https://myappai.net
 ADMIN_API_KEY=replace-with-strong-random-string
 R2_PUBLIC_BASE_URL=
-R2_BUCKET_NAME=
+R2_BUCKET_NAME=myappai
 R2_S3_ENDPOINT=
 R2_ACCESS_KEY_ID=
 R2_SECRET_ACCESS_KEY=
@@ -46,8 +46,8 @@ Example shape:
 ```toml
 [[r2_buckets]]
 binding = "ASSETS_BUCKET"
-bucket_name = "your-r2-bucket-name"
-preview_bucket_name = "your-r2-bucket-name"
+bucket_name = "myappai"
+preview_bucket_name = "myappai"
 ```
 
 ## Important

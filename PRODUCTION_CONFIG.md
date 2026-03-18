@@ -30,6 +30,7 @@ Use these names when setting production secrets and variables for `myappai`.
 - `R2_BUCKET_NAME=...`
 - `R2_S3_ENDPOINT=...`
 - `R2_PUBLIC_BASE_URL=...`
+- `R2_BUCKET_NAME=myappai`
 
 ## Important Corrections
 

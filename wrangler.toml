@@ -10,3 +10,8 @@ APP_NAME="myappai"
 SITE_ORIGIN="https://myappai.net"
 API_MODE="repo-local"
 
+[[r2_buckets]]
+binding = "ASSETS_BUCKET"
+bucket_name = "myappai"
+preview_bucket_name = "myappai"
+
