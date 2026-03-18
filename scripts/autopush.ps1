@@ -100,7 +100,7 @@ while ($true) {
     git commit -m $message
 
     if ($LASTEXITCODE -ne 0) {
-        Write-Host "Commit skipped. Git reported no commitable phase."
+        Write-Host "Commit skipped. Git reported no committable phase."
         Start-Sleep -Seconds $pollSeconds
         continue
     }
