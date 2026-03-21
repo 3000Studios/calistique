@@ -146,6 +146,13 @@ export async function getCommerceSnapshot() {
   const offers = Object.values(productLookup).map((product) => {
     const stripeConfig = getStripeConfig(product.slug, product)
     const paypalConfig = getPayPalConfig(product.slug)
+    const closeMode =
+      product.closeMode ??
+      (product.slug === 'operator-os'
+        ? 'checkout'
+        : product.slug === 'launch-sprint'
+          ? 'lead'
+          : 'qualification')
 
     return {
       slug: product.slug,
@@ -154,7 +161,20 @@ export async function getCommerceSnapshot() {
       summary: product.description ?? product.summary ?? '',
       priceAnchor: product.priceAnchor ?? 'Custom',
       idealFor: product.idealFor ?? null,
+      closeMode,
       contactOnly: product.slug === 'enterprise-deployment',
+      primaryCtaLabel:
+        closeMode === 'checkout'
+          ? 'Start checkout'
+          : closeMode === 'lead'
+            ? 'Start implementation brief'
+            : 'Start qualification',
+      primaryCtaHref:
+        closeMode === 'checkout'
+          ? `/products/${product.slug}`
+          : closeMode === 'lead'
+            ? `/products/${product.slug}`
+            : '/contact',
       providers: {
         stripe: Boolean(stripeConfig.paymentLink || (stripeClient && stripeConfig.priceId)),
         paypal: Boolean(hasPayPalCredentials() && paypalConfig.amountCents)

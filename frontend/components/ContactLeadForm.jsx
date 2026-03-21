@@ -1,19 +1,36 @@
 import React, { useState } from 'react'
-import { submitLead } from '../src/siteApi.js'
+import { useLocation } from 'react-router-dom'
+import { submitLead, trackConversionEvent } from '../src/siteApi.js'
 
 const INITIAL_FORM = {
   name: '',
   email: '',
   company: '',
   interest: 'Launch Sprint',
-  notes: ''
+  notes: '',
+  intent: 'high_intent',
+  stage: 'new'
 }
 
-export default function ContactLeadForm() {
+export default function ContactLeadForm({
+  interestDefault = 'Launch Sprint',
+  ctaId = 'contact-form',
+  heading = 'Send serious buyers into a real pipeline',
+  intro = 'Use this form to qualify the project and capture the next action while the site stays in a lead-form-first mode.',
+  submitLabel = 'Submit lead'
+}) {
+  const location = useLocation()
   const [form, setForm] = useState(INITIAL_FORM)
   const [busy, setBusy] = useState(false)
   const [success, setSuccess] = useState('')
   const [error, setError] = useState('')
+
+  React.useEffect(() => {
+    setForm((current) => ({
+      ...current,
+      interest: interestDefault
+    }))
+  }, [interestDefault])
 
   function updateField(event) {
     const { name, value } = event.target
@@ -29,8 +46,23 @@ export default function ContactLeadForm() {
     try {
       setBusy(true)
       setError('')
-      await submitLead(form)
-      setSuccess('Lead captured. You can now follow up from content/system/leads.json or wire this into CRM/email next.')
+      const payload = {
+        ...form,
+        sourcePath: location.pathname,
+        ctaId
+      }
+      await submitLead(payload)
+      await trackConversionEvent('lead_submit', {
+        path: location.pathname,
+        ctaId,
+        offerSlug: form.interest,
+        intent: form.intent,
+        stage: form.stage,
+        details: {
+          interest: form.interest
+        }
+      })
+      setSuccess('Lead captured and routed into the real pipeline. Follow-up state is now visible in the admin revenue queue.')
       setForm(INITIAL_FORM)
     } catch (nextError) {
       setError(nextError.message)
@@ -42,7 +74,8 @@ export default function ContactLeadForm() {
   return (
     <section className="section-card">
       <span className="eyebrow">Lead capture</span>
-      <h2>Send serious buyers into a real pipeline</h2>
+      <h2>{heading}</h2>
+      <p className="section-intro">{intro}</p>
       <form className="lead-form" onSubmit={handleSubmit}>
         <label className="field">
           <span>Name</span>
@@ -70,7 +103,7 @@ export default function ContactLeadForm() {
         </label>
         <div className="checkout-actions">
           <button className="button button--primary" type="submit" disabled={busy}>
-            {busy ? 'Sending...' : 'Submit lead'}
+            {busy ? 'Sending...' : submitLabel}
           </button>
         </div>
         {success ? <p className="form-success">{success}</p> : null}

@@ -1,14 +1,32 @@
 {
   "slug": "operator-os",
   "name": "Operator OS",
-  "headline": "Turn Voicetowebsite into the recurring software product at the center of the business",
+  "headline": "Use Operator OS as the checkout-first software offer at the center of the business",
   "priceAnchor": "$99 / month",
   "idealFor": "Best for founders, agency owners, and technical operators",
-  "description": "Operator OS is the clearest recurring offer for Voicetowebsite. It gives users a command-driven platform for planning, execution, content operations, and release-ready workflows.",
+  "closeMode": "checkout",
+  "description": "Operator OS is the clearest recurring offer for VoiceToWebsite. It gives users a command-driven platform for planning, execution, content operations, and release-ready workflows.",
   "bullets": [
     "Use natural language to organize work and route execution",
     "Manage pages, offers, and operational assets in one system",
     "Move from one-off AI tasks to a durable internal operating layer"
+  ],
+  "proofPoints": [
+    {
+      "eyebrow": "Real capability",
+      "title": "Repo-backed content and offer control",
+      "description": "Pages, pricing, blog content, and offer logic live inside the workspace so the trust story comes from the actual system."
+    },
+    {
+      "eyebrow": "Real visibility",
+      "title": "Live analytics and admin surfaces",
+      "description": "Visitors, leads, payments, deployments, and AI actions can be observed from one operator dashboard."
+    },
+    {
+      "eyebrow": "Real close path",
+      "title": "Checkout-first when providers are configured",
+      "description": "Operator OS is designed to close directly through live Stripe or PayPal when the real env configuration exists."
+    }
   ],
   "sections": [
     {
@@ -17,18 +35,18 @@
     },
     {
       "title": "Revenue fit",
-      "description": "This offer is the strongest path to monthly recurring revenue because the value compounds as teams put more work through it."
+      "description": "This is the strongest recurring-revenue path because the value compounds as more content, workflow, and delivery work runs through the system."
     },
     {
       "title": "Expansion path",
-      "description": "Customers who start here can naturally upgrade into implementation help, team usage, and enterprise deployments."
+      "description": "Customers who start here can naturally expand into implementation help, team usage, and enterprise deployment."
     }
   ],
   "cta": {
     "eyebrow": "Recommended path",
-    "heading": "Lead with Operator OS as the main software product.",
-    "body": "It is the offer with the clearest story, the best compounding value, and the most room for expansion revenue.",
-    "primaryLabel": "Review pricing",
+    "heading": "Lead with Operator OS when the buyer is ready to move now.",
+    "body": "This offer should close fastest because the value proposition is direct, the path is checkout-first, and the system itself supports the trust story.",
+    "primaryLabel": "Open pricing and checkout",
     "primaryHref": "/pricing"
   }
 }

@@ -1,46 +1,23 @@
 import React from 'react'
 import { Link, NavLink, Outlet, useLocation } from 'react-router-dom'
 import PrismEnvironment from './PrismEnvironment.jsx'
+import SiteSeo from './SiteSeo.jsx'
 import { publicNavItems, publicStatusLines, publicTickerItems } from '../src/siteChrome.js'
 import { REPOSITORY_URL, SITE_DISPLAY_NAME, SITE_URL, getCopyrightLine } from '../src/siteMeta.js'
-import { trackSiteEvent } from '../src/siteApi.js'
-
-const VISITOR_SESSION_KEY = 'voicetowebsite_session_id'
-const LEGACY_VISITOR_SESSION_KEY = 'myappai_session_id'
-
-function getSessionId() {
-  let existing = window.localStorage.getItem(VISITOR_SESSION_KEY)
-  if (!existing) {
-    const legacy = window.localStorage.getItem(LEGACY_VISITOR_SESSION_KEY)
-    if (legacy) {
-      window.localStorage.setItem(VISITOR_SESSION_KEY, legacy)
-      window.localStorage.removeItem(LEGACY_VISITOR_SESSION_KEY)
-      existing = legacy
-    }
-  }
-  if (existing) {
-    return existing
-  }
-
-  const nextId = `session-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`
-  window.localStorage.setItem(VISITOR_SESSION_KEY, nextId)
-  return nextId
-}
+import { trackConversionEvent } from '../src/siteApi.js'
 
 export default function SiteFrame() {
   const location = useLocation()
 
   React.useEffect(() => {
-    trackSiteEvent({
-      type: 'page_view',
-      path: `${location.pathname}${location.search}`,
-      sessionId: getSessionId(),
-      referrer: document.referrer
+    trackConversionEvent('page_view', {
+      path: `${location.pathname}${location.search}`
     }).catch(() => {})
   }, [location.pathname, location.search])
 
   return (
     <div className="shell">
+      <SiteSeo />
       <PrismEnvironment navItems={publicNavItems} statusLines={publicStatusLines} tickerItems={publicTickerItems} />
       <header className="topbar">
         <NavLink className="brand" to="/">
@@ -48,8 +25,8 @@ export default function SiteFrame() {
           <span className="brand__wordmark">{SITE_DISPLAY_NAME}</span>
         </NavLink>
         <div className="topbar__status">
-          <span className="topbar__status-line">Voice to live site</span>
-          <span className="topbar__status-line">From spoken brief to published pages</span>
+          <span className="topbar__status-line">AI system manager</span>
+          <span className="topbar__status-line">From brief to revenue-ready execution</span>
         </div>
       </header>
       <main className="page">
@@ -59,10 +36,10 @@ export default function SiteFrame() {
         <div className="site-footer__grid">
           <div className="site-footer__brand">
             <span className="eyebrow">{SITE_DISPLAY_NAME}</span>
-            <h2>Ship marketing sites from voice and text without losing structure or speed.</h2>
+            <h2>Turn briefs into publishable pages, qualified leads, and revenue-ready execution.</h2>
             <p>
-              {SITE_DISPLAY_NAME} turns spoken or written briefs into structured pages, SEO content, and deployments
-              so your team can iterate from idea to live site in one pipeline.
+              {SITE_DISPLAY_NAME} acts as the AI system manager behind your public funnel, combining structured
+              content, live offers, lead routing, and operator control in one delivery system.
             </p>
           </div>
           <div className="site-footer__links">
@@ -76,13 +53,13 @@ export default function SiteFrame() {
           </div>
           <div className="site-footer__cta">
             <span className="eyebrow">Best next step</span>
-            <p>Start with the strategy pages, then move into pricing and implementation offers.</p>
+            <p>Move from strategy into checkout if you are self-serve, or submit an implementation brief if you need a guided rollout.</p>
             <div className="hero__actions">
               <Link className="button button--primary" to="/pricing">
                 View pricing
               </Link>
               <Link className="button button--ghost" to="/contact">
-                Book a build path
+                Start implementation brief
               </Link>
             </div>
           </div>

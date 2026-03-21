@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
-import { capturePayPalCheckout, verifyStripeCheckout } from '../src/siteApi.js'
+import { capturePayPalCheckout, trackConversionEvent, verifyStripeCheckout } from '../src/siteApi.js'
 import { useSiteRuntime } from '../src/SiteRuntimeContext.jsx'
 
 function formatCurrency(amount) {
@@ -37,6 +37,14 @@ export default function CheckoutSuccessPage() {
           amountCents: result.amountCents ?? 0,
           offerSlug: result.offerSlug ?? ''
         })
+        if (result.completed) {
+          await trackConversionEvent('checkout_success', {
+            ctaId: `checkout-success-${provider ?? 'unknown'}`,
+            offerSlug: result.offerSlug ?? '',
+            provider: provider ?? '',
+            intent: 'purchase'
+          })
+        }
         await refresh()
       } catch (error) {
         setState({

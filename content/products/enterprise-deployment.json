@@ -4,11 +4,52 @@
   "headline": "Create a high-trust path for teams that need self-hosting, governance, and rollout support",
   "priceAnchor": "Custom",
   "idealFor": "Best for internal platform teams, agencies with strict clients, and compliance-minded buyers",
-  "description": "Enterprise Deployment gives Voicetowebsite a credible higher-ticket lane. It focuses on self-hosting, controlled rollout, support, and deeper integration for organizations that need more than a standard SaaS experience.",
+  "closeMode": "qualification",
+  "description": "Enterprise Deployment gives VoiceToWebsite a credible higher-ticket lane. It focuses on self-hosting, controlled rollout, support, and deeper integration for organizations that need more than a standard SaaS experience.",
   "bullets": [
     "Offer self-hosted deployment and infrastructure control",
     "Support security, governance, and operational review",
     "Create larger contract sizes and longer retention"
+  ],
+  "qualificationChecks": [
+    {
+      "title": "Governance and approvals",
+      "description": "Confirm where the system runs, how actions are approved, and how operational risk is managed."
+    },
+    {
+      "title": "Deployment scope",
+      "description": "Clarify whether the buyer needs self-hosting, custom rollout support, or deeper integration into internal processes."
+    },
+    {
+      "title": "Commercial fit",
+      "description": "Only move into a formal commercial path once the hosting, security, and implementation shape is understood."
+    }
+  ],
+  "timeline": [
+    {
+      "title": "Qualify the environment",
+      "description": "Establish hosting, security, and governance requirements before proposing a final delivery path."
+    },
+    {
+      "title": "Define the rollout",
+      "description": "Map the deployment, support, and customization work required to make the system fit the organization."
+    },
+    {
+      "title": "Move into scoped deployment",
+      "description": "Turn the qualification conversation into a serious rollout plan once the fit is clear."
+    }
+  ],
+  "proofPoints": [
+    {
+      "eyebrow": "High trust",
+      "title": "Qualification-first instead of forced checkout",
+      "description": "Enterprise buyers need a review path that respects security, governance, and rollout complexity."
+    },
+    {
+      "eyebrow": "Strategic value",
+      "title": "Raises the value of every smaller offer",
+      "description": "A credible enterprise lane makes the whole business feel more serious, even for buyers who ultimately choose smaller plans."
+    }
   ],
   "sections": [
     {
@@ -24,11 +65,16 @@
       "description": "A credible enterprise path raises the value of the whole business, even for buyers who start on smaller plans."
     }
   ],
+  "leadForm": {
+    "heading": "Submit the enterprise qualification brief",
+    "intro": "Use this form to outline hosting, governance, rollout, and customization requirements before anyone tries to force this path through a generic checkout.",
+    "submitLabel": "Submit enterprise brief"
+  },
   "cta": {
     "eyebrow": "High-trust lane",
-    "heading": "Use enterprise deployment to win larger and more durable deals.",
-    "body": "Self-hosting, support, and customization create a serious offer for organizations that need more control.",
-    "primaryLabel": "Contact us",
+    "heading": "Use enterprise deployment to qualify larger and more durable deals.",
+    "body": "This offer should move through a serious qualification path first so the eventual commercial scope is grounded in reality.",
+    "primaryLabel": "Start qualification",
     "primaryHref": "/contact"
   }
 }

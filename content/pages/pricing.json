@@ -1,7 +1,37 @@
 {
   "eyebrow": "Pricing",
-  "headline": "Choose the path that matches your stage and buying style",
-  "subheadline": "The pricing model supports self-serve adoption, implementation revenue, and enterprise expansion.",
+  "headline": "Choose the buying lane that matches how you want to move",
+  "subheadline": "VoiceToWebsite closes best when software buyers can check out fast, implementation buyers can submit a strong brief, and enterprise buyers can qualify scope before commitment.",
+  "heroStats": [
+    {
+      "label": "Primary software lane",
+      "value": "Operator OS"
+    },
+    {
+      "label": "Primary service lane",
+      "value": "Launch Sprint"
+    },
+    {
+      "label": "Enterprise lane",
+      "value": "Qualification first"
+    }
+  ],
+  "stepsEyebrow": "How to choose",
+  "stepsHeadline": "Use pricing to route yourself into the right next step",
+  "steps": [
+    {
+      "title": "Buy Operator OS",
+      "description": "Choose this lane if you already know the product fits and you want the direct software offer."
+    },
+    {
+      "title": "Submit Launch Sprint",
+      "description": "Choose this lane if you want guidance, setup, and faster activation before you scale self-serve usage."
+    },
+    {
+      "title": "Qualify Enterprise",
+      "description": "Choose this lane if governance, hosting, rollout, or custom scope needs review before commercial commitment."
+    }
+  ],
   "tiers": [
     {
       "name": "Starter",
@@ -46,6 +76,23 @@
       ]
     }
   ],
+  "sections": [
+    {
+      "eyebrow": "Self-serve",
+      "title": "Operator OS is the checkout-first offer",
+      "description": "This lane is optimized for recurring software revenue and should be the fastest path from conviction to payment."
+    },
+    {
+      "eyebrow": "Implementation",
+      "title": "Launch Sprint is the lead-form-first offer",
+      "description": "This lane is optimized for buyers who need help before they are ready to operate the platform on their own."
+    },
+    {
+      "eyebrow": "Qualification",
+      "title": "Enterprise is the review-first offer",
+      "description": "This lane is optimized for buyers who care about governance, hosting, approvals, and rollout certainty."
+    }
+  ],
   "faqHeadline": "Pricing questions",
   "faq": [
     {
@@ -59,11 +106,11 @@
   ],
   "cta": {
     "eyebrow": "Best next move",
-    "heading": "Use pricing to sort buyers into the right lane.",
-    "body": "Founders can start self-serve, growth-minded teams can buy implementation, and larger organizations can move into enterprise deployment.",
-    "primaryLabel": "See products",
-    "primaryHref": "/products",
-    "secondaryLabel": "Talk through fit",
+    "heading": "Use pricing to choose between checkout, implementation, and qualification.",
+    "body": "The page should help buyers commit faster because each lane is matched to a real buying style instead of forcing every visitor into the same close path.",
+    "primaryLabel": "Start implementation brief",
+    "primaryHref": "/contact",
+    "secondaryLabel": "See products",
     "secondaryHref": "/contact"
   },
   "updatedAt": "2026-03-20T00:00:00.000Z"

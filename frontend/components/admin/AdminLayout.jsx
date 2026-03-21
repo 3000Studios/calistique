@@ -7,6 +7,7 @@ import { SITE_DISPLAY_NAME } from '../../src/siteMeta.js'
 
 const nav = [
   { to: '/admin/overview', label: 'Overview', end: false },
+  { to: '/admin/revenue', label: 'Revenue', end: false },
   { to: '/admin/deploy', label: 'Deploy', end: false },
   { to: '/admin/traffic', label: 'Traffic & SEO', end: false },
   { to: '/admin/content', label: 'Content', end: false },

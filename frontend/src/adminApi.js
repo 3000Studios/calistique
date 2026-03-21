@@ -33,6 +33,18 @@ export function getContent(adminSession) {
   return request('/api/content', adminSession)
 }
 
+export function getRevenueQueue(adminSession) {
+  return request('/api/revenue', adminSession)
+}
+
+export function updateLeadStage(adminSession, leadId, patch) {
+  return request(`/api/revenue/leads/${encodeURIComponent(leadId)}`, {
+    ...adminSession,
+    method: 'PATCH',
+    body: patch
+  })
+}
+
 export function sendCommand(adminSession, command) {
   return request('/api/command', {
     ...adminSession,

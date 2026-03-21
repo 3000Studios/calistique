@@ -1,20 +1,20 @@
 {
-  "eyebrow": "AI System Manager for builders",
-  "headline": "Run delivery, automation, and growth from one command center",
-  "subheadline": "Voicetowebsite helps founders and technical teams turn natural language into approved tasks, generated assets, scripts, and release-ready execution flows.",
+  "eyebrow": "VoiceToWebsite for hybrid closes",
+  "headline": "VoiceToWebsite is the AI system manager that turns briefs into pages, offers, and revenue-ready execution",
+  "subheadline": "Use one operating system to publish structured pages, route buyers into self-serve checkout or guided implementation, and keep every lead, payment, and release observable.",
   "primaryCta": {
-    "label": "Explore solutions",
-    "to": "/solutions"
-  },
-  "secondaryCta": {
-    "label": "See pricing",
+    "label": "See pricing and checkout",
     "to": "/pricing"
   },
+  "secondaryCta": {
+    "label": "Start implementation brief",
+    "to": "/contact"
+  },
   "operatorSignals": [
-    "prompt -> plan",
-    "task routing",
-    "content + scripts",
-    "deploy-ready output"
+    "ai system manager",
+    "hybrid close funnel",
+    "repo-backed proof",
+    "lead-form-first services"
   ],
   "heroStats": [
     {
@@ -31,36 +31,63 @@
     }
   ],
   "heroPanel": {
-    "heading": "One platform, three revenue engines.",
-    "body": "The strongest version of Voicetowebsite is not a generic AI site. It is a business that combines recurring software, implementation services, and higher-ticket self-hosted deployments for teams that need control.",
+    "heading": "One brand, three ways to close revenue.",
+    "body": "VoiceToWebsite performs best when it sells software, implementation, and enterprise rollout from the same operating system. The public site should make each lane obvious and easy to trust.",
     "points": [
       {
-        "label": "Subscription",
-        "value": "Software access for operators, founders, and internal teams."
+        "label": "Operator OS",
+        "value": "Checkout-first software for teams ready to move now."
       },
       {
-        "label": "Implementation",
-        "value": "Launch sprints, workflow setup, and done-with-you delivery."
+        "label": "Launch Sprint",
+        "value": "Lead-form-first implementation for buyers who need guided setup."
       },
       {
         "label": "Enterprise",
-        "value": "Self-hosted deployments, governance, support, and customization."
+        "value": "Qualification-first rollout for governance, hosting, and custom scope."
       }
     ]
   },
-  "workflowHeadline": "A successful customer flow should feel simple from the outside and powerful underneath.",
+  "workflowHeadline": "A strong revenue funnel should feel simple to the buyer and deeply structured underneath.",
   "workflowSteps": [
     {
-      "title": "Describe the work",
-      "description": "A user explains a goal in plain English, whether that is building a page, launching a campaign, or automating an internal workflow."
+      "title": "Clarify the brief",
+      "description": "A founder, team, or agency explains the site, launch, or workflow outcome they need in plain language."
     },
     {
-      "title": "Route the execution plan",
-      "description": "Voicetowebsite turns that request into a structured plan with the right content, scripts, agents, and approvals before anything is changed."
+      "title": "Route the buying lane",
+      "description": "VoiceToWebsite pushes the buyer toward the right path: checkout for software, implementation brief for services, or qualification for enterprise."
     },
     {
-      "title": "Ship and monitor",
-      "description": "The system executes work, records results, and keeps the team moving with a dashboard that can support marketing, delivery, and operations."
+      "title": "Execute with proof",
+      "description": "The system records leads, payments, and execution-ready work in one place so the trust story comes from the product, not from invented claims."
+    }
+  ],
+  "buyerPathsIntro": "Every buyer should see a next step that matches how they actually want to buy.",
+  "buyerPaths": [
+    {
+      "eyebrow": "Checkout-first",
+      "title": "Buy Operator OS",
+      "description": "For founders and teams who already understand the value and want the recurring software offer immediately.",
+      "outcome": "Fastest path to self-serve revenue.",
+      "ctaLabel": "Open Operator pricing",
+      "ctaHref": "/products/operator-os"
+    },
+    {
+      "eyebrow": "Lead-form-first",
+      "title": "Start Launch Sprint",
+      "description": "For buyers who want help with positioning, setup, pages, and delivery structure before they self-serve.",
+      "outcome": "Best path for implementation revenue and faster customer success.",
+      "ctaLabel": "Start implementation brief",
+      "ctaHref": "/products/launch-sprint"
+    },
+    {
+      "eyebrow": "Qualification-first",
+      "title": "Qualify Enterprise",
+      "description": "For teams that need hosting, governance, rollout planning, and operational review before a commercial commitment.",
+      "outcome": "Best path for larger and longer-lived deals.",
+      "ctaLabel": "Open enterprise path",
+      "ctaHref": "/products/enterprise-deployment"
     }
   ],
   "audienceIntro": "The public site now speaks directly to the most valuable buyers instead of trying to appeal to everyone.",
@@ -93,28 +120,54 @@
       ]
     }
   ],
-  "proofHeadline": "The site should make the business model obvious.",
-  "proofCards": [
+  "proofHeadline": "Proof comes from the running system, not from borrowed authority.",
+  "whyNowHeadline": "Why buyers move now instead of waiting",
+  "whyNowCards": [
     {
-      "eyebrow": "Recurring revenue",
-      "title": "Subscription software",
-      "description": "Use the platform itself as the recurring core offer for founders and teams that need AI-managed delivery.",
-      "outcome": "Monthly revenue with expansion into seats, usage, and support."
+      "eyebrow": "Speed",
+      "title": "Replace scattered tools with one operator layer",
+      "description": "Buyers move when the alternative is more manual coordination, slower launches, and weaker follow-through.",
+      "outcome": "VoiceToWebsite centralizes pages, offers, lead capture, and execution."
     },
     {
-      "eyebrow": "Cash flow",
-      "title": "Launch and automation sprints",
-      "description": "Sell implementation packages to help customers set up workflows, pages, automations, and internal operating systems.",
-      "outcome": "Higher-ticket service revenue while the product matures."
+      "eyebrow": "Clarity",
+      "title": "Choose a lane that matches how the buyer wants to buy",
+      "description": "Checkout-first software and lead-form-first services reduce confusion and keep more intent alive.",
+      "outcome": "The funnel stops treating every buyer the same way."
     },
     {
-      "eyebrow": "High-trust deals",
-      "title": "Enterprise deployment",
-      "description": "Offer self-hosted deployments, security review, onboarding, and customization for teams that cannot rely on pure SaaS.",
-      "outcome": "Larger contracts and lower churn."
+      "eyebrow": "Trust",
+      "title": "Use real runtime proof instead of decorative hype",
+      "description": "The strongest close comes from observable capability: live offers, lead routing, payment readiness, and admin visibility.",
+      "outcome": "The site feels more credible because it is backed by the actual system."
     }
   ],
+  "founderStory": {
+    "eyebrow": "Founder and operator proof",
+    "heading": "This trust layer is built around shipped capability, not invented client stories.",
+    "body": "VoiceToWebsite should earn trust by showing what the system can already do: structured content, live offer routing, repo-backed edits, lead capture, admin visibility, and payment readiness when configured.",
+    "points": [
+      "Real content and offer management inside the repo",
+      "Real lead and payment records inside the admin system",
+      "Real runtime proof from the product and deployment surfaces"
+    ]
+  },
   "productsIntro": "These are the clearest monetization paths for the current product and market position.",
+  "objectionHeadline": "Objections the site should answer before the buyer leaves",
+  "objections": [
+    {
+      "question": "What if I do not want another generic AI tool?",
+      "answer": "That is exactly the point of the positioning shift. VoiceToWebsite is being sold as an AI system manager for execution and revenue, not as a novelty wrapper."
+    },
+    {
+      "question": "What if I need help before I can use the product well?",
+      "answer": "That is why Launch Sprint exists. The service lane shortens time to value and supports buyers who are not best served by pure self-serve onboarding."
+    },
+    {
+      "question": "What if I need more control, approval, or hosting certainty?",
+      "answer": "That is the role of the enterprise lane. Governance and rollout should be qualified before commercial commitment, not hidden behind a generic checkout."
+    }
+  ],
   "faqHeadline": "Questions that matter before a buyer commits",
   "faq": [
     {
@@ -132,11 +185,11 @@
   ],
   "finalCta": {
     "eyebrow": "Start with the strongest path",
-    "heading": "Position Voicetowebsite as the AI system manager that turns intent into execution.",
-    "body": "That message is easier to trust, easier to sell, and much more likely to become a real business than a generic AI website builder pitch.",
-    "primaryLabel": "Review pricing",
+    "heading": "Move into checkout if you are ready to buy, or submit an implementation brief if you want a guided path.",
+    "body": "The funnel works best when Operator OS closes fast, Launch Sprint qualifies serious implementation buyers, and Enterprise gets the review it needs before commercial scope is set.",
+    "primaryLabel": "Open pricing",
     "primaryHref": "/pricing",
-    "secondaryLabel": "Talk through implementation",
+    "secondaryLabel": "Start implementation brief",
     "secondaryHref": "/contact"
   },
   "updatedAt": "2026-03-20T00:00:00.000Z"

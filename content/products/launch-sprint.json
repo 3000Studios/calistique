@@ -4,11 +4,52 @@
   "headline": "Use a high-touch offer to create early cash flow and faster customer wins",
   "priceAnchor": "$2,500+",
   "idealFor": "Best for buyers who want implementation, not just software access",
+  "closeMode": "lead",
   "description": "Launch Sprint is the practical bridge between product ambition and paid outcomes. It packages setup, strategy, implementation, and workflow creation into a fast-start offer.",
   "bullets": [
     "Set up core pages, messaging, and the first workflow system",
     "Reduce time to value for new customers",
     "Create premium service revenue while the software matures"
+  ],
+  "deliverables": [
+    {
+      "title": "Offer and messaging setup",
+      "description": "Clarify the promise, buyer lane, and page structure so the funnel can convert with more confidence."
+    },
+    {
+      "title": "Implementation mapping",
+      "description": "Translate the work into launch assets, workflows, and operating structure instead of leaving the buyer with a blank dashboard."
+    },
+    {
+      "title": "Operator handoff",
+      "description": "Leave the buyer with a more usable system and a cleaner path into recurring software usage."
+    }
+  ],
+  "timeline": [
+    {
+      "title": "Scope the brief",
+      "description": "Collect the business goal, offer, pages, and workflow outcomes that matter most."
+    },
+    {
+      "title": "Build the launch layer",
+      "description": "Stand up the first message, page, and operating structure inside the VoiceToWebsite system."
+    },
+    {
+      "title": "Hand off the next move",
+      "description": "Leave the buyer with a clearer software path, stronger proof, and a better foundation for follow-on work."
+    }
+  ],
+  "proofPoints": [
+    {
+      "eyebrow": "Fast activation",
+      "title": "Lead-form-first by design",
+      "description": "This offer closes best when the buyer can explain the job to be done before commercial scope is finalized."
+    },
+    {
+      "eyebrow": "Cash flow",
+      "title": "Implementation revenue now, software expansion later",
+      "description": "Launch Sprint creates immediate revenue while improving the odds that the buyer becomes a stronger long-term software customer."
+    }
   ],
   "sections": [
     {
@@ -24,11 +65,16 @@
       "description": "Better implementation creates better retention, testimonials, and expansion opportunities."
     }
   ],
+  "leadForm": {
+    "heading": "Submit the implementation brief for Launch Sprint",
+    "intro": "Use this form to describe the outcome, pages, workflows, and timeline you want help with before moving into a scoped implementation conversation.",
+    "submitLabel": "Submit Launch Sprint brief"
+  },
   "cta": {
     "eyebrow": "Fastest route to value",
-    "heading": "Sell Launch Sprint when the buyer needs traction now.",
-    "body": "This offer helps monetize expertise immediately while improving product adoption and case-study quality.",
-    "primaryLabel": "Talk through implementation",
+    "heading": "Sell Launch Sprint when the buyer needs traction before self-serve.",
+    "body": "This offer should qualify through a strong brief first, then move into scoped implementation without pretending every buyer is ready for direct checkout.",
+    "primaryLabel": "Start the brief",
     "primaryHref": "/contact"
   }
 }

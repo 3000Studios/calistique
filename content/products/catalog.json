@@ -3,7 +3,7 @@
     {
       "slug": "operator-os",
       "name": "Operator OS",
-      "summary": "The recurring software offer for teams that want an AI-managed system for execution, automation, and release workflows.",
+      "summary": "The checkout-first recurring software offer for teams that want an AI-managed system for execution, automation, and release workflows.",
       "idealFor": "Founders, small teams, and technical operators",
       "outcome": "Create subscription revenue from a product that helps work actually get shipped.",
       "priceAnchor": "$99 / month",
@@ -13,7 +13,7 @@
     {
       "slug": "launch-sprint",
       "name": "Launch Sprint",
-      "summary": "A done-with-you implementation package that sets up messaging, pages, workflows, and the first operating system for delivery.",
+      "summary": "A lead-form-first implementation package that sets up messaging, pages, workflows, and the first operating system for delivery.",
       "idealFor": "Buyers who want speed over self-setup",
       "outcome": "Generate service revenue while increasing product adoption and customer success.",
       "priceAnchor": "$2,500+",
@@ -23,7 +23,7 @@
     {
       "slug": "enterprise-deployment",
       "name": "Enterprise Deployment",
-      "summary": "A high-trust self-hosted and customization path for organizations that need governance, control, and rollout support.",
+      "summary": "A qualification-first self-hosted and customization path for organizations that need governance, control, and rollout support.",
       "idealFor": "Internal platform teams and compliance-sensitive buyers",
       "outcome": "Create larger contracts with lower churn and deeper integration.",
       "priceAnchor": "Custom",

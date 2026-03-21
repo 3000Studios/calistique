@@ -11,6 +11,7 @@ import GenericPage from '../pages/GenericPage.jsx'
 import AdminLayout from '../components/admin/AdminLayout.jsx'
 import AdminLoginPage from '../pages/AdminLoginPage.jsx'
 import AdminOverviewPage from '../pages/admin/AdminOverviewPage.jsx'
+import AdminRevenuePage from '../pages/admin/AdminRevenuePage.jsx'
 import AdminDeployPage from '../pages/admin/AdminDeployPage.jsx'
 import AdminTrafficPage from '../pages/admin/AdminTrafficPage.jsx'
 import AdminContentPage from '../pages/admin/AdminContentPage.jsx'
@@ -60,6 +61,7 @@ export default function App() {
         <Route path="/admin" element={<AdminLayout />}>
           <Route index element={<Navigate to="overview" replace />} />
           <Route path="overview" element={<AdminOverviewPage />} />
+          <Route path="revenue" element={<AdminRevenuePage />} />
           <Route path="deploy" element={<AdminDeployPage />} />
           <Route path="traffic" element={<AdminTrafficPage />} />
           <Route path="content" element={<AdminContentPage />} />

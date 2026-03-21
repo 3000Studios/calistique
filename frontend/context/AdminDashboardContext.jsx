@@ -1,6 +1,6 @@
 import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { getAnalytics, getContent, getDeployments, sendCommand } from '../src/adminApi.js'
+import { getAnalytics, getContent, getDeployments, getRevenueQueue, sendCommand, updateLeadStage } from '../src/adminApi.js'
 import { clearAdminSession, getAdminSession } from '../src/adminSession.js'
 
 const defaultCommand = JSON.stringify(
@@ -23,6 +23,7 @@ export function AdminDashboardProvider({ children }) {
   const [analytics, setAnalytics] = useState(null)
   const [deployments, setDeployments] = useState(null)
   const [contentBundle, setContentBundle] = useState(null)
+  const [revenueQueue, setRevenueQueue] = useState(null)
   const [commandBusy, setCommandBusy] = useState(false)
   const [editorBusy, setEditorBusy] = useState(false)
   const [deployBusy, setDeployBusy] = useState(false)
@@ -36,14 +37,16 @@ export function AdminDashboardProvider({ children }) {
       if (!activeSession?.adminEmail || !activeSession?.adminCode) {
         return
       }
-      const [nextAnalytics, nextDeployments, nextContent] = await Promise.all([
+      const [nextAnalytics, nextDeployments, nextContent, nextRevenueQueue] = await Promise.all([
         getAnalytics(activeSession),
         getDeployments(activeSession),
-        getContent(activeSession)
+        getContent(activeSession),
+        getRevenueQueue(activeSession)
       ])
       setAnalytics(nextAnalytics)
       setDeployments(nextDeployments)
       setContentBundle(nextContent)
+      setRevenueQueue(nextRevenueQueue)
     },
     [adminSession]
   )
@@ -155,6 +158,20 @@ export function AdminDashboardProvider({ children }) {
     }
   }, [adminSession, refreshDashboard])
 
+  const handleUpdateLeadStage = useCallback(
+    async (leadId, patch) => {
+      try {
+        setError('')
+        const result = await updateLeadStage(adminSession, leadId, patch)
+        setLastResult(result)
+        await refreshDashboard(adminSession)
+      } catch (updateError) {
+        setError(updateError.message)
+      }
+    },
+    [adminSession, refreshDashboard]
+  )
+
   const handleSignOut = useCallback(() => {
     clearAdminSession()
     navigate('/admin/login', { replace: true })
@@ -169,6 +186,7 @@ export function AdminDashboardProvider({ children }) {
       analytics,
       deployments,
       contentBundle,
+      revenueQueue,
       commandBusy,
       editorBusy,
       deployBusy,
@@ -182,6 +200,7 @@ export function AdminDashboardProvider({ children }) {
       handleDeploy,
       handleDiscoverTopics,
       handleRunTrafficCycle,
+      handleUpdateLeadStage,
       handleSignOut
     }),
     [
@@ -191,6 +210,7 @@ export function AdminDashboardProvider({ children }) {
       analytics,
       deployments,
       contentBundle,
+      revenueQueue,
       commandBusy,
       editorBusy,
       deployBusy,
@@ -203,6 +223,7 @@ export function AdminDashboardProvider({ children }) {
       handleDeploy,
       handleDiscoverTopics,
       handleRunTrafficCycle,
+      handleUpdateLeadStage,
       handleSignOut
     ]
   )

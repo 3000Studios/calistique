@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { startPayPalCheckout, startStripeCheckout } from '../src/siteApi.js'
+import { startPayPalCheckout, startStripeCheckout, trackConversionEvent, trackCtaClick } from '../src/siteApi.js'
 
 export default function OfferCheckoutCard({ offer }) {
   const [busyProvider, setBusyProvider] = useState('')
@@ -10,6 +10,12 @@ export default function OfferCheckoutCard({ offer }) {
     try {
       setBusyProvider(provider)
       setError('')
+      await trackConversionEvent('checkout_start', {
+        ctaId: `checkout-${provider}-${offer.slug}`,
+        offerSlug: offer.slug,
+        provider,
+        intent: 'purchase'
+      })
       const response =
         provider === 'stripe'
           ? await startStripeCheckout(offer.slug)
@@ -30,24 +36,60 @@ export default function OfferCheckoutCard({ offer }) {
       <p>{offer.summary}</p>
       {offer.idealFor ? <p className="content-card__outcome">{offer.idealFor}</p> : null}
       <div className="checkout-actions">
-        {offer.providers.stripe ? (
+        {offer.closeMode === 'checkout' && offer.providers.stripe ? (
           <button className="button button--primary" type="button" onClick={() => beginCheckout('stripe')} disabled={busyProvider !== ''}>
             {busyProvider === 'stripe' ? 'Opening Stripe...' : 'Pay with Stripe'}
           </button>
         ) : null}
-        {offer.providers.paypal ? (
+        {offer.closeMode === 'checkout' && offer.providers.paypal ? (
           <button className="button button--ghost" type="button" onClick={() => beginCheckout('paypal')} disabled={busyProvider !== ''}>
             {busyProvider === 'paypal' ? 'Opening PayPal...' : 'Pay with PayPal'}
           </button>
         ) : null}
-        {offer.contactOnly ? (
-          <Link className="button button--ghost" to="/contact">
-            Contact for rollout
+        {offer.closeMode !== 'checkout' ? (
+          <Link
+            className="button button--primary"
+            to={offer.primaryCtaHref}
+            onClick={() =>
+              trackCtaClick({
+                ctaId: `cta-${offer.slug}`,
+                offerSlug: offer.slug,
+                intent: offer.closeMode === 'lead' ? 'implementation' : 'qualification'
+              }).catch(() => {})
+            }
+          >
+            {offer.primaryCtaLabel}
           </Link>
         ) : null}
+        {offer.closeMode === 'checkout' ? (
+          <Link
+            className="button button--ghost"
+            to={offer.primaryCtaHref}
+            onClick={() =>
+              trackCtaClick({
+                ctaId: `details-${offer.slug}`,
+                offerSlug: offer.slug,
+                intent: 'learn_more'
+              }).catch(() => {})
+            }
+          >
+            View offer details
+          </Link>
+        ) : null}
+        {offer.closeMode === 'lead' && (offer.providers.stripe || offer.providers.paypal) ? (
+          <button className="button button--ghost" type="button" onClick={() => beginCheckout(offer.providers.stripe ? 'stripe' : 'paypal')} disabled={busyProvider !== ''}>
+            {busyProvider ? 'Opening checkout...' : 'Prefer instant checkout'}
+          </button>
+        ) : null}
       </div>
-      {!offer.providers.stripe && !offer.providers.paypal && !offer.contactOnly ? (
-        <p className="field-note">Live checkout appears here automatically when the corresponding Stripe or PayPal env vars are configured.</p>
+      {offer.closeMode === 'checkout' && !offer.providers.stripe && !offer.providers.paypal ? (
+        <p className="field-note">Live checkout activates automatically when real Stripe or PayPal configuration is present. Until then, use the product page and lead flow.</p>
+      ) : null}
+      {offer.closeMode === 'lead' ? (
+        <p className="field-note">This offer closes best through an implementation brief, then optionally through instant checkout if the live provider is configured.</p>
+      ) : null}
+      {offer.closeMode === 'qualification' ? (
+        <p className="field-note">Qualification comes first here because hosting, governance, and rollout scope need review before a paid path is opened.</p>
       ) : null}
       {error ? <p className="form-error">{error}</p> : null}
     </article>

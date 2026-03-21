@@ -21,8 +21,21 @@ const DEFAULT_LEADS = {
   updatedAt: null
 }
 
+const EVENT_TYPES = new Set([
+  'page_view',
+  'cta_click',
+  'lead_submit',
+  'checkout_start',
+  'checkout_success',
+  'checkout_cancel'
+])
+
 function nowIso() {
   return new Date().toISOString()
+}
+
+function normalizeEventType(type) {
+  return EVENT_TYPES.has(type) ? type : 'page_view'
 }
 
 export async function recordAiActivity(action) {
@@ -48,10 +61,16 @@ export async function recordSiteEvent(eventPayload) {
   const events = await readSystemDocument('events.json', DEFAULT_EVENTS)
   const nextEvent = {
     id: `${eventPayload.type ?? 'event'}-${Date.now()}`,
-    type: eventPayload.type ?? 'page_view',
+    type: normalizeEventType(eventPayload.type),
     path: eventPayload.path ?? '/',
     sessionId: eventPayload.sessionId ?? 'anonymous',
     referrer: eventPayload.referrer ?? '',
+    ctaId: eventPayload.ctaId ?? '',
+    offerSlug: eventPayload.offerSlug ?? '',
+    provider: eventPayload.provider ?? '',
+    intent: eventPayload.intent ?? '',
+    stage: eventPayload.stage ?? '',
+    details: eventPayload.details ?? null,
     createdAt: nowIso()
   }
 
@@ -67,6 +86,7 @@ export async function recordLead(leadPayload) {
   }
 
   const leads = await readSystemDocument('leads.json', DEFAULT_LEADS)
+  const createdAt = nowIso()
   const nextLead = {
     id: `lead-${Date.now()}`,
     name: String(leadPayload.name ?? '').trim(),
@@ -74,13 +94,49 @@ export async function recordLead(leadPayload) {
     company: String(leadPayload.company ?? '').trim(),
     interest: String(leadPayload.interest ?? '').trim(),
     notes: String(leadPayload.notes ?? '').trim(),
-    createdAt: nowIso()
+    sourcePath: String(leadPayload.sourcePath ?? '/').trim() || '/',
+    ctaId: String(leadPayload.ctaId ?? '').trim(),
+    intent: String(leadPayload.intent ?? 'high_intent').trim(),
+    stage: String(leadPayload.stage ?? 'new').trim(),
+    status: 'open',
+    createdAt,
+    updatedAt: createdAt
   }
 
   leads.leads = [nextLead, ...(leads.leads ?? [])].slice(0, 1000)
   leads.updatedAt = nextLead.createdAt
   await writeSystemDocument('leads.json', leads)
   return nextLead
+}
+
+export async function getLeadSnapshot(limit = 100) {
+  const leads = await readSystemDocument('leads.json', DEFAULT_LEADS)
+  return (leads.leads ?? []).slice(0, limit)
+}
+
+export async function updateLeadStage(leadId, patch) {
+  const leads = await readSystemDocument('leads.json', DEFAULT_LEADS)
+  const leadIndex = (leads.leads ?? []).findIndex((entry) => entry.id === leadId)
+
+  if (leadIndex < 0) {
+    throw new Error(`Lead "${leadId}" was not found.`)
+  }
+
+  const updatedAt = nowIso()
+  leads.leads[leadIndex] = {
+    ...leads.leads[leadIndex],
+    stage: patch.stage ? String(patch.stage).trim() : leads.leads[leadIndex].stage,
+    status: patch.status ? String(patch.status).trim() : leads.leads[leadIndex].status,
+    notes:
+      typeof patch.notes === 'string'
+        ? patch.notes.trim()
+        : leads.leads[leadIndex].notes,
+    updatedAt
+  }
+
+  leads.updatedAt = updatedAt
+  await writeSystemDocument('leads.json', leads)
+  return leads.leads[leadIndex]
 }
 
 export async function getAnalyticsSnapshot() {
@@ -95,6 +151,11 @@ export async function getAnalyticsSnapshot() {
   ])
 
   const pageViewEvents = (events.events ?? []).filter((entry) => entry.type === 'page_view')
+  const ctaClickEvents = (events.events ?? []).filter((entry) => entry.type === 'cta_click')
+  const checkoutStartEvents = (events.events ?? []).filter((entry) => entry.type === 'checkout_start')
+  const checkoutSuccessEvents = (events.events ?? []).filter((entry) => entry.type === 'checkout_success')
+  const checkoutCancelEvents = (events.events ?? []).filter((entry) => entry.type === 'checkout_cancel')
+  const leadSubmitEvents = (events.events ?? []).filter((entry) => entry.type === 'lead_submit')
   const visitorIds = new Set(pageViewEvents.map((entry) => entry.sessionId).filter(Boolean))
   const completedPayments = payments.filter((entry) => entry.status === 'completed')
   const revenue = completedPayments.reduce((sum, entry) => sum + (entry.amountCents ?? 0), 0) / 100
@@ -108,6 +169,11 @@ export async function getAnalyticsSnapshot() {
     pageViews: pageViewEvents.length,
     leads: leadCount,
     purchases,
+    ctaClicks: ctaClickEvents.length,
+    checkoutStarts: checkoutStartEvents.length,
+    checkoutSuccesses: checkoutSuccessEvents.length,
+    checkoutCancels: checkoutCancelEvents.length,
+    leadSubmits: leadSubmitEvents.length,
     conversionRate: visitors > 0 ? purchases / visitors : 0,
     revenue,
     contentCounts: {
