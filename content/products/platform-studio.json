@@ -1,11 +1,34 @@
 {
-  "slug": "platform-studio",
-  "name": "Platform Studio",
-  "headline": "Run your entire site like an AI-operated command center",
-  "description": "Platform Studio combines task routing, content generation, script execution, workspace editing, and git deployment orchestration in one repository.",
+  "slug": "operator-os",
+  "name": "Operator OS",
+  "headline": "Turn MyAppAI into the recurring software product at the center of the business",
+  "priceAnchor": "$99 / month",
+  "idealFor": "Best for founders, agency owners, and technical operators",
+  "description": "Operator OS is the clearest recurring offer for MyAppAI. It gives users a command-driven platform for planning, execution, content operations, and release-ready workflows.",
   "bullets": [
-    "Create landing pages and system surfaces from structured commands",
-    "Generate feature sections tied to product and platform messaging",
-    "Push updates directly into a Cloudflare-ready build and deploy flow"
-  ]
+    "Use natural language to organize work and route execution",
+    "Manage pages, offers, and operational assets in one system",
+    "Move from one-off AI tasks to a durable internal operating layer"
+  ],
+  "sections": [
+    {
+      "title": "Execution layer",
+      "description": "Run planning, content, and deployment actions through one workflow instead of stitching together separate tools."
+    },
+    {
+      "title": "Revenue fit",
+      "description": "This offer is the strongest path to monthly recurring revenue because the value compounds as teams put more work through it."
+    },
+    {
+      "title": "Expansion path",
+      "description": "Customers who start here can naturally upgrade into implementation help, team usage, and enterprise deployments."
+    }
+  ],
+  "cta": {
+    "eyebrow": "Recommended path",
+    "heading": "Lead with Operator OS as the main software product.",
+    "body": "It is the offer with the clearest story, the best compounding value, and the most room for expansion revenue.",
+    "primaryLabel": "Review pricing",
+    "primaryHref": "/pricing"
+  }
 }

@@ -1,6 +1,7 @@
 import React from 'react'
-import { Navigate, useParams } from 'react-router-dom'
+import { Link, Navigate, useParams } from 'react-router-dom'
 import PrismHeadline from '../components/PrismHeadline.jsx'
+import RichBlocks from '../components/RichBlocks.jsx'
 import { productLookup } from '../src/siteData.js'
 
 export default function ProductPage() {
@@ -14,9 +15,13 @@ export default function ProductPage() {
   return (
     <div className="stack-xl">
       <section className="section-card">
-        <span className="eyebrow">Revenue stream</span>
-        <PrismHeadline text={product.name} />
+        <span className="eyebrow">{product.eyebrow ?? 'Offer'}</span>
+        <PrismHeadline text={product.headline ?? product.name} />
         <p className="section-intro">{product.description ?? product.summary}</p>
+        <div className="tag-row">
+          <span className="tag">{product.priceAnchor}</span>
+          {product.idealFor ? <span className="tag">{product.idealFor}</span> : null}
+        </div>
       </section>
 
       {product.bullets ? (
@@ -27,6 +32,21 @@ export default function ProductPage() {
               <li key={bullet}>{bullet}</li>
             ))}
           </ul>
+        </section>
+      ) : null}
+      {product.sections ? <RichBlocks title="Included in the offer" items={product.sections} /> : null}
+      {product.cta ? (
+        <section className="section-card cta-band">
+          <div>
+            <span className="eyebrow">{product.cta.eyebrow}</span>
+            <h2>{product.cta.heading}</h2>
+            <p className="section-intro">{product.cta.body}</p>
+          </div>
+          <div className="hero__actions">
+            <Link className="button button--primary" to={product.cta.primaryHref}>
+              {product.cta.primaryLabel}
+            </Link>
+          </div>
         </section>
       ) : null}
     </div>

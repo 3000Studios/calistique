@@ -1,23 +1,26 @@
 export const publicNavItems = [
-  { label: 'Chrome', to: '/' },
-  { label: 'Journal', to: '/blog' },
+  { label: 'Home', to: '/' },
+  { label: 'Solutions', to: '/solutions' },
   { label: 'Products', to: '/products' },
   { label: 'Pricing', to: '/pricing' },
+  { label: 'About', to: '/about' },
+  { label: 'Blog', to: '/blog' },
+  { label: 'Contact', to: '/contact' },
   { label: 'Admin', to: '/admin/login' }
 ]
 
 export const publicStatusLines = [
-  'STATUS: HYPER_STABLE',
-  'LATENCY: 12ms',
-  'PRISM_OS // MYAPPAI'
+  'AI SYSTEM MANAGER',
+  'PROMPT TO EXECUTION',
+  'MYAPPAI.NET'
 ]
 
 export const publicTickerItems = [
-  '// COMMAND CENTER ONLINE',
-  '// GIT -> CLOUDFLARE SYNC ACTIVE',
-  '// CONTENT ENGINE READY',
-  '// DEPLOY AUTOMATION ARMED',
-  '// LOCAL MODELS RESPONDING'
+  '// OPERATIONS AUTOMATION FOR FOUNDERS AND TEAMS',
+  '// PROMPTS BECOME TASKS, SCRIPTS, CONTENT, AND RELEASES',
+  '// SELF-HOSTED OR MANAGED DEPLOYMENT PATHS',
+  '// PRODUCT, MARKETING, AND DELIVERY FLOWS IN ONE SYSTEM',
+  '// BUILT FOR REVENUE, SPEED, AND TRUST'
 ]
 
 export const adminNavItems = [

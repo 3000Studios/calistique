@@ -1,36 +1,36 @@
 {
   "posts": [
     {
-      "slug": "how-to-automate-marketing-with-ai",
-      "title": "How how to automate marketing with AI strengthens an AI-run website stack",
-      "excerpt": "A practical look at using how to automate marketing with AI inside a local-model content and deployment workflow.",
-      "publishedAt": "2026-03-15",
+      "slug": "ai-system-manager-positioning",
+      "title": "Why AI System Manager is a stronger market position than AI website builder",
+      "excerpt": "The difference between a vague AI product and a sellable offer is usually positioning. Here is the case for leading with execution, not novelty.",
+      "publishedAt": "2026-03-20",
       "tags": [
-        "ai",
-        "automation",
-        "how-to-automate-marketing-with-ai"
+        "positioning",
+        "strategy",
+        "saas"
       ]
     },
     {
-      "slug": "ai-marketing-automation-for-startups",
-      "title": "How AI marketing automation for startups strengthens an AI-run website stack",
-      "excerpt": "A practical look at using AI marketing automation for startups inside a local-model content and deployment workflow.",
-      "publishedAt": "2026-03-15",
+      "slug": "productized-ai-automation-services",
+      "title": "How productized AI automation services can fund a software business early",
+      "excerpt": "The fastest path to revenue is often a hybrid model: software at the center, services around the edges, and enterprise expansion behind it.",
+      "publishedAt": "2026-03-20",
       "tags": [
-        "ai",
-        "automation",
-        "ai-marketing-automation-for-startups"
+        "services",
+        "revenue",
+        "automation"
       ]
     },
     {
       "slug": "ai-automation-platform",
-      "title": "Building an AI-Controlled Web Platform with Local Models",
-      "excerpt": "How to combine Ollama, a command router, JSON content, and Cloudflare Pages into one deployable workflow.",
-      "publishedAt": "2026-03-14",
+      "title": "Building an AI execution platform with repo-backed control",
+      "excerpt": "How to combine command routing, versioned content, and deploy-ready workflows into a trustworthy operating system.",
+      "publishedAt": "2026-03-19",
       "tags": [
         "automation",
-        "ollama",
-        "cloudflare"
+        "operations",
+        "platform"
       ]
     }
   ]

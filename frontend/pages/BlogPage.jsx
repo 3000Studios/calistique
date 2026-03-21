@@ -7,9 +7,12 @@ export default function BlogPage() {
   return (
     <div className="stack-xl">
       <section className="section-card">
-        <span className="eyebrow">Signal journal</span>
-        <PrismHeadline text="AI-generated articles" />
-        <p className="section-intro">Every post is content-engine output that can be versioned, reviewed, and deployed like product code.</p>
+        <span className="eyebrow">Insights</span>
+        <PrismHeadline text="Strategy for AI-run operations" />
+        <p className="section-intro">
+          These articles support SEO, buyer education, and trust for the categories MyAppAI wants to own:
+          execution, automation, and AI-managed delivery.
+        </p>
       </section>
 
       <section className="card-grid">
@@ -26,7 +29,7 @@ export default function BlogPage() {
               ))}
             </div>
             <Link className="button button--ghost" to={`/blog/${post.slug}`}>
-              Read article
+              Read insight
             </Link>
           </article>
         ))}

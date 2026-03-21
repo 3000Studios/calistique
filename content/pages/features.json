@@ -1,27 +1,47 @@
 {
-  "headline": "Five systems, one command center",
-  "intro": "The platform now reads like an operating surface: one shell for interpreting intent, editing assets, managing workflows, and deploying changes.",
+  "headline": "The product story now centers on execution, not abstraction",
+  "intro": "Each capability should directly support faster delivery, cleaner operations, or a more valuable customer offer.",
   "items": [
     {
-      "slug": "command-router",
-      "title": "Command Router API",
-      "description": "Validates intent, normalizes commands, and dispatches work to generators, editors, scripts, and deployment agents."
+      "slug": "ai-command-routing",
+      "title": "AI command routing",
+      "description": "Turn natural language into structured tasks that can be reviewed, approved, and executed safely.",
+      "bullets": [
+        "Intent validation before changes",
+        "Routing across content, scripts, and workflows",
+        "A clearer bridge from prompt to action"
+      ]
     },
     {
-      "slug": "content-engine",
-      "title": "Content Engine",
-      "description": "Creates and edits JSON-driven pages, pricing surfaces, product detail views, and blog content under /content."
+      "slug": "repo-backed-content",
+      "title": "Repo-backed content system",
+      "description": "Keep pages, offers, pricing, and articles in versioned content files so the business website can evolve quickly without losing control.",
+      "bullets": [
+        "Diffable marketing content",
+        "Fast launch of new pages and offers",
+        "Reusable structure for SEO and sales"
+      ]
     },
     {
-      "slug": "media-engine",
-      "title": "Media Engine",
-      "description": "Supports asset sourcing and visual generation workflows so campaigns and product pages can be updated without leaving the workspace."
+      "slug": "automation-workflows",
+      "title": "Automation workflows",
+      "description": "Coordinate repeatable jobs for delivery, internal operations, content publishing, and launch support from the same operating layer.",
+      "bullets": [
+        "Less manual project management",
+        "A better service delivery engine",
+        "More leverage for small teams"
+      ]
     },
     {
-      "slug": "deploy-agent",
-      "title": "Deploy Agent",
-      "description": "Stages workspace changes, commits them with AI-aware messages, pushes upstream, syncs deployment state, and records status."
+      "slug": "deploy-ops",
+      "title": "Deploy and release ops",
+      "description": "Move work from approved changes into production-ready output with visibility into what changed and what shipped.",
+      "bullets": [
+        "Git-aware delivery flow",
+        "Cloudflare-ready output",
+        "More trust for technical buyers"
+      ]
     }
   ],
-  "updatedAt": "2026-03-17T00:00:00.000Z"
+  "updatedAt": "2026-03-20T00:00:00.000Z"
 }

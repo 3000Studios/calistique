@@ -7,9 +7,12 @@ export default function ProductsPage() {
   return (
     <div className="stack-xl">
       <section className="section-card">
-        <span className="eyebrow">Offer matrix</span>
-        <PrismHeadline text="Monetizable building blocks" />
-        <p className="section-intro">Use AI-run product pages, pricing, and deploy workflows to turn traffic into offers.</p>
+        <span className="eyebrow">Productized revenue</span>
+        <PrismHeadline text="Ways to buy MyAppAI" />
+        <p className="section-intro">
+          The strongest business model here is a mix of recurring software, implementation revenue, and
+          enterprise deployment.
+        </p>
       </section>
 
       <section className="card-grid">
@@ -18,9 +21,10 @@ export default function ProductsPage() {
             <span className="meta-line">{product.priceAnchor}</span>
             <h2>{product.name}</h2>
             <p>{product.summary}</p>
+            <p>{product.idealFor}</p>
             <p className="content-card__outcome">{product.outcome}</p>
             <Link className="button button--ghost" to={`/products/${product.slug}`}>
-              Open product page
+              View details
             </Link>
           </article>
         ))}

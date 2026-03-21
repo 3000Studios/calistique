@@ -1,5 +1,5 @@
 import React from 'react'
-import { Navigate, useParams } from 'react-router-dom'
+import { Link, Navigate, useParams } from 'react-router-dom'
 import PrismHeadline from '../components/PrismHeadline.jsx'
 import { blogLookup } from '../src/siteData.js'
 
@@ -27,6 +27,21 @@ export default function BlogPostPage() {
           </div>
         ))}
       </section>
+
+      {post.cta ? (
+        <section className="section-card cta-band">
+          <div>
+            <span className="eyebrow">{post.cta.eyebrow}</span>
+            <h2>{post.cta.heading}</h2>
+            <p className="section-intro">{post.cta.body}</p>
+          </div>
+          <div className="hero__actions">
+            <Link className="button button--primary" to={post.cta.primaryHref}>
+              {post.cta.primaryLabel}
+            </Link>
+          </div>
+        </section>
+      ) : null}
     </article>
   )
 }
