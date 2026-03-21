@@ -1,11 +1,11 @@
 {
   "eyebrow": "About",
-  "headline": "MyAppAI exists to turn intent into operational momentum",
+  "headline": "Voicetowebsite exists to turn intent into operational momentum",
   "subheadline": "The platform is being shaped as an AI system manager for work that needs structure, visibility, and execution quality.",
   "sections": [
     {
       "title": "What makes it different",
-      "description": "MyAppAI is not being positioned as another generic AI wrapper. It is being built as a control layer for planning, automating, and shipping meaningful technical and business work."
+      "description": "Voicetowebsite is not being positioned as another generic AI wrapper. It is being built as a control layer for planning, automating, and shipping meaningful technical and business work."
     },
     {
       "title": "How it should grow",
@@ -13,7 +13,7 @@
     },
     {
       "title": "What success looks like",
-      "description": "A successful MyAppAI becomes the operating system teams rely on when they need prompts to become useful, tracked, and repeatable execution."
+      "description": "A successful Voicetowebsite becomes the operating system teams rely on when they need prompts to become useful, tracked, and repeatable execution."
     }
   ],
   "cta": {

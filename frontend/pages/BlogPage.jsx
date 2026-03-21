@@ -2,6 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import PrismHeadline from '../components/PrismHeadline.jsx'
 import { blogIndex } from '../src/siteData.js'
+import { SITE_DISPLAY_NAME } from '../src/siteMeta.js'
 
 export default function BlogPage() {
   return (
@@ -10,8 +11,7 @@ export default function BlogPage() {
         <span className="eyebrow">Insights</span>
         <PrismHeadline text="Strategy for AI-run operations" />
         <p className="section-intro">
-          These articles support SEO, buyer education, and trust for the categories MyAppAI wants to own:
-          execution, automation, and AI-managed delivery.
+          These articles support SEO, buyer education, and trust for the categories {SITE_DISPLAY_NAME} wants to own:
         </p>
       </section>
 

@@ -1,3 +1,5 @@
+import { SITE_DOMAIN } from './siteMeta.js'
+
 export const publicNavItems = [
   { label: 'Home', to: '/' },
   { label: 'Solutions', to: '/solutions' },
@@ -6,41 +8,40 @@ export const publicNavItems = [
   { label: 'About', to: '/about' },
   { label: 'Blog', to: '/blog' },
   { label: 'Contact', to: '/contact' },
-  { label: 'Admin', to: '/admin/login' }
+  { label: 'Admin', to: '/admin' }
 ]
 
 export const publicStatusLines = [
-  'AI SYSTEM MANAGER',
-  'PROMPT TO EXECUTION',
-  'MYAPPAI.NET'
+  'VOICE → WEBSITE',
+  'SPEAK. SHIP. SCALE.',
+  SITE_DOMAIN
 ]
 
 export const publicTickerItems = [
-  '// OPERATIONS AUTOMATION FOR FOUNDERS AND TEAMS',
-  '// PROMPTS BECOME TASKS, SCRIPTS, CONTENT, AND RELEASES',
-  '// SELF-HOSTED OR MANAGED DEPLOYMENT PATHS',
-  '// PRODUCT, MARKETING, AND DELIVERY FLOWS IN ONE SYSTEM',
-  '// BUILT FOR REVENUE, SPEED, AND TRUST'
+  '// TURN SPOKEN BRIEFS INTO PUBLISHED PAGES',
+  '// STRUCTURED CONTENT, SEO, AND DEPLOYS FROM ONE PIPELINE',
+  '// IDEAL FOR AGENCIES, FOUNDERS, AND PRODUCT TEAMS',
+  '// FAST ITERATION FROM DRAFT TO LIVE SITE',
+  '// BUILT FOR CLARITY, SPEED, AND MEASURABLE CONVERSION'
 ]
 
 export const adminNavItems = [
-  { label: 'Dashboard', to: '/admin' },
-  { label: 'Login', to: '/admin/login' },
-  { label: 'Public Site', to: '/' },
+  { label: 'Overview', to: '/admin/overview' },
+  { label: 'Sign in', to: '/admin/login' },
+  { label: 'Public site', to: '/' },
   { label: 'Blog', to: '/blog' },
   { label: 'Products', to: '/products' }
 ]
 
 export const adminStatusLines = [
-  'CONTROL ROOM: OPEN',
+  'OPERATIONS: ONLINE',
   'PIPELINE: READY',
-  'OPS MODE // LIVE'
+  `${SITE_DOMAIN} // admin`
 ]
 
 export const adminTickerItems = [
-  '// COMMAND ROUTER READY',
-  '// CONTENT EDITOR HOT',
-  '// DEPLOY HISTORY TRACKED',
-  '// TRAFFIC LOOP MONITORED',
-  '// WORKSPACE MUTATIONS VERIFIED'
+  '// ANALYTICS + DEPLOY + CONTENT + AI CONSOLE',
+  '// SYNC DATA FROM THE TOP BAR ANYTIME',
+  '// USE SECTIONS IN THE SIDEBAR TO STAY FOCUSED',
+  '// COMMAND ROUTER FOR ADVANCED AUTOMATION'
 ]

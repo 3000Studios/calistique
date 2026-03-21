@@ -1,7 +1,7 @@
 {
   "eyebrow": "AI System Manager for builders",
   "headline": "Run delivery, automation, and growth from one command center",
-  "subheadline": "MyAppAI helps founders and technical teams turn natural language into approved tasks, generated assets, scripts, and release-ready execution flows.",
+  "subheadline": "Voicetowebsite helps founders and technical teams turn natural language into approved tasks, generated assets, scripts, and release-ready execution flows.",
   "primaryCta": {
     "label": "Explore solutions",
     "to": "/solutions"
@@ -32,7 +32,7 @@
   ],
   "heroPanel": {
     "heading": "One platform, three revenue engines.",
-    "body": "The strongest version of MyAppAI is not a generic AI site. It is a business that combines recurring software, implementation services, and higher-ticket self-hosted deployments for teams that need control.",
+    "body": "The strongest version of Voicetowebsite is not a generic AI site. It is a business that combines recurring software, implementation services, and higher-ticket self-hosted deployments for teams that need control.",
     "points": [
       {
         "label": "Subscription",
@@ -56,7 +56,7 @@
     },
     {
       "title": "Route the execution plan",
-      "description": "MyAppAI turns that request into a structured plan with the right content, scripts, agents, and approvals before anything is changed."
+      "description": "Voicetowebsite turns that request into a structured plan with the right content, scripts, agents, and approvals before anything is changed."
     },
     {
       "title": "Ship and monitor",
@@ -132,7 +132,7 @@
   ],
   "finalCta": {
     "eyebrow": "Start with the strongest path",
-    "heading": "Position MyAppAI as the AI system manager that turns intent into execution.",
+    "heading": "Position Voicetowebsite as the AI system manager that turns intent into execution.",
     "body": "That message is easier to trust, easier to sell, and much more likely to become a real business than a generic AI website builder pitch.",
     "primaryLabel": "Review pricing",
     "primaryHref": "/pricing",

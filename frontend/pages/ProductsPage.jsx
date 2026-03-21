@@ -2,13 +2,14 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import PrismHeadline from '../components/PrismHeadline.jsx'
 import { productCatalog } from '../src/siteData.js'
+import { SITE_DISPLAY_NAME } from '../src/siteMeta.js'
 
 export default function ProductsPage() {
   return (
     <div className="stack-xl">
       <section className="section-card">
         <span className="eyebrow">Productized revenue</span>
-        <PrismHeadline text="Ways to buy MyAppAI" />
+        <PrismHeadline text={`Ways to buy ${SITE_DISPLAY_NAME}`} />
         <p className="section-intro">
           The strongest business model here is a mix of recurring software, implementation revenue, and
           enterprise deployment.

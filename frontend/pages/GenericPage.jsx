@@ -1,9 +1,13 @@
 import React from 'react'
 import { Link, Navigate, useParams } from 'react-router-dom'
+import ContactLeadForm from '../components/ContactLeadForm.jsx'
 import MetricStrip from '../components/MetricStrip.jsx'
+import OfferCheckoutCard from '../components/OfferCheckoutCard.jsx'
 import PrismHeadline from '../components/PrismHeadline.jsx'
 import RichBlocks from '../components/RichBlocks.jsx'
+import { useSiteRuntime } from '../src/SiteRuntimeContext.jsx'
 import { pageLookup } from '../src/siteData.js'
+import { SITE_DISPLAY_NAME } from '../src/siteMeta.js'
 import NotFoundPage from './NotFoundPage.jsx'
 
 const reserved = new Set(['admin', 'blog', 'products'])
@@ -14,6 +18,7 @@ function isExternalHref(href) {
 
 export default function GenericPage() {
   const { slug } = useParams()
+  const { snapshot } = useSiteRuntime()
 
   if (reserved.has(slug)) {
     return <Navigate to="/" replace />
@@ -28,7 +33,7 @@ export default function GenericPage() {
   return (
     <div className="stack-xl">
       <section className="section-card">
-        <span className="eyebrow">{page.eyebrow ?? 'MyAppAI'}</span>
+        <span className="eyebrow">{page.eyebrow ?? SITE_DISPLAY_NAME}</span>
         <PrismHeadline text={page.headline ?? page.title ?? slug} />
         <p className="section-intro">{page.subheadline ?? page.intro ?? 'Generated from the repo content layer.'}</p>
       </section>
@@ -65,6 +70,17 @@ export default function GenericPage() {
               </ul>
             </article>
           ))}
+        </section>
+      ) : null}
+      {slug === 'pricing' && snapshot?.commerce?.offers?.length ? (
+        <section className="section-card">
+          <span className="eyebrow">Checkout</span>
+          <h2>Accept live payments from the offers page</h2>
+          <div className="card-grid">
+            {snapshot.commerce.offers.map((offer) => (
+              <OfferCheckoutCard key={offer.slug} offer={offer} />
+            ))}
+          </div>
         </section>
       ) : null}
       {page.faq ? (
@@ -114,6 +130,7 @@ export default function GenericPage() {
           </div>
         </section>
       ) : null}
+      {slug === 'contact' ? <ContactLeadForm /> : null}
     </div>
   )
 }

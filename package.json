@@ -1,5 +1,5 @@
 {
-  "name": "myappai",
+  "name": "voicetowebsite",
   "version": "1.0.0",
   "private": true,
   "type": "module",
@@ -20,10 +20,21 @@
     "traffic": "node scripts/run-traffic-cycle.js",
     "test": "node scripts/verify-platform.js"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "description": "",
+  "keywords": [
+    "voicetowebsite",
+    "voicetowebsite.com"
+  ],
+  "homepage": "https://voicetowebsite.com/",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/3000Studios/voicetowebsite-copyright-mrjwswain.git"
+  },
+  "bugs": {
+    "url": "https://github.com/3000Studios/voicetowebsite-copyright-mrjwswain/issues"
+  },
+  "author": "Mr. jwswain",
+  "license": "UNLICENSED",
+  "description": "VoiceToWebsite — voicetowebsite.com (proprietary; see GitHub repo README)",
   "dependencies": {
     "@cloudflare/workers-types": "^4.20260313.1",
     "axios": "^1.13.6",
@@ -36,6 +47,7 @@
     "react-dom": "^19.2.4",
     "react-router-dom": "^7.9.5",
     "socket.io": "^4.8.3",
+    "stripe": "^20.4.1",
     "three": "^0.183.2",
     "vite": "^8.0.0",
     "zustand": "^5.0.11"

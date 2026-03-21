@@ -2,12 +2,30 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import MetricStrip from '../components/MetricStrip.jsx'
+import OfferCheckoutCard from '../components/OfferCheckoutCard.jsx'
 import PrismHeadline from '../components/PrismHeadline.jsx'
 import RichBlocks from '../components/RichBlocks.jsx'
 import { fadeUp, staggerParent } from '../animations/variants.js'
+import { useSiteRuntime } from '../src/SiteRuntimeContext.jsx'
 import { featurePage, homepage, pricingPage, productCatalog } from '../src/siteData.js'
 
+function formatCurrency(amount) {
+  return new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+    maximumFractionDigits: 0
+  }).format(amount)
+}
+
 export default function HomePage() {
+  const { snapshot } = useSiteRuntime()
+  const liveMetrics = [
+    { label: 'Visitors tracked', value: String(snapshot?.analytics?.visitors ?? 0) },
+    { label: 'Leads captured', value: String(snapshot?.analytics?.leads ?? 0) },
+    { label: 'Payments closed', value: String(snapshot?.analytics?.purchases ?? 0) },
+    { label: 'Revenue recorded', value: formatCurrency(snapshot?.analytics?.revenue ?? 0) }
+  ]
+
   return (
     <div className="stack-xl">
       <motion.section className="hero" variants={staggerParent} initial="hidden" animate="visible">
@@ -46,7 +64,7 @@ export default function HomePage() {
         </motion.aside>
       </motion.section>
 
-      <MetricStrip items={homepage.heroStats} />
+      <MetricStrip items={liveMetrics} />
 
       <section className="section-card">
         <span className="eyebrow">How it works</span>
@@ -79,6 +97,28 @@ export default function HomePage() {
           ))}
         </div>
       </section>
+
+      {snapshot?.commerce?.offers?.length ? (
+        <section className="section-card">
+          <div className="section-heading">
+            <div>
+              <span className="eyebrow">Live checkout</span>
+              <h2>Sell directly from the site</h2>
+              <p className="section-intro">
+                Stripe and PayPal buttons only appear when live configuration exists. Revenue totals update from recorded transactions, not seeded numbers.
+              </p>
+            </div>
+            <Link className="button button--ghost" to="/pricing">
+              Open pricing
+            </Link>
+          </div>
+          <div className="card-grid">
+            {snapshot.commerce.offers.filter((offer) => offer.slug !== 'enterprise-deployment').map((offer) => (
+              <OfferCheckoutCard key={offer.slug} offer={offer} />
+            ))}
+          </div>
+        </section>
+      ) : null}
 
       <section className="section-card">
         <div className="section-heading">

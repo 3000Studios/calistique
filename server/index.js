@@ -3,6 +3,7 @@ import express from 'express'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import commandRoutes from './routes/commandRoutes.js'
+import publicRoutes from './routes/publicRoutes.js'
 import { bootstrapContent } from './services/contentService.js'
 
 const app = express()
@@ -21,6 +22,7 @@ app.get('/api/health', async (_request, response) => {
   })
 })
 
+app.use('/api/public', publicRoutes)
 app.use('/api', commandRoutes)
 
 app.use((error, _request, response, _next) => {

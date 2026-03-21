@@ -1,12 +1,16 @@
 import React from 'react'
 import { Link, Navigate, useParams } from 'react-router-dom'
+import OfferCheckoutCard from '../components/OfferCheckoutCard.jsx'
 import PrismHeadline from '../components/PrismHeadline.jsx'
 import RichBlocks from '../components/RichBlocks.jsx'
+import { useSiteRuntime } from '../src/SiteRuntimeContext.jsx'
 import { productLookup } from '../src/siteData.js'
 
 export default function ProductPage() {
   const { slug } = useParams()
   const product = productLookup[slug]
+  const { snapshot } = useSiteRuntime()
+  const liveOffer = snapshot?.commerce?.offers?.find((offer) => offer.slug === slug) ?? null
 
   if (!product) {
     return <Navigate to="/products" replace />
@@ -35,6 +39,7 @@ export default function ProductPage() {
         </section>
       ) : null}
       {product.sections ? <RichBlocks title="Included in the offer" items={product.sections} /> : null}
+      {liveOffer ? <OfferCheckoutCard offer={liveOffer} /> : null}
       {product.cta ? (
         <section className="section-card cta-band">
           <div>
