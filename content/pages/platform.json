@@ -1,0 +1,32 @@
+{
+  "eyebrow": "Platform",
+  "headline": "A cleaner system architecture for public funnel, operator control, and deployment",
+  "intro": "myappai brings the public site, custom GPT workflow, command router, content engine, payment routing, and deploy visibility into one coherent product surface.",
+  "items": [
+    {
+      "slug": "public-funnel",
+      "title": "Premium public funnel",
+      "description": "A faster, cleaner, higher-dollar public experience with clearer buyer routing and less page clutter.",
+      "outcome": "Better first impression and stronger commercial intent."
+    },
+    {
+      "slug": "custom-gpt",
+      "title": "Custom GPT operator",
+      "description": "Natural-language operator mode now targets the real frontend and content layers instead of dead legacy folders.",
+      "outcome": "Safer and more useful admin automation."
+    },
+    {
+      "slug": "payment-routing",
+      "title": "Payment routing",
+      "description": "Stripe and PayPal readiness are surfaced at the offer level, with PayPal able to route through the configured email fallback.",
+      "outcome": "Checkout logic matches reality."
+    },
+    {
+      "slug": "deployment-ops",
+      "title": "Deploy visibility",
+      "description": "Release activity stays tied to the admin workflow and git-based deploy path.",
+      "outcome": "The operational story is part of the product."
+    }
+  ],
+  "updatedAt": "2026-03-21T00:00:00.000Z"
+}

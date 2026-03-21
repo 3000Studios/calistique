@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { Navigate, Route, Routes, useLocation } from 'react-router-dom'
+import { Navigate, Route, Routes } from 'react-router-dom'
 import SiteFrame from '../components/SiteFrame.jsx'
 import HomePage from '../pages/HomePage.jsx'
 import BlogPage from '../pages/BlogPage.jsx'
@@ -18,7 +18,6 @@ import AdminTrafficPage from '../pages/admin/AdminTrafficPage.jsx'
 import AdminContentPage from '../pages/admin/AdminContentPage.jsx'
 import AdminConsolePage from '../pages/admin/AdminConsolePage.jsx'
 import NotFoundPage from '../pages/NotFoundPage.jsx'
-import PrismCursor from '../components/PrismCursor.jsx'
 import { SiteRuntimeProvider } from './SiteRuntimeContext.jsx'
 import { theme } from './siteData.js'
 import '../styles/app.css'
@@ -31,14 +30,6 @@ function applyTheme(themeConfig) {
   }
 }
 
-function AdminAwareCursor() {
-  const { pathname } = useLocation()
-  if (pathname.startsWith('/admin')) {
-    return null
-  }
-  return <PrismCursor />
-}
-
 export default function App() {
   useEffect(() => {
     applyTheme(theme)
@@ -46,7 +37,6 @@ export default function App() {
 
   return (
     <SiteRuntimeProvider>
-      <AdminAwareCursor />
       <Routes>
         <Route element={<SiteFrame />}>
           <Route path="/" element={<HomePage />} />

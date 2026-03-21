@@ -17,7 +17,8 @@ export default function CheckoutSuccessPage() {
     loading: true,
     error: '',
     amountCents: 0,
-    offerSlug: ''
+    offerSlug: '',
+    legacyPayPal: false
   })
 
   useEffect(() => {
@@ -26,6 +27,27 @@ export default function CheckoutSuccessPage() {
         const provider = searchParams.get('provider')
         const sessionId = searchParams.get('session_id')
         const token = searchParams.get('token')
+        const isLegacyPayPal = searchParams.get('legacy') === '1'
+        const offerSlug = searchParams.get('offer') ?? ''
+
+        if (provider === 'paypal' && isLegacyPayPal) {
+          setState({
+            loading: false,
+            error: '',
+            amountCents: 0,
+            offerSlug,
+            legacyPayPal: true
+          })
+          await trackConversionEvent('checkout_success', {
+            ctaId: 'checkout-success-paypal-legacy',
+            offerSlug,
+            provider: 'paypal',
+            intent: 'purchase'
+          })
+          await refresh()
+          return
+        }
+
         const result =
           provider === 'paypal' && token
             ? await capturePayPalCheckout(token)
@@ -35,7 +57,8 @@ export default function CheckoutSuccessPage() {
           loading: false,
           error: result.completed ? '' : 'Payment is not marked complete yet.',
           amountCents: result.amountCents ?? 0,
-          offerSlug: result.offerSlug ?? ''
+          offerSlug: result.offerSlug ?? '',
+          legacyPayPal: false
         })
         if (result.completed) {
           await trackConversionEvent('checkout_success', {
@@ -51,7 +74,8 @@ export default function CheckoutSuccessPage() {
           loading: false,
           error: error.message,
           amountCents: 0,
-          offerSlug: ''
+          offerSlug: '',
+          legacyPayPal: false
         })
       }
     }
@@ -66,6 +90,10 @@ export default function CheckoutSuccessPage() {
         <h1>{state.loading ? 'Confirming payment...' : state.error ? 'Checkout needs attention' : 'Payment received'}</h1>
         {state.error ? (
           <p className="section-intro">{state.error}</p>
+        ) : state.legacyPayPal ? (
+          <p className="section-intro">
+            Your PayPal checkout was sent through mr.jwswain@gmail.com. We will confirm the payment manually and continue from there.
+          </p>
         ) : (
           <p className="section-intro">
             {state.amountCents > 0 ? `${formatCurrency(state.amountCents / 100)} recorded for ${state.offerSlug || 'your offer'}.` : 'Your payment has been recorded.'}

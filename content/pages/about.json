@@ -1,28 +1,28 @@
 {
   "eyebrow": "About",
-  "headline": "VoiceToWebsite exists to turn intent into execution and revenue momentum",
-  "subheadline": "The brand stays VoiceToWebsite, but the product is being positioned as an AI system manager for structured work, hybrid offers, and operator-grade visibility.",
+  "headline": "myappai exists to turn intent into controlled execution",
+  "subheadline": "The product is built as an AI system manager for operators who want the public funnel, admin console, content system, and deployment flow to feel like one coherent platform.",
   "sections": [
     {
-      "title": "What makes it different",
-      "description": "VoiceToWebsite is not being sold as another generic AI wrapper. It is being built as the operating layer that turns briefs into structured pages, offers, lead flow, and shipped execution."
+      "title": "Why the redesign matters",
+      "description": "A premium operator product should not feel like a pile of unrelated experiments. The new experience is built to feel deliberate, fast, and commercially useful."
     },
     {
-      "title": "How it should grow",
-      "description": "The business should grow through a hybrid close: checkout-first software for recurring revenue, implementation briefs for high-intent services, and enterprise qualification for higher-trust buyers."
+      "title": "How the business works",
+      "description": "Software creates the fast recurring lane, Launch Sprint creates guided implementation revenue, and Enterprise Deployment creates the higher-trust rollout lane."
     },
     {
-      "title": "What success looks like",
-      "description": "A successful VoiceToWebsite becomes the public funnel and operating system teams rely on when they need briefs to become useful, tracked, and repeatable execution."
+      "title": "What makes it credible",
+      "description": "The site shows live offer routing, payment readiness, admin visibility, and deployment context instead of relying on decorative claims."
     }
   ],
   "cta": {
-    "eyebrow": "See the strategy in action",
-    "heading": "The public funnel is now organized around that hybrid business model.",
-    "body": "Explore the solutions, products, pricing, and contact flow to see how VoiceToWebsite routes different buyers toward the right close path.",
-    "primaryLabel": "View pricing",
-    "primaryHref": "/pricing",
-    "secondaryLabel": "Start implementation brief",
-    "secondaryHref": "/contact"
+    "eyebrow": "See the operator model",
+    "heading": "Explore the platform and pricing to see how the commercial and operational layers connect.",
+    "body": "The strongest story comes from the fact that the same system manages the public site, admin commands, and deploy path.",
+    "primaryLabel": "View platform page",
+    "primaryHref": "/platform",
+    "secondaryLabel": "Open pricing",
+    "secondaryHref": "/pricing"
   }
 }

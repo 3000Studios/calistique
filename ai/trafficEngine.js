@@ -21,8 +21,8 @@ function buildCta(topic, funnel) {
       funnel === 'product_comparison'
         ? 'Compare platform offers, capture intent, and route readers into your highest-converting product path.'
         : 'Invite readers into a trial, lead magnet, or admin-driven sales funnel directly from the article.',
-    primaryLabel: 'Try the platform',
-    primaryHref: '/products/platform-studio'
+    primaryLabel: 'Open pricing',
+    primaryHref: '/pricing'
   }
 }
 

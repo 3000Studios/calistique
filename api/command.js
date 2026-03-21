@@ -22,7 +22,8 @@ export async function executeRepositoryCommand(payload) {
   const instruction = await interpretCommand(command)
   const patch = await applyPatch(instruction)
   const deployment = await deployUpdate({
-    commitMessage: instruction.commitMessage
+    commitMessage: instruction.commitMessage,
+    paths: [patch.file]
   })
 
   return {

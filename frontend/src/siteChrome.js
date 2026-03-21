@@ -2,27 +2,26 @@ import { SITE_DOMAIN } from './siteMeta.js'
 
 export const publicNavItems = [
   { label: 'Home', to: '/' },
+  { label: 'Platform', to: '/platform' },
   { label: 'Solutions', to: '/solutions' },
-  { label: 'Products', to: '/products' },
   { label: 'Pricing', to: '/pricing' },
-  { label: 'About', to: '/about' },
   { label: 'Blog', to: '/blog' },
   { label: 'Contact', to: '/contact' },
   { label: 'Admin', to: '/admin' }
 ]
 
 export const publicStatusLines = [
-  'AI SYSTEM MANAGER',
-  'EXECUTION + REVENUE',
+  'BUILD',
+  'AUTOMATE',
+  'DEPLOY',
   SITE_DOMAIN
 ]
 
 export const publicTickerItems = [
-  '// REPO-BACKED CONTENT, OFFERS, AND RELEASE WORKFLOWS',
-  '// OPERATOR OS CLOSES THROUGH CHECKOUT WHEN LIVE PROVIDERS EXIST',
-  '// LAUNCH SPRINT CLOSES THROUGH A LEAD-FORM-FIRST IMPLEMENTATION BRIEF',
-  '// ENTERPRISE DEPLOYMENT STAYS QUALIFICATION-FIRST FOR GOVERNANCE AND ROLLOUT',
-  '// REAL EVENTS, LEADS, PAYMENTS, AND ADMIN VISIBILITY POWER THE TRUST STORY'
+  '// NATURAL LANGUAGE TO WORKFLOW, CONTENT, AND DEPLOYMENT',
+  '// LIVE OFFERS, LEAD CAPTURE, AND ADMIN COMMANDS SHARE ONE REPO',
+  '// PAYPAL CAN ROUTE THROUGH MR.JWSWAIN@GMAIL.COM WHEN DIRECT API KEYS ARE NOT PRESENT',
+  '// CUSTOM GPT OPERATOR NOW TARGETS THE REAL FRONTEND AND CONTENT LAYERS'
 ]
 
 export const adminNavItems = [

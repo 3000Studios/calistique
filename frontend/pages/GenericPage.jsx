@@ -99,14 +99,15 @@ export default function GenericPage() {
   }
 
   return (
-    <div className="stack-xl">
-      <section className="section-card">
+    <div className="stack-2xl">
+      <section className="section-card section-card--hero">
         <span className="eyebrow">{page.eyebrow ?? SITE_DISPLAY_NAME}</span>
         <PrismHeadline text={page.headline ?? page.title ?? slug} />
         <p className="section-intro">{page.subheadline ?? page.intro ?? 'Generated from the repo content layer.'}</p>
       </section>
 
       {page.heroStats ? <MetricStrip items={page.heroStats} /> : null}
+
       {page.steps ? (
         <section className="section-card">
           <span className="eyebrow">{page.stepsEyebrow ?? 'Workflow'}</span>
@@ -122,6 +123,7 @@ export default function GenericPage() {
           </div>
         </section>
       ) : null}
+
       {slug === 'contact' ? (
         <ContactLeadForm
           interestDefault={page.leadForm?.interestDefault ?? 'Launch Sprint'}
@@ -131,8 +133,10 @@ export default function GenericPage() {
           submitLabel={page.leadForm?.submitLabel}
         />
       ) : null}
-      {page.sections ? <RichBlocks items={page.sections} /> : null}
-      {page.items ? <RichBlocks items={page.items} /> : null}
+
+      {page.sections ? <RichBlocks title={page.sectionsHeadline ?? 'What this page covers'} items={page.sections} /> : null}
+      {page.items ? <RichBlocks title={page.itemsHeadline ?? 'Core sections'} items={page.items} /> : null}
+
       {page.tiers ? (
         <section className="card-grid">
           {page.tiers.map((tier) => (
@@ -149,10 +153,18 @@ export default function GenericPage() {
           ))}
         </section>
       ) : null}
+
       {slug === 'pricing' && snapshot?.commerce?.offers?.length ? (
         <section className="section-card">
-          <span className="eyebrow">Checkout</span>
-          <h2>Accept live payments from the offers page</h2>
+          <div className="section-heading">
+            <div>
+              <span className="eyebrow">Live checkout</span>
+              <h2>Payment buttons reflect real provider readiness.</h2>
+              <p className="section-intro">
+                If Stripe is configured it appears. If PayPal API credentials are missing, PayPal can still route through mr.jwswain@gmail.com.
+              </p>
+            </div>
+          </div>
           <div className="card-grid">
             {snapshot.commerce.offers.map((offer) => (
               <OfferCheckoutCard key={offer.slug} offer={offer} />
@@ -160,10 +172,11 @@ export default function GenericPage() {
           </div>
         </section>
       ) : null}
+
       {page.faq ? (
         <section className="section-card">
           <span className="eyebrow">FAQ</span>
-          <h2>{page.faqHeadline ?? 'Questions buyers usually ask before they commit'}</h2>
+          <h2>{page.faqHeadline ?? 'Questions before you commit'}</h2>
           <div className="card-grid card-grid--compact">
             {page.faq.map((entry) => (
               <article key={entry.question} className="content-card">
@@ -174,6 +187,7 @@ export default function GenericPage() {
           </div>
         </section>
       ) : null}
+
       {page.cta ? (
         <section className="section-card cta-band">
           <div>

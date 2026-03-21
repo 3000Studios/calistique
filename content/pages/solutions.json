@@ -1,66 +1,66 @@
 {
   "eyebrow": "Solutions",
-  "headline": "Design the business around execution, not generic AI claims",
-  "subheadline": "The strongest version of VoiceToWebsite is a platform that helps people plan, route, and ship meaningful work while moving buyers into the right revenue lane.",
+  "headline": "Use one operator system for launch, implementation, and governed deployment",
+  "subheadline": "myappai is designed for teams that want fewer handoffs between strategy, content, operations, payment routing, and deployment execution.",
   "heroStats": [
     {
       "label": "Positioning",
-      "value": "AI System Manager"
+      "value": "AI system manager"
     },
     {
-      "label": "Core value",
-      "value": "Prompt -> approved work"
+      "label": "Core outcome",
+      "value": "Prompt to approved work"
     },
     {
-      "label": "Revenue path",
+      "label": "Primary lanes",
       "value": "Software + Services + Enterprise"
     }
   ],
-  "stepsEyebrow": "Buying journey",
-  "stepsHeadline": "A clean path from first impression to paid engagement",
+  "stepsEyebrow": "Operating model",
+  "stepsHeadline": "A better route from initial interest to shipped execution",
   "steps": [
     {
-      "title": "Educate",
-      "description": "Use the homepage and blog to explain what VoiceToWebsite does and why execution matters more than generic AI novelty."
+      "title": "Clarify the commercial path",
+      "description": "The site now makes checkout, implementation, and enterprise qualification visibly distinct."
     },
     {
-      "title": "Segment",
-      "description": "Use solutions and pricing pages to help founders, agencies, and technical teams understand which offer fits them."
+      "title": "Use the right operating surface",
+      "description": "Public pages handle demand and conversion while admin handles commands, deploys, and content control."
     },
     {
-      "title": "Convert",
-      "description": "Move buyers into the right product lane: subscription, launch sprint, or enterprise deployment."
+      "title": "Keep deploy state visible",
+      "description": "The release layer stays part of the system story instead of a hidden operational afterthought."
     }
   ],
   "sections": [
     {
-      "title": "For founders",
-      "description": "Use one operating system to clarify the offer, publish the pages, and keep revenue moves happening without a bloated stack."
+      "title": "For founder-led products",
+      "description": "Create a tighter path from offer idea to live page, payment lane, and deploy-ready execution."
     },
     {
-      "title": "For agencies",
-      "description": "Turn repeated delivery into productized workflows, implementation offers, and cleaner handoff between sales and execution."
+      "title": "For agencies and service teams",
+      "description": "Use guided implementation to qualify work, package delivery, and support faster launches."
     },
     {
-      "title": "For technical teams",
-      "description": "Keep more control over generated work with repo-backed execution, payment-aware offers, and release-aware operations."
+      "title": "For technical and enterprise teams",
+      "description": "Keep the repo-backed workflow, admin visibility, and enterprise deployment lane ready for more complex rollout requirements."
     }
   ],
   "faq": [
     {
-      "question": "Why not sell every possible AI use case?",
-      "answer": "Because a focused promise converts better. Execution, workflow, and system management create a more believable and valuable market position."
+      "question": "Why is the buying model split into multiple lanes?",
+      "answer": "Because not every serious buyer wants the same path. Some want immediate software access, some want guided implementation, and some need a qualified rollout process."
     },
     {
-      "question": "Which page matters most for conversion?",
-      "answer": "The homepage matters most first, but pricing and product pages usually determine whether serious buyers take the next step."
+      "question": "Why does deployment matter on a marketing site?",
+      "answer": "Because the public trust story is stronger when the same system that sells the work can also manage the release path."
     }
   ],
   "cta": {
-    "eyebrow": "Move to offers",
-    "heading": "Use the product pages and pricing to convert the right buyers into the right lane.",
-    "body": "Positioning opens the conversation, but checkout-first software and lead-form-first services are what make the business move.",
-    "primaryLabel": "Review pricing",
+    "eyebrow": "See the commercial model",
+    "heading": "Use pricing and products to move into the lane that fits your buying style.",
+    "body": "The redesign is built to remove confusion between product interest, implementation interest, and enterprise interest.",
+    "primaryLabel": "Open pricing",
     "primaryHref": "/pricing",
     "secondaryLabel": "Open products",
     "secondaryHref": "/products"

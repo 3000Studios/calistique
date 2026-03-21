@@ -2,9 +2,9 @@ import { recordDeployment } from '../../server/services/deploymentService.js'
 import { recordDeploymentActivity } from '../../server/services/analyticsService.js'
 import { commitAndPush, getRecentCommits } from '../../server/services/gitService.js'
 
-export async function deploySite({ message = 'AI update' } = {}) {
+export async function deploySite({ message = 'AI update', paths = [] } = {}) {
   const startedAt = new Date().toISOString()
-  const gitResult = await commitAndPush(message)
+  const gitResult = await commitAndPush(message, paths)
   const commits = await getRecentCommits(3)
   const deployment = {
     id: `deploy-${Date.now()}`,

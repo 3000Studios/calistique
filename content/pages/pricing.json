@@ -1,117 +1,117 @@
 {
   "eyebrow": "Pricing",
-  "headline": "Choose the buying lane that matches how you want to move",
-  "subheadline": "VoiceToWebsite closes best when software buyers can check out fast, implementation buyers can submit a strong brief, and enterprise buyers can qualify scope before commitment.",
+  "headline": "Choose the lane that matches how you want to buy and deploy",
+  "subheadline": "The pricing system is now designed to route software buyers into checkout quickly, service buyers into implementation briefs, and enterprise buyers into qualified rollout review.",
   "heroStats": [
     {
-      "label": "Primary software lane",
+      "label": "Software lane",
       "value": "Operator OS"
     },
     {
-      "label": "Primary service lane",
+      "label": "Service lane",
       "value": "Launch Sprint"
     },
     {
       "label": "Enterprise lane",
-      "value": "Qualification first"
+      "value": "Qualified deployment"
     }
   ],
   "stepsEyebrow": "How to choose",
-  "stepsHeadline": "Use pricing to route yourself into the right next step",
+  "stepsHeadline": "Each lane is built for a different buying style",
   "steps": [
     {
       "title": "Buy Operator OS",
-      "description": "Choose this lane if you already know the product fits and you want the direct software offer."
+      "description": "Best when you are ready for direct software access and a clean product-led path."
     },
     {
       "title": "Submit Launch Sprint",
-      "description": "Choose this lane if you want guidance, setup, and faster activation before you scale self-serve usage."
+      "description": "Best when you want premium setup help, faster activation, and guided implementation."
     },
     {
-      "title": "Qualify Enterprise",
-      "description": "Choose this lane if governance, hosting, rollout, or custom scope needs review before commercial commitment."
+      "title": "Scope Enterprise Deployment",
+      "description": "Best when rollout, governance, hosting, or approvals need to be reviewed first."
     }
   ],
   "tiers": [
     {
       "name": "Starter",
       "price": "$0",
-      "description": "A lightweight entry point for exploring the platform, planning workflows, and validating fit.",
+      "description": "Explore the system architecture and evaluate the workflow before moving deeper.",
       "features": [
-        "Core planning and positioning framework",
-        "Limited project and page management",
-        "Good for internal evaluation"
+        "Platform overview",
+        "Basic planning structure",
+        "Good for internal review"
       ]
     },
     {
-      "name": "Operator",
+      "name": "Operator OS",
       "price": "$99/mo",
-      "description": "The core software offer for founders and small teams running marketing, delivery, and internal operations.",
+      "description": "The core recurring software offer for teams that want the command center itself.",
       "featured": true,
       "features": [
-        "AI-managed command routing",
-        "Project, page, and workflow execution",
-        "Content and deployment operations",
-        "Designed for recurring software revenue"
+        "Operator-grade public and admin surfaces",
+        "Command routing and content control",
+        "Payment and deployment visibility",
+        "Fastest route to recurring value"
       ]
     },
     {
       "name": "Launch Sprint",
       "price": "$2,500+",
-      "description": "A done-with-you setup package for businesses that want a fast implementation instead of a blank dashboard.",
+      "description": "A done-with-you implementation package for teams that want the first system built with them.",
       "features": [
-        "Offer, funnel, and workflow setup",
-        "Priority implementation guidance",
-        "A faster path to first revenue outcome"
+        "Offer and funnel setup",
+        "High-touch workflow implementation",
+        "Faster path to launch-ready operations"
       ]
     },
     {
-      "name": "Enterprise",
+      "name": "Enterprise Deployment",
       "price": "Custom",
-      "description": "For teams that need self-hosting, governance, onboarding, and deeper operational support.",
+      "description": "For teams that need governed rollout, deployment support, and custom operational scope.",
       "features": [
-        "Self-hosted deployment path",
-        "Security and control review",
-        "Support, customization, and rollout planning"
+        "Deployment and governance review",
+        "Self-hosted or controlled rollout path",
+        "Custom support and enterprise planning"
       ]
     }
   ],
   "sections": [
     {
-      "eyebrow": "Self-serve",
-      "title": "Operator OS is the checkout-first offer",
-      "description": "This lane is optimized for recurring software revenue and should be the fastest path from conviction to payment."
+      "eyebrow": "Payments",
+      "title": "Checkout only appears when the route is truly available",
+      "description": "If Stripe is ready it appears. If PayPal API credentials are absent, PayPal can still route through mr.jwswain@gmail.com."
     },
     {
       "eyebrow": "Implementation",
-      "title": "Launch Sprint is the lead-form-first offer",
-      "description": "This lane is optimized for buyers who need help before they are ready to operate the platform on their own."
+      "title": "Lead-form-first keeps premium work scoped properly",
+      "description": "Launch Sprint is for buyers who need an expert-guided setup path instead of a blank dashboard."
     },
     {
-      "eyebrow": "Qualification",
-      "title": "Enterprise is the review-first offer",
-      "description": "This lane is optimized for buyers who care about governance, hosting, approvals, and rollout certainty."
+      "eyebrow": "Enterprise",
+      "title": "Qualification-first protects larger deployment conversations",
+      "description": "Enterprise buyers should not be forced into a low-context checkout path that ignores rollout requirements."
     }
   ],
   "faqHeadline": "Pricing questions",
   "faq": [
     {
-      "question": "Why mix subscriptions and services?",
-      "answer": "Because services create early cash flow and implementation success, while subscriptions create recurring revenue and scale over time."
+      "question": "Can I still use PayPal if the full PayPal API setup is not live?",
+      "answer": "Yes. The system now supports a PayPal email routing fallback through mr.jwswain@gmail.com."
     },
     {
-      "question": "Should the free plan be generous?",
-      "answer": "It should be useful enough to create trust, but limited enough that serious buyers naturally move into Operator or Launch Sprint."
+      "question": "Why keep services and enterprise next to software?",
+      "answer": "Because they support different buyer needs and make the overall business more resilient, premium, and believable."
     }
   ],
   "cta": {
     "eyebrow": "Best next move",
-    "heading": "Use pricing to choose between checkout, implementation, and qualification.",
-    "body": "The page should help buyers commit faster because each lane is matched to a real buying style instead of forcing every visitor into the same close path.",
+    "heading": "Use pricing to move into the right commercial lane without wasting time.",
+    "body": "The redesigned pricing page is meant to speed up decision-making, not create more navigation overhead.",
     "primaryLabel": "Start implementation brief",
     "primaryHref": "/contact",
     "secondaryLabel": "See products",
     "secondaryHref": "/products"
   },
-  "updatedAt": "2026-03-20T00:00:00.000Z"
+  "updatedAt": "2026-03-21T00:00:00.000Z"
 }

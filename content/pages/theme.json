@@ -1,23 +1,21 @@
 {
-  "name": "VoiceToWebsite",
+  "name": "Brass Operator",
   "palette": {
-    "bg": "#08111f",
-    "canvas": "#08111f",
-    "surface": "rgba(255,255,255,0.78)",
-    "surface-strong": "rgba(10,24,43,0.78)",
-    "ink": "#e5eefb",
-    "chrome": "#f8fafc",
-    "muted": "rgba(226,232,240,0.75)",
-    "accent": "#ff7a18",
-    "highlight": "#3dd9b4",
-    "prism-1": "#ff7a18",
-    "prism-2": "#3dd9b4",
-    "prism-3": "#38bdf8",
-    "line": "rgba(148,163,184,0.22)"
+    "bg": "#0b1117",
+    "chrome": "#f5efe5",
+    "surface": "rgba(16, 24, 35, 0.78)",
+    "surface-strong": "rgba(11, 17, 24, 0.92)",
+    "panel": "rgba(20, 31, 43, 0.86)",
+    "ink": "#f7f1e8",
+    "muted": "rgba(224, 220, 210, 0.74)",
+    "line": "rgba(212, 174, 111, 0.18)",
+    "prism-1": "#cf8c45",
+    "prism-2": "#8dd6c9",
+    "prism-3": "#6f9ec6"
   },
   "motion": {
-    "hero": "orbital-rise",
-    "sections": "signal-slide"
+    "hero": "stagger-rise",
+    "sections": "soft-slide"
   },
-  "updatedAt": "2026-03-20T00:00:00.000Z"
+  "updatedAt": "2026-03-21T00:00:00.000Z"
 }

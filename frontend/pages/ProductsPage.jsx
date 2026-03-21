@@ -10,11 +10,11 @@ import { SITE_DISPLAY_NAME } from '../src/siteMeta.js'
 function formatCloseMode(closeMode) {
   switch (closeMode) {
     case 'checkout':
-      return 'Checkout first'
+      return 'Direct checkout'
     case 'lead':
-      return 'Lead form first'
+      return 'Guided implementation'
     case 'qualification':
-      return 'Qualification first'
+      return 'Qualified rollout'
     default:
       return 'Guided close'
   }
@@ -24,18 +24,17 @@ export default function ProductsPage() {
   const { snapshot } = useSiteRuntime()
   const runtimeMetrics = [
     { label: 'Live offers', value: String(snapshot?.commerce?.offers?.length ?? productCatalog.length) },
-    { label: 'Checkout-ready offers', value: String(snapshot?.proof?.checkoutReadyOffers ?? 0) },
-    { label: 'Contact mode', value: snapshot?.funnel?.contactMode === 'lead_form' ? 'Lead form first' : 'Direct booking' }
+    { label: 'Checkout-ready lanes', value: String(snapshot?.proof?.checkoutReadyOffers ?? 0) },
+    { label: 'Payment routing', value: snapshot?.proof?.configuredPaymentProviders?.length ? snapshot.proof.configuredPaymentProviders.join(' + ') : 'PayPal email redirect' }
   ]
 
   return (
-    <div className="stack-xl">
-      <section className="section-card">
-        <span className="eyebrow">Productized revenue</span>
+    <div className="stack-2xl">
+      <section className="section-card section-card--hero">
+        <span className="eyebrow">Offers</span>
         <PrismHeadline text={`Ways to buy ${SITE_DISPLAY_NAME}`} />
         <p className="section-intro">
-          The strongest business here is a hybrid close: checkout-first software, lead-form-first implementation,
-          and qualification-first enterprise rollout.
+          The commercial model is now cleaner: checkout when the buyer is ready, implementation when they need help, and enterprise review when rollout needs governance.
         </p>
       </section>
 
@@ -43,7 +42,7 @@ export default function ProductsPage() {
 
       <section className="card-grid">
         {productCatalog.map((product) => (
-          <article key={product.slug} className="content-card">
+          <article key={product.slug} className="content-card product-card">
             <span className="meta-line">{product.priceAnchor}</span>
             <h2>{product.name}</h2>
             <p>{product.summary}</p>
@@ -75,10 +74,10 @@ export default function ProductsPage() {
 
       <section className="section-card cta-band">
         <div>
-          <span className="eyebrow">Need the shortest path?</span>
-          <h2>Go straight to pricing if you are self-serve, or submit a brief if you want guidance.</h2>
+          <span className="eyebrow">Fastest path</span>
+          <h2>Start with pricing if you already know the fit, or start with contact if you want guidance.</h2>
           <p className="section-intro">
-            Operator OS is built to close quickly, while Launch Sprint and Enterprise are built to protect fit before follow-up.
+            The whole redesign is built to reduce the amount of dead-end navigation between conviction and action.
           </p>
         </div>
         <div className="hero__actions">

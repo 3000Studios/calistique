@@ -139,13 +139,14 @@ export function validateCommand(input) {
   }
 }
 
-async function maybeDeploy(command, fallbackMessage) {
+async function maybeDeploy(command, fallbackMessage, paths = []) {
   if (!command.autoDeploy) {
     return null
   }
 
   return deploySite({
-    message: command.message ?? fallbackMessage
+    message: command.message ?? fallbackMessage,
+    paths
   })
 }
 
@@ -157,18 +158,18 @@ export async function routeCommand(input) {
     case 'create_page': {
       const generated = await generateLandingPage(command)
       const page = await createPage(command.page, generated.payload)
-      const deployment = await maybeDeploy(command, `AI create page: ${command.page}`)
+      const deployment = await maybeDeploy(command, `AI create page: ${command.page}`, [page.filePath])
       return { success: true, action: command.action, model: generated.model, provider: generated.provider, page, deployment }
     }
     case 'update_content': {
       const page = await updatePageContent(command.page, command.field, command.value)
-      const deployment = await maybeDeploy(command, `AI update content: ${command.page}.${command.field}`)
+      const deployment = await maybeDeploy(command, `AI update content: ${command.page}.${command.field}`, [page.filePath])
       return { success: true, action: command.action, page, deployment }
     }
     case 'create_blog_post': {
       const generated = await generateBlogPost(command)
       const post = await saveBlogPost(generated.payload)
-      const deployment = await maybeDeploy(command, `AI blog: ${generated.payload.title ?? command.topic}`)
+      const deployment = await maybeDeploy(command, `AI blog: ${generated.payload.title ?? command.topic}`, [post.filePath, 'content/blog/index.json'])
       return { success: true, action: command.action, model: generated.model, provider: generated.provider, post, deployment }
     }
     case 'generate_images': {
@@ -187,13 +188,13 @@ export async function routeCommand(input) {
     }
     case 'update_theme': {
       const theme = await updateTheme(command.theme)
-      const deployment = await maybeDeploy(command, 'AI theme update')
+      const deployment = await maybeDeploy(command, 'AI theme update', [theme.filePath])
       return { success: true, action: command.action, theme, deployment }
     }
     case 'generate_feature_section': {
       const generated = await generateFeatureSection(command)
       const featurePage = await upsertFeatureSection(generated.payload)
-      const deployment = await maybeDeploy(command, `AI feature section: ${command.product}`)
+      const deployment = await maybeDeploy(command, `AI feature section: ${command.product}`, [featurePage.filePath])
       return {
         success: true,
         action: command.action,
@@ -205,7 +206,7 @@ export async function routeCommand(input) {
     }
     case 'edit_workspace_file': {
       const file = await editWorkspaceFile(command)
-      const deployment = await maybeDeploy(command, `AI workspace edit: ${command.targetPath}`)
+      const deployment = await maybeDeploy(command, `AI workspace edit: ${command.targetPath}`, [file.filePath])
       return { success: true, action: command.action, file, deployment }
     }
     case 'run_traffic_cycle': {

@@ -5,6 +5,15 @@ import { repoRoot } from './platformPaths.js'
 const execFileAsync = promisify(execFile)
 const DEFAULT_BASE_BRANCH = process.env.GH_BASE_BRANCH?.trim() || 'main'
 
+function normalizePathSpec(targetPath) {
+  return String(targetPath ?? '').replaceAll('\\', '/').trim()
+}
+
+function buildStatusArgs(paths = []) {
+  const normalizedPaths = paths.map(normalizePathSpec).filter(Boolean)
+  return normalizedPaths.length ? ['status', '--short', '--', ...normalizedPaths] : ['status', '--short']
+}
+
 async function runGit(args, { allowFailure = false } = {}) {
   try {
     return await execFileAsync('git', args, {
@@ -55,8 +64,10 @@ export async function getRecentCommits(limit = 5) {
     })
 }
 
-export async function commitAndPush(commitMessage) {
-  const status = await getGitStatus()
+export async function commitAndPush(commitMessage, paths = []) {
+  const normalizedPaths = [...new Set(paths.map(normalizePathSpec).filter(Boolean))]
+  const { stdout: statusOutput } = await runGit(buildStatusArgs(normalizedPaths))
+  const status = statusOutput.trim()
   const branch = DEFAULT_BASE_BRANCH || (await getCurrentBranch())
 
   if (!status) {
@@ -67,9 +78,16 @@ export async function commitAndPush(commitMessage) {
     }
   }
 
-  await runGit(['add', '.'])
+  if (normalizedPaths.length) {
+    await runGit(['add', '--', ...normalizedPaths])
+  } else {
+    await runGit(['add', '.'])
+  }
 
-  const commitResult = await runGit(['commit', '-m', commitMessage], { allowFailure: true })
+  const commitArgs = normalizedPaths.length
+    ? ['commit', '--only', '-m', commitMessage, '--', ...normalizedPaths]
+    : ['commit', '-m', commitMessage]
+  const commitResult = await runGit(commitArgs, { allowFailure: true })
   const pushResult = await runGit(['push', 'origin', `HEAD:${branch}`], { allowFailure: true })
 
   return {

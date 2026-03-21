@@ -13,13 +13,17 @@ const defaultCommand = JSON.stringify(
   null,
   2
 )
+const defaultPrompt =
+  'Refresh the homepage messaging so it emphasizes automation, deployment, and premium operator workflow design.'
 
 const AdminDashboardContext = createContext(null)
 
 export function AdminDashboardProvider({ children }) {
   const navigate = useNavigate()
   const [adminSession] = useState(() => getAdminSession())
+  const [consoleMode, setConsoleMode] = useState('prompt')
   const [commandText, setCommandText] = useState(defaultCommand)
+  const [naturalLanguagePrompt, setNaturalLanguagePrompt] = useState(defaultPrompt)
   const [analytics, setAnalytics] = useState(null)
   const [deployments, setDeployments] = useState(null)
   const [contentBundle, setContentBundle] = useState(null)
@@ -64,7 +68,18 @@ export function AdminDashboardProvider({ children }) {
     try {
       setError('')
       setCommandBusy(true)
-      const result = await sendCommand(adminSession, JSON.parse(commandText))
+      const payload =
+        consoleMode === 'json'
+          ? JSON.parse(commandText)
+          : {
+              command: naturalLanguagePrompt.trim()
+            }
+
+      if (consoleMode !== 'json' && !payload.command) {
+        throw new Error('Enter a prompt for the custom GPT operator.')
+      }
+
+      const result = await sendCommand(adminSession, payload)
       setLastResult(result)
       await refreshDashboard(adminSession)
     } catch (runError) {
@@ -72,7 +87,7 @@ export function AdminDashboardProvider({ children }) {
     } finally {
       setCommandBusy(false)
     }
-  }, [adminSession, commandText, refreshDashboard])
+  }, [adminSession, commandText, consoleMode, naturalLanguagePrompt, refreshDashboard])
 
   const handleSaveFile = useCallback(
     async (targetPath, contents) => {
@@ -181,8 +196,12 @@ export function AdminDashboardProvider({ children }) {
     () => ({
       adminSession,
       initialLoadDone,
+      consoleMode,
+      setConsoleMode,
       commandText,
       setCommandText,
+      naturalLanguagePrompt,
+      setNaturalLanguagePrompt,
       analytics,
       deployments,
       contentBundle,
@@ -206,7 +225,9 @@ export function AdminDashboardProvider({ children }) {
     [
       adminSession,
       initialLoadDone,
+      consoleMode,
       commandText,
+      naturalLanguagePrompt,
       analytics,
       deployments,
       contentBundle,

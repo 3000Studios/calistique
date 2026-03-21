@@ -5,6 +5,7 @@ const DEFAULT_PAYMENTS = {
   payments: [],
   updatedAt: null
 }
+const DEFAULT_PAYPAL_EMAIL = 'mr.jwswain@gmail.com'
 
 function nowIso() {
   return new Date().toISOString()
@@ -49,6 +50,11 @@ function hasPayPalCredentials() {
   )
 }
 
+function getPayPalBusinessEmail() {
+  const email = String(process.env.PAYPAL_EMAIL ?? DEFAULT_PAYPAL_EMAIL).trim()
+  return email.includes('@') ? email : ''
+}
+
 async function getProductMap() {
   const bundle = await getContentBundle()
   return Object.fromEntries(
@@ -82,12 +88,15 @@ function getStripeConfig(slug, product) {
   }
 }
 
-function getPayPalConfig(slug) {
+function getPayPalConfig(slug, product = {}) {
   const suffix = slugToEnvSuffix(slug)
-  const amountCents = parseAmountToCents(process.env[`PAYPAL_PRICE_${suffix}_USD`])
+  const amountCents =
+    parseAmountToCents(process.env[`PAYPAL_PRICE_${suffix}_USD`]) ??
+    parseAmountToCents(product.priceAnchor)
 
   return {
-    amountCents
+    amountCents,
+    businessEmail: getPayPalBusinessEmail()
   }
 }
 
@@ -145,7 +154,7 @@ export async function getCommerceSnapshot() {
 
   const offers = Object.values(productLookup).map((product) => {
     const stripeConfig = getStripeConfig(product.slug, product)
-    const paypalConfig = getPayPalConfig(product.slug)
+    const paypalConfig = getPayPalConfig(product.slug, product)
     const closeMode =
       product.closeMode ??
       (product.slug === 'operator-os'
@@ -177,7 +186,7 @@ export async function getCommerceSnapshot() {
             : '/contact',
       providers: {
         stripe: Boolean(stripeConfig.paymentLink || (stripeClient && stripeConfig.priceId)),
-        paypal: Boolean(hasPayPalCredentials() && paypalConfig.amountCents)
+        paypal: Boolean((hasPayPalCredentials() || paypalConfig.businessEmail) && paypalConfig.amountCents)
       }
     }
   })
@@ -190,7 +199,7 @@ export async function getCommerceSnapshot() {
     },
     providers: {
       stripe: Boolean(stripeClient),
-      paypal: hasPayPalCredentials()
+      paypal: Boolean(hasPayPalCredentials() || getPayPalBusinessEmail())
     },
     updatedAt: nowIso()
   }
@@ -302,10 +311,42 @@ async function getPayPalAccessToken() {
 
 export async function createPayPalCheckout({ slug, origin }) {
   const product = await getProduct(slug)
-  const paypalConfig = getPayPalConfig(slug)
+  const paypalConfig = getPayPalConfig(slug, product)
 
   if (!paypalConfig.amountCents) {
     throw new Error('PayPal checkout is not configured for this offer.')
+  }
+
+  if (!hasPayPalCredentials()) {
+    if (!paypalConfig.businessEmail) {
+      throw new Error('PayPal checkout is not configured for this offer.')
+    }
+
+    const returnUrl = new URL(`${origin}/checkout/success`)
+    returnUrl.searchParams.set('provider', 'paypal')
+    returnUrl.searchParams.set('offer', slug)
+    returnUrl.searchParams.set('legacy', '1')
+
+    const cancelUrl = new URL(`${origin}/checkout/cancel`)
+    cancelUrl.searchParams.set('provider', 'paypal')
+    cancelUrl.searchParams.set('offer', slug)
+
+    const paypalUrl = new URL('https://www.paypal.com/cgi-bin/webscr')
+    paypalUrl.searchParams.set('cmd', '_xclick')
+    paypalUrl.searchParams.set('business', paypalConfig.businessEmail)
+    paypalUrl.searchParams.set('item_name', product.name)
+    paypalUrl.searchParams.set('amount', (paypalConfig.amountCents / 100).toFixed(2))
+    paypalUrl.searchParams.set('currency_code', 'USD')
+    paypalUrl.searchParams.set('return', returnUrl.toString())
+    paypalUrl.searchParams.set('cancel_return', cancelUrl.toString())
+    paypalUrl.searchParams.set('charset', 'UTF-8')
+
+    return {
+      url: paypalUrl.toString(),
+      provider: 'paypal',
+      mode: 'email_redirect',
+      businessEmail: paypalConfig.businessEmail
+    }
   }
 
   const accessToken = await getPayPalAccessToken()
@@ -330,7 +371,7 @@ export async function createPayPalCheckout({ slug, origin }) {
       payment_source: {
         paypal: {
           experience_context: {
-            brand_name: 'VoiceToWebsite',
+            brand_name: 'myappai',
             user_action: 'PAY_NOW',
             return_url: `${origin}/checkout/success?provider=paypal`,
             cancel_url: `${origin}/checkout/cancel?provider=paypal&offer=${slug}`

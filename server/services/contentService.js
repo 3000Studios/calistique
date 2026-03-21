@@ -42,7 +42,7 @@ const DEFAULT_FILES = {
       ],
       updatedAt: '2026-03-14T00:00:00.000Z'
     },
-    'features.json': {
+    'platform.json': {
       headline: 'Five systems, one platform',
       intro:
         'The repository now acts as an AI control plane, content engine, deployment surface, and public website.',
@@ -158,33 +158,33 @@ const DEFAULT_FILES = {
     'catalog.json': {
       products: [
         {
-          slug: 'platform-studio',
-          name: 'Platform Studio',
+          slug: 'operator-os',
+          name: 'Operator OS',
           summary:
-            'A command-driven website builder for teams that want content generation, media sourcing, and deploy automation inside one repo.',
-          outcome: 'Launch product pages and campaigns from structured commands.',
-          priceAnchor: '$79 / month'
+            'A premium software lane for teams that want command routing, content control, and deployment visibility in one product.',
+          outcome: 'Move from ad-hoc experimentation into a durable operating layer.',
+          priceAnchor: '$99 / month'
         },
         {
-          slug: 'deploy-ops',
-          name: 'Deploy Ops',
+          slug: 'launch-sprint',
+          name: 'Launch Sprint',
           summary:
-            'A deployment monitor that tracks content changes, commit history, and Cloudflare rebuild expectations.',
-          outcome: 'Move from ad-hoc publishing to predictable AI-assisted releases.',
-          priceAnchor: '$199 / month'
+            'A guided implementation lane for teams that want the first system built with them instead of handed over cold.',
+          outcome: 'Create premium service revenue and faster product activation.',
+          priceAnchor: '$2,500+'
         }
       ]
     },
-    'platform-studio.json': {
-      slug: 'platform-studio',
-      name: 'Platform Studio',
-      headline: 'Run your marketing site like an AI-operated product',
+    'operator-os.json': {
+      slug: 'operator-os',
+      name: 'Operator OS',
+      headline: 'Run your launch and deploy workflow from one operator system',
       description:
-        'Platform Studio combines local-model task routing, content generation, media sourcing, and git deployment orchestration in one repository.',
+        'Operator OS combines command routing, content control, payment readiness, and deploy visibility in one premium software lane.',
       bullets: [
-        'Create landing pages from structured JSON commands',
-        'Generate feature sections tied to product messaging',
-        'Push updates directly into a Cloudflare-ready build flow'
+        'Create and update live pages from structured commands',
+        'Keep the public funnel and admin console aligned',
+        'Push updates into a deploy-ready workflow'
       ]
     }
   },
@@ -228,12 +228,6 @@ const DEFAULT_FILES = {
       updatedAt: null
     }
   }
-}
-
-const LEGACY_MIRROR_MAP = {
-  homepage: path.join(contentRoot, 'homepage.json'),
-  features: path.join(contentRoot, 'features.json'),
-  pricing: path.join(contentRoot, 'pricing.json')
 }
 
 function normalize(value) {
@@ -336,15 +330,6 @@ async function ensureDefaultFiles() {
   }
 }
 
-async function writeLegacyMirror(slug, payload) {
-  const legacyPath = LEGACY_MIRROR_MAP[slug]
-  if (!legacyPath) {
-    return
-  }
-
-  await writeJson(legacyPath, payload)
-}
-
 async function listJsonDirectory(directory) {
   await ensureDirectory(directory)
 
@@ -431,7 +416,6 @@ export async function createPage(pageName, pagePayload) {
   })
 
   await writeJson(filePath, nextPage)
-  await writeLegacyMirror(slug, nextPage)
 
   return {
     slug,
@@ -450,7 +434,6 @@ export async function updatePageContent(pageName, field, value) {
   page.updatedAt = nowIso()
 
   await writeJson(filePath, page)
-  await writeLegacyMirror(slug, page)
 
   return {
     slug,
@@ -493,8 +476,8 @@ export async function saveBlogPost(postPayload) {
 
 export async function upsertFeatureSection(featureSection) {
   await bootstrapContent()
-  const filePath = path.join(pagesRoot, 'features.json')
-  const featurePage = await readJson(filePath, DEFAULT_FILES.pages['features.json'])
+  const filePath = path.join(pagesRoot, 'platform.json')
+  const featurePage = await readJson(filePath, DEFAULT_FILES.pages['platform.json'])
   const nextItem = {
     slug: slugify(featureSection.slug ?? featureSection.title ?? featureSection.product ?? `feature-${Date.now()}`),
     ...featureSection
@@ -507,7 +490,6 @@ export async function upsertFeatureSection(featureSection) {
   featurePage.updatedAt = nowIso()
 
   await writeJson(filePath, featurePage)
-  await writeLegacyMirror('features', featurePage)
 
   return {
     slug: nextItem.slug,

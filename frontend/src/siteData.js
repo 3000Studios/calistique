@@ -13,17 +13,17 @@ const products = fromModules(import.meta.glob('../../content/products/*.json', {
 
 export const theme = pages.theme ?? {
   palette: {
-    canvas: '#0d1021',
-    surface: '#151a35',
-    ink: '#f7f2e8',
-    accent: '#ff8a3d',
-    highlight: '#5be7c4',
-    line: '#2b335f'
+    bg: '#0c1117',
+    surface: '#101823',
+    ink: '#f3efe6',
+    accent: '#c88b4a',
+    highlight: '#8fe0cf',
+    line: '#233040'
   }
 }
 
 export const homepage = pages.homepage ?? { sections: [], heroStats: [] }
-export const featurePage = pages.features ?? { items: [] }
+export const platformPage = pages.platform ?? pages.features ?? { items: [] }
 export const pricingPage = pages.pricing ?? { tiers: [] }
 export const pageLookup = pages
 export const blogIndex = blog.index ?? { posts: [] }

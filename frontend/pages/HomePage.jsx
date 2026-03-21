@@ -1,6 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
+import AIConciergePanel from '../components/AIConciergePanel.jsx'
 import MetricStrip from '../components/MetricStrip.jsx'
 import OfferCheckoutCard from '../components/OfferCheckoutCard.jsx'
 import PrismHeadline from '../components/PrismHeadline.jsx'
@@ -8,7 +9,7 @@ import RichBlocks from '../components/RichBlocks.jsx'
 import { fadeUp, staggerParent } from '../animations/variants.js'
 import { useSiteRuntime } from '../src/SiteRuntimeContext.jsx'
 import { trackCtaClick } from '../src/siteApi.js'
-import { featurePage, homepage, productCatalog } from '../src/siteData.js'
+import { homepage, platformPage, productCatalog } from '../src/siteData.js'
 
 const OFFER_ORDER = {
   'operator-os': 0,
@@ -36,45 +37,7 @@ function formatDate(value) {
 }
 
 function formatProviders(providers = []) {
-  if (!providers.length) {
-    return 'No live payment providers configured yet'
-  }
-
-  return providers.map((provider) => provider.toUpperCase()).join(' + ')
-}
-
-function buildProofCards(snapshot) {
-  const analytics = snapshot?.analytics ?? {}
-  const proof = snapshot?.proof ?? {}
-  const contentCounts = proof.contentCounts ?? {}
-  const deployment = proof.latestDeployment
-
-  return [
-    {
-      eyebrow: 'Live funnel data',
-      title: 'Visitors, leads, and revenue are derived from recorded system files',
-      description: 'The site only reports what the repo-backed event, lead, and payment documents can prove right now.',
-      outcome: `${analytics.visitors ?? 0} visitors · ${analytics.leads ?? 0} leads · ${formatCurrency(analytics.revenue ?? 0)} revenue`
-    },
-    {
-      eyebrow: 'Payment readiness',
-      title: 'Checkout only appears when a real provider is configured',
-      description: 'Operator OS can go straight into live checkout, while service and enterprise offers keep the safer lead or qualification path.',
-      outcome: `${proof.checkoutReadyOffers ?? 0} checkout-ready offers · ${formatProviders(proof.configuredPaymentProviders)}`
-    },
-    {
-      eyebrow: 'Operational proof',
-      title: 'The content, admin, and model surfaces are part of the same running system',
-      description: 'What buyers see on the public funnel is backed by the same repo, admin queue, and runtime that operators use internally.',
-      outcome: `${contentCounts.pages ?? 0} pages · ${contentCounts.blog ?? 0} posts · ${contentCounts.products ?? 0} products · ${proof.modelsOnline ?? 0} models online`
-    },
-    {
-      eyebrow: 'Release visibility',
-      title: 'Deployments stay visible instead of becoming unverifiable claims',
-      description: 'The trust layer is stronger when release history and system readiness can be inspected from the runtime snapshot.',
-      outcome: deployment ? `${deployment.status} · ${formatDate(deployment.finishedAt)}` : 'No deployment recorded yet'
-    }
-  ]
+  return providers.length ? providers.map((provider) => provider.toUpperCase()).join(' + ') : 'PayPal email redirect'
 }
 
 function handleCtaClick(ctaId, intent, offerSlug = '') {
@@ -87,40 +50,46 @@ function handleCtaClick(ctaId, intent, offerSlug = '') {
 
 export default function HomePage() {
   const { snapshot } = useSiteRuntime()
-  const proofCards = buildProofCards(snapshot)
-  const runtimeSignals = [
-    {
-      label: 'Configured payments',
-      value: formatProviders(snapshot?.proof?.configuredPaymentProviders)
-    },
-    {
-      label: 'Checkout-ready offers',
-      value: String(snapshot?.proof?.checkoutReadyOffers ?? 0)
-    },
-    {
-      label: 'Contact close mode',
-      value: snapshot?.funnel?.contactMode === 'lead_form' ? 'Lead form first' : 'Direct booking'
-    },
-    {
-      label: 'Latest deployment',
-      value: snapshot?.proof?.latestDeployment
-        ? `${snapshot.proof.latestDeployment.status} · ${formatDate(snapshot.proof.latestDeployment.finishedAt)}`
-        : 'No deployment recorded yet'
-    }
-  ]
   const liveOffers = [...(snapshot?.commerce?.offers ?? [])].sort(
     (left, right) => (OFFER_ORDER[left.slug] ?? 99) - (OFFER_ORDER[right.slug] ?? 99)
   )
-  const liveMetrics = [
+  const latestDeployment = snapshot?.proof?.latestDeployment
+  const runtimeMetrics = [
     { label: 'Visitors tracked', value: String(snapshot?.analytics?.visitors ?? 0) },
     { label: 'Leads captured', value: String(snapshot?.analytics?.leads ?? 0) },
-    { label: 'Payments closed', value: String(snapshot?.analytics?.purchases ?? 0) },
-    { label: 'Revenue recorded', value: formatCurrency(snapshot?.analytics?.revenue ?? 0) }
+    { label: 'Purchases recorded', value: String(snapshot?.analytics?.purchases ?? 0) },
+    { label: 'Revenue tracked', value: formatCurrency(snapshot?.analytics?.revenue ?? 0) }
+  ]
+  const operationsBoard = [
+    {
+      eyebrow: 'Payments',
+      title: 'Checkout stays visible and honest',
+      description: 'Stripe and PayPal only light up when the routing is actually available, including the PayPal email fallback.',
+      outcome: formatProviders(snapshot?.proof?.configuredPaymentProviders)
+    },
+    {
+      eyebrow: 'Deployment',
+      title: 'Release status is part of the product story',
+      description: 'Builds, git pushes, and operator actions stay observable instead of becoming vague promises.',
+      outcome: latestDeployment ? `${latestDeployment.status} · ${formatDate(latestDeployment.finishedAt)}` : 'No deployment recorded yet'
+    },
+    {
+      eyebrow: 'Offers',
+      title: 'Three commercial lanes, one coherent system',
+      description: 'Software, implementation, and enterprise deployment all map to distinct close paths in the same UI.',
+      outcome: `${liveOffers.length || productCatalog.length} active offers`
+    }
+  ]
+  const commandExamples = [
+    'Refresh the homepage story for a new offer',
+    'Trigger a deploy from the admin operator console',
+    'Route a buyer from pricing into implementation',
+    'Use the custom GPT concierge to answer buying questions'
   ]
 
   return (
-    <div className="stack-xl">
-      <motion.section className="hero" variants={staggerParent} initial="hidden" animate="visible">
+    <div className="stack-2xl">
+      <motion.section className="hero hero--executive" variants={staggerParent} initial="hidden" animate="visible">
         <motion.div className="hero__copy" variants={fadeUp}>
           <span className="eyebrow">{homepage.eyebrow}</span>
           <PrismHeadline text={homepage.headline} />
@@ -136,38 +105,90 @@ export default function HomePage() {
             <Link
               className="button button--primary"
               to={homepage.primaryCta.to}
-              onClick={() => handleCtaClick('home-primary-pricing', 'purchase', 'operator-os')}
+              onClick={() => handleCtaClick('home-pricing', 'purchase', 'operator-os')}
             >
               {homepage.primaryCta.label}
             </Link>
             <Link
               className="button button--ghost"
               to={homepage.secondaryCta.to}
-              onClick={() => handleCtaClick('home-secondary-contact', 'implementation', 'launch-sprint')}
+              onClick={() => handleCtaClick('home-contact', 'implementation', 'launch-sprint')}
             >
               {homepage.secondaryCta.label}
             </Link>
           </div>
         </motion.div>
-        <motion.aside className="hero__panel" variants={fadeUp}>
-          <span className="panel-kicker">Revenue model</span>
+
+        <motion.aside className="hero__panel hero__panel--dashboard" variants={fadeUp}>
+          <span className="panel-kicker">Operator board</span>
           <h2>{homepage.heroPanel.heading}</h2>
           <p>{homepage.heroPanel.body}</p>
-          <div className="stack-sm hero__signals">
+          <div className="board-list">
             {homepage.heroPanel.points.map((point) => (
-              <div key={point.label} className="commit-row">
+              <article key={point.label} className="board-card">
                 <strong>{point.label}</strong>
-                <span>{point.value}</span>
-              </div>
+                <p>{point.value}</p>
+              </article>
+            ))}
+          </div>
+          <div className="command-strip">
+            {commandExamples.map((example) => (
+              <span key={example} className="command-chip">
+                {example}
+              </span>
             ))}
           </div>
         </motion.aside>
       </motion.section>
 
-      <MetricStrip items={liveMetrics} />
+      <MetricStrip items={runtimeMetrics} />
 
       <section className="section-card">
-        <span className="eyebrow">How it works</span>
+        <div className="section-heading">
+          <div>
+            <span className="eyebrow">What changed</span>
+            <h2>One cleaner product story now runs the site, admin console, payments, and deployment lane.</h2>
+            <p className="section-intro">
+              The experience is intentionally more premium, faster to scan, and easier to act on whether you are buying, operating, or shipping.
+            </p>
+          </div>
+        </div>
+        <div className="card-grid card-grid--compact">
+          {operationsBoard.map((item) => (
+            <article key={item.title} className="content-card">
+              <span className="meta-line">{item.eyebrow}</span>
+              <h3>{item.title}</h3>
+              <p>{item.description}</p>
+              <p className="content-card__outcome">{item.outcome}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <AIConciergePanel />
+
+      <section className="section-card">
+        <div className="section-heading">
+          <div>
+            <span className="eyebrow">Commercial lanes</span>
+            <h2>Buy the way you actually want to buy.</h2>
+            <p className="section-intro">
+              Every route is explicit: direct checkout for software, guided implementation for setup-heavy work, and qualification first for enterprise rollout.
+            </p>
+          </div>
+          <Link className="button button--ghost" to="/products">
+            View all offers
+          </Link>
+        </div>
+        <div className="card-grid">
+          {liveOffers.map((offer) => (
+            <OfferCheckoutCard key={offer.slug} offer={offer} />
+          ))}
+        </div>
+      </section>
+
+      <section className="section-card">
+        <span className="eyebrow">Execution stack</span>
         <h2>{homepage.workflowHeadline}</h2>
         <div className="card-grid card-grid--compact">
           {homepage.workflowSteps.map((step, index) => (
@@ -180,120 +201,9 @@ export default function HomePage() {
         </div>
       </section>
 
-      <RichBlocks title="Choose the buying lane" intro={homepage.buyerPathsIntro} items={homepage.buyerPaths} />
-
-      <section className="section-card">
-        <span className="eyebrow">Proof of value</span>
-        <h2>{homepage.proofHeadline}</h2>
-        <div className="card-grid card-grid--compact">
-          {proofCards.map((item) => (
-            <article key={item.title} className="content-card">
-              <span className="meta-line">{item.eyebrow}</span>
-              <h3>{item.title}</h3>
-              <p>{item.description}</p>
-              <p className="content-card__outcome">{item.outcome}</p>
-            </article>
-          ))}
-        </div>
-      </section>
-
-      {liveOffers.length ? (
-        <section className="section-card">
-          <div className="section-heading">
-            <div>
-              <span className="eyebrow">Live revenue lanes</span>
-              <h2>Let each offer close the way it should</h2>
-              <p className="section-intro">
-                Operator OS stays checkout-first, Launch Sprint stays lead-form-first, and Enterprise stays qualification-first. The buttons only reflect real provider readiness and real routing paths.
-              </p>
-            </div>
-            <Link
-              className="button button--ghost"
-              to="/pricing"
-              onClick={() => handleCtaClick('home-live-offers-pricing', 'purchase')}
-            >
-              Open pricing
-            </Link>
-          </div>
-          <div className="card-grid">
-            {liveOffers.map((offer) => (
-              <OfferCheckoutCard key={offer.slug} offer={offer} />
-            ))}
-          </div>
-        </section>
-      ) : (
-        <section className="section-card">
-          <span className="eyebrow">Revenue lanes</span>
-          <h2>Offer routing is active even before checkout providers are configured</h2>
-          <p className="section-intro">
-            Buyers can still move into the right path through pricing, product pages, and the implementation brief while payment providers remain unconfigured.
-          </p>
-        </section>
-      )}
-
-      <RichBlocks title={homepage.whyNowHeadline} items={homepage.whyNowCards} />
-      <RichBlocks title="Offer outcomes" intro={homepage.productsIntro} items={productCatalog} />
-      <RichBlocks title={featurePage.headline} intro={featurePage.intro} items={featurePage.items} />
-      <RichBlocks title="Who it is built for" intro={homepage.audienceIntro} items={homepage.audiences} />
-
-      <section className="section-card">
-        <div className="section-heading">
-          <div>
-            <span className="eyebrow">{homepage.founderStory.eyebrow}</span>
-            <h2>{homepage.founderStory.heading}</h2>
-            <p className="section-intro">{homepage.founderStory.body}</p>
-          </div>
-        </div>
-        <div className="card-grid">
-          <article className="content-card">
-            <span className="meta-line">What exists today</span>
-            <h3>Trust comes from the system that is already running</h3>
-            <ul className="bullet-list">
-              {homepage.founderStory.points.map((point) => (
-                <li key={point}>{point}</li>
-              ))}
-            </ul>
-          </article>
-          <article className="content-card">
-            <span className="meta-line">Runtime proof</span>
-            <h3>Signals the product can show right now</h3>
-            <div className="stack-sm">
-              {runtimeSignals.map((signal) => (
-                <div key={signal.label} className="commit-row">
-                  <strong>{signal.label}</strong>
-                  <span>{signal.value}</span>
-                </div>
-              ))}
-            </div>
-          </article>
-        </div>
-      </section>
-
-      <section className="section-card">
-        <span className="eyebrow">Objection handling</span>
-        <h2>{homepage.objectionHeadline}</h2>
-        <div className="card-grid card-grid--compact">
-          {homepage.objections.map((item) => (
-            <article key={item.question} className="content-card">
-              <h3>{item.question}</h3>
-              <p>{item.answer}</p>
-            </article>
-          ))}
-        </div>
-      </section>
-
-      <section className="section-card">
-        <span className="eyebrow">Frequently asked</span>
-        <h2>{homepage.faqHeadline}</h2>
-        <div className="card-grid card-grid--compact">
-          {homepage.faq.map((item) => (
-            <article key={item.question} className="content-card">
-              <h3>{item.question}</h3>
-              <p>{item.answer}</p>
-            </article>
-          ))}
-        </div>
-      </section>
+      <RichBlocks title="Platform capabilities" intro={platformPage.intro} items={platformPage.items} />
+      <RichBlocks title="Who this is for" intro={homepage.audienceIntro} items={homepage.audiences} />
+      <RichBlocks title="Why teams move now" intro={homepage.buyerPathsIntro} items={homepage.buyerPaths} />
 
       <section className="section-card cta-band">
         <div>

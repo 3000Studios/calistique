@@ -3,9 +3,9 @@
     {
       "slug": "operator-os",
       "name": "Operator OS",
-      "summary": "The checkout-first recurring software offer for teams that want an AI-managed system for execution, automation, and release workflows.",
-      "idealFor": "Founders, small teams, and technical operators",
-      "outcome": "Create subscription revenue from a product that helps work actually get shipped.",
+      "summary": "The premium software lane for teams that want the command center, content workflow, payment routing, and deployment visibility in one product.",
+      "idealFor": "Founders, operators, and technical teams",
+      "outcome": "Move from prompt-driven experimentation into a durable operating layer.",
       "priceAnchor": "$99 / month",
       "ctaLabel": "View offer",
       "ctaHref": "/products/operator-os"
@@ -13,9 +13,9 @@
     {
       "slug": "launch-sprint",
       "name": "Launch Sprint",
-      "summary": "A lead-form-first implementation package that sets up messaging, pages, workflows, and the first operating system for delivery.",
-      "idealFor": "Buyers who want speed over self-setup",
-      "outcome": "Generate service revenue while increasing product adoption and customer success.",
+      "summary": "A guided implementation package for teams that want the first system built with them instead of handed over cold.",
+      "idealFor": "Buyers who want speed with expert setup",
+      "outcome": "Create service revenue while improving product activation and trust.",
       "priceAnchor": "$2,500+",
       "ctaLabel": "View offer",
       "ctaHref": "/products/launch-sprint"
@@ -23,9 +23,9 @@
     {
       "slug": "enterprise-deployment",
       "name": "Enterprise Deployment",
-      "summary": "A qualification-first self-hosted and customization path for organizations that need governance, control, and rollout support.",
-      "idealFor": "Internal platform teams and compliance-sensitive buyers",
-      "outcome": "Create larger contracts with lower churn and deeper integration.",
+      "summary": "A qualified rollout path for organizations that need governance, deployment review, customization, and deeper support.",
+      "idealFor": "Platform teams and compliance-sensitive buyers",
+      "outcome": "Create higher-value rollout engagements with stronger long-term fit.",
       "priceAnchor": "Custom",
       "ctaLabel": "View offer",
       "ctaHref": "/products/enterprise-deployment"

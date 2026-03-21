@@ -12,16 +12,16 @@ export default function BlogPostPage() {
   }
 
   return (
-    <article className="stack-xl">
+    <article className="stack-2xl">
       <section className="section-card article-hero">
         <span className="meta-line">{post.publishedAt}</span>
         <PrismHeadline text={post.title} />
         <p className="section-intro">{post.excerpt}</p>
       </section>
 
-      <section className="stack-lg">
+      <section className="stack-xl article-stack">
         {post.sections.map((section) => (
-          <div key={section.heading} className="article-section">
+          <div key={section.heading} className="article-section section-card">
             <h2>{section.heading}</h2>
             <p>{section.body}</p>
           </div>

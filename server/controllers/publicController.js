@@ -5,6 +5,7 @@ import {
   getCommerceSnapshot,
   verifyStripeCheckoutSession
 } from '../services/commerceService.js'
+import { answerPublicAssistant } from '../services/assistantService.js'
 import { getAnalyticsSnapshot, recordLead, recordSiteEvent } from '../services/analyticsService.js'
 import { getDeploymentHistory } from '../services/deploymentService.js'
 import { SITE_CATEGORY, SITE_DISPLAY_NAME, SITE_URL } from '../../frontend/src/siteMeta.js'
@@ -95,6 +96,18 @@ export async function postLeadCapture(request, response, next) {
       ok: true,
       lead
     })
+  } catch (error) {
+    next(error)
+  }
+}
+
+export async function postAssistantMessage(request, response, next) {
+  try {
+    const assistant = await answerPublicAssistant({
+      message: request.body?.message,
+      history: request.body?.history
+    })
+    response.json(assistant)
   } catch (error) {
     next(error)
   }

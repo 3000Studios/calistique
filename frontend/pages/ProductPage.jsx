@@ -11,7 +11,7 @@ import { productLookup } from '../src/siteData.js'
 function formatCloseMode(closeMode) {
   switch (closeMode) {
     case 'checkout':
-      return 'Checkout first'
+      return 'Direct checkout'
     case 'lead':
       return 'Lead form first'
     case 'qualification':
@@ -33,8 +33,8 @@ export default function ProductPage() {
   }
 
   return (
-    <div className="stack-xl">
-      <section className="section-card">
+    <div className="stack-2xl">
+      <section className="section-card section-card--hero product-hero">
         <span className="eyebrow">{product.eyebrow ?? 'Offer'}</span>
         <PrismHeadline text={product.headline ?? product.name} />
         <p className="section-intro">{product.description ?? product.summary}</p>
@@ -45,42 +45,60 @@ export default function ProductPage() {
         </div>
       </section>
 
-      {closeMode === 'checkout' && liveOffer ? <OfferCheckoutCard offer={liveOffer} /> : null}
-      {closeMode !== 'checkout' ? (
-        <ContactLeadForm
-          interestDefault={product.name}
-          ctaId={`${slug}-brief-form`}
-          heading={product.leadForm?.heading ?? `Start the ${product.name} brief`}
-          intro={product.leadForm?.intro ?? 'Use this form to describe the outcome, timeline, and implementation details before the next step is scoped.'}
-          submitLabel={product.leadForm?.submitLabel ?? `Submit ${product.name} brief`}
-        />
-      ) : null}
+      <section className="detail-grid">
+        <div className="stack-xl">
+          {closeMode === 'checkout' && liveOffer ? <OfferCheckoutCard offer={liveOffer} /> : null}
+          {closeMode !== 'checkout' ? (
+            <ContactLeadForm
+              interestDefault={product.name}
+              ctaId={`${slug}-brief-form`}
+              heading={product.leadForm?.heading ?? `Start the ${product.name} brief`}
+              intro={product.leadForm?.intro ?? 'Use this form to describe the outcome, timeline, and implementation details before the next step is scoped.'}
+              submitLabel={product.leadForm?.submitLabel ?? `Submit ${product.name} brief`}
+            />
+          ) : null}
 
-      {product.bullets ? (
-        <section className="section-card">
-          <h2>What it unlocks</h2>
-          <ul className="bullet-list">
-            {product.bullets.map((bullet) => (
-              <li key={bullet}>{bullet}</li>
+          {product.bullets ? (
+            <section className="section-card">
+              <h2>What it unlocks</h2>
+              <ul className="bullet-list">
+                {product.bullets.map((bullet) => (
+                  <li key={bullet}>{bullet}</li>
+                ))}
+              </ul>
+            </section>
+          ) : null}
+
+          {product.proofPoints ? (
+            <RichBlocks
+              title="Proof and readiness"
+              intro="This offer earns trust through observable capability, runtime visibility, and a close path that matches the buyer."
+              items={product.proofPoints}
+            />
+          ) : null}
+        </div>
+
+        <aside className="section-card detail-sidebar">
+          <span className="eyebrow">Offer architecture</span>
+          <h2>How this lane is meant to work</h2>
+          <div className="stack-sm">
+            {(product.sections ?? []).map((section) => (
+              <article key={section.title} className="board-card">
+                <strong>{section.title}</strong>
+                <p>{section.description}</p>
+              </article>
             ))}
-          </ul>
-        </section>
-      ) : null}
+          </div>
+        </aside>
+      </section>
 
-      {product.proofPoints ? (
-        <RichBlocks
-          title="Proof and readiness"
-          intro="This offer earns trust through observable product capability, runtime signals, and the close path it is designed to use."
-          items={product.proofPoints}
-        />
-      ) : null}
       {product.deliverables ? <RichBlocks title="Deliverables" items={product.deliverables} /> : null}
       {product.qualificationChecks ? <RichBlocks title="Qualification checks" items={product.qualificationChecks} /> : null}
-      {product.sections ? <RichBlocks title="Included in the offer" items={product.sections} /> : null}
+
       {product.timeline ? (
         <section className="section-card">
           <span className="eyebrow">Timeline</span>
-          <h2>How this path moves from interest to execution</h2>
+          <h2>From interest to shipped work</h2>
           <div className="card-grid card-grid--compact">
             {product.timeline.map((step, index) => (
               <article key={step.title} className="content-card content-card--step">

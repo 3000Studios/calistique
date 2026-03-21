@@ -1,0 +1,52 @@
+{
+  "slug": "operator-os",
+  "name": "Operator OS",
+  "headline": "Use Operator OS as the premium software lane at the center of the business",
+  "priceAnchor": "$99 / month",
+  "idealFor": "Best for founder-led teams, operators, and technical buyers",
+  "closeMode": "checkout",
+  "description": "Operator OS is the clearest recurring offer inside myappai. It combines the public funnel, admin workflow, content system, and deploy visibility into one command-centered product.",
+  "bullets": [
+    "Manage pages, offers, and workflow execution from one system",
+    "Use natural language or direct commands to shape the live app",
+    "Keep payment and deployment visibility in the same operator surface"
+  ],
+  "proofPoints": [
+    {
+      "eyebrow": "Real capability",
+      "title": "The custom GPT operator now targets the real live app",
+      "description": "Natural-language edits are scoped to the actual frontend and content layers that power production."
+    },
+    {
+      "eyebrow": "Real visibility",
+      "title": "Payments, leads, and deployments stay connected",
+      "description": "The runtime keeps the commercial and operational layers visible instead of splitting them into disconnected tools."
+    },
+    {
+      "eyebrow": "Real close path",
+      "title": "Checkout-first when providers are ready",
+      "description": "Operator OS is designed for a fast purchase path with Stripe or PayPal routing when configured."
+    }
+  ],
+  "sections": [
+    {
+      "title": "Command-centered operations",
+      "description": "Use the same system to manage offers, content, and admin actions."
+    },
+    {
+      "title": "Premium public-to-admin workflow",
+      "description": "The redesign aligns the public site and operator console so the product feels coherent end to end."
+    },
+    {
+      "title": "Expansion path",
+      "description": "Operator OS creates the strongest entry point into implementation help, team usage, and enterprise deployment."
+    }
+  ],
+  "cta": {
+    "eyebrow": "Recommended path",
+    "heading": "Lead with Operator OS when the buyer is ready to move now.",
+    "body": "This is the shortest path from trust to recurring value because the offer, UI, and deploy story are aligned.",
+    "primaryLabel": "Open pricing and checkout",
+    "primaryHref": "/pricing"
+  }
+}

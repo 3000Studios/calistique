@@ -1,79 +1,79 @@
 {
   "slug": "launch-sprint",
   "name": "Launch Sprint",
-  "headline": "Use a high-touch offer to create early cash flow and faster customer wins",
+  "headline": "Use a guided setup lane to create cash flow and faster activation",
   "priceAnchor": "$2,500+",
-  "idealFor": "Best for buyers who want implementation, not just software access",
+  "idealFor": "Best for buyers who want implementation before self-serve",
   "closeMode": "lead",
-  "description": "Launch Sprint is the practical bridge between product ambition and paid outcomes. It packages setup, strategy, implementation, and workflow creation into a fast-start offer.",
+  "description": "Launch Sprint bridges product promise and paid execution. It packages setup, positioning, workflow implementation, and first-launch delivery into a tighter premium service lane.",
   "bullets": [
-    "Set up core pages, messaging, and the first workflow system",
-    "Reduce time to value for new customers",
-    "Create premium service revenue while the software matures"
+    "Stand up the first public funnel, messaging, and workflow system",
+    "Reduce time to value for buyers who need more than software access",
+    "Create premium service revenue while improving long-term product adoption"
   ],
   "deliverables": [
     {
-      "title": "Offer and messaging setup",
-      "description": "Clarify the promise, buyer lane, and page structure so the funnel can convert with more confidence."
+      "title": "Offer and funnel setup",
+      "description": "Clarify the buyer lane, page structure, and conversion path before the build work starts."
     },
     {
       "title": "Implementation mapping",
-      "description": "Translate the work into launch assets, workflows, and operating structure instead of leaving the buyer with a blank dashboard."
+      "description": "Translate the work into live pages, workflows, and operator structure instead of leaving the buyer with theory."
     },
     {
-      "title": "Operator handoff",
-      "description": "Leave the buyer with a more usable system and a cleaner path into recurring software usage."
+      "title": "Activation handoff",
+      "description": "Leave the buyer with a stronger system and a cleaner path into software usage."
     }
   ],
   "timeline": [
     {
       "title": "Scope the brief",
-      "description": "Collect the business goal, offer, pages, and workflow outcomes that matter most."
+      "description": "Collect the commercial, operational, and launch outcomes that matter most."
     },
     {
-      "title": "Build the launch layer",
-      "description": "Stand up the first message, page, and operating structure inside the VoiceToWebsite system."
+      "title": "Build the first layer",
+      "description": "Stand up the first public pages, routing logic, and workflow system."
     },
     {
-      "title": "Hand off the next move",
-      "description": "Leave the buyer with a clearer software path, stronger proof, and a better foundation for follow-on work."
+      "title": "Prepare the next move",
+      "description": "Hand off a cleaner software path, stronger proof, and a better operating baseline."
     }
   ],
   "proofPoints": [
     {
       "eyebrow": "Fast activation",
       "title": "Lead-form-first by design",
-      "description": "This offer closes best when the buyer can explain the job to be done before commercial scope is finalized."
+      "description": "This lane closes best when the buyer can explain the actual job to be done before scope is finalized."
     },
     {
-      "eyebrow": "Cash flow",
-      "title": "Implementation revenue now, software expansion later",
-      "description": "Launch Sprint creates immediate revenue while improving the odds that the buyer becomes a stronger long-term software customer."
+      "eyebrow": "Commercial logic",
+      "title": "Implementation now, software expansion later",
+      "description": "Launch Sprint creates immediate revenue while strengthening the product path that follows."
     }
   ],
   "sections": [
     {
       "title": "Done-with-you setup",
-      "description": "Guide the buyer through positioning, offer design, workflow mapping, and execution structure."
+      "description": "Guide the buyer through positioning, offer structure, workflow mapping, and execution."
     },
     {
       "title": "Faster activation",
-      "description": "A guided sprint lowers friction for customers who would otherwise stall out after signup."
+      "description": "A guided sprint lowers friction for teams that would otherwise stall during setup."
     },
     {
-      "title": "Stronger customer outcomes",
-      "description": "Better implementation creates better retention, testimonials, and expansion opportunities."
+      "title": "Stronger downstream retention",
+      "description": "Better implementation raises the odds of long-term product usage and deeper service work."
     }
   ],
   "leadForm": {
     "heading": "Submit the implementation brief for Launch Sprint",
-    "intro": "Use this form to describe the outcome, pages, workflows, and timeline you want help with before moving into a scoped implementation conversation.",
+    "intro": "Describe the launch goals, workflow needs, and delivery constraints so the sprint can be scoped properly.",
     "submitLabel": "Submit Launch Sprint brief"
   },
   "cta": {
     "eyebrow": "Fastest route to value",
-    "heading": "Sell Launch Sprint when the buyer needs traction before self-serve.",
-    "body": "This offer should qualify through a strong brief first, then move into scoped implementation without pretending every buyer is ready for direct checkout.",
+    "heading": "Use Launch Sprint when the buyer wants the system built with them.",
+    "body": "This lane is for high-intent buyers who want speed, clarity, and less guesswork before they self-serve.",
     "primaryLabel": "Start the brief",
     "primaryHref": "/contact"
   }

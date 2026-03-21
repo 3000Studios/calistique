@@ -3,7 +3,7 @@ import path from 'node:path'
 import OpenAI from 'openai'
 import { repoRoot } from '../server/services/platformPaths.js'
 
-const ALLOWED_EDIT_ROOTS = ['dashboard', 'public', 'styles', 'components']
+const ALLOWED_EDIT_PREFIXES = ['frontend', 'content/pages', 'content/products', 'content/blog']
 const TEXT_EXTENSIONS = new Set(['.html', '.css', '.js', '.ts', '.tsx', '.jsx', '.md', '.txt', '.json'])
 const MAX_FILE_CONTEXT_CHARS = 12000
 const MAX_TOTAL_CONTEXT_CHARS = 40000
@@ -68,11 +68,15 @@ async function getEditableFileContext() {
     totalChars: 0
   }
 
-  for (const root of ALLOWED_EDIT_ROOTS) {
-    await collectFileContexts(root, bucket)
+  for (const prefix of ALLOWED_EDIT_PREFIXES) {
+    await collectFileContexts(prefix, bucket)
   }
 
   return bucket.files
+}
+
+function isAllowedEditablePath(filePath) {
+  return ALLOWED_EDIT_PREFIXES.some((prefix) => filePath === prefix || filePath.startsWith(`${prefix}/`))
 }
 
 function validateInstruction(instruction) {
@@ -92,8 +96,13 @@ function validateInstruction(instruction) {
     }
   }
 
+  const normalizedFile = instruction.file.trim().replaceAll('\\', '/').replace(/^\/+/, '')
+  if (!isAllowedEditablePath(normalizedFile)) {
+    throw new Error(`AI interpreter can only edit: ${ALLOWED_EDIT_PREFIXES.join(', ')}.`)
+  }
+
   return {
-    file: instruction.file.trim(),
+    file: normalizedFile,
     action: instruction.action.trim(),
     target: instruction.target,
     value: instruction.value,
@@ -125,7 +134,7 @@ export async function interpretCommand(command) {
 
 Return JSON only.
 
-Allowed roots: ${ALLOWED_EDIT_ROOTS.join(', ')}.
+Allowed editable areas: ${ALLOWED_EDIT_PREFIXES.join(', ')}.
 Allowed actions: replace_text, insert_before, insert_after, append_text.
 Forbidden targets: .env files, secrets, GitHub workflows, deployment credentials, server code, API code, shell commands.
 Only produce a single-file edit.
@@ -133,7 +142,7 @@ Use exact target text copied from the supplied file snapshots.
 
 Respond with:
 {
-  "file": "dashboard/index.html",
+  "file": "frontend/pages/HomePage.jsx",
   "action": "replace_text",
   "target": "exact existing text",
   "value": "replacement text",

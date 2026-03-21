@@ -141,7 +141,7 @@ function getSeoForPath(pathname) {
     const page = pageLookup.homepage
     return {
       ...base,
-      title: `${SITE_DISPLAY_NAME} | Voice to website delivery with AI-managed execution`,
+      title: `${SITE_DISPLAY_NAME} | Premium AI operator for build, automate, and deploy`,
       description: page?.subheadline ?? SITE_DEFAULT_DESCRIPTION,
       faqSchema: buildFaqSchema(page?.faq)
     }
@@ -161,7 +161,7 @@ function getSeoForPath(pathname) {
     return {
       ...base,
       title: `Products | ${SITE_DISPLAY_NAME}`,
-      description: 'Compare Operator OS, Launch Sprint, and Enterprise Deployment based on how you want to buy and ship.',
+      description: 'Compare Operator OS, Launch Sprint, and Enterprise Deployment based on how you want to buy, launch, and deploy.',
       schema: {
         '@context': 'https://schema.org',
         '@type': 'CollectionPage',
@@ -187,7 +187,7 @@ function getSeoForPath(pathname) {
     return {
       ...base,
       title: `Blog | ${SITE_DISPLAY_NAME}`,
-      description: 'Strategy, execution, and productized service insights for turning briefs into live revenue systems.'
+      description: 'Strategy, execution, deployment, and productized service insights for turning briefs into live systems.'
     }
   }
 

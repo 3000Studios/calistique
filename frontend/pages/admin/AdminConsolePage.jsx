@@ -4,7 +4,17 @@ import CommandConsole from '../../components/admin/CommandConsole.jsx'
 import { useAdminDashboard } from '../../context/AdminDashboardContext.jsx'
 
 export default function AdminConsolePage() {
-  const { commandText, setCommandText, handleRunCommand, commandBusy, lastResult } = useAdminDashboard()
+  const {
+    consoleMode,
+    setConsoleMode,
+    commandText,
+    setCommandText,
+    naturalLanguagePrompt,
+    setNaturalLanguagePrompt,
+    handleRunCommand,
+    commandBusy,
+    lastResult
+  } = useAdminDashboard()
 
   return (
     <div className="admin-section stack-lg">
@@ -12,12 +22,16 @@ export default function AdminConsolePage() {
         <span className="eyebrow">AI console</span>
         <PrismHeadline text="Command router" />
         <p className="section-intro">
-          Run JSON actions against the platform: content generation, images, deploys, and automation.
+          Run natural-language or JSON actions against the live platform for content changes, deploys, and automation.
         </p>
       </div>
       <CommandConsole
+        consoleMode={consoleMode}
+        onConsoleModeChange={setConsoleMode}
         commandText={commandText}
         onCommandTextChange={setCommandText}
+        naturalLanguagePrompt={naturalLanguagePrompt}
+        onNaturalLanguagePromptChange={setNaturalLanguagePrompt}
         onRunCommand={handleRunCommand}
         busy={commandBusy}
         lastResult={lastResult}

@@ -2,7 +2,7 @@ import fs from 'node:fs/promises'
 import path from 'node:path'
 import { repoRoot } from '../server/services/platformPaths.js'
 
-const ALLOWED_EDIT_ROOTS = new Set(['dashboard', 'public', 'styles', 'components'])
+const ALLOWED_EDIT_PREFIXES = ['frontend', 'content/pages', 'content/products', 'content/blog']
 const DISALLOWED_SEGMENTS = new Set(['.git', '.github', 'node_modules', 'server', 'api'])
 const SUPPORTED_ACTIONS = new Set(['replace_text', 'insert_before', 'insert_after', 'append_text'])
 
@@ -13,10 +13,9 @@ function normalizeRelativePath(filePath) {
 function assertAllowedFile(filePath) {
   const normalizedPath = normalizeRelativePath(filePath)
   const segments = normalizedPath.split('/')
-  const root = segments[0]
 
-  if (!ALLOWED_EDIT_ROOTS.has(root)) {
-    throw new Error(`Edits are limited to: ${[...ALLOWED_EDIT_ROOTS].join(', ')}.`)
+  if (!ALLOWED_EDIT_PREFIXES.some((prefix) => normalizedPath === prefix || normalizedPath.startsWith(`${prefix}/`))) {
+    throw new Error(`Edits are limited to: ${ALLOWED_EDIT_PREFIXES.join(', ')}.`)
   }
 
   if (segments.some((segment) => DISALLOWED_SEGMENTS.has(segment))) {

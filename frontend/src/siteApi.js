@@ -89,6 +89,16 @@ export function submitLead(lead) {
   })
 }
 
+export function askPublicAssistant(message, history = []) {
+  return request('/api/public/assistant', {
+    method: 'POST',
+    body: {
+      message,
+      history
+    }
+  })
+}
+
 export function startStripeCheckout(offerSlug) {
   return request('/api/public/checkout/stripe', {
     method: 'POST',

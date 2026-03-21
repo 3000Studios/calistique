@@ -34,6 +34,11 @@ export default function OfferCheckoutCard({ offer }) {
       <span className="meta-line">{offer.priceAnchor}</span>
       <h3>{offer.name}</h3>
       <p>{offer.summary}</p>
+      <div className="tag-row">
+        <span className="tag">{offer.closeMode}</span>
+        {offer.providers.stripe ? <span className="tag">Stripe</span> : null}
+        {offer.providers.paypal ? <span className="tag">PayPal</span> : null}
+      </div>
       {offer.idealFor ? <p className="content-card__outcome">{offer.idealFor}</p> : null}
       <div className="checkout-actions">
         {offer.closeMode === 'checkout' && offer.providers.stripe ? (
@@ -84,6 +89,9 @@ export default function OfferCheckoutCard({ offer }) {
       </div>
       {offer.closeMode === 'checkout' && !offer.providers.stripe && !offer.providers.paypal ? (
         <p className="field-note">Live checkout activates automatically when real Stripe or PayPal configuration is present. Until then, use the product page and lead flow.</p>
+      ) : null}
+      {offer.closeMode === 'checkout' && offer.providers.paypal ? (
+        <p className="field-note">PayPal can route through mr.jwswain@gmail.com when direct API credentials are not configured.</p>
       ) : null}
       {offer.closeMode === 'lead' ? (
         <p className="field-note">This offer closes best through an implementation brief, then optionally through instant checkout if the live provider is configured.</p>
