@@ -3,6 +3,7 @@ import { bootstrapContent, getContentBundle } from '../server/services/contentSe
 import { getAnalyticsSnapshot } from '../server/services/analyticsService.js'
 import { resolveModelRoute } from '../ai/router/modelRouter.js'
 import { previewTrafficTopics } from '../ai/trafficEngine.js'
+import { runSystemManager } from '../engine/systemManager.js'
 
 await bootstrapContent()
 
@@ -15,6 +16,16 @@ const command = validateCommand({
 })
 const modelRoute = await resolveModelRoute({ action: 'create_blog_post' })
 const discovery = await previewTrafficTopics({ limit: 3 })
+const systemManager = await runSystemManager({
+  mode: 'single',
+  tasks: [
+    {
+      action: 'discover_topics',
+      seedTopics: ['AI automation'],
+      limit: 2
+    }
+  ]
+})
 
 console.log(
   JSON.stringify(
@@ -34,7 +45,8 @@ console.log(
         discoveredTopics: discovery.topics.length
       },
       sampleCommand: command,
-      modelRoute
+      modelRoute,
+      systemManagerSummary: systemManager.summary
     },
     null,
     2
