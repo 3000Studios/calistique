@@ -5,6 +5,7 @@ import MetricStrip from '../components/MetricStrip.jsx'
 import OfferCheckoutCard from '../components/OfferCheckoutCard.jsx'
 import PrismHeadline from '../components/PrismHeadline.jsx'
 import RichBlocks from '../components/RichBlocks.jsx'
+import { trackCtaClick } from '../src/siteApi.js'
 import { useSiteRuntime } from '../src/SiteRuntimeContext.jsx'
 import { pageLookup } from '../src/siteData.js'
 import { SITE_DISPLAY_NAME } from '../src/siteMeta.js'
@@ -13,7 +14,74 @@ import NotFoundPage from './NotFoundPage.jsx'
 const reserved = new Set(['admin', 'blog', 'products'])
 
 function isExternalHref(href) {
-  return typeof href === 'string' && (/^(?:[a-z]+:)?\/\//i.test(href) || href.startsWith('mailto:') || href.startsWith('tel:'))
+  return typeof href === 'string' && (
+    /^(?:[a-z]+:)?\/\//i.test(href) ||
+    href.startsWith('mailto:') ||
+    href.startsWith('tel:')
+  )
+}
+
+function inferOfferSlug(href) {
+  if (typeof href !== 'string') {
+    return ''
+  }
+
+  if (href.includes('operator-os')) {
+    return 'operator-os'
+  }
+  if (href.includes('launch-sprint') || href === '/contact') {
+    return 'launch-sprint'
+  }
+  if (href.includes('enterprise-deployment')) {
+    return 'enterprise-deployment'
+  }
+
+  return ''
+}
+
+function inferIntent(slug, href) {
+  if (typeof href !== 'string') {
+    return 'learn_more'
+  }
+
+  if (href === '/pricing' || href.includes('operator-os')) {
+    return 'purchase'
+  }
+  if (href === '/contact' || href.includes('launch-sprint')) {
+    return slug === 'contact' ? 'contact' : 'implementation'
+  }
+  if (href.includes('enterprise-deployment')) {
+    return 'qualification'
+  }
+
+  return 'learn_more'
+}
+
+function renderTrackedAction(slug, href, label, variant, ctaId) {
+  if (!href || !label) {
+    return null
+  }
+
+  const onClick = () =>
+    trackCtaClick({
+      ctaId,
+      offerSlug: inferOfferSlug(href),
+      intent: inferIntent(slug, href)
+    }).catch(() => {})
+
+  if (isExternalHref(href)) {
+    return (
+      <a className={`button button--${variant}`} href={href} onClick={onClick}>
+        {label}
+      </a>
+    )
+  }
+
+  return (
+    <Link className={`button button--${variant}`} to={href} onClick={onClick}>
+      {label}
+    </Link>
+  )
 }
 
 export default function GenericPage() {
@@ -53,6 +121,15 @@ export default function GenericPage() {
             ))}
           </div>
         </section>
+      ) : null}
+      {slug === 'contact' ? (
+        <ContactLeadForm
+          interestDefault={page.leadForm?.interestDefault ?? 'Launch Sprint'}
+          ctaId="contact-page-form"
+          heading={page.leadForm?.heading}
+          intro={page.leadForm?.intro}
+          submitLabel={page.leadForm?.submitLabel}
+        />
       ) : null}
       {page.sections ? <RichBlocks items={page.sections} /> : null}
       {page.items ? <RichBlocks items={page.items} /> : null}
@@ -105,32 +182,11 @@ export default function GenericPage() {
             <p className="section-intro">{page.cta.body}</p>
           </div>
           <div className="hero__actions">
-            {isExternalHref(page.cta.primaryHref) ? (
-              <a className="button button--primary" href={page.cta.primaryHref}>
-                {page.cta.primaryLabel}
-              </a>
-            ) : (
-              <Link className="button button--primary" to={page.cta.primaryHref}>
-                {page.cta.primaryLabel}
-              </Link>
-            )}
-            {page.cta.secondaryHref && page.cta.secondaryLabel
-              ? isExternalHref(page.cta.secondaryHref)
-                ? (
-                  <a className="button button--ghost" href={page.cta.secondaryHref}>
-                    {page.cta.secondaryLabel}
-                  </a>
-                )
-                : (
-                  <Link className="button button--ghost" to={page.cta.secondaryHref}>
-                    {page.cta.secondaryLabel}
-                  </Link>
-                )
-              : null}
+            {renderTrackedAction(slug, page.cta.primaryHref, page.cta.primaryLabel, 'primary', `page-${slug}-primary`)}
+            {renderTrackedAction(slug, page.cta.secondaryHref, page.cta.secondaryLabel, 'ghost', `page-${slug}-secondary`)}
           </div>
         </section>
       ) : null}
-      {slug === 'contact' ? <ContactLeadForm /> : null}
     </div>
   )
 }

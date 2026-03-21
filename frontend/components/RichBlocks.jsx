@@ -2,9 +2,67 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { fadeUp, staggerParent } from '../animations/variants.js'
+import { trackCtaClick } from '../src/siteApi.js'
 
 function isExternalHref(href) {
-  return typeof href === 'string' && /^(?:[a-z]+:)?\/\//i.test(href) || href?.startsWith('mailto:') || href?.startsWith('tel:')
+  return typeof href === 'string' && (
+    /^(?:[a-z]+:)?\/\//i.test(href) ||
+    href.startsWith('mailto:') ||
+    href.startsWith('tel:')
+  )
+}
+
+function slugify(value) {
+  return String(value ?? 'item')
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/(^-|-$)/g, '') || 'item'
+}
+
+function inferOfferSlug(item) {
+  if (item.offerSlug) {
+    return item.offerSlug
+  }
+
+  const href = String(item.ctaHref ?? '')
+  if (href.includes('operator-os')) {
+    return 'operator-os'
+  }
+  if (href.includes('launch-sprint') || href === '/contact') {
+    return 'launch-sprint'
+  }
+  if (href.includes('enterprise-deployment')) {
+    return 'enterprise-deployment'
+  }
+
+  return item.slug ?? ''
+}
+
+function inferIntent(item) {
+  if (item.intent) {
+    return item.intent
+  }
+
+  const href = String(item.ctaHref ?? '')
+  if (href.includes('operator-os') || href === '/pricing') {
+    return 'purchase'
+  }
+  if (href.includes('enterprise-deployment')) {
+    return 'qualification'
+  }
+  if (href.includes('launch-sprint') || href === '/contact') {
+    return 'implementation'
+  }
+
+  return 'learn_more'
+}
+
+function handleClick(item) {
+  trackCtaClick({
+    ctaId: `rich-block-${slugify(item.slug ?? item.title ?? item.heading ?? item.name)}`,
+    offerSlug: inferOfferSlug(item),
+    intent: inferIntent(item)
+  }).catch(() => {})
 }
 
 export default function RichBlocks({ title, intro, items = [] }) {
@@ -29,12 +87,12 @@ export default function RichBlocks({ title, intro, items = [] }) {
             {item.ctaLabel && item.ctaHref
               ? isExternalHref(item.ctaHref)
                 ? (
-                  <a className="button button--ghost" href={item.ctaHref}>
+                  <a className="button button--ghost" href={item.ctaHref} onClick={() => handleClick(item)}>
                     {item.ctaLabel}
                   </a>
                 )
                 : (
-                  <Link className="button button--ghost" to={item.ctaHref}>
+                  <Link className="button button--ghost" to={item.ctaHref} onClick={() => handleClick(item)}>
                     {item.ctaLabel}
                   </Link>
                 )

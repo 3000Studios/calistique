@@ -1,15 +1,27 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import { submitLead, trackConversionEvent } from '../src/siteApi.js'
 
-const INITIAL_FORM = {
-  name: '',
-  email: '',
-  company: '',
-  interest: 'Launch Sprint',
-  notes: '',
-  intent: 'high_intent',
-  stage: 'new'
+const OFFER_SLUGS = {
+  'Operator OS': 'operator-os',
+  'Launch Sprint': 'launch-sprint',
+  'Enterprise Deployment': 'enterprise-deployment'
+}
+
+function createInitialForm(interestDefault) {
+  return {
+    name: '',
+    email: '',
+    company: '',
+    interest: interestDefault,
+    notes: '',
+    intent: 'high_intent',
+    stage: 'new'
+  }
+}
+
+function toOfferSlug(interest) {
+  return OFFER_SLUGS[interest] ?? ''
 }
 
 export default function ContactLeadForm({
@@ -20,12 +32,12 @@ export default function ContactLeadForm({
   submitLabel = 'Submit lead'
 }) {
   const location = useLocation()
-  const [form, setForm] = useState(INITIAL_FORM)
+  const [form, setForm] = useState(() => createInitialForm(interestDefault))
   const [busy, setBusy] = useState(false)
   const [success, setSuccess] = useState('')
   const [error, setError] = useState('')
 
-  React.useEffect(() => {
+  useEffect(() => {
     setForm((current) => ({
       ...current,
       interest: interestDefault
@@ -55,7 +67,7 @@ export default function ContactLeadForm({
       await trackConversionEvent('lead_submit', {
         path: location.pathname,
         ctaId,
-        offerSlug: form.interest,
+        offerSlug: toOfferSlug(form.interest),
         intent: form.intent,
         stage: form.stage,
         details: {
@@ -63,7 +75,7 @@ export default function ContactLeadForm({
         }
       })
       setSuccess('Lead captured and routed into the real pipeline. Follow-up state is now visible in the admin revenue queue.')
-      setForm(INITIAL_FORM)
+      setForm(createInitialForm(interestDefault))
     } catch (nextError) {
       setError(nextError.message)
     } finally {

@@ -330,7 +330,7 @@ export async function createPayPalCheckout({ slug, origin }) {
       payment_source: {
         paypal: {
           experience_context: {
-            brand_name: 'Voicetowebsite',
+            brand_name: 'VoiceToWebsite',
             user_action: 'PAY_NOW',
             return_url: `${origin}/checkout/success?provider=paypal`,
             cancel_url: `${origin}/checkout/cancel?provider=paypal&offer=${slug}`
