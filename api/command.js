@@ -3,10 +3,21 @@ import { routeCommand } from '../ai/router/commandRouter.js'
 import { interpretCommand } from './aiInterpreter.js'
 import { applyPatch } from './patchEngine.js'
 import { deployUpdate } from './gitDeploy.js'
+import { runSystemManager } from '../engine/systemManager.js'
 
 const router = express.Router()
 
 export async function executeRepositoryCommand(payload) {
+  if (
+    payload &&
+    (
+      typeof payload.mode === 'string' ||
+      (Array.isArray(payload.tasks) && payload.tasks.length > 0)
+    )
+  ) {
+    return runSystemManager(payload)
+  }
+
   if (payload && typeof payload.action === 'string') {
     return routeCommand(payload)
   }

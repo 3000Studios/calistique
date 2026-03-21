@@ -18,7 +18,9 @@
     "command": "node scripts/run-command.js",
     "scheduler": "node ai/scheduler/aiScheduler.js",
     "traffic": "node scripts/run-traffic-cycle.js",
-    "test": "node scripts/verify-platform.js"
+    "test": "node scripts/verify-platform.js",
+    "validate:env": "node scripts/validate-environment.js",
+    "ci": "npm run validate:env && npm run lint && npm run test && npm run build"
   },
   "keywords": [
     "voicetowebsite",
