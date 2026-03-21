@@ -3,6 +3,7 @@ import express from 'express'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import commandRoutes from './routes/commandRoutes.js'
+import publicRoutes from './routes/publicRoutes.js'
 import { bootstrapContent } from './services/contentService.js'
 
 const app = express()
@@ -16,11 +17,12 @@ app.get('/api/health', async (_request, response) => {
   await bootstrapContent()
   response.json({
     status: 'ok',
-    service: 'myappai-platform',
+    service: 'voicetowebsite-platform',
     mode: 'local-repo-server'
   })
 })
 
+app.use('/api/public', publicRoutes)
 app.use('/api', commandRoutes)
 
 app.use((error, _request, response, _next) => {
@@ -37,7 +39,7 @@ if (process.argv[1] && path.resolve(process.argv[1]) === __filename) {
   bootstrapContent()
     .then(() => {
       app.listen(PORT, () => {
-        console.log(`myappai server listening on http://localhost:${PORT}`)
+        console.log(`VoiceToWebsite server listening on http://localhost:${PORT}`)
       })
     })
     .catch((error) => {

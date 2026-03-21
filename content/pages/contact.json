@@ -1,0 +1,60 @@
+{
+  "eyebrow": "Contact",
+  "headline": "Submit the implementation or qualification brief that matches your buying path",
+  "subheadline": "This page is the lead-form-first close path for buyers who want help before they move into software, implementation, or enterprise rollout.",
+  "heroStats": [
+    {
+      "label": "Close mode",
+      "value": "Lead form first"
+    },
+    {
+      "label": "Best for",
+      "value": "Launch Sprint + Enterprise"
+    },
+    {
+      "label": "Routing goal",
+      "value": "Qualify before follow-up"
+    }
+  ],
+  "stepsEyebrow": "What happens next",
+  "stepsHeadline": "The contact funnel should create clarity before anyone follows up",
+  "steps": [
+    {
+      "title": "Submit the brief",
+      "description": "Describe the site, funnel, implementation, or rollout outcome you want help achieving."
+    },
+    {
+      "title": "Route the opportunity",
+      "description": "The lead is recorded with source, offer interest, and follow-up stage so it can be worked inside the admin queue."
+    },
+    {
+      "title": "Continue the right close",
+      "description": "Operator buyers can move into software, Launch Sprint buyers can be scoped, and enterprise buyers can be qualified properly."
+    }
+  ],
+  "sections": [
+    {
+      "title": "Best for self-serve buyers",
+      "description": "If you are ready to buy the software now, go back to pricing or the Operator OS offer and use the direct checkout path."
+    },
+    {
+      "title": "Best for buyers who need implementation",
+      "description": "If you want help with positioning, pages, automations, or operational setup, use this form to begin the Launch Sprint conversation."
+    },
+    {
+      "title": "Best for enterprise buyers",
+      "description": "If you need self-hosting, governance, or a customized rollout, use this form to start the qualification process before commercial scope is finalized."
+    }
+  ],
+  "leadForm": {
+    "heading": "Start the right follow-up path",
+    "intro": "Share enough context to help VoiceToWebsite route you into software checkout, implementation scope, or enterprise qualification without losing the trail inside the admin queue.",
+    "submitLabel": "Submit implementation brief"
+  },
+  "faq": [
+    {
+      "question": "Why use a lead form instead of forcing everyone into a calendar booking flow?",
+      "answer": "Because this pass is intentionally lead-form-first. It captures intent cleanly, routes the opportunity in the admin queue, and avoids pretending there is a scheduler dependency when there is not."
+    }
+  ]
+}

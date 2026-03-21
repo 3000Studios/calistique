@@ -1,23 +1,23 @@
 {
-  "name": "HyperViscous Prism",
+  "name": "VoiceToWebsite",
   "palette": {
-    "bg": "#050505",
-    "canvas": "#050505",
-    "surface": "rgba(255,255,255,0.06)",
-    "surface-strong": "rgba(10,10,18,0.78)",
-    "ink": "#f5f5f5",
-    "chrome": "#e0e0e0",
-    "muted": "rgba(224,224,224,0.7)",
-    "accent": "#ff0055",
-    "highlight": "#00ffcc",
-    "prism-1": "#ff0055",
-    "prism-2": "#00ffcc",
-    "prism-3": "#5500ff",
-    "line": "rgba(255,255,255,0.12)"
+    "bg": "#08111f",
+    "canvas": "#08111f",
+    "surface": "rgba(255,255,255,0.78)",
+    "surface-strong": "rgba(10,24,43,0.78)",
+    "ink": "#e5eefb",
+    "chrome": "#f8fafc",
+    "muted": "rgba(226,232,240,0.75)",
+    "accent": "#ff7a18",
+    "highlight": "#3dd9b4",
+    "prism-1": "#ff7a18",
+    "prism-2": "#3dd9b4",
+    "prism-3": "#38bdf8",
+    "line": "rgba(148,163,184,0.22)"
   },
   "motion": {
-    "hero": "prismatic-rise",
-    "sections": "viscous-slide"
+    "hero": "orbital-rise",
+    "sections": "signal-slide"
   },
-  "updatedAt": "2026-03-17T00:00:00.000Z"
+  "updatedAt": "2026-03-20T00:00:00.000Z"
 }

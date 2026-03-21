@@ -3,6 +3,7 @@ import { promisify } from 'node:util'
 import { repoRoot } from './platformPaths.js'
 
 const execFileAsync = promisify(execFile)
+const DEFAULT_BASE_BRANCH = process.env.GH_BASE_BRANCH?.trim() || 'main'
 
 async function runGit(args, { allowFailure = false } = {}) {
   try {
@@ -30,7 +31,7 @@ export async function getGitStatus() {
 
 export async function getCurrentBranch() {
   const { stdout } = await runGit(['branch', '--show-current'])
-  return stdout.trim() || 'main'
+  return stdout.trim() || DEFAULT_BASE_BRANCH
 }
 
 export async function getRecentCommits(limit = 5) {
@@ -56,20 +57,20 @@ export async function getRecentCommits(limit = 5) {
 
 export async function commitAndPush(commitMessage) {
   const status = await getGitStatus()
+  const branch = DEFAULT_BASE_BRANCH || (await getCurrentBranch())
 
   if (!status) {
     return {
       status: 'skipped',
       message: 'No workspace changes to deploy.',
-      branch: await getCurrentBranch()
+      branch
     }
   }
 
   await runGit(['add', '.'])
 
   const commitResult = await runGit(['commit', '-m', commitMessage], { allowFailure: true })
-  const branch = await getCurrentBranch()
-  const pushResult = await runGit(['push', 'origin', branch], { allowFailure: true })
+  const pushResult = await runGit(['push', 'origin', `HEAD:${branch}`], { allowFailure: true })
 
   return {
     status: pushResult.failed ? 'push_failed' : 'pushed',

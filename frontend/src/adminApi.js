@@ -1,12 +1,13 @@
 const API_BASE = import.meta.env.VITE_API_BASE_URL ?? ''
 
-async function request(path, { adminEmail, adminCode, method = 'GET', body } = {}) {
+async function request(path, { adminEmail, adminCode, adminKey, method = 'GET', body } = {}) {
   const response = await fetch(`${API_BASE}${path}`, {
     method,
     headers: {
       'content-type': 'application/json',
       'x-admin-email': adminEmail,
-      'x-admin-code': adminCode
+      'x-admin-code': adminCode,
+      'x-admin-key': adminKey ?? ''
     },
     body: body ? JSON.stringify(body) : undefined
   })
@@ -30,6 +31,18 @@ export function getDeployments(adminSession) {
 
 export function getContent(adminSession) {
   return request('/api/content', adminSession)
+}
+
+export function getRevenueQueue(adminSession) {
+  return request('/api/revenue', adminSession)
+}
+
+export function updateLeadStage(adminSession, leadId, patch) {
+  return request(`/api/revenue/leads/${encodeURIComponent(leadId)}`, {
+    ...adminSession,
+    method: 'PATCH',
+    body: patch
+  })
 }
 
 export function sendCommand(adminSession, command) {

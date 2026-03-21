@@ -1,5 +1,5 @@
 {
-  "name": "myappai",
+  "name": "voicetowebsite",
   "version": "1.0.0",
   "private": true,
   "type": "module",
@@ -22,10 +22,21 @@
     "validate:env": "node scripts/validate-environment.js",
     "ci": "npm run validate:env && npm run lint && npm run test && npm run build"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "description": "",
+  "keywords": [
+    "voicetowebsite",
+    "voicetowebsite.com"
+  ],
+  "homepage": "https://voicetowebsite.com/",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/3000Studios/voicetowebsite-copyright-mrjwswain.git"
+  },
+  "bugs": {
+    "url": "https://github.com/3000Studios/voicetowebsite-copyright-mrjwswain/issues"
+  },
+  "author": "Mr. jwswain",
+  "license": "UNLICENSED",
+  "description": "VoiceToWebsite — voicetowebsite.com (proprietary; see GitHub repo README)",
   "dependencies": {
     "@cloudflare/workers-types": "^4.20260313.1",
     "axios": "^1.13.6",
@@ -38,6 +49,7 @@
     "react-dom": "^19.2.4",
     "react-router-dom": "^7.9.5",
     "socket.io": "^4.8.3",
+    "stripe": "^20.4.1",
     "three": "^0.183.2",
     "vite": "^8.0.0",
     "zustand": "^5.0.11"
@@ -51,6 +63,6 @@
     "eslint": "^10.0.3",
     "prettier": "^3.8.1",
     "typescript": "^5.9.3",
-    "wrangler": "^4.10.0"
+    "wrangler": "^4.75.0"
   }
 }

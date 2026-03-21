@@ -5,6 +5,8 @@ import {
   getContent,
   getDeployments,
   getMetrics,
+  getRevenueQueue,
+  patchLeadStage
 } from '../controllers/commandController.js'
 import { adminAuth } from '../middleware/adminAuth.js'
 
@@ -14,6 +16,8 @@ router.get('/analytics', adminAuth, getAnalytics)
 router.get('/deployments', adminAuth, getDeployments)
 router.get('/content', adminAuth, getContent)
 router.get('/metrics', adminAuth, getMetrics)
+router.get('/revenue', adminAuth, getRevenueQueue)
+router.patch('/revenue/leads/:id', adminAuth, patchLeadStage)
 router.use('/command', adminAuth, commandApiRouter)
 
 export default router

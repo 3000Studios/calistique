@@ -1,36 +1,117 @@
 {
-  "headline": "Start local, then automate the whole surface",
-  "tiers": [
+  "eyebrow": "Pricing",
+  "headline": "Choose the buying lane that matches how you want to move",
+  "subheadline": "VoiceToWebsite closes best when software buyers can check out fast, implementation buyers can submit a strong brief, and enterprise buyers can qualify scope before commitment.",
+  "heroStats": [
     {
-      "name": "Launch",
-      "price": "$0",
-      "description": "Local development, manual command routing, and a single operator in the loop.",
-      "features": [
-        "Ollama model routing",
-        "JSON content engine",
-        "Cloudflare-ready build output"
-      ]
+      "label": "Primary software lane",
+      "value": "Operator OS"
     },
     {
-      "name": "Studio",
-      "price": "$79",
-      "description": "Daily content automation with deployment telemetry, sync awareness, and admin workflows.",
+      "label": "Primary service lane",
+      "value": "Launch Sprint"
+    },
+    {
+      "label": "Enterprise lane",
+      "value": "Qualification first"
+    }
+  ],
+  "stepsEyebrow": "How to choose",
+  "stepsHeadline": "Use pricing to route yourself into the right next step",
+  "steps": [
+    {
+      "title": "Buy Operator OS",
+      "description": "Choose this lane if you already know the product fits and you want the direct software offer."
+    },
+    {
+      "title": "Submit Launch Sprint",
+      "description": "Choose this lane if you want guidance, setup, and faster activation before you scale self-serve usage."
+    },
+    {
+      "title": "Qualify Enterprise",
+      "description": "Choose this lane if governance, hosting, rollout, or custom scope needs review before commercial commitment."
+    }
+  ],
+  "tiers": [
+    {
+      "name": "Starter",
+      "price": "$0",
+      "description": "A lightweight entry point for exploring the platform, planning workflows, and validating fit.",
       "features": [
-        "Automated blog generation",
-        "Media asset discovery",
-        "Deployment history and analytics"
+        "Core planning and positioning framework",
+        "Limited project and page management",
+        "Good for internal evaluation"
       ]
     },
     {
       "name": "Operator",
-      "price": "$199",
-      "description": "High-touch orchestration for products, landing pages, scheduled jobs, and full command-center operations.",
+      "price": "$99/mo",
+      "description": "The core software offer for founders and small teams running marketing, delivery, and internal operations.",
+      "featured": true,
       "features": [
-        "Multi-product content lanes",
-        "Workspace file editing",
-        "Advanced local model switching"
+        "AI-managed command routing",
+        "Project, page, and workflow execution",
+        "Content and deployment operations",
+        "Designed for recurring software revenue"
+      ]
+    },
+    {
+      "name": "Launch Sprint",
+      "price": "$2,500+",
+      "description": "A done-with-you setup package for businesses that want a fast implementation instead of a blank dashboard.",
+      "features": [
+        "Offer, funnel, and workflow setup",
+        "Priority implementation guidance",
+        "A faster path to first revenue outcome"
+      ]
+    },
+    {
+      "name": "Enterprise",
+      "price": "Custom",
+      "description": "For teams that need self-hosting, governance, onboarding, and deeper operational support.",
+      "features": [
+        "Self-hosted deployment path",
+        "Security and control review",
+        "Support, customization, and rollout planning"
       ]
     }
   ],
-  "updatedAt": "2026-03-17T00:00:00.000Z"
+  "sections": [
+    {
+      "eyebrow": "Self-serve",
+      "title": "Operator OS is the checkout-first offer",
+      "description": "This lane is optimized for recurring software revenue and should be the fastest path from conviction to payment."
+    },
+    {
+      "eyebrow": "Implementation",
+      "title": "Launch Sprint is the lead-form-first offer",
+      "description": "This lane is optimized for buyers who need help before they are ready to operate the platform on their own."
+    },
+    {
+      "eyebrow": "Qualification",
+      "title": "Enterprise is the review-first offer",
+      "description": "This lane is optimized for buyers who care about governance, hosting, approvals, and rollout certainty."
+    }
+  ],
+  "faqHeadline": "Pricing questions",
+  "faq": [
+    {
+      "question": "Why mix subscriptions and services?",
+      "answer": "Because services create early cash flow and implementation success, while subscriptions create recurring revenue and scale over time."
+    },
+    {
+      "question": "Should the free plan be generous?",
+      "answer": "It should be useful enough to create trust, but limited enough that serious buyers naturally move into Operator or Launch Sprint."
+    }
+  ],
+  "cta": {
+    "eyebrow": "Best next move",
+    "heading": "Use pricing to choose between checkout, implementation, and qualification.",
+    "body": "The page should help buyers commit faster because each lane is matched to a real buying style instead of forcing every visitor into the same close path.",
+    "primaryLabel": "Start implementation brief",
+    "primaryHref": "/contact",
+    "secondaryLabel": "See products",
+    "secondaryHref": "/products"
+  },
+  "updatedAt": "2026-03-20T00:00:00.000Z"
 }

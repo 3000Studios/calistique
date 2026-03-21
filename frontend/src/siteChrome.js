@@ -1,43 +1,47 @@
+import { SITE_DOMAIN } from './siteMeta.js'
+
 export const publicNavItems = [
-  { label: 'Chrome', to: '/' },
-  { label: 'Journal', to: '/blog' },
+  { label: 'Home', to: '/' },
+  { label: 'Solutions', to: '/solutions' },
   { label: 'Products', to: '/products' },
   { label: 'Pricing', to: '/pricing' },
-  { label: 'Admin', to: '/admin/login' }
+  { label: 'About', to: '/about' },
+  { label: 'Blog', to: '/blog' },
+  { label: 'Contact', to: '/contact' },
+  { label: 'Admin', to: '/admin' }
 ]
 
 export const publicStatusLines = [
-  'STATUS: HYPER_STABLE',
-  'LATENCY: 12ms',
-  'PRISM_OS // MYAPPAI'
+  'AI SYSTEM MANAGER',
+  'EXECUTION + REVENUE',
+  SITE_DOMAIN
 ]
 
 export const publicTickerItems = [
-  '// COMMAND CENTER ONLINE',
-  '// GIT -> CLOUDFLARE SYNC ACTIVE',
-  '// CONTENT ENGINE READY',
-  '// DEPLOY AUTOMATION ARMED',
-  '// LOCAL MODELS RESPONDING'
+  '// REPO-BACKED CONTENT, OFFERS, AND RELEASE WORKFLOWS',
+  '// OPERATOR OS CLOSES THROUGH CHECKOUT WHEN LIVE PROVIDERS EXIST',
+  '// LAUNCH SPRINT CLOSES THROUGH A LEAD-FORM-FIRST IMPLEMENTATION BRIEF',
+  '// ENTERPRISE DEPLOYMENT STAYS QUALIFICATION-FIRST FOR GOVERNANCE AND ROLLOUT',
+  '// REAL EVENTS, LEADS, PAYMENTS, AND ADMIN VISIBILITY POWER THE TRUST STORY'
 ]
 
 export const adminNavItems = [
-  { label: 'Dashboard', to: '/admin' },
-  { label: 'Login', to: '/admin/login' },
-  { label: 'Public Site', to: '/' },
+  { label: 'Overview', to: '/admin/overview' },
+  { label: 'Sign in', to: '/admin/login' },
+  { label: 'Public site', to: '/' },
   { label: 'Blog', to: '/blog' },
   { label: 'Products', to: '/products' }
 ]
 
 export const adminStatusLines = [
-  'CONTROL ROOM: OPEN',
+  'OPERATIONS: ONLINE',
   'PIPELINE: READY',
-  'OPS MODE // LIVE'
+  `${SITE_DOMAIN} // admin`
 ]
 
 export const adminTickerItems = [
-  '// COMMAND ROUTER READY',
-  '// CONTENT EDITOR HOT',
-  '// DEPLOY HISTORY TRACKED',
-  '// TRAFFIC LOOP MONITORED',
-  '// WORKSPACE MUTATIONS VERIFIED'
+  '// ANALYTICS + DEPLOY + CONTENT + AI CONSOLE',
+  '// SYNC DATA FROM THE TOP BAR ANYTIME',
+  '// USE SECTIONS IN THE SIDEBAR TO STAY FOCUSED',
+  '// COMMAND ROUTER FOR ADVANCED AUTOMATION'
 ]

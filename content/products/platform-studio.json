@@ -1,11 +1,52 @@
 {
-  "slug": "platform-studio",
-  "name": "Platform Studio",
-  "headline": "Run your entire site like an AI-operated command center",
-  "description": "Platform Studio combines task routing, content generation, script execution, workspace editing, and git deployment orchestration in one repository.",
+  "slug": "operator-os",
+  "name": "Operator OS",
+  "headline": "Use Operator OS as the checkout-first software offer at the center of the business",
+  "priceAnchor": "$99 / month",
+  "idealFor": "Best for founders, agency owners, and technical operators",
+  "closeMode": "checkout",
+  "description": "Operator OS is the clearest recurring offer for VoiceToWebsite. It gives users a command-driven platform for planning, execution, content operations, and release-ready workflows.",
   "bullets": [
-    "Create landing pages and system surfaces from structured commands",
-    "Generate feature sections tied to product and platform messaging",
-    "Push updates directly into a Cloudflare-ready build and deploy flow"
-  ]
+    "Use natural language to organize work and route execution",
+    "Manage pages, offers, and operational assets in one system",
+    "Move from one-off AI tasks to a durable internal operating layer"
+  ],
+  "proofPoints": [
+    {
+      "eyebrow": "Real capability",
+      "title": "Repo-backed content and offer control",
+      "description": "Pages, pricing, blog content, and offer logic live inside the workspace so the trust story comes from the actual system."
+    },
+    {
+      "eyebrow": "Real visibility",
+      "title": "Live analytics and admin surfaces",
+      "description": "Visitors, leads, payments, deployments, and AI actions can be observed from one operator dashboard."
+    },
+    {
+      "eyebrow": "Real close path",
+      "title": "Checkout-first when providers are configured",
+      "description": "Operator OS is designed to close directly through live Stripe or PayPal when the real env configuration exists."
+    }
+  ],
+  "sections": [
+    {
+      "title": "Execution layer",
+      "description": "Run planning, content, and deployment actions through one workflow instead of stitching together separate tools."
+    },
+    {
+      "title": "Revenue fit",
+      "description": "This is the strongest recurring-revenue path because the value compounds as more content, workflow, and delivery work runs through the system."
+    },
+    {
+      "title": "Expansion path",
+      "description": "Customers who start here can naturally expand into implementation help, team usage, and enterprise deployment."
+    }
+  ],
+  "cta": {
+    "eyebrow": "Recommended path",
+    "heading": "Lead with Operator OS when the buyer is ready to move now.",
+    "body": "This offer should close fastest because the value proposition is direct, the path is checkout-first, and the system itself supports the trust story.",
+    "primaryLabel": "Open pricing and checkout",
+    "primaryHref": "/pricing"
+  }
 }

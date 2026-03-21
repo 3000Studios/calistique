@@ -190,48 +190,17 @@ const DEFAULT_FILES = {
   },
   system: {
     'analytics.json': {
-      visitors: 1248,
-      conversionRate: 0.086,
-      revenue: 18240,
       aiActivity: {
-        commandsToday: 12,
-        deploymentsToday: 2,
-        lastAction: 'bootstrap_platform'
+        commandsToday: 0,
+        deploymentsToday: 0,
+        lastAction: 'idle'
       },
-      updatedAt: '2026-03-14T00:00:00.000Z'
+      updatedAt: null
     },
     'traffic.json': {
-      queue: [
-        {
-          topic: 'AI automation tools for small business',
-          keyword: 'ai automation tools for small business',
-          intent: 'commercial',
-          score: 82,
-          status: 'queued',
-          funnel: 'lead_capture',
-          createdAt: '2026-03-14T00:00:00.000Z'
-        },
-        {
-          topic: 'best AI workflow builders',
-          keyword: 'best ai workflow builders',
-          intent: 'commercial',
-          score: 78,
-          status: 'queued',
-          funnel: 'product_comparison',
-          createdAt: '2026-03-14T00:00:00.000Z'
-        }
-      ],
-      published: [
-        {
-          slug: 'ai-automation-platform',
-          topic: 'AI-controlled web platform',
-          score: 74,
-          conversions: 16,
-          status: 'published',
-          publishedAt: '2026-03-14T00:00:00.000Z'
-        }
-      ],
-      updatedAt: '2026-03-14T00:00:00.000Z'
+      queue: [],
+      published: [],
+      updatedAt: null
     },
     'deployments.json': {
       history: [
@@ -245,6 +214,18 @@ const DEFAULT_FILES = {
           finishedAt: '2026-03-14T00:00:00.000Z'
         }
       ]
+    },
+    'events.json': {
+      events: [],
+      updatedAt: null
+    },
+    'leads.json': {
+      leads: [],
+      updatedAt: null
+    },
+    'payments.json': {
+      payments: [],
+      updatedAt: null
     }
   }
 }

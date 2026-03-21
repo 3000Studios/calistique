@@ -1,0 +1,28 @@
+{
+  "eyebrow": "About",
+  "headline": "VoiceToWebsite exists to turn intent into execution and revenue momentum",
+  "subheadline": "The brand stays VoiceToWebsite, but the product is being positioned as an AI system manager for structured work, hybrid offers, and operator-grade visibility.",
+  "sections": [
+    {
+      "title": "What makes it different",
+      "description": "VoiceToWebsite is not being sold as another generic AI wrapper. It is being built as the operating layer that turns briefs into structured pages, offers, lead flow, and shipped execution."
+    },
+    {
+      "title": "How it should grow",
+      "description": "The business should grow through a hybrid close: checkout-first software for recurring revenue, implementation briefs for high-intent services, and enterprise qualification for higher-trust buyers."
+    },
+    {
+      "title": "What success looks like",
+      "description": "A successful VoiceToWebsite becomes the public funnel and operating system teams rely on when they need briefs to become useful, tracked, and repeatable execution."
+    }
+  ],
+  "cta": {
+    "eyebrow": "See the strategy in action",
+    "heading": "The public funnel is now organized around that hybrid business model.",
+    "body": "Explore the solutions, products, pricing, and contact flow to see how VoiceToWebsite routes different buyers toward the right close path.",
+    "primaryLabel": "View pricing",
+    "primaryHref": "/pricing",
+    "secondaryLabel": "Start implementation brief",
+    "secondaryHref": "/contact"
+  }
+}

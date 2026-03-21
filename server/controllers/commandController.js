@@ -4,6 +4,7 @@ import { getContentBundle } from '../services/contentService.js'
 import { getDeploymentHistory } from '../services/deploymentService.js'
 import { getRecentCommits } from '../services/gitService.js'
 import { getSystemMetrics } from '../services/metricsService.js'
+import { getRevenueQueueSnapshot, updateLeadStage } from '../services/revenueQueueService.js'
 
 export async function postCommand(request, response, next) {
   try {
@@ -49,6 +50,27 @@ export async function getMetrics(request, response, next) {
   try {
     const metrics = await getSystemMetrics()
     response.json(metrics)
+  } catch (error) {
+    next(error)
+  }
+}
+
+export async function getRevenueQueue(request, response, next) {
+  try {
+    const revenue = await getRevenueQueueSnapshot()
+    response.json(revenue)
+  } catch (error) {
+    next(error)
+  }
+}
+
+export async function patchLeadStage(request, response, next) {
+  try {
+    const lead = await updateLeadStage(request.params.id, request.body ?? {})
+    response.json({
+      ok: true,
+      lead
+    })
   } catch (error) {
     next(error)
   }
