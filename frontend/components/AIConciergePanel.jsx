@@ -14,7 +14,7 @@ export default function AIConciergePanel() {
     {
       role: 'assistant',
       content:
-        'Ask about programs, pricing, booking paths, or planning support. I will route you to the right next step.',
+        'Ask about programs, planning support, pricing, or retreat fit. I will point you toward the cleanest next step.',
     },
   ])
   const [message, setMessage] = useState('')
@@ -58,10 +58,11 @@ export default function AIConciergePanel() {
       <div className="section-heading">
         <div>
           <span className="eyebrow">Planning concierge</span>
-          <h2>Ask before you book or inquire</h2>
+          <h2>Talk through the decision before you commit</h2>
           <p className="section-intro">
             This assistant is wired to the live pricing, program, and site
-            context so it can point you toward the best next step.
+            context so it can help families and organizers choose a stronger
+            route with less guesswork.
           </p>
         </div>
         <div className="tag-row">

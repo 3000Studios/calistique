@@ -1,4 +1,4 @@
-# MyAppAI Production Architecture
+# Camp Dream GA / MyAppAI Production Architecture
 
 ## Overview
 
@@ -48,7 +48,7 @@ MyAppAI is structured as a command-center architecture where natural language re
 - Stages:
   1. `npm ci`
   2. `npm run build`
-  3. `wrangler pages deploy dist --project-name myappai`
+  3. `wrangler pages deploy dist --project-name campdreamga`
 - Required GitHub Secrets:
   - `CLOUDFLARE_API_TOKEN`
   - `CLOUDFLARE_ACCOUNT_ID`

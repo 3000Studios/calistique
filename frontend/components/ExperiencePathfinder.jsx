@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { trackConversionEvent } from '../src/siteApi.js'
 
@@ -103,6 +103,7 @@ export default function ExperiencePathfinder() {
   const [groupType, setGroupType] = useState('family')
   const [supportNeed, setSupportNeed] = useState('guided')
   const [timeline, setTimeline] = useState('soon')
+  const hasTrackedRef = useRef(false)
 
   const recommendation = useMemo(
     () => getRecommendation({ groupType, supportNeed, timeline }),
@@ -110,6 +111,11 @@ export default function ExperiencePathfinder() {
   )
 
   useEffect(() => {
+    if (!hasTrackedRef.current) {
+      hasTrackedRef.current = true
+      return
+    }
+
     trackConversionEvent('quiz_completed', {
       ctaId: 'experience-pathfinder',
       intent: recommendation.intent,

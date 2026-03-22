@@ -5,8 +5,7 @@ const runtimeEnv =
       ? process.env
       : {}
 
-export const REPOSITORY_URL =
-  'https://github.com/3000Studios/voicetowebsite-copyright-mrjwswain'
+export const REPOSITORY_URL = 'https://github.com/3000Studios/myappai'
 
 export const SITE_DISPLAY_NAME = 'Camp Dream GA'
 export const SITE_LEGAL_NAME = 'Camp Dream GA'

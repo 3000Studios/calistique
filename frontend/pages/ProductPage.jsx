@@ -36,18 +36,45 @@ export default function ProductPage() {
   return (
     <div className="stack-2xl">
       <section className="section-card section-card--hero product-hero">
-        <span className="eyebrow">{product.eyebrow ?? 'Offer'}</span>
-        <PrismHeadline text={product.headline ?? product.name} />
-        <p className="section-intro">
-          {product.description ?? product.summary}
-        </p>
-        <div className="tag-row">
-          <span className="tag">{product.priceAnchor}</span>
-          <span className="tag">{formatCloseMode(closeMode)}</span>
-          {product.idealFor ? (
-            <span className="tag">{product.idealFor}</span>
-          ) : null}
+        <div className="product-hero__content stack-lg">
+          <span className="eyebrow">{product.eyebrow ?? 'Offer'}</span>
+          <PrismHeadline text={product.headline ?? product.name} />
+          <p className="section-intro">
+            {product.description ?? product.summary}
+          </p>
+          <div className="tag-row">
+            <span className="tag">{product.priceAnchor}</span>
+            <span className="tag">{formatCloseMode(closeMode)}</span>
+            {product.idealFor ? (
+              <span className="tag">{product.idealFor}</span>
+            ) : null}
+          </div>
         </div>
+
+        <aside className="product-hero__aside stack-md">
+          <span className="panel-kicker">Offer snapshot</span>
+          <div className="product-hero__panel">
+            <strong>Best for</strong>
+            <p className="field-note">
+              {product.idealFor ??
+                'Visitors who already know this is the right fit.'}
+            </p>
+          </div>
+          <div className="product-hero__panel">
+            <strong>Decision style</strong>
+            <p className="field-note">
+              {formatCloseMode(closeMode)} keeps the action aligned with how
+              much coordination the trip really needs.
+            </p>
+          </div>
+          <div className="product-hero__panel">
+            <strong>Commercial role</strong>
+            <p className="field-note">
+              {product.outcome ??
+                'Designed to move visitors from trust into the right next step.'}
+            </p>
+          </div>
+        </aside>
       </section>
 
       <section className="detail-grid">
