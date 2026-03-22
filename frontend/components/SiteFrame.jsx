@@ -2,8 +2,19 @@ import React, { useEffect, useState } from 'react'
 import { Link, NavLink, Outlet, useLocation } from 'react-router-dom'
 import AuroraBackdrop from '../backgrounds/AuroraBackdrop.jsx'
 import SiteSeo from './SiteSeo.jsx'
-import { publicNavItems, publicStatusLines, publicTickerItems } from '../src/siteChrome.js'
-import { REPOSITORY_URL, SITE_DISPLAY_NAME, SITE_DOMAIN, SITE_URL, getCopyrightLine } from '../src/siteMeta.js'
+import {
+  footerLegalItems,
+  publicNavItems,
+  publicStatusLines,
+  publicTickerItems,
+} from '../src/siteChrome.js'
+import {
+  REPOSITORY_URL,
+  SITE_DISPLAY_NAME,
+  SITE_DOMAIN,
+  SITE_URL,
+  getCopyrightLine,
+} from '../src/siteMeta.js'
 import { trackConversionEvent } from '../src/siteApi.js'
 
 export default function SiteFrame() {
@@ -12,7 +23,7 @@ export default function SiteFrame() {
 
   useEffect(() => {
     trackConversionEvent('page_view', {
-      path: `${location.pathname}${location.search}`
+      path: `${location.pathname}${location.search}`,
     }).catch(() => {})
     setMobileMenuOpen(false)
   }, [location.pathname, location.search])
@@ -29,7 +40,10 @@ export default function SiteFrame() {
               <span className="brand__pulse" />
               <span className="brand__wordmark">{SITE_DISPLAY_NAME}</span>
             </NavLink>
-            <p className="site-header__tagline">Natural language to build, automate, and deploy.</p>
+            <p className="site-header__tagline">
+              Premium Georgia camp experiences, planning support, and
+              family-focused resources.
+            </p>
           </div>
 
           <button
@@ -43,13 +57,17 @@ export default function SiteFrame() {
             <span />
           </button>
 
-          <div className={`site-header__nav-wrap${mobileMenuOpen ? ' site-header__nav-wrap--open' : ''}`}>
+          <div
+            className={`site-header__nav-wrap${mobileMenuOpen ? ' site-header__nav-wrap--open' : ''}`}
+          >
             <nav className="site-nav" id="site-navigation" aria-label="Primary">
               {publicNavItems.map((item) => (
                 <NavLink
                   key={item.to}
                   to={item.to}
-                  className={({ isActive }) => `site-nav__link${isActive ? ' site-nav__link--active' : ''}`}
+                  className={({ isActive }) =>
+                    `site-nav__link${isActive ? ' site-nav__link--active' : ''}`
+                  }
                 >
                   {item.label}
                 </NavLink>
@@ -57,10 +75,10 @@ export default function SiteFrame() {
             </nav>
             <div className="site-header__actions">
               <Link className="button button--ghost" to="/contact">
-                Book implementation
+                Start planning
               </Link>
               <Link className="button button--primary" to="/pricing">
-                Open pricing
+                View pricing
               </Link>
             </div>
           </div>
@@ -82,11 +100,14 @@ export default function SiteFrame() {
       <footer className="site-footer">
         <div className="site-footer__grid">
           <section className="site-footer__brand">
-            <span className="eyebrow">Operator stack</span>
-            <h2>myappai is a premium command center for shipping real work from one system.</h2>
+            <span className="eyebrow">Why Camp Dream GA</span>
+            <h2>
+              Premium Georgia camp discovery, clear planning resources, and
+              confident next steps for families and groups.
+            </h2>
             <p>
-              Run the public funnel, admin command layer, deployment lane, and payment routing from a cleaner,
-              faster, more coherent UI.
+              Browse programs, explore planning resources, and move into the
+              right booking path through a cleaner, more trustworthy site.
             </p>
           </section>
 
@@ -99,17 +120,25 @@ export default function SiteFrame() {
                   {item.label}
                 </Link>
               ))}
+            {footerLegalItems.map((item) => (
+              <Link key={item.to} to={item.to}>
+                {item.label}
+              </Link>
+            ))}
           </section>
 
           <section className="site-footer__cta">
             <span className="eyebrow">Deploy-ready next steps</span>
-            <p>Use pricing for direct checkout, contact for guided work, and admin when you want to operate the system directly.</p>
+            <p>
+              Use pricing for direct booking, contact for guided planning, and
+              resources when you want to learn before choosing.
+            </p>
             <div className="hero__actions">
               <Link className="button button--primary" to="/pricing">
-                Start checkout
+                Explore pricing
               </Link>
-              <Link className="button button--ghost" to="/admin/login">
-                Open operator console
+              <Link className="button button--ghost" to="/contact">
+                Contact the team
               </Link>
             </div>
           </section>

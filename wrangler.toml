@@ -1,17 +1,17 @@
 "$schema" = "./node_modules/wrangler/config-schema.json"
-name = "myappai"
+name = "campdreamga"
 pages_build_output_dir = "dist"
-compatibility_date = "2026-03-15"
+compatibility_date = "2026-03-22"
 compatibility_flags = ["nodejs_compat"]
 
 [vars]
-NODE_ENV="production"
-APP_NAME="myappai"
-SITE_ORIGIN="https://myappai.net"
-API_MODE="repo-local"
+NODE_ENV = "production"
+APP_NAME = "campdreamga"
+SITE_ORIGIN = "https://campdreamga.com"
+WWW_SITE_ORIGIN = "https://www.campdreamga.com"
+API_MODE = "repo-local"
 
 [[r2_buckets]]
 binding = "ASSETS_BUCKET"
-bucket_name = "myappai"
-preview_bucket_name = "myappai"
-
+bucket_name = "campdreamga"
+preview_bucket_name = "campdreamga-preview"

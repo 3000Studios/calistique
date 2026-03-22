@@ -3,6 +3,7 @@ import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
+import { visualizer } from 'rollup-plugin-visualizer'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
@@ -26,35 +27,49 @@ function syncWorkspaceArtifacts() {
     closeBundle() {
       copyDirectory(contentRoot, path.join(distRoot, 'content'))
       copyDirectory(frontendAssetsRoot, path.join(distRoot, 'assets'))
-    }
+    },
   }
 }
 
 export default defineConfig({
   root: frontendRoot,
+  test: {
+    environment: 'jsdom',
+    include: ['src/**/*.test.{js,jsx}'],
+  },
   publicDir: path.join(frontendRoot, 'public'),
-  plugins: [react(), syncWorkspaceArtifacts()],
+  plugins: [
+    react(),
+    syncWorkspaceArtifacts(),
+    process.env.ANALYZE === 'true'
+      ? visualizer({
+          filename: path.join(distRoot, 'bundle-analysis.html'),
+          open: false,
+          gzipSize: true,
+        })
+      : null,
+  ].filter(Boolean),
   resolve: {
     alias: {
       '@content': contentRoot,
       '@frontend': frontendRoot,
-      '@src': path.join(frontendRoot, 'src')
-    }
+      '@src': path.join(frontendRoot, 'src'),
+    },
   },
   server: {
     port: 5173,
     fs: {
-      allow: [__dirname]
+      allow: [__dirname],
     },
     proxy: {
       '/api': {
         target: `http://localhost:${process.env.PORT || '8787'}`,
-        changeOrigin: true
-      }
-    }
+        changeOrigin: true,
+      },
+    },
   },
   build: {
     outDir: distRoot,
-    emptyOutDir: true
-  }
+    emptyOutDir: true,
+  },
 })

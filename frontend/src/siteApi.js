@@ -1,14 +1,16 @@
+import { mirrorConversionToClientAnalytics } from './analyticsClient.js'
+
 const API_BASE = import.meta.env.VITE_API_BASE_URL ?? ''
-const SESSION_KEY = 'voicetowebsite_session_id'
+const SESSION_KEY = 'campdreamga_session_id'
 const LEGACY_SESSION_KEY = 'myappai_session_id'
 
 async function request(path, { method = 'GET', body } = {}) {
   const response = await fetch(`${API_BASE}${path}`, {
     method,
     headers: {
-      'content-type': 'application/json'
+      'content-type': 'application/json',
     },
-    body: body ? JSON.stringify(body) : undefined
+    body: body ? JSON.stringify(body) : undefined,
   })
 
   const payload = await response.json()
@@ -59,22 +61,26 @@ export function getPublicSiteSnapshot() {
 export function trackSiteEvent(event) {
   return request('/api/public/events', {
     method: 'POST',
-    body: event
+    body: event,
   })
 }
 
 export function trackConversionEvent(type, details = {}) {
+  mirrorConversionToClientAnalytics(type, details)
+
   return trackSiteEvent({
     type,
     path: details.path ?? getCurrentPath(),
     sessionId: details.sessionId ?? getVisitorSessionId(),
-    referrer: details.referrer ?? (typeof document === 'undefined' ? '' : document.referrer),
+    referrer:
+      details.referrer ??
+      (typeof document === 'undefined' ? '' : document.referrer),
     ctaId: details.ctaId ?? '',
     offerSlug: details.offerSlug ?? '',
     provider: details.provider ?? '',
     intent: details.intent ?? '',
     stage: details.stage ?? '',
-    details: details.details ?? null
+    details: details.details ?? null,
   })
 }
 
@@ -85,7 +91,7 @@ export function trackCtaClick(details) {
 export function submitLead(lead) {
   return request('/api/public/leads', {
     method: 'POST',
-    body: lead
+    body: lead,
   })
 }
 
@@ -94,29 +100,33 @@ export function askPublicAssistant(message, history = []) {
     method: 'POST',
     body: {
       message,
-      history
-    }
+      history,
+    },
   })
 }
 
 export function startStripeCheckout(offerSlug) {
   return request('/api/public/checkout/stripe', {
     method: 'POST',
-    body: { offerSlug }
+    body: { offerSlug },
   })
 }
 
 export function startPayPalCheckout(offerSlug) {
   return request('/api/public/checkout/paypal', {
     method: 'POST',
-    body: { offerSlug }
+    body: { offerSlug },
   })
 }
 
 export function verifyStripeCheckout(sessionId) {
-  return request(`/api/public/checkout/stripe/success?session_id=${encodeURIComponent(sessionId)}`)
+  return request(
+    `/api/public/checkout/stripe/success?session_id=${encodeURIComponent(sessionId)}`
+  )
 }
 
 export function capturePayPalCheckout(orderId) {
-  return request(`/api/public/checkout/paypal/capture?token=${encodeURIComponent(orderId)}`)
+  return request(
+    `/api/public/checkout/paypal/capture?token=${encodeURIComponent(orderId)}`
+  )
 }
