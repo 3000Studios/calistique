@@ -1,60 +1,69 @@
 {
   "eyebrow": "Contact",
-  "headline": "Submit a serious implementation or enterprise brief",
-  "subheadline": "Use this page when you need guided setup, scoped delivery, or a qualified deployment conversation before purchase.",
+  "headline": "Tell us what kind of Georgia camp experience you want to plan",
+  "subheadline": "Use this page for family package planning, group retreats, partnerships, and custom experience questions that need a real follow-up.",
   "heroStats": [
     {
-      "label": "Close mode",
-      "value": "Lead form first"
+      "label": "Response path",
+      "value": "Inquiry first"
     },
     {
       "label": "Best for",
-      "value": "Launch Sprint + Enterprise"
+      "value": "Family + group planning"
     },
     {
-      "label": "Admin routing",
-      "value": "Tracked in revenue queue"
+      "label": "Use case",
+      "value": "Higher-touch coordination"
     }
   ],
   "stepsEyebrow": "What happens next",
-  "stepsHeadline": "The contact path is built to qualify work before follow-up starts",
+  "stepsHeadline": "The contact route is designed to make follow-up easier and more informed",
   "steps": [
     {
-      "title": "Submit the brief",
-      "description": "Describe the outcome, deployment constraints, and timeline you want help with."
+      "title": "Share the goal",
+      "description": "Tell us whether you are planning a family weekend, group retreat, partnership, or custom request."
     },
     {
-      "title": "Route the opportunity",
-      "description": "The lead is recorded with offer intent, source path, and stage inside the admin pipeline."
+      "title": "Route the inquiry",
+      "description": "The team can then decide whether the best next step is direct booking, planning support, or custom qualification."
     },
     {
-      "title": "Move into the right lane",
-      "description": "We use the same system to decide whether the next move is implementation scope, enterprise qualification, or a product path."
+      "title": "Move into the right path",
+      "description": "That keeps complex requests from being forced into the wrong checkout flow."
     }
   ],
   "sections": [
     {
-      "title": "Best for implementation work",
-      "description": "Use this form when you want the system configured, the public funnel sharpened, or the first delivery workflow built with you."
+      "title": "Best for family planning",
+      "description": "Use this path when you want help choosing the right program or building a more personalized weekend."
     },
     {
-      "title": "Best for enterprise review",
-      "description": "Use this form when deployment, governance, hosting, or approval requirements need to be clarified before commercial scope."
+      "title": "Best for groups",
+      "description": "Use this path for schools, churches, and organizations that need a custom retreat conversation."
     },
     {
-      "title": "Not the fastest path for software-only buyers",
-      "description": "If you already know you want Operator OS, pricing is the faster route because it opens direct checkout."
+      "title": "Best for partnerships",
+      "description": "Use this path for sponsorship, content, or brand collaboration opportunities."
     }
   ],
   "leadForm": {
-    "heading": "Start the right follow-up path",
-    "intro": "Share enough detail to make implementation or deployment follow-up efficient and grounded in the real scope.",
-    "submitLabel": "Submit implementation brief"
+    "heading": "Start the right planning conversation",
+    "intro": "Share enough detail to help us recommend the right path without sending you through the wrong form or booking flow.",
+    "submitLabel": "Send planning inquiry"
   },
   "faq": [
     {
-      "question": "Why use a brief instead of a generic contact form?",
-      "answer": "Because the point is to route the work into the correct operational lane, not just capture an email and lose context."
+      "question": "Should I use contact if I am ready to buy a direct package?",
+      "answer": "If the package fits your needs, pricing or the program page is faster. Contact is best when you want guidance or custom planning."
     }
-  ]
+  ],
+  "cta": {
+    "eyebrow": "Prefer to browse first",
+    "heading": "Explore pricing and programs if you want to compare options before reaching out.",
+    "body": "The site is built so you can either self-educate or start a conversation, depending on what you need.",
+    "primaryLabel": "Open pricing",
+    "primaryHref": "/pricing",
+    "secondaryLabel": "See programs",
+    "secondaryHref": "/products"
+  }
 }

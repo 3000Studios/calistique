@@ -3,9 +3,9 @@ import { useLocation } from 'react-router-dom'
 import { submitLead, trackConversionEvent } from '../src/siteApi.js'
 
 const OFFER_SLUGS = {
-  'Operator OS': 'operator-os',
-  'Launch Sprint': 'launch-sprint',
-  'Enterprise Deployment': 'enterprise-deployment'
+  'Season Pass': 'operator-os',
+  'Family Adventure Weekend': 'launch-sprint',
+  'Group Retreat Planning': 'enterprise-deployment',
 }
 
 function createInitialForm(interestDefault) {
@@ -15,8 +15,8 @@ function createInitialForm(interestDefault) {
     company: '',
     interest: interestDefault,
     notes: '',
-    intent: 'high_intent',
-    stage: 'new'
+    intent: 'planning',
+    stage: 'new',
   }
 }
 
@@ -25,11 +25,11 @@ function toOfferSlug(interest) {
 }
 
 export default function ContactLeadForm({
-  interestDefault = 'Launch Sprint',
+  interestDefault = 'Family Adventure Weekend',
   ctaId = 'contact-form',
-  heading = 'Send serious buyers into a real pipeline',
-  intro = 'Use this form to qualify the project and capture the next action while the site stays in a lead-form-first mode.',
-  submitLabel = 'Submit lead'
+  heading = 'Start a real planning conversation',
+  intro = 'Use this form to share what you want so the next step can be routed to the right booking or planning path.',
+  submitLabel = 'Send inquiry',
 }) {
   const location = useLocation()
   const [form, setForm] = useState(() => createInitialForm(interestDefault))
@@ -40,7 +40,7 @@ export default function ContactLeadForm({
   useEffect(() => {
     setForm((current) => ({
       ...current,
-      interest: interestDefault
+      interest: interestDefault,
     }))
   }, [interestDefault])
 
@@ -48,7 +48,7 @@ export default function ContactLeadForm({
     const { name, value } = event.target
     setForm((current) => ({
       ...current,
-      [name]: value
+      [name]: value,
     }))
   }
 
@@ -61,7 +61,7 @@ export default function ContactLeadForm({
       const payload = {
         ...form,
         sourcePath: location.pathname,
-        ctaId
+        ctaId,
       }
       await submitLead(payload)
       await trackConversionEvent('lead_submit', {
@@ -71,10 +71,12 @@ export default function ContactLeadForm({
         intent: form.intent,
         stage: form.stage,
         details: {
-          interest: form.interest
-        }
+          interest: form.interest,
+        },
       })
-      setSuccess('Lead captured and routed into the real pipeline. Follow-up state is now visible in the admin revenue queue.')
+      setSuccess(
+        'Your inquiry has been captured and routed into the planning pipeline. The team can now review the details and guide the next step.'
+      )
       setForm(createInitialForm(interestDefault))
     } catch (nextError) {
       setError(nextError.message)
@@ -91,30 +93,57 @@ export default function ContactLeadForm({
       <form className="lead-form" onSubmit={handleSubmit}>
         <label className="field">
           <span>Name</span>
-          <input name="name" value={form.name} onChange={updateField} placeholder="Your name" />
+          <input
+            name="name"
+            value={form.name}
+            onChange={updateField}
+            placeholder="Your name"
+          />
         </label>
         <label className="field">
           <span>Email</span>
-          <input name="email" type="email" value={form.email} onChange={updateField} placeholder="you@company.com" required />
+          <input
+            name="email"
+            type="email"
+            value={form.email}
+            onChange={updateField}
+            placeholder="you@company.com"
+            required
+          />
         </label>
         <label className="field">
           <span>Company</span>
-          <input name="company" value={form.company} onChange={updateField} placeholder="Company or brand" />
+          <input
+            name="company"
+            value={form.company}
+            onChange={updateField}
+            placeholder="Company or brand"
+          />
         </label>
         <label className="field">
           <span>Best-fit offer</span>
           <select name="interest" value={form.interest} onChange={updateField}>
-            <option>Operator OS</option>
-            <option>Launch Sprint</option>
-            <option>Enterprise Deployment</option>
+            <option>Season Pass</option>
+            <option>Family Adventure Weekend</option>
+            <option>Group Retreat Planning</option>
           </select>
         </label>
         <label className="field field--full">
           <span>What outcome do you want?</span>
-          <textarea name="notes" rows="5" value={form.notes} onChange={updateField} placeholder="Describe the workflow, launch, or deployment you want help with." />
+          <textarea
+            name="notes"
+            rows="5"
+            value={form.notes}
+            onChange={updateField}
+            placeholder="Describe the kind of camp experience, family trip, retreat, or support you want help with."
+          />
         </label>
         <div className="checkout-actions">
-          <button className="button button--primary" type="submit" disabled={busy}>
+          <button
+            className="button button--primary"
+            type="submit"
+            disabled={busy}
+          >
             {busy ? 'Sending...' : submitLabel}
           </button>
         </div>

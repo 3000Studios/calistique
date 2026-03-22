@@ -1,5 +1,6 @@
 import React from 'react'
 import { Link, Navigate, useParams } from 'react-router-dom'
+import AdSenseSlot from '../components/AdSenseSlot.jsx'
 import ContactLeadForm from '../components/ContactLeadForm.jsx'
 import MetricStrip from '../components/MetricStrip.jsx'
 import OfferCheckoutCard from '../components/OfferCheckoutCard.jsx'
@@ -14,10 +15,11 @@ import NotFoundPage from './NotFoundPage.jsx'
 const reserved = new Set(['admin', 'blog', 'products'])
 
 function isExternalHref(href) {
-  return typeof href === 'string' && (
-    /^(?:[a-z]+:)?\/\//i.test(href) ||
-    href.startsWith('mailto:') ||
-    href.startsWith('tel:')
+  return (
+    typeof href === 'string' &&
+    (/^(?:[a-z]+:)?\/\//i.test(href) ||
+      href.startsWith('mailto:') ||
+      href.startsWith('tel:'))
   )
 }
 
@@ -66,7 +68,7 @@ function renderTrackedAction(slug, href, label, variant, ctaId) {
     trackCtaClick({
       ctaId,
       offerSlug: inferOfferSlug(href),
-      intent: inferIntent(slug, href)
+      intent: inferIntent(slug, href),
     }).catch(() => {})
 
   if (isExternalHref(href)) {
@@ -103,7 +105,11 @@ export default function GenericPage() {
       <section className="section-card section-card--hero">
         <span className="eyebrow">{page.eyebrow ?? SITE_DISPLAY_NAME}</span>
         <PrismHeadline text={page.headline ?? page.title ?? slug} />
-        <p className="section-intro">{page.subheadline ?? page.intro ?? 'Generated from the repo content layer.'}</p>
+        <p className="section-intro">
+          {page.subheadline ??
+            page.intro ??
+            'This page is managed from the shared content layer.'}
+        </p>
       </section>
 
       {page.heroStats ? <MetricStrip items={page.heroStats} /> : null}
@@ -114,7 +120,10 @@ export default function GenericPage() {
           <h2>{page.stepsHeadline ?? 'How the flow works'}</h2>
           <div className="card-grid card-grid--compact">
             {page.steps.map((step, index) => (
-              <article key={step.title} className="content-card content-card--step">
+              <article
+                key={step.title}
+                className="content-card content-card--step"
+              >
                 <span className="step-number">0{index + 1}</span>
                 <h3>{step.title}</h3>
                 <p>{step.description}</p>
@@ -126,7 +135,9 @@ export default function GenericPage() {
 
       {slug === 'contact' ? (
         <ContactLeadForm
-          interestDefault={page.leadForm?.interestDefault ?? 'Launch Sprint'}
+          interestDefault={
+            page.leadForm?.interestDefault ?? 'Family Adventure Weekend'
+          }
           ctaId="contact-page-form"
           heading={page.leadForm?.heading}
           intro={page.leadForm?.intro}
@@ -134,13 +145,26 @@ export default function GenericPage() {
         />
       ) : null}
 
-      {page.sections ? <RichBlocks title={page.sectionsHeadline ?? 'What this page covers'} items={page.sections} /> : null}
-      {page.items ? <RichBlocks title={page.itemsHeadline ?? 'Core sections'} items={page.items} /> : null}
+      {page.sections ? (
+        <RichBlocks
+          title={page.sectionsHeadline ?? 'What this page covers'}
+          items={page.sections}
+        />
+      ) : null}
+      {page.items ? (
+        <RichBlocks
+          title={page.itemsHeadline ?? 'Core sections'}
+          items={page.items}
+        />
+      ) : null}
 
       {page.tiers ? (
         <section className="card-grid">
           {page.tiers.map((tier) => (
-            <article key={tier.name} className={`content-card pricing-card${tier.featured ? ' pricing-card--featured' : ''}`}>
+            <article
+              key={tier.name}
+              className={`content-card pricing-card${tier.featured ? ' pricing-card--featured' : ''}`}
+            >
               <span className="meta-line">{tier.price}</span>
               <h2>{tier.name}</h2>
               <p>{tier.description}</p>
@@ -161,7 +185,9 @@ export default function GenericPage() {
               <span className="eyebrow">Live checkout</span>
               <h2>Payment buttons reflect real provider readiness.</h2>
               <p className="section-intro">
-                If Stripe is configured it appears. If PayPal API credentials are missing, PayPal can still route through mr.jwswain@gmail.com.
+                Direct payment options appear only when the route is configured.
+                Higher-touch experiences continue through the inquiry-first
+                planning path.
               </p>
             </div>
           </div>
@@ -188,6 +214,8 @@ export default function GenericPage() {
         </section>
       ) : null}
 
+      {page.adsEligible ? <AdSenseSlot slot={`page-${slug}-inline`} /> : null}
+
       {page.cta ? (
         <section className="section-card cta-band">
           <div>
@@ -196,8 +224,20 @@ export default function GenericPage() {
             <p className="section-intro">{page.cta.body}</p>
           </div>
           <div className="hero__actions">
-            {renderTrackedAction(slug, page.cta.primaryHref, page.cta.primaryLabel, 'primary', `page-${slug}-primary`)}
-            {renderTrackedAction(slug, page.cta.secondaryHref, page.cta.secondaryLabel, 'ghost', `page-${slug}-secondary`)}
+            {renderTrackedAction(
+              slug,
+              page.cta.primaryHref,
+              page.cta.primaryLabel,
+              'primary',
+              `page-${slug}-primary`
+            )}
+            {renderTrackedAction(
+              slug,
+              page.cta.secondaryHref,
+              page.cta.secondaryLabel,
+              'ghost',
+              `page-${slug}-secondary`
+            )}
           </div>
         </section>
       ) : null}

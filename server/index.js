@@ -3,6 +3,7 @@ import express from 'express'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import commandRoutes from './routes/commandRoutes.js'
+import adminAuthRoutes from './routes/adminAuthRoutes.js'
 import publicRoutes from './routes/publicRoutes.js'
 import { bootstrapContent } from './services/contentService.js'
 
@@ -17,19 +18,20 @@ app.get('/api/health', async (_request, response) => {
   await bootstrapContent()
   response.json({
     status: 'ok',
-    service: 'myappai-platform',
-    mode: 'local-repo-server'
+    service: 'campdreamga-platform',
+    mode: 'local-repo-server',
   })
 })
 
 app.use('/api/public', publicRoutes)
+app.use('/api/admin', adminAuthRoutes)
 app.use('/api', commandRoutes)
 
 app.use((error, _request, response, _next) => {
   void _next
   response.status(400).json({
     error: error.name || 'RequestError',
-    message: error.message || 'Request failed.'
+    message: error.message || 'Request failed.',
   })
 })
 
@@ -39,7 +41,7 @@ if (process.argv[1] && path.resolve(process.argv[1]) === __filename) {
   bootstrapContent()
     .then(() => {
       app.listen(PORT, () => {
-        console.log(`myappai server listening on http://localhost:${PORT}`)
+        console.log(`campdreamga server listening on http://localhost:${PORT}`)
       })
     })
     .catch((error) => {

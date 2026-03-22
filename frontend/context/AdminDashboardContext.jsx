@@ -1,6 +1,22 @@
-import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react'
+import React, {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react'
 import { useNavigate } from 'react-router-dom'
-import { getAnalytics, getContent, getDeployments, getRevenueQueue, sendCommand, updateLeadStage } from '../src/adminApi.js'
+import {
+  getAdminSessionState,
+  getAnalytics,
+  getContent,
+  getDeployments,
+  getRevenueQueue,
+  logoutAdmin,
+  sendCommand,
+  updateLeadStage,
+} from '../src/adminApi.js'
 import { clearAdminSession, getAdminSession } from '../src/adminSession.js'
 
 const defaultCommand = JSON.stringify(
@@ -8,7 +24,7 @@ const defaultCommand = JSON.stringify(
     action: 'create_blog_post',
     topic: 'AI automation',
     length: 'medium',
-    autoDeploy: false
+    autoDeploy: false,
   },
   null,
   2
@@ -23,7 +39,8 @@ export function AdminDashboardProvider({ children }) {
   const [adminSession] = useState(() => getAdminSession())
   const [consoleMode, setConsoleMode] = useState('prompt')
   const [commandText, setCommandText] = useState(defaultCommand)
-  const [naturalLanguagePrompt, setNaturalLanguagePrompt] = useState(defaultPrompt)
+  const [naturalLanguagePrompt, setNaturalLanguagePrompt] =
+    useState(defaultPrompt)
   const [analytics, setAnalytics] = useState(null)
   const [deployments, setDeployments] = useState(null)
   const [contentBundle, setContentBundle] = useState(null)
@@ -38,15 +55,16 @@ export function AdminDashboardProvider({ children }) {
 
   const refreshDashboard = useCallback(
     async (activeSession = adminSession) => {
-      if (!activeSession?.adminEmail || !activeSession?.adminCode) {
+      if (!activeSession?.adminEmail) {
         return
       }
-      const [nextAnalytics, nextDeployments, nextContent, nextRevenueQueue] = await Promise.all([
-        getAnalytics(activeSession),
-        getDeployments(activeSession),
-        getContent(activeSession),
-        getRevenueQueue(activeSession)
-      ])
+      const [nextAnalytics, nextDeployments, nextContent, nextRevenueQueue] =
+        await Promise.all([
+          getAnalytics(activeSession),
+          getDeployments(activeSession),
+          getContent(activeSession),
+          getRevenueQueue(activeSession),
+        ])
       setAnalytics(nextAnalytics)
       setDeployments(nextDeployments)
       setContentBundle(nextContent)
@@ -56,10 +74,11 @@ export function AdminDashboardProvider({ children }) {
   )
 
   useEffect(() => {
-    if (!adminSession?.adminEmail || !adminSession?.adminCode) {
+    if (!adminSession?.adminEmail) {
       return
     }
-    refreshDashboard(adminSession)
+    getAdminSessionState()
+      .then(() => refreshDashboard(adminSession))
       .catch((loadError) => setError(loadError.message))
       .finally(() => setInitialLoadDone(true))
   }, [adminSession, refreshDashboard])
@@ -72,7 +91,7 @@ export function AdminDashboardProvider({ children }) {
         consoleMode === 'json'
           ? JSON.parse(commandText)
           : {
-              command: naturalLanguagePrompt.trim()
+              command: naturalLanguagePrompt.trim(),
             }
 
       if (consoleMode !== 'json' && !payload.command) {
@@ -87,7 +106,13 @@ export function AdminDashboardProvider({ children }) {
     } finally {
       setCommandBusy(false)
     }
-  }, [adminSession, commandText, consoleMode, naturalLanguagePrompt, refreshDashboard])
+  }, [
+    adminSession,
+    commandText,
+    consoleMode,
+    naturalLanguagePrompt,
+    refreshDashboard,
+  ])
 
   const handleSaveFile = useCallback(
     async (targetPath, contents) => {
@@ -98,7 +123,7 @@ export function AdminDashboardProvider({ children }) {
           action: 'edit_workspace_file',
           targetPath,
           contents,
-          autoDeploy: false
+          autoDeploy: false,
         })
         setLastResult(result)
         await refreshDashboard(adminSession)
@@ -117,7 +142,7 @@ export function AdminDashboardProvider({ children }) {
       setDeployBusy(true)
       const result = await sendCommand(adminSession, {
         action: 'deploy_site',
-        message: 'Admin-triggered deploy'
+        message: 'Admin-triggered deploy',
       })
       setLastResult(result)
       await refreshDashboard(adminSession)
@@ -143,7 +168,7 @@ export function AdminDashboardProvider({ children }) {
       setTrafficBusy(true)
       const result = await sendCommand(adminSession, {
         action: 'discover_topics',
-        limit: 6
+        limit: 6,
       })
       setLastResult(result)
       await refreshDashboard(adminSession)
@@ -162,7 +187,7 @@ export function AdminDashboardProvider({ children }) {
         action: 'run_traffic_cycle',
         count: 2,
         includeImages: true,
-        autoDeploy: false
+        autoDeploy: false,
       })
       setLastResult(result)
       await refreshDashboard(adminSession)
@@ -188,8 +213,12 @@ export function AdminDashboardProvider({ children }) {
   )
 
   const handleSignOut = useCallback(() => {
-    clearAdminSession()
-    navigate('/admin/login', { replace: true })
+    logoutAdmin()
+      .catch(() => {})
+      .finally(() => {
+        clearAdminSession()
+        navigate('/admin/login', { replace: true })
+      })
   }, [navigate])
 
   const value = useMemo(
@@ -220,7 +249,7 @@ export function AdminDashboardProvider({ children }) {
       handleDiscoverTopics,
       handleRunTrafficCycle,
       handleUpdateLeadStage,
-      handleSignOut
+      handleSignOut,
     }),
     [
       adminSession,
@@ -245,17 +274,23 @@ export function AdminDashboardProvider({ children }) {
       handleDiscoverTopics,
       handleRunTrafficCycle,
       handleUpdateLeadStage,
-      handleSignOut
+      handleSignOut,
     ]
   )
 
-  return <AdminDashboardContext.Provider value={value}>{children}</AdminDashboardContext.Provider>
+  return (
+    <AdminDashboardContext.Provider value={value}>
+      {children}
+    </AdminDashboardContext.Provider>
+  )
 }
 
 export function useAdminDashboard() {
   const ctx = useContext(AdminDashboardContext)
   if (!ctx) {
-    throw new Error('useAdminDashboard must be used inside AdminDashboardProvider')
+    throw new Error(
+      'useAdminDashboard must be used inside AdminDashboardProvider'
+    )
   }
   return ctx
 }

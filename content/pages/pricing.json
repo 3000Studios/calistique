@@ -1,117 +1,116 @@
 {
   "eyebrow": "Pricing",
-  "headline": "Choose the lane that matches how you want to buy and deploy",
-  "subheadline": "The pricing system is now designed to route software buyers into checkout quickly, service buyers into implementation briefs, and enterprise buyers into qualified rollout review.",
+  "headline": "Choose the Camp Dream GA path that matches how much planning support you want",
+  "subheadline": "The pricing system now separates direct booking, guided planning, and custom retreat scoping so every visitor can move forward without confusion.",
   "heroStats": [
     {
-      "label": "Software lane",
-      "value": "Operator OS"
+      "label": "Direct booking",
+      "value": "Season Pass"
     },
     {
-      "label": "Service lane",
-      "value": "Launch Sprint"
+      "label": "Guided package",
+      "value": "Family Adventure Weekend"
     },
     {
-      "label": "Enterprise lane",
-      "value": "Qualified deployment"
+      "label": "Custom plan",
+      "value": "Group Retreat Planning"
     }
   ],
   "stepsEyebrow": "How to choose",
-  "stepsHeadline": "Each lane is built for a different buying style",
+  "stepsHeadline": "Each lane is built for a different kind of visitor",
   "steps": [
     {
-      "title": "Buy Operator OS",
-      "description": "Best when you are ready for direct software access and a clean product-led path."
+      "title": "Choose a Season Pass",
+      "description": "Best when you want a simple premium package with a direct path to purchase."
     },
     {
-      "title": "Submit Launch Sprint",
-      "description": "Best when you want premium setup help, faster activation, and guided implementation."
+      "title": "Start a Family Adventure Weekend",
+      "description": "Best when you want a more curated family experience and support planning it well."
     },
     {
-      "title": "Scope Enterprise Deployment",
-      "description": "Best when rollout, governance, hosting, or approvals need to be reviewed first."
+      "title": "Scope a Group Retreat",
+      "description": "Best when your school, church, or organization needs custom logistics and planning."
     }
   ],
   "tiers": [
     {
-      "name": "Starter",
+      "name": "Free Resources",
       "price": "$0",
-      "description": "Explore the system architecture and evaluate the workflow before moving deeper.",
+      "description": "Browse articles, planning guides, and seasonal ideas before you commit to anything.",
       "features": [
-        "Platform overview",
-        "Basic planning structure",
-        "Good for internal review"
+        "Planning content",
+        "Camp discovery guides",
+        "Family trip inspiration"
       ]
     },
     {
-      "name": "Operator OS",
-      "price": "$99/mo",
-      "description": "The core recurring software offer for teams that want the command center itself.",
+      "name": "Season Pass",
+      "price": "$149",
+      "description": "A direct-pay premium package for visitors ready to reserve a simple Camp Dream GA experience now.",
       "featured": true,
       "features": [
-        "Operator-grade public and admin surfaces",
-        "Command routing and content control",
-        "Payment and deployment visibility",
-        "Fastest route to recurring value"
+        "Priority access to featured camp experiences",
+        "Simple checkout path",
+        "Best for confident, ready-to-book buyers"
       ]
     },
     {
-      "name": "Launch Sprint",
-      "price": "$2,500+",
-      "description": "A done-with-you implementation package for teams that want the first system built with them.",
+      "name": "Family Adventure Weekend",
+      "price": "$895+",
+      "description": "A premium inquiry-first package for families who want a more curated experience and support.",
       "features": [
-        "Offer and funnel setup",
-        "High-touch workflow implementation",
-        "Faster path to launch-ready operations"
+        "Planning support",
+        "Package recommendations",
+        "Higher-touch family coordination"
       ]
     },
     {
-      "name": "Enterprise Deployment",
+      "name": "Group Retreat Planning",
       "price": "Custom",
-      "description": "For teams that need governed rollout, deployment support, and custom operational scope.",
+      "description": "For schools, churches, and organizations that need a custom path.",
       "features": [
-        "Deployment and governance review",
-        "Self-hosted or controlled rollout path",
-        "Custom support and enterprise planning"
+        "Group logistics review",
+        "Custom planning support",
+        "Qualified retreat scoping"
       ]
     }
   ],
   "sections": [
     {
       "eyebrow": "Payments",
-      "title": "Checkout only appears when the route is truly available",
-      "description": "If Stripe is ready it appears. If PayPal API credentials are absent, PayPal can still route through mr.jwswain@gmail.com."
+      "title": "Checkout only appears where it truly fits",
+      "description": "Direct checkout is reserved for simpler offers. Higher-touch experiences use inquiry-first paths so the premium experience stays aligned with the actual planning work."
     },
     {
-      "eyebrow": "Implementation",
-      "title": "Lead-form-first keeps premium work scoped properly",
-      "description": "Launch Sprint is for buyers who need an expert-guided setup path instead of a blank dashboard."
+      "eyebrow": "Experience design",
+      "title": "Premium support remains visible without becoming pushy",
+      "description": "Every tier points toward the next best action instead of forcing every visitor into the same funnel."
     },
     {
-      "eyebrow": "Enterprise",
-      "title": "Qualification-first protects larger deployment conversations",
-      "description": "Enterprise buyers should not be forced into a low-context checkout path that ignores rollout requirements."
+      "eyebrow": "Trust",
+      "title": "Clear pricing supports both conversion and credibility",
+      "description": "Families and organizers can now understand the buying model quickly, which reduces hesitation and improves site quality."
     }
   ],
   "faqHeadline": "Pricing questions",
   "faq": [
     {
-      "question": "Can I still use PayPal if the full PayPal API setup is not live?",
-      "answer": "Yes. The system now supports a PayPal email routing fallback through mr.jwswain@gmail.com."
+      "question": "Why are some offers direct-pay and others inquiry-first?",
+      "answer": "Because simpler offers are easier to purchase immediately, while higher-touch experiences need planning and qualification first."
     },
     {
-      "question": "Why keep services and enterprise next to software?",
-      "answer": "Because they support different buyer needs and make the overall business more resilient, premium, and believable."
+      "question": "Can I still talk to someone before I buy?",
+      "answer": "Yes. Contact and inquiry-first program pages are built for exactly that."
     }
   ],
   "cta": {
     "eyebrow": "Best next move",
-    "heading": "Use pricing to move into the right commercial lane without wasting time.",
-    "body": "The redesigned pricing page is meant to speed up decision-making, not create more navigation overhead.",
-    "primaryLabel": "Start implementation brief",
-    "primaryHref": "/contact",
-    "secondaryLabel": "See products",
-    "secondaryHref": "/products"
+    "heading": "Use pricing when you want clarity fast, then move into the booking or planning path that fits.",
+    "body": "The page is meant to support confident action without crowding the experience with too many choices at once.",
+    "primaryLabel": "Explore programs",
+    "primaryHref": "/products",
+    "secondaryLabel": "Contact the planning team",
+    "secondaryHref": "/contact"
   },
-  "updatedAt": "2026-03-21T00:00:00.000Z"
+  "updatedAt": "2026-03-22T00:00:00.000Z"
 }

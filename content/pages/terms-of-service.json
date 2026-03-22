@@ -1,0 +1,24 @@
+{
+  "eyebrow": "Terms of Service",
+  "headline": "Terms that govern use of Camp Dream GA",
+  "subheadline": "These terms describe the general rules for using the site, submitting inquiries, and interacting with offers, content, and public resources.",
+  "adsEligible": false,
+  "sections": [
+    {
+      "title": "Use of the site",
+      "description": "You agree to use the site for lawful purposes and not to interfere with normal site operation, form handling, security controls, or content availability."
+    },
+    {
+      "title": "Content and offers",
+      "description": "Program details, pricing ranges, and planning information may evolve over time. Public information is provided to help visitors understand available paths before a final booking or planning agreement is confirmed."
+    },
+    {
+      "title": "Bookings and inquiries",
+      "description": "Submitting a form or completing a payment does not guarantee acceptance into every experience or custom request. Some offers require further confirmation or planning."
+    },
+    {
+      "title": "Intellectual property",
+      "description": "Site branding, design, content, and original resource materials are protected and should not be reproduced without permission."
+    }
+  ]
+}

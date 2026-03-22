@@ -25,7 +25,8 @@ export default function ProductPage() {
   const { slug } = useParams()
   const product = productLookup[slug]
   const { snapshot } = useSiteRuntime()
-  const liveOffer = snapshot?.commerce?.offers?.find((offer) => offer.slug === slug) ?? null
+  const liveOffer =
+    snapshot?.commerce?.offers?.find((offer) => offer.slug === slug) ?? null
   const closeMode = product?.closeMode ?? liveOffer?.closeMode ?? 'checkout'
 
   if (!product) {
@@ -37,24 +38,37 @@ export default function ProductPage() {
       <section className="section-card section-card--hero product-hero">
         <span className="eyebrow">{product.eyebrow ?? 'Offer'}</span>
         <PrismHeadline text={product.headline ?? product.name} />
-        <p className="section-intro">{product.description ?? product.summary}</p>
+        <p className="section-intro">
+          {product.description ?? product.summary}
+        </p>
         <div className="tag-row">
           <span className="tag">{product.priceAnchor}</span>
           <span className="tag">{formatCloseMode(closeMode)}</span>
-          {product.idealFor ? <span className="tag">{product.idealFor}</span> : null}
+          {product.idealFor ? (
+            <span className="tag">{product.idealFor}</span>
+          ) : null}
         </div>
       </section>
 
       <section className="detail-grid">
         <div className="stack-xl">
-          {closeMode === 'checkout' && liveOffer ? <OfferCheckoutCard offer={liveOffer} /> : null}
+          {closeMode === 'checkout' && liveOffer ? (
+            <OfferCheckoutCard offer={liveOffer} />
+          ) : null}
           {closeMode !== 'checkout' ? (
             <ContactLeadForm
               interestDefault={product.name}
               ctaId={`${slug}-brief-form`}
-              heading={product.leadForm?.heading ?? `Start the ${product.name} brief`}
-              intro={product.leadForm?.intro ?? 'Use this form to describe the outcome, timeline, and implementation details before the next step is scoped.'}
-              submitLabel={product.leadForm?.submitLabel ?? `Submit ${product.name} brief`}
+              heading={
+                product.leadForm?.heading ?? `Start the ${product.name} brief`
+              }
+              intro={
+                product.leadForm?.intro ??
+                'Use this form to describe the experience, timing, and planning details before the next step is confirmed.'
+              }
+              submitLabel={
+                product.leadForm?.submitLabel ?? `Send ${product.name} inquiry`
+              }
             />
           ) : null}
 
@@ -72,7 +86,7 @@ export default function ProductPage() {
           {product.proofPoints ? (
             <RichBlocks
               title="Proof and readiness"
-              intro="This offer earns trust through observable capability, runtime visibility, and a close path that matches the buyer."
+              intro="This offer earns trust through clarity, premium positioning, and a booking path that matches the visitor."
               items={product.proofPoints}
             />
           ) : null}
@@ -92,8 +106,15 @@ export default function ProductPage() {
         </aside>
       </section>
 
-      {product.deliverables ? <RichBlocks title="Deliverables" items={product.deliverables} /> : null}
-      {product.qualificationChecks ? <RichBlocks title="Qualification checks" items={product.qualificationChecks} /> : null}
+      {product.deliverables ? (
+        <RichBlocks title="Deliverables" items={product.deliverables} />
+      ) : null}
+      {product.qualificationChecks ? (
+        <RichBlocks
+          title="Qualification checks"
+          items={product.qualificationChecks}
+        />
+      ) : null}
 
       {product.timeline ? (
         <section className="section-card">
@@ -101,7 +122,10 @@ export default function ProductPage() {
           <h2>From interest to shipped work</h2>
           <div className="card-grid card-grid--compact">
             {product.timeline.map((step, index) => (
-              <article key={step.title} className="content-card content-card--step">
+              <article
+                key={step.title}
+                className="content-card content-card--step"
+              >
                 <span className="step-number">0{index + 1}</span>
                 <h3>{step.title}</h3>
                 <p>{step.description}</p>
@@ -126,7 +150,12 @@ export default function ProductPage() {
                 trackCtaClick({
                   ctaId: `product-${slug}-primary`,
                   offerSlug: slug,
-                  intent: closeMode === 'checkout' ? 'purchase' : closeMode === 'qualification' ? 'qualification' : 'implementation'
+                  intent:
+                    closeMode === 'checkout'
+                      ? 'purchase'
+                      : closeMode === 'qualification'
+                        ? 'qualification'
+                        : 'implementation',
                 }).catch(() => {})
               }
             >

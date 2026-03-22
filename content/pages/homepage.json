@@ -1,196 +1,196 @@
 {
-  "eyebrow": "Premium operator system",
-  "headline": "myappai turns natural-language requests into pages, workflows, payments, and deploy-ready execution",
-  "subheadline": "Run one cleaner command center for the public funnel, implementation intake, deployment activity, and operator-grade administration. The redesign is built to feel more premium, move faster, and close with less friction.",
+  "eyebrow": "Georgia camp experiences",
+  "headline": "Camp Dream GA helps families and groups find meaningful camp experiences without the usual planning chaos",
+  "subheadline": "Discover premium Georgia camp programs, seasonal family adventures, and retreat planning support through a clean, trustworthy site built for bookings, inquiries, and long-term search growth.",
   "primaryCta": {
-    "label": "Open pricing and checkout",
-    "to": "/pricing"
+    "label": "Explore programs",
+    "to": "/products"
   },
   "secondaryCta": {
-    "label": "Start implementation brief",
+    "label": "Talk to our planning team",
     "to": "/contact"
   },
   "operatorSignals": [
-    "premium redesign",
-    "custom gpt concierge",
-    "repo-backed proof",
-    "deploy-ready workflow"
+    "family-friendly",
+    "trusted planning",
+    "original resource content",
+    "adsense-ready structure"
   ],
   "heroStats": [
     {
-      "label": "Execution model",
-      "value": "Build + Automate + Deploy"
+      "label": "Programs",
+      "value": "3 signature lanes"
     },
     {
-      "label": "Buying paths",
-      "value": "Checkout + Implementation + Enterprise"
+      "label": "Audience",
+      "value": "Families, schools, groups"
     },
     {
-      "label": "Operator promise",
-      "value": "Natural language into real work"
+      "label": "Booking paths",
+      "value": "Direct, inquiry, custom"
     }
   ],
   "heroPanel": {
-    "heading": "One command center, three clear revenue lanes.",
-    "body": "Software buyers can check out fast, implementation buyers can submit a serious brief, and enterprise buyers can qualify rollout without getting pushed through the wrong flow.",
+    "heading": "One polished site for inspiration, trust, and conversion.",
+    "body": "The public experience now balances premium design with practical buying paths: direct checkout for simple packages, inquiry-first for planning support, and custom qualification for larger group retreats.",
     "points": [
       {
-        "label": "Operator OS",
-        "value": "Direct software lane for teams ready to move now."
+        "label": "Season Pass",
+        "value": "Best for families who want a simple, direct path into upcoming camp experiences."
       },
       {
-        "label": "Launch Sprint",
-        "value": "Guided implementation lane for teams that want setup help."
+        "label": "Family Adventure Weekend",
+        "value": "Best for households that want a guided package and planning support."
       },
       {
-        "label": "Enterprise Deployment",
-        "value": "Qualified rollout lane for governed environments and custom scope."
+        "label": "Group Retreat Planning",
+        "value": "Best for schools, churches, and organizations that need custom coordination."
       }
     ]
   },
-  "workflowHeadline": "The platform is designed to move from prompt to approved action without making the product feel messy underneath.",
+  "workflowHeadline": "From first visit to confident booking, every step is designed to feel intentional and easy to trust.",
   "workflowSteps": [
     {
-      "title": "Capture the request",
-      "description": "A buyer or operator explains what needs to change in plain language."
+      "title": "Browse the right program",
+      "description": "Visitors can quickly understand whether they need a direct booking, a guided family package, or a custom retreat conversation."
     },
     {
-      "title": "Route the right lane",
-      "description": "The system decides whether the next move is content, implementation, payment, or deployment."
+      "title": "Learn through helpful content",
+      "description": "Original planning articles answer real questions and support organic search without feeling thin or ad-stuffed."
     },
     {
-      "title": "Ship with visibility",
-      "description": "Leads, offers, command activity, and release state stay visible instead of disappearing behind hidden operations."
+      "title": "Choose the next step",
+      "description": "Use checkout when the fit is clear, or send a detailed inquiry when the experience needs more planning."
     }
   ],
-  "buyerPathsIntro": "Every serious visitor should be able to see the correct next step in seconds.",
+  "buyerPathsIntro": "Each path is designed around a real parent, organizer, or group leader decision.",
   "buyerPaths": [
     {
-      "eyebrow": "Checkout-first",
-      "title": "Buy Operator OS",
-      "description": "The core software offer for teams that already understand the value and want direct access now.",
-      "outcome": "Fastest path from conviction to recurring revenue.",
-      "ctaLabel": "Open Operator OS",
+      "eyebrow": "Fast booking",
+      "title": "Reserve a Season Pass",
+      "description": "A direct-buy option for visitors who already know they want a premium Georgia camp experience this season.",
+      "outcome": "Fastest route from interest to revenue.",
+      "ctaLabel": "View Season Pass",
       "ctaHref": "/products/operator-os"
     },
     {
-      "eyebrow": "Implementation-first",
-      "title": "Start Launch Sprint",
-      "description": "A guided setup lane for teams that want the first system built with them instead of handed over cold.",
-      "outcome": "Best path for service revenue and faster activation.",
-      "ctaLabel": "Start implementation",
+      "eyebrow": "Guided planning",
+      "title": "Start a Family Adventure Weekend",
+      "description": "A higher-touch option for families who want curation, planning help, and a memorable shared experience.",
+      "outcome": "Best route for premium service revenue and stronger satisfaction.",
+      "ctaLabel": "Plan a family weekend",
       "ctaHref": "/products/launch-sprint"
     },
     {
-      "eyebrow": "Qualification-first",
-      "title": "Scope Enterprise Deployment",
-      "description": "A review-driven lane for organizations with governance, rollout, hosting, or compliance requirements.",
-      "outcome": "Best path for larger contracts and deeper integration.",
-      "ctaLabel": "Review enterprise lane",
+      "eyebrow": "Custom coordination",
+      "title": "Scope a Group Retreat",
+      "description": "A qualification-first lane for schools, churches, teams, and community organizations with more moving parts.",
+      "outcome": "Best route for larger, custom engagements.",
+      "ctaLabel": "Start retreat planning",
       "ctaHref": "/products/enterprise-deployment"
     }
   ],
-  "audienceIntro": "The new public funnel is intentionally designed for the buyers most likely to value structure, speed, and deployable execution.",
+  "audienceIntro": "The site is shaped around the audiences most likely to need clarity, confidence, and premium support.",
   "audiences": [
     {
-      "title": "Founders and operators",
-      "description": "Use one control system to turn new offers and ideas into live pages and shippable workflow changes.",
+      "title": "Parents and families",
+      "description": "Use Camp Dream GA to compare experiences, understand what to expect, and move from research to booking with less friction.",
       "bullets": [
-        "Reduce the mess between idea and execution",
-        "Keep offers and delivery paths coherent",
-        "Launch without bolting together five tools"
+        "Clear program descriptions",
+        "Honest pricing paths",
+        "Helpful planning content"
       ]
     },
     {
-      "title": "Service teams",
-      "description": "Package implementation and delivery work into a tighter premium workflow with better handoff.",
+      "title": "Group organizers",
+      "description": "Build a retreat or shared experience without juggling scattered notes, broken forms, and unclear next steps.",
       "bullets": [
-        "Qualify buyers faster",
-        "Turn setup work into a repeatable sprint",
-        "Use the same stack for sales and delivery"
+        "Qualification-first planning",
+        "Custom scoping support",
+        "Smoother group coordination"
       ]
     },
     {
-      "title": "Enterprise stakeholders",
-      "description": "Keep the higher-trust lane ready for deployment planning, governance review, and custom rollout work.",
+      "title": "Search-driven visitors",
+      "description": "Find genuinely useful resource content that answers questions before you ever commit to a program.",
       "bullets": [
-        "Respect rollout complexity",
-        "Preserve repo-backed control",
-        "Route larger deals into qualification first"
+        "Evergreen guides",
+        "Seasonal planning ideas",
+        "Editorial content designed for trust"
       ]
     }
   ],
-  "proofHeadline": "Trust comes from visible operations, not decorative claims.",
-  "whyNowHeadline": "Why this system closes faster than the old sprawl",
+  "proofHeadline": "Trust comes from clarity, useful content, and a public experience that feels complete.",
+  "whyNowHeadline": "Why the rebuilt experience converts better",
   "whyNowCards": [
     {
       "eyebrow": "Clarity",
-      "title": "The UI is cleaner and more decisive",
-      "description": "The redesign removes dead-end pages and surfaces the next action more aggressively.",
-      "outcome": "Less browsing. More commitment."
+      "title": "The navigation and content architecture are cleaner",
+      "description": "Visitors can now tell the difference between browsing, booking, and inquiry-first paths immediately.",
+      "outcome": "Less confusion and stronger conversion intent."
     },
     {
-      "eyebrow": "Control",
-      "title": "The admin system uses the same product truth as the public funnel",
-      "description": "Offers, deploys, analytics, and content changes all stay connected.",
-      "outcome": "The runtime story is believable."
+      "eyebrow": "Trust",
+      "title": "Legal pages, policies, and resource depth are now part of the site foundation",
+      "description": "This supports both user confidence and AdSense/publisher readiness.",
+      "outcome": "A more credible public footprint."
     },
     {
-      "eyebrow": "Velocity",
-      "title": "The operator can use natural language or direct commands",
-      "description": "Custom GPT mode and structured JSON commands now target the real app.",
-      "outcome": "Faster edits and safer deploys."
+      "eyebrow": "Revenue",
+      "title": "Programs and content now support each other",
+      "description": "Program pages drive bookings while resource pages support search growth and future ad inventory.",
+      "outcome": "A healthier long-term revenue mix."
     }
   ],
   "founderStory": {
-    "eyebrow": "Operator proof",
-    "heading": "This version is built around what the system can actually do right now.",
-    "body": "The strongest trust layer comes from observable capability: checkout readiness, lead routing, deployment visibility, and the admin console operating against the live app instead of a dead legacy shell.",
+    "eyebrow": "What makes this durable",
+    "heading": "Camp Dream GA is designed to work as both a premium brand site and a scalable content property.",
+    "body": "The site now supports direct monetization through bookings and planning packages while also creating room for compliant content monetization on long-form resource pages.",
     "points": [
-      "Live offers and lead capture",
-      "Custom GPT and admin command flow",
-      "Visible deploy and payment paths"
+      "Direct paid offers",
+      "Inquiry-first premium services",
+      "Content-led traffic growth"
     ]
   },
-  "productsIntro": "The offer structure is clearer, more premium, and easier to navigate.",
-  "objectionHeadline": "Questions the redesign answers before buyers leave",
+  "productsIntro": "Programs are presented as clear, premium options instead of generic, cluttered listings.",
+  "objectionHeadline": "Questions visitors often need answered before they commit",
   "objections": [
     {
-      "question": "Is this just another generic AI wrapper?",
-      "answer": "No. The product is positioned as an AI system manager with deployment, payment routing, and operator control built into the same stack."
+      "question": "Is this only for one kind of camper?",
+      "answer": "No. The site now supports direct family bookings, guided planning, and larger group retreat coordination."
     },
     {
-      "question": "What if I need hands-on help before I buy software?",
-      "answer": "That is what Launch Sprint is for. The guided lane now has a stronger path from brief to execution."
+      "question": "Can I still talk to a person before buying?",
+      "answer": "Yes. Guided family packages and custom retreats both use an inquiry-first path so you can scope the right fit."
     },
     {
-      "question": "What if I need a more governed rollout?",
-      "answer": "Enterprise Deployment stays qualification-first so rollout decisions are grounded in reality."
+      "question": "Will the resource section feel overloaded with ads?",
+      "answer": "No. Ads are reserved for compliant content templates only and are intentionally kept away from sensitive flows and premium CTAs."
     }
   ],
-  "faqHeadline": "Questions serious buyers ask",
+  "faqHeadline": "Questions families and organizers ask",
   "faq": [
     {
-      "question": "Does the custom GPT actually edit the live app now?",
-      "answer": "Yes. The operator console now points at the live frontend and content layers instead of the old legacy roots."
+      "question": "Can I book directly online?",
+      "answer": "Yes. Select offers can use a direct checkout path, while more complex experiences use inquiry-first planning."
     },
     {
-      "question": "Can PayPal still work without the full PayPal API setup?",
-      "answer": "Yes. PayPal can route through mr.jwswain@gmail.com as a fallback when direct API credentials are not configured."
+      "question": "Do you help with custom group retreats?",
+      "answer": "Yes. Group Retreat Planning is designed for schools, churches, teams, and community organizations that need a custom path."
     },
     {
-      "question": "How does deployment happen?",
-      "answer": "Deployment flows through git-based release operations with visibility in the admin surface and a safer changed-path deploy handoff."
+      "question": "Why does the site include resource articles?",
+      "answer": "Because strong planning content helps families make better decisions, supports SEO, and creates a compliant foundation for content monetization."
     }
   ],
   "finalCta": {
-    "eyebrow": "Choose your next move",
-    "heading": "Go straight to pricing if you are ready to buy, or submit a brief if you want a guided rollout.",
-    "body": "The redesign is intentionally sharper about the next action so serious buyers and operators reach the right flow faster.",
-    "primaryLabel": "Open pricing",
-    "primaryHref": "/pricing",
-    "secondaryLabel": "Start implementation brief",
+    "eyebrow": "Choose your next step",
+    "heading": "Browse programs if you are ready to choose, or contact the team if you want help planning the right experience.",
+    "body": "Every route is now built to reduce friction while keeping the premium feel of the brand intact.",
+    "primaryLabel": "Explore programs",
+    "primaryHref": "/products",
+    "secondaryLabel": "Start planning",
     "secondaryHref": "/contact"
   },
-  "updatedAt": "2026-03-21T00:00:00.000Z"
+  "updatedAt": "2026-03-22T00:00:00.000Z"
 }

@@ -1,12 +1,16 @@
 import React, { useEffect, useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
-import { capturePayPalCheckout, trackConversionEvent, verifyStripeCheckout } from '../src/siteApi.js'
+import {
+  capturePayPalCheckout,
+  trackConversionEvent,
+  verifyStripeCheckout,
+} from '../src/siteApi.js'
 import { useSiteRuntime } from '../src/SiteRuntimeContext.jsx'
 
 function formatCurrency(amount) {
   return new Intl.NumberFormat('en-US', {
     style: 'currency',
-    currency: 'USD'
+    currency: 'USD',
   }).format(amount)
 }
 
@@ -18,7 +22,7 @@ export default function CheckoutSuccessPage() {
     error: '',
     amountCents: 0,
     offerSlug: '',
-    legacyPayPal: false
+    legacyPayPal: false,
   })
 
   useEffect(() => {
@@ -36,13 +40,13 @@ export default function CheckoutSuccessPage() {
             error: '',
             amountCents: 0,
             offerSlug,
-            legacyPayPal: true
+            legacyPayPal: true,
           })
           await trackConversionEvent('checkout_success', {
             ctaId: 'checkout-success-paypal-legacy',
             offerSlug,
             provider: 'paypal',
-            intent: 'purchase'
+            intent: 'purchase',
           })
           await refresh()
           return
@@ -58,14 +62,14 @@ export default function CheckoutSuccessPage() {
           error: result.completed ? '' : 'Payment is not marked complete yet.',
           amountCents: result.amountCents ?? 0,
           offerSlug: result.offerSlug ?? '',
-          legacyPayPal: false
+          legacyPayPal: false,
         })
         if (result.completed) {
           await trackConversionEvent('checkout_success', {
             ctaId: `checkout-success-${provider ?? 'unknown'}`,
             offerSlug: result.offerSlug ?? '',
             provider: provider ?? '',
-            intent: 'purchase'
+            intent: 'purchase',
           })
         }
         await refresh()
@@ -75,7 +79,7 @@ export default function CheckoutSuccessPage() {
           error: error.message,
           amountCents: 0,
           offerSlug: '',
-          legacyPayPal: false
+          legacyPayPal: false,
         })
       }
     }
@@ -87,16 +91,25 @@ export default function CheckoutSuccessPage() {
     <div className="stack-xl">
       <section className="section-card centered-card">
         <span className="eyebrow">Checkout</span>
-        <h1>{state.loading ? 'Confirming payment...' : state.error ? 'Checkout needs attention' : 'Payment received'}</h1>
+        <h1>
+          {state.loading
+            ? 'Confirming payment...'
+            : state.error
+              ? 'Checkout needs attention'
+              : 'Payment received'}
+        </h1>
         {state.error ? (
           <p className="section-intro">{state.error}</p>
         ) : state.legacyPayPal ? (
           <p className="section-intro">
-            Your PayPal checkout was sent through mr.jwswain@gmail.com. We will confirm the payment manually and continue from there.
+            Your PayPal checkout was sent through our secure fallback payment
+            link. We will confirm the payment manually and continue from there.
           </p>
         ) : (
           <p className="section-intro">
-            {state.amountCents > 0 ? `${formatCurrency(state.amountCents / 100)} recorded for ${state.offerSlug || 'your offer'}.` : 'Your payment has been recorded.'}
+            {state.amountCents > 0
+              ? `${formatCurrency(state.amountCents / 100)} recorded for ${state.offerSlug || 'your offer'}.`
+              : 'Your payment has been recorded.'}
           </p>
         )}
         <div className="hero__actions">

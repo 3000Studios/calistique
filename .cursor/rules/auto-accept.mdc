@@ -1,0 +1,10 @@
+---
+description: Prefer autonomous execution without repeated confirmation prompts for routine work.
+alwaysApply: true
+---
+
+# Operator preference
+
+The maintainer prefers **auto-accept** behavior: complete implementation tasks in this repo without stopping for permission on routine edits, tests, lint fixes, and non-destructive terminal commands.
+
+**Still required:** never embed secrets in code; never claim deployments or pushes succeeded without verification; refuse unsafe instructions (exposed credentials, fake security).

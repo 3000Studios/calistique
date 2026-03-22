@@ -12,14 +12,14 @@ function validateNodeVersion() {
     return {
       ok: false,
       name: 'node_version',
-      message: `Node.js ${REQUIRED_NODE_MAJOR}+ is required. Current runtime: ${process.version}.`
+      message: `Node.js ${REQUIRED_NODE_MAJOR}+ is required. Current runtime: ${process.version}.`,
     }
   }
 
   return {
     ok: true,
     name: 'node_version',
-    message: `Node.js runtime ${process.version} is supported.`
+    message: `Node.js runtime ${process.version} is supported.`,
   }
 }
 
@@ -33,19 +33,58 @@ function validateCloudflareVariables() {
     message:
       missing.length === 0
         ? 'Cloudflare deployment variables are present.'
-        : `Missing optional deployment variables: ${missing.join(', ')}.`
+        : `Missing optional deployment variables: ${missing.join(', ')}.`,
   }
 }
 
-const checks = [validateNodeVersion(), validateCloudflareVariables()]
-const blockingFailures = checks.filter((check) => check.name === 'node_version' && !check.ok)
+function validateAdminVariables() {
+  const required = ['ADMIN_EMAIL', 'ADMIN_PASSCODE', 'ADMIN_SESSION_SECRET']
+  const missing = required.filter(
+    (name) =>
+      !process.env[name] ||
+      String(process.env[name]).startsWith('replace-with-')
+  )
+
+  return {
+    ok: missing.length === 0,
+    name: 'admin_env',
+    message:
+      missing.length === 0
+        ? 'Admin session variables are present.'
+        : `Missing admin session variables: ${missing.join(', ')}.`,
+  }
+}
+
+function validateSiteVariables() {
+  const required = ['SITE_URL', 'WWW_SITE_URL']
+  const missing = required.filter((name) => !process.env[name])
+
+  return {
+    ok: missing.length === 0,
+    name: 'site_env',
+    message:
+      missing.length === 0
+        ? 'Canonical site URL variables are present.'
+        : `Missing site variables: ${missing.join(', ')}.`,
+  }
+}
+
+const checks = [
+  validateNodeVersion(),
+  validateCloudflareVariables(),
+  validateAdminVariables(),
+  validateSiteVariables(),
+]
+const blockingFailures = checks.filter(
+  (check) => check.name === 'node_version' && !check.ok
+)
 
 console.log(
   JSON.stringify(
     {
       ok: blockingFailures.length === 0,
       checkedAt: new Date().toISOString(),
-      checks
+      checks,
     },
     null,
     2

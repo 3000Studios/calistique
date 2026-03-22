@@ -1,18 +1,25 @@
 import Stripe from 'stripe'
-import { getContentBundle, readSystemDocument, writeSystemDocument } from './contentService.js'
+import {
+  getContentBundle,
+  readSystemDocument,
+  writeSystemDocument,
+} from './contentService.js'
+import { SITE_DISPLAY_NAME } from '../../frontend/src/siteMeta.js'
 
 const DEFAULT_PAYMENTS = {
   payments: [],
-  updatedAt: null
+  updatedAt: null,
 }
-const DEFAULT_PAYPAL_EMAIL = 'mr.jwswain@gmail.com'
+const DEFAULT_PAYPAL_EMAIL = ''
 
 function nowIso() {
   return new Date().toISOString()
 }
 
 function slugToEnvSuffix(slug) {
-  return String(slug).replace(/[^a-z0-9]+/gi, '_').toUpperCase()
+  return String(slug)
+    .replace(/[^a-z0-9]+/gi, '_')
+    .toUpperCase()
 }
 
 function parseAmountToCents(value) {
@@ -38,15 +45,17 @@ function getStripeClient() {
 }
 
 function getPayPalBaseUrl() {
-  return process.env.PAYPAL_ENV === 'sandbox' ? 'https://api-m.sandbox.paypal.com' : 'https://api-m.paypal.com'
+  return process.env.PAYPAL_ENV === 'sandbox'
+    ? 'https://api-m.sandbox.paypal.com'
+    : 'https://api-m.paypal.com'
 }
 
 function hasPayPalCredentials() {
   return Boolean(
     process.env.PAYPAL_CLIENT_ID &&
-      process.env.PAYPAL_CLIENT_SECRET &&
-      !process.env.PAYPAL_CLIENT_ID.startsWith('replace-with-') &&
-      !process.env.PAYPAL_CLIENT_SECRET.startsWith('replace-with-')
+    process.env.PAYPAL_CLIENT_SECRET &&
+    !process.env.PAYPAL_CLIENT_ID.startsWith('replace-with-') &&
+    !process.env.PAYPAL_CLIENT_SECRET.startsWith('replace-with-')
   )
 }
 
@@ -79,12 +88,14 @@ function getStripeConfig(slug, product) {
   const suffix = slugToEnvSuffix(slug)
   const paymentLink = process.env[`STRIPE_PAYMENT_LINK_${suffix}`]
   const priceId = process.env[`STRIPE_PRICE_${suffix}`]
-  const mode = process.env[`STRIPE_MODE_${suffix}`] ?? (/month|mo/i.test(product.priceAnchor ?? '') ? 'subscription' : 'payment')
+  const mode =
+    process.env[`STRIPE_MODE_${suffix}`] ??
+    (/month|mo/i.test(product.priceAnchor ?? '') ? 'subscription' : 'payment')
 
   return {
     paymentLink,
     priceId,
-    mode
+    mode,
   }
 }
 
@@ -96,7 +107,7 @@ function getPayPalConfig(slug, product = {}) {
 
   return {
     amountCents,
-    businessEmail: getPayPalBusinessEmail()
+    businessEmail: getPayPalBusinessEmail(),
   }
 }
 
@@ -107,7 +118,7 @@ async function readPayments() {
 async function writePayments(payload) {
   await writeSystemDocument('payments.json', {
     ...payload,
-    updatedAt: nowIso()
+    updatedAt: nowIso(),
   })
 }
 
@@ -121,20 +132,21 @@ export async function recordPayment(payment) {
 
   const nextPayment = {
     ...payment,
-    recordedAt: existingIndex >= 0 ? payments[existingIndex].recordedAt : nowIso()
+    recordedAt:
+      existingIndex >= 0 ? payments[existingIndex].recordedAt : nowIso(),
   }
 
   if (existingIndex >= 0) {
     payments[existingIndex] = {
       ...payments[existingIndex],
-      ...nextPayment
+      ...nextPayment,
     }
   } else {
     payments.unshift(nextPayment)
   }
 
   await writePayments({
-    payments
+    payments,
   })
 
   return nextPayment
@@ -147,8 +159,13 @@ export async function getPaymentsSnapshot() {
 
 export async function getCommerceSnapshot() {
   const payments = await getPaymentsSnapshot()
-  const completedPayments = payments.filter((entry) => entry.status === 'completed')
-  const totalRevenueCents = completedPayments.reduce((sum, entry) => sum + (entry.amountCents ?? 0), 0)
+  const completedPayments = payments.filter(
+    (entry) => entry.status === 'completed'
+  )
+  const totalRevenueCents = completedPayments.reduce(
+    (sum, entry) => sum + (entry.amountCents ?? 0),
+    0
+  )
   const stripeClient = getStripeClient()
   const productLookup = await getProductMap()
 
@@ -185,9 +202,14 @@ export async function getCommerceSnapshot() {
             ? `/products/${product.slug}`
             : '/contact',
       providers: {
-        stripe: Boolean(stripeConfig.paymentLink || (stripeClient && stripeConfig.priceId)),
-        paypal: Boolean((hasPayPalCredentials() || paypalConfig.businessEmail) && paypalConfig.amountCents)
-      }
+        stripe: Boolean(
+          stripeConfig.paymentLink || (stripeClient && stripeConfig.priceId)
+        ),
+        paypal: Boolean(
+          (hasPayPalCredentials() || paypalConfig.businessEmail) &&
+          paypalConfig.amountCents
+        ),
+      },
     }
   })
 
@@ -195,13 +217,13 @@ export async function getCommerceSnapshot() {
     offers,
     payments: {
       count: completedPayments.length,
-      revenue: totalRevenueCents / 100
+      revenue: totalRevenueCents / 100,
     },
     providers: {
       stripe: Boolean(stripeClient),
-      paypal: Boolean(hasPayPalCredentials() || getPayPalBusinessEmail())
+      paypal: Boolean(hasPayPalCredentials() || getPayPalBusinessEmail()),
     },
-    updatedAt: nowIso()
+    updatedAt: nowIso(),
   }
 }
 
@@ -223,20 +245,20 @@ export async function createStripeCheckout({ slug, origin }) {
     line_items: [
       {
         price: stripeConfig.priceId,
-        quantity: 1
-      }
+        quantity: 1,
+      },
     ],
     success_url: `${origin}/checkout/success?provider=stripe&session_id={CHECKOUT_SESSION_ID}`,
     cancel_url: `${origin}/checkout/cancel?provider=stripe&offer=${slug}`,
     metadata: {
-      offerSlug: slug
-    }
+      offerSlug: slug,
+    },
   })
 
   return {
     url: session.url,
     provider: 'stripe',
-    sessionId: session.id
+    sessionId: session.id,
   }
 }
 
@@ -247,12 +269,13 @@ export async function verifyStripeCheckoutSession(sessionId) {
   }
 
   const session = await stripe.checkout.sessions.retrieve(sessionId)
-  const isComplete = session.status === 'complete' || session.payment_status === 'paid'
+  const isComplete =
+    session.status === 'complete' || session.payment_status === 'paid'
 
   if (!isComplete) {
     return {
       status: session.status,
-      completed: false
+      completed: false,
     }
   }
 
@@ -269,8 +292,8 @@ export async function verifyStripeCheckoutSession(sessionId) {
     raw: {
       id: session.id,
       payment_status: session.payment_status,
-      amount_total: session.amount_total
-    }
+      amount_total: session.amount_total,
+    },
   })
 
   return {
@@ -278,7 +301,7 @@ export async function verifyStripeCheckoutSession(sessionId) {
     completed: true,
     amountCents,
     currency: session.currency ?? 'usd',
-    offerSlug: session.metadata?.offerSlug ?? null
+    offerSlug: session.metadata?.offerSlug ?? null,
   }
 }
 
@@ -296,9 +319,9 @@ async function getPayPalAccessToken() {
     method: 'POST',
     headers: {
       Authorization: `Basic ${credentials}`,
-      'Content-Type': 'application/x-www-form-urlencoded'
+      'Content-Type': 'application/x-www-form-urlencoded',
     },
-    body: 'grant_type=client_credentials'
+    body: 'grant_type=client_credentials',
   })
 
   if (!response.ok) {
@@ -335,7 +358,10 @@ export async function createPayPalCheckout({ slug, origin }) {
     paypalUrl.searchParams.set('cmd', '_xclick')
     paypalUrl.searchParams.set('business', paypalConfig.businessEmail)
     paypalUrl.searchParams.set('item_name', product.name)
-    paypalUrl.searchParams.set('amount', (paypalConfig.amountCents / 100).toFixed(2))
+    paypalUrl.searchParams.set(
+      'amount',
+      (paypalConfig.amountCents / 100).toFixed(2)
+    )
     paypalUrl.searchParams.set('currency_code', 'USD')
     paypalUrl.searchParams.set('return', returnUrl.toString())
     paypalUrl.searchParams.set('cancel_return', cancelUrl.toString())
@@ -345,7 +371,7 @@ export async function createPayPalCheckout({ slug, origin }) {
       url: paypalUrl.toString(),
       provider: 'paypal',
       mode: 'email_redirect',
-      businessEmail: paypalConfig.businessEmail
+      businessEmail: paypalConfig.businessEmail,
     }
   }
 
@@ -354,7 +380,7 @@ export async function createPayPalCheckout({ slug, origin }) {
     method: 'POST',
     headers: {
       Authorization: `Bearer ${accessToken}`,
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
     },
     body: JSON.stringify({
       intent: 'CAPTURE',
@@ -364,21 +390,21 @@ export async function createPayPalCheckout({ slug, origin }) {
           description: product.name,
           amount: {
             currency_code: 'USD',
-            value: (paypalConfig.amountCents / 100).toFixed(2)
-          }
-        }
+            value: (paypalConfig.amountCents / 100).toFixed(2),
+          },
+        },
       ],
       payment_source: {
         paypal: {
           experience_context: {
-            brand_name: 'myappai',
+            brand_name: SITE_DISPLAY_NAME,
             user_action: 'PAY_NOW',
             return_url: `${origin}/checkout/success?provider=paypal`,
-            cancel_url: `${origin}/checkout/cancel?provider=paypal&offer=${slug}`
-          }
-        }
-      }
-    })
+            cancel_url: `${origin}/checkout/cancel?provider=paypal&offer=${slug}`,
+          },
+        },
+      },
+    }),
   })
 
   if (!response.ok) {
@@ -386,7 +412,9 @@ export async function createPayPalCheckout({ slug, origin }) {
   }
 
   const payload = await response.json()
-  const approvalLink = payload.links?.find((entry) => entry.rel === 'payer-action')?.href
+  const approvalLink = payload.links?.find(
+    (entry) => entry.rel === 'payer-action'
+  )?.href
 
   if (!approvalLink) {
     throw new Error('PayPal did not return an approval URL.')
@@ -395,19 +423,22 @@ export async function createPayPalCheckout({ slug, origin }) {
   return {
     url: approvalLink,
     provider: 'paypal',
-    orderId: payload.id
+    orderId: payload.id,
   }
 }
 
 export async function capturePayPalOrder(orderId) {
   const accessToken = await getPayPalAccessToken()
-  const response = await fetch(`${getPayPalBaseUrl()}/v2/checkout/orders/${orderId}/capture`, {
-    method: 'POST',
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-      'Content-Type': 'application/json'
+  const response = await fetch(
+    `${getPayPalBaseUrl()}/v2/checkout/orders/${orderId}/capture`,
+    {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        'Content-Type': 'application/json',
+      },
     }
-  })
+  )
 
   if (!response.ok) {
     throw new Error('Failed to capture PayPal order.')
@@ -420,7 +451,7 @@ export async function capturePayPalOrder(orderId) {
   if (!capture || capture.status !== 'COMPLETED') {
     return {
       completed: false,
-      status: capture?.status ?? payload.status ?? 'pending'
+      status: capture?.status ?? payload.status ?? 'pending',
     }
   }
 
@@ -436,8 +467,8 @@ export async function capturePayPalOrder(orderId) {
     currency: String(capture.amount?.currency_code ?? 'USD').toLowerCase(),
     raw: {
       id: payload.id,
-      status: payload.status
-    }
+      status: payload.status,
+    },
   })
 
   return {
@@ -445,6 +476,6 @@ export async function capturePayPalOrder(orderId) {
     status: capture.status,
     amountCents,
     currency: String(capture.amount?.currency_code ?? 'USD').toLowerCase(),
-    offerSlug: purchaseUnit?.reference_id ?? null
+    offerSlug: purchaseUnit?.reference_id ?? null,
   }
 }

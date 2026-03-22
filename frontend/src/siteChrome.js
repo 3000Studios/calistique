@@ -2,45 +2,51 @@ import { SITE_DOMAIN } from './siteMeta.js'
 
 export const publicNavItems = [
   { label: 'Home', to: '/' },
-  { label: 'Platform', to: '/platform' },
-  { label: 'Solutions', to: '/solutions' },
+  { label: 'About', to: '/about' },
+  { label: 'Programs', to: '/products' },
   { label: 'Pricing', to: '/pricing' },
-  { label: 'Blog', to: '/blog' },
+  { label: 'Resources', to: '/blog' },
   { label: 'Contact', to: '/contact' },
-  { label: 'Admin', to: '/admin' }
+]
+
+export const footerLegalItems = [
+  { label: 'Privacy Policy', to: '/privacy-policy' },
+  { label: 'Terms of Service', to: '/terms-of-service' },
+  { label: 'Cookie Policy', to: '/cookie-policy' },
+  { label: 'Advertising Disclosure', to: '/advertising-disclosure' },
 ]
 
 export const publicStatusLines = [
-  'BUILD',
-  'AUTOMATE',
-  'DEPLOY',
-  SITE_DOMAIN
+  'GEORGIA PROGRAMS',
+  'FAMILY-FIRST UX',
+  'SEO + ADS READY',
+  SITE_DOMAIN,
 ]
 
 export const publicTickerItems = [
-  '// NATURAL LANGUAGE TO WORKFLOW, CONTENT, AND DEPLOYMENT',
-  '// LIVE OFFERS, LEAD CAPTURE, AND ADMIN COMMANDS SHARE ONE REPO',
-  '// PAYPAL CAN ROUTE THROUGH MR.JWSWAIN@GMAIL.COM WHEN DIRECT API KEYS ARE NOT PRESENT',
-  '// CUSTOM GPT OPERATOR NOW TARGETS THE REAL FRONTEND AND CONTENT LAYERS'
+  '// FAMILY CAMP EXPERIENCES, RETREATS, AND PLANNING SUPPORT',
+  '// ORIGINAL GUIDES, TRUST PAGES, AND RESOURCE CONTENT POWER SEARCH GROWTH',
+  '// DIRECT BOOKING, QUALIFICATION, AND PREMIUM PLANNING PATHS LIVE IN ONE FUNNEL',
+  '// ADS STAY OFF SENSITIVE FLOWS AND APPEAR ONLY ON COMPLIANT CONTENT PAGES',
 ]
 
 export const adminNavItems = [
   { label: 'Overview', to: '/admin/overview' },
   { label: 'Sign in', to: '/admin/login' },
   { label: 'Public site', to: '/' },
-  { label: 'Blog', to: '/blog' },
-  { label: 'Products', to: '/products' }
+  { label: 'Resources', to: '/blog' },
+  { label: 'Programs', to: '/products' },
 ]
 
 export const adminStatusLines = [
   'OPERATIONS: ONLINE',
-  'PIPELINE: READY',
-  `${SITE_DOMAIN} // admin`
+  'CONTENT: READY',
+  `${SITE_DOMAIN} // admin`,
 ]
 
 export const adminTickerItems = [
   '// ANALYTICS + DEPLOY + CONTENT + AI CONSOLE',
-  '// SYNC DATA FROM THE TOP BAR ANYTIME',
-  '// USE SECTIONS IN THE SIDEBAR TO STAY FOCUSED',
-  '// COMMAND ROUTER FOR ADVANCED AUTOMATION'
+  '// SESSION-BASED ADMIN AUTH',
+  '// REVENUE, SEO, AND LEADS SHARE ONE DATA LAYER',
+  '// PUBLIC SITE IS OPTIMIZED FOR TRUST, BOOKINGS, AND ADSENSE READINESS',
 ]

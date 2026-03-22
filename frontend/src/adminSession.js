@@ -1,4 +1,4 @@
-const SESSION_KEY = 'voicetowebsite-admin-session'
+const SESSION_KEY = 'campdreamga-admin-session'
 const LEGACY_SESSION_KEY = 'myappai-admin-session'
 
 export { SESSION_KEY }
@@ -17,7 +17,7 @@ export function getAdminSession() {
       return null
     }
     const parsed = JSON.parse(raw)
-    if (!parsed?.adminEmail || !parsed?.adminCode) {
+    if (!parsed?.adminEmail) {
       return null
     }
     return parsed

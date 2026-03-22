@@ -1,0 +1,100 @@
+import fs from 'node:fs/promises'
+import path from 'node:path'
+
+const root = process.cwd()
+const publicDir = path.join(root, 'frontend', 'public')
+const contentPagesDir = path.join(root, 'content', 'pages')
+const contentBlogDir = path.join(root, 'content', 'blog')
+const contentProductsDir = path.join(root, 'content', 'products')
+
+const SITE_URL = process.env.SITE_URL || 'https://campdreamga.com'
+const ADSENSE_PUBLISHER_ID =
+  process.env.ADSENSE_PUBLISHER_ID ||
+  process.env.ADSENSE_PUBLISHER ||
+  'pub-0000000000000000'
+
+async function collectRoutes() {
+  const pages = await fs.readdir(contentPagesDir)
+  const blog = await fs.readdir(contentBlogDir)
+  const products = await fs.readdir(contentProductsDir)
+
+  const staticRoutes = [
+    '/',
+    '/blog',
+    '/products',
+    '/pricing',
+    '/about',
+    '/contact',
+  ]
+  const pageRoutes = pages
+    .filter(
+      (file) =>
+        file.endsWith('.json') &&
+        file !== 'homepage.json' &&
+        file !== 'theme.json'
+    )
+    .map((file) => `/${file.replace('.json', '')}`)
+
+  const blogRoutes = blog
+    .filter((file) => file.endsWith('.json') && file !== 'index.json')
+    .map((file) => `/blog/${file.replace('.json', '')}`)
+
+  const productRoutes = products
+    .filter((file) => file.endsWith('.json') && file !== 'catalog.json')
+    .map((file) => `/products/${file.replace('.json', '')}`)
+
+  return [
+    ...new Set([
+      ...staticRoutes,
+      ...pageRoutes,
+      ...blogRoutes,
+      ...productRoutes,
+    ]),
+  ]
+}
+
+async function generateSitemap() {
+  const routes = await collectRoutes()
+  const xml = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+${routes
+  .map(
+    (route) => `  <url>
+    <loc>${SITE_URL}${route === '/' ? '' : route}</loc>
+  </url>`
+  )
+  .join('\n')}
+</urlset>
+`
+
+  await fs.writeFile(path.join(publicDir, 'sitemap.xml'), xml, 'utf8')
+}
+
+async function generateRobots() {
+  const content = `User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /checkout
+
+Sitemap: ${SITE_URL}/sitemap.xml
+`
+  await fs.writeFile(path.join(publicDir, 'robots.txt'), content, 'utf8')
+}
+
+async function generateAdsTxt() {
+  const content = `google.com, ${ADSENSE_PUBLISHER_ID}, DIRECT, f08c47fec0942fa0
+`
+  await fs.writeFile(path.join(publicDir, 'ads.txt'), content, 'utf8')
+}
+
+async function main() {
+  await fs.mkdir(publicDir, { recursive: true })
+  await generateSitemap()
+  await generateRobots()
+  await generateAdsTxt()
+}
+
+main().catch((error) => {
+  console.error('Failed to generate SEO assets.', error)
+  process.exitCode = 1
+})

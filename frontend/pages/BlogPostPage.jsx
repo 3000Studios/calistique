@@ -1,5 +1,6 @@
 import React from 'react'
 import { Link, Navigate, useParams } from 'react-router-dom'
+import AdSenseSlot from '../components/AdSenseSlot.jsx'
 import PrismHeadline from '../components/PrismHeadline.jsx'
 import { blogLookup } from '../src/siteData.js'
 
@@ -20,11 +21,14 @@ export default function BlogPostPage() {
       </section>
 
       <section className="stack-xl article-stack">
-        {post.sections.map((section) => (
-          <div key={section.heading} className="article-section section-card">
-            <h2>{section.heading}</h2>
-            <p>{section.body}</p>
-          </div>
+        {post.sections.map((section, index) => (
+          <React.Fragment key={section.heading}>
+            <div className="article-section section-card">
+              <h2>{section.heading}</h2>
+              <p>{section.body}</p>
+            </div>
+            {index === 1 ? <AdSenseSlot slot="article-inline-1" /> : null}
+          </React.Fragment>
         ))}
       </section>
 

@@ -1,28 +1,34 @@
 {
-  "eyebrow": "About",
-  "headline": "myappai exists to turn intent into controlled execution",
-  "subheadline": "The product is built as an AI system manager for operators who want the public funnel, admin console, content system, and deployment flow to feel like one coherent platform.",
+  "eyebrow": "About Camp Dream GA",
+  "headline": "A premium Georgia camp brand built around trust, experience, and clarity",
+  "subheadline": "Camp Dream GA exists to help families and organizers discover camp experiences that feel memorable, well-planned, and worth the investment.",
   "sections": [
     {
-      "title": "Why the redesign matters",
-      "description": "A premium operator product should not feel like a pile of unrelated experiments. The new experience is built to feel deliberate, fast, and commercially useful."
+      "title": "Why the site was rebuilt",
+      "description": "The public experience needed to feel more trustworthy, easier to navigate, and better aligned with how real families and groups make decisions."
     },
     {
       "title": "How the business works",
-      "description": "Software creates the fast recurring lane, Launch Sprint creates guided implementation revenue, and Enterprise Deployment creates the higher-trust rollout lane."
+      "description": "The site combines direct program purchases, inquiry-first premium planning, and content-led search growth into one coherent brand system."
     },
     {
-      "title": "What makes it credible",
-      "description": "The site shows live offer routing, payment readiness, admin visibility, and deployment context instead of relying on decorative claims."
+      "title": "What makes the experience better",
+      "description": "Original content, cleaner structure, legal trust pages, and premium design all work together to make decision-making feel calmer and more confident."
+    }
+  ],
+  "faq": [
+    {
+      "question": "Is Camp Dream GA only a content site?",
+      "answer": "No. It is both a public-facing program and planning site and a content property designed for long-term organic growth."
     }
   ],
   "cta": {
-    "eyebrow": "See the operator model",
-    "heading": "Explore the platform and pricing to see how the commercial and operational layers connect.",
-    "body": "The strongest story comes from the fact that the same system manages the public site, admin commands, and deploy path.",
-    "primaryLabel": "View platform page",
-    "primaryHref": "/platform",
-    "secondaryLabel": "Open pricing",
-    "secondaryHref": "/pricing"
+    "eyebrow": "Start exploring",
+    "heading": "See the programs, pricing, and planning resources that now shape the public experience.",
+    "body": "The strongest first impression comes from a site that looks complete, answers real questions, and makes the next step obvious.",
+    "primaryLabel": "Explore programs",
+    "primaryHref": "/products",
+    "secondaryLabel": "Read resources",
+    "secondaryHref": "/blog"
   }
 }

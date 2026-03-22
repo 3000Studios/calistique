@@ -1,80 +1,80 @@
 {
   "slug": "enterprise-deployment",
-  "name": "Enterprise Deployment",
-  "headline": "Create a higher-trust lane for governed rollout, deployment planning, and custom scope",
+  "name": "Group Retreat Planning",
+  "headline": "Use Group Retreat Planning for schools, churches, teams, and organizations that need a custom path",
   "priceAnchor": "Custom",
-  "idealFor": "Best for internal platform teams and compliance-minded buyers",
+  "idealFor": "Best for organizers coordinating larger experiences",
   "closeMode": "qualification",
-  "description": "Enterprise Deployment creates the credible high-trust path for teams that need rollout planning, governance review, self-hosting options, or deeper operational support.",
+  "description": "Group Retreat Planning is the high-trust lane for larger or more complex experiences. It is built for organizers who need logistics, scheduling, and coordination support before a commercial path is finalized.",
   "bullets": [
-    "Support governed deployment and rollout review",
-    "Clarify security, hosting, and approval constraints early",
-    "Create larger engagement value with less commercial mismatch"
+    "Built for schools, churches, and community groups",
+    "Qualification-first instead of a one-size-fits-all checkout flow",
+    "Supports custom planning and higher-value engagements"
   ],
   "qualificationChecks": [
     {
-      "title": "Governance and approvals",
-      "description": "Confirm how actions are approved, what control is required, and how operational risk is handled."
+      "title": "Group size and structure",
+      "description": "Clarify the group makeup, timing, and support needed."
     },
     {
-      "title": "Deployment scope",
-      "description": "Clarify whether the buyer needs self-hosting, deeper customization, or enterprise onboarding support."
+      "title": "Experience goals",
+      "description": "Understand whether the retreat is educational, spiritual, team-building, or family/community focused."
     },
     {
-      "title": "Commercial fit",
-      "description": "Move into scope only after rollout shape and operational requirements are understood."
+      "title": "Planning complexity",
+      "description": "Map the logistics before deciding what the final package should look like."
     }
   ],
   "timeline": [
     {
-      "title": "Qualify the environment",
-      "description": "Establish rollout, hosting, and governance requirements before scope is finalized."
+      "title": "Qualify the retreat",
+      "description": "Start with the core goals, group details, and timing considerations."
     },
     {
-      "title": "Define the deployment path",
-      "description": "Map the technical and operational work required to make the system fit the organization."
+      "title": "Shape the custom plan",
+      "description": "Use that context to determine the best next step and scope."
     },
     {
-      "title": "Move into scoped rollout",
-      "description": "Turn the qualification process into a serious deployment plan once the fit is clear."
+      "title": "Move into a custom engagement",
+      "description": "Once the fit is clear, move toward a serious planning or booking path."
     }
   ],
   "proofPoints": [
     {
       "eyebrow": "High trust",
-      "title": "Qualification-first instead of forced checkout",
-      "description": "Enterprise buyers need a route that respects rollout complexity and governance requirements."
+      "title": "Qualification-first protects the experience",
+      "description": "Larger groups need a more thoughtful path than a generic checkout button."
     },
     {
-      "eyebrow": "Strategic value",
-      "title": "A credible enterprise lane raises the value of everything else",
-      "description": "The existence of a serious deployment path makes the entire product feel more durable and premium."
+      "eyebrow": "Brand strength",
+      "title": "A serious group lane raises the credibility of the entire site",
+      "description": "It shows that Camp Dream GA can support more than casual browsing."
     }
   ],
   "sections": [
     {
-      "title": "Control and governance",
-      "description": "Enterprise stakeholders care about rollout clarity, approvals, and where the system runs."
+      "title": "Custom coordination",
+      "description": "Built for groups that need more planning and communication."
     },
     {
-      "title": "Customization and onboarding",
-      "description": "More complex teams need deeper support connecting the system to internal operations and release workflows."
+      "title": "Clearer fit assessment",
+      "description": "Prevents organizers from getting pushed into the wrong path."
     },
     {
-      "title": "Longer-term value",
-      "description": "A serious enterprise lane improves commercial credibility even for buyers who start smaller."
+      "title": "Higher-value opportunities",
+      "description": "Supports deeper relationships and more custom commercial value."
     }
   ],
   "leadForm": {
-    "heading": "Submit the enterprise qualification brief",
-    "intro": "Use this form to outline governance, hosting, rollout, and customization requirements before a commercial path is proposed.",
-    "submitLabel": "Submit enterprise brief"
+    "heading": "Start a Group Retreat Planning inquiry",
+    "intro": "Share the basics of your group and goals so the right planning conversation can begin.",
+    "submitLabel": "Send group planning inquiry"
   },
   "cta": {
-    "eyebrow": "High-trust lane",
-    "heading": "Use enterprise deployment when the rollout needs more than a normal checkout path.",
-    "body": "This lane is intentionally built around qualification first so the final scope is grounded in operational reality.",
-    "primaryLabel": "Start qualification",
+    "eyebrow": "Need a custom plan",
+    "heading": "Use Group Retreat Planning when your experience needs more coordination than a standard package.",
+    "body": "This lane is built for custom logistics, clearer expectations, and higher-trust planning.",
+    "primaryLabel": "Start the inquiry",
     "primaryHref": "/contact"
   }
 }

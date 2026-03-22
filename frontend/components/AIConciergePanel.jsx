@@ -3,25 +3,26 @@ import { Link } from 'react-router-dom'
 import { askPublicAssistant, trackCtaClick } from '../src/siteApi.js'
 
 const QUICK_PROMPTS = [
-  'What is the fastest way to launch with myappai?',
-  'How does deployment work?',
+  'What is the fastest way to book a Camp Dream GA experience?',
+  'How should I choose between direct booking and planning support?',
   'What can I buy right now?',
-  'How does PayPal checkout work?'
+  'How do group retreat inquiries work?',
 ]
 
 export default function AIConciergePanel() {
   const [history, setHistory] = useState([
     {
       role: 'assistant',
-      content: 'Ask about launch strategy, deployment, pricing, or implementation. I will route you to the right next step.'
-    }
+      content:
+        'Ask about programs, pricing, booking paths, or planning support. I will route you to the right next step.',
+    },
   ])
   const [message, setMessage] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const [suggestions, setSuggestions] = useState([
     { label: 'Open pricing', href: '/pricing' },
-    { label: 'Talk to the team', href: '/contact' }
+    { label: 'Talk to the team', href: '/contact' },
   ])
 
   async function submitPrompt(nextMessage) {
@@ -38,8 +39,13 @@ export default function AIConciergePanel() {
 
     try {
       const response = await askPublicAssistant(trimmedMessage, nextHistory)
-      setHistory([...nextHistory, { role: 'assistant', content: response.reply }])
-      setSuggestions(response.suggestions?.length ? response.suggestions : suggestions)
+      setHistory([
+        ...nextHistory,
+        { role: 'assistant', content: response.reply },
+      ])
+      setSuggestions(
+        response.suggestions?.length ? response.suggestions : suggestions
+      )
     } catch (nextError) {
       setError(nextError.message)
     } finally {
@@ -51,15 +57,21 @@ export default function AIConciergePanel() {
     <section className="section-card assistant-card">
       <div className="section-heading">
         <div>
-          <span className="eyebrow">Custom GPT concierge</span>
-          <h2>Ask the operator before you commit</h2>
+          <span className="eyebrow">Planning concierge</span>
+          <h2>Ask before you book or inquire</h2>
           <p className="section-intro">
-            This assistant is wired to the live pricing, deployment, and offer context for the site.
+            This assistant is wired to the live pricing, program, and site
+            context so it can point you toward the best next step.
           </p>
         </div>
         <div className="tag-row">
           {QUICK_PROMPTS.slice(0, 2).map((prompt) => (
-            <button key={prompt} className="pill-button" type="button" onClick={() => submitPrompt(prompt)}>
+            <button
+              key={prompt}
+              className="pill-button"
+              type="button"
+              onClick={() => submitPrompt(prompt)}
+            >
               {prompt}
             </button>
           ))}
@@ -72,7 +84,9 @@ export default function AIConciergePanel() {
             key={`${entry.role}-${index}`}
             className={`assistant-message assistant-message--${entry.role}`}
           >
-            <span className="meta-line">{entry.role === 'assistant' ? 'Assistant' : 'You'}</span>
+            <span className="meta-line">
+              {entry.role === 'assistant' ? 'Assistant' : 'You'}
+            </span>
             <p>{entry.content}</p>
           </article>
         ))}
@@ -95,10 +109,14 @@ export default function AIConciergePanel() {
           value={message}
           onChange={(event) => setMessage(event.target.value)}
           rows="3"
-          placeholder="Ask about deployment, pricing, implementation, or payments."
+          placeholder="Ask about programs, pricing, family planning, or group retreats."
         />
-        <button className="button button--primary" type="submit" disabled={loading}>
-          {loading ? 'Thinking...' : 'Ask myappai'}
+        <button
+          className="button button--primary"
+          type="submit"
+          disabled={loading}
+        >
+          {loading ? 'Thinking...' : 'Ask Camp Dream GA'}
         </button>
       </form>
 
@@ -113,7 +131,7 @@ export default function AIConciergePanel() {
             onClick={() =>
               trackCtaClick({
                 ctaId: `assistant-${suggestion.label.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`,
-                intent: 'learn_more'
+                intent: 'learn_more',
               }).catch(() => {})
             }
           >

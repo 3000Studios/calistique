@@ -1,80 +1,80 @@
 {
   "slug": "launch-sprint",
-  "name": "Launch Sprint",
-  "headline": "Use a guided setup lane to create cash flow and faster activation",
-  "priceAnchor": "$2,500+",
-  "idealFor": "Best for buyers who want implementation before self-serve",
+  "name": "Family Adventure Weekend",
+  "headline": "Choose a guided Family Adventure Weekend when you want a more curated camp experience",
+  "priceAnchor": "$895+",
+  "idealFor": "Best for families who want support planning something memorable",
   "closeMode": "lead",
-  "description": "Launch Sprint bridges product promise and paid execution. It packages setup, positioning, workflow implementation, and first-launch delivery into a tighter premium service lane.",
+  "description": "Family Adventure Weekend is the premium inquiry-first lane for households that want more than a simple booking. It combines experience planning, package guidance, and a calmer decision process.",
   "bullets": [
-    "Stand up the first public funnel, messaging, and workflow system",
-    "Reduce time to value for buyers who need more than software access",
-    "Create premium service revenue while improving long-term product adoption"
+    "A more curated family package with support",
+    "Better for visitors who want help choosing the right fit",
+    "Creates a higher-touch premium planning path"
   ],
   "deliverables": [
     {
-      "title": "Offer and funnel setup",
-      "description": "Clarify the buyer lane, page structure, and conversion path before the build work starts."
+      "title": "Experience planning support",
+      "description": "Help families understand the best setup, timing, and package fit."
     },
     {
-      "title": "Implementation mapping",
-      "description": "Translate the work into live pages, workflows, and operator structure instead of leaving the buyer with theory."
+      "title": "Package recommendations",
+      "description": "Turn a broad idea into a more specific, bookable family experience."
     },
     {
-      "title": "Activation handoff",
-      "description": "Leave the buyer with a stronger system and a cleaner path into software usage."
+      "title": "Smoother coordination",
+      "description": "Reduce friction and uncertainty before the experience is confirmed."
     }
   ],
   "timeline": [
     {
-      "title": "Scope the brief",
-      "description": "Collect the commercial, operational, and launch outcomes that matter most."
+      "title": "Share the idea",
+      "description": "Tell us what kind of family experience you are trying to create."
     },
     {
-      "title": "Build the first layer",
-      "description": "Stand up the first public pages, routing logic, and workflow system."
+      "title": "Refine the package",
+      "description": "We shape the best-fit option based on timing, goals, and level of support needed."
     },
     {
-      "title": "Prepare the next move",
-      "description": "Hand off a cleaner software path, stronger proof, and a better operating baseline."
+      "title": "Move into confirmation",
+      "description": "Once the fit is clear, the next paid step can happen with less uncertainty."
     }
   ],
   "proofPoints": [
     {
-      "eyebrow": "Fast activation",
-      "title": "Lead-form-first by design",
-      "description": "This lane closes best when the buyer can explain the actual job to be done before scope is finalized."
+      "eyebrow": "Higher-touch fit",
+      "title": "Inquiry-first by design",
+      "description": "This lane is intentionally not forced into a generic checkout flow."
     },
     {
-      "eyebrow": "Commercial logic",
-      "title": "Implementation now, software expansion later",
-      "description": "Launch Sprint creates immediate revenue while strengthening the product path that follows."
+      "eyebrow": "Better experience",
+      "title": "Families can ask for help before committing",
+      "description": "That supports both satisfaction and conversion quality."
     }
   ],
   "sections": [
     {
-      "title": "Done-with-you setup",
-      "description": "Guide the buyer through positioning, offer structure, workflow mapping, and execution."
+      "title": "Done-with-you planning",
+      "description": "Great for families who want a more guided and personalized experience."
     },
     {
-      "title": "Faster activation",
-      "description": "A guided sprint lowers friction for teams that would otherwise stall during setup."
+      "title": "Premium positioning",
+      "description": "A higher-touch lane creates a stronger brand and healthier monetization mix."
     },
     {
-      "title": "Stronger downstream retention",
-      "description": "Better implementation raises the odds of long-term product usage and deeper service work."
+      "title": "Confidence before commitment",
+      "description": "Visitors can clarify what they need before moving into a paid path."
     }
   ],
   "leadForm": {
-    "heading": "Submit the implementation brief for Launch Sprint",
-    "intro": "Describe the launch goals, workflow needs, and delivery constraints so the sprint can be scoped properly.",
-    "submitLabel": "Submit Launch Sprint brief"
+    "heading": "Start planning your Family Adventure Weekend",
+    "intro": "Share the kind of experience you want so the planning team can guide you into the right next step.",
+    "submitLabel": "Send family planning inquiry"
   },
   "cta": {
-    "eyebrow": "Fastest route to value",
-    "heading": "Use Launch Sprint when the buyer wants the system built with them.",
-    "body": "This lane is for high-intent buyers who want speed, clarity, and less guesswork before they self-serve.",
-    "primaryLabel": "Start the brief",
+    "eyebrow": "Want support",
+    "heading": "Use Family Adventure Weekend when a direct purchase feels too narrow for what you want.",
+    "body": "This route supports a calmer, more curated planning experience.",
+    "primaryLabel": "Start planning",
     "primaryHref": "/contact"
   }
 }

@@ -2,7 +2,11 @@ import fs from 'node:fs/promises'
 import path from 'node:path'
 import { decideNextTasks } from '../planner/aiPlanner.js'
 import { routeCommand } from '../router/commandRouter.js'
-import { bootstrapContent, readJson, writeJson } from '../../server/services/contentService.js'
+import {
+  bootstrapContent,
+  readJson,
+  writeJson,
+} from '../../server/services/contentService.js'
 import { repoRoot, systemRoot } from '../../server/services/platformPaths.js'
 
 const TASK_INTERVAL_MS = 60_000
@@ -17,7 +21,7 @@ const TASK_POLICY = {
   create_page: { cooldownMs: 45 * 60_000 },
   run_traffic_cycle: { cooldownMs: 20 * 60_000 },
   discover_topics: { cooldownMs: 15 * 60_000 },
-  deploy_site: { cooldownMs: 20 * 60_000 }
+  deploy_site: { cooldownMs: 20 * 60_000 },
 }
 
 let runningCount = 0
@@ -41,9 +45,9 @@ async function ensureRuntimeFiles() {
         lastTaskAt: null,
         lastCompletedTaskAt: null,
         lastErrorAt: null,
-        consecutiveFailures: 0
+        consecutiveFailures: 0,
       },
-      tasks: {}
+      tasks: {},
     })
   }
 
@@ -68,9 +72,9 @@ async function readState() {
       lastTaskAt: null,
       lastCompletedTaskAt: null,
       lastErrorAt: null,
-      consecutiveFailures: 0
+      consecutiveFailures: 0,
     },
-    tasks: {}
+    tasks: {},
   })
 }
 
@@ -120,7 +124,7 @@ async function enqueueEligibleTasks(state, queueDocument) {
       id: `${taskId}-${Date.now()}`,
       taskId,
       command: task,
-      queuedAt: nowIso()
+      queuedAt: nowIso(),
     })
     queuedTaskIds.add(taskId)
     queueChanged = true
@@ -128,7 +132,9 @@ async function enqueueEligibleTasks(state, queueDocument) {
 
   if (queueChanged) {
     await writeQueue(queue)
-    await appendLog('Queued eligible tasks', { queuedTasks: queue.map((entry) => entry.taskId) })
+    await appendLog('Queued eligible tasks', {
+      queuedTasks: queue.map((entry) => entry.taskId),
+    })
   }
 
   return queue
@@ -147,11 +153,14 @@ async function executeNextTask(state, queue) {
   state.tasks[nextTask.taskId] = {
     ...(state.tasks[nextTask.taskId] ?? {}),
     status: 'running',
-    lastQueuedAt: nextTask.queuedAt
+    lastQueuedAt: nextTask.queuedAt,
   }
   await writeQueue(queue)
   await writeState(state)
-  await appendLog('Starting task', { taskId: nextTask.taskId, command: nextTask.command })
+  await appendLog('Starting task', {
+    taskId: nextTask.taskId,
+    command: nextTask.command,
+  })
 
   try {
     const result = await routeCommand(nextTask.command)
@@ -164,10 +173,14 @@ async function executeNextTask(state, queue) {
       lastSuccessAt: nowIso(),
       lastResult: {
         action: result.action,
-        success: result.success
-      }
+        success: result.success,
+      },
     }
-    await appendLog('Task completed', { taskId: nextTask.taskId, action: result.action, success: result.success })
+    await appendLog('Task completed', {
+      taskId: nextTask.taskId,
+      action: result.action,
+      success: result.success,
+    })
   } catch (error) {
     state.scheduler.status = 'error'
     state.scheduler.lastErrorAt = nowIso()
@@ -177,9 +190,12 @@ async function executeNextTask(state, queue) {
       status: 'idle',
       lastRunAt: nowIso(),
       lastErrorAt: nowIso(),
-      lastError: error.message
+      lastError: error.message,
     }
-    await appendLog('Task failed', { taskId: nextTask.taskId, error: error.message })
+    await appendLog('Task failed', {
+      taskId: nextTask.taskId,
+      error: error.message,
+    })
   } finally {
     runningCount -= 1
     await writeState(state)
@@ -219,7 +235,7 @@ async function main() {
     intervalMs: TASK_INTERVAL_MS,
     maxConcurrent: MAX_CONCURRENT,
     queueFile: path.relative(repoRoot, QUEUE_FILE),
-    stateFile: path.relative(repoRoot, STATE_FILE)
+    stateFile: path.relative(repoRoot, STATE_FILE),
   })
 
   await schedulerTick()
@@ -234,6 +250,8 @@ main().catch(async (error) => {
   console.error(error)
   try {
     await appendLog('Scheduler crashed', { error: error.message })
-  } catch {}
+  } catch {
+    // Swallow logging errors during crash shutdown.
+  }
   process.exitCode = 1
 })

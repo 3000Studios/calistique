@@ -2,32 +2,32 @@
   "products": [
     {
       "slug": "operator-os",
-      "name": "Operator OS",
-      "summary": "The premium software lane for teams that want the command center, content workflow, payment routing, and deployment visibility in one product.",
-      "idealFor": "Founders, operators, and technical teams",
-      "outcome": "Move from prompt-driven experimentation into a durable operating layer.",
-      "priceAnchor": "$99 / month",
-      "ctaLabel": "View offer",
+      "name": "Season Pass",
+      "summary": "A premium direct-booking path for families who want a simple way to reserve featured Camp Dream GA experiences.",
+      "idealFor": "Families ready to reserve now",
+      "outcome": "The fastest route from inspiration to booked revenue.",
+      "priceAnchor": "$149",
+      "ctaLabel": "View program",
       "ctaHref": "/products/operator-os"
     },
     {
       "slug": "launch-sprint",
-      "name": "Launch Sprint",
-      "summary": "A guided implementation package for teams that want the first system built with them instead of handed over cold.",
-      "idealFor": "Buyers who want speed with expert setup",
-      "outcome": "Create service revenue while improving product activation and trust.",
-      "priceAnchor": "$2,500+",
-      "ctaLabel": "View offer",
+      "name": "Family Adventure Weekend",
+      "summary": "A guided package for families who want a more curated camp-inspired experience with planning support.",
+      "idealFor": "Families who want more guidance",
+      "outcome": "A premium, higher-touch revenue path.",
+      "priceAnchor": "$895+",
+      "ctaLabel": "View program",
       "ctaHref": "/products/launch-sprint"
     },
     {
       "slug": "enterprise-deployment",
-      "name": "Enterprise Deployment",
-      "summary": "A qualified rollout path for organizations that need governance, deployment review, customization, and deeper support.",
-      "idealFor": "Platform teams and compliance-sensitive buyers",
-      "outcome": "Create higher-value rollout engagements with stronger long-term fit.",
+      "name": "Group Retreat Planning",
+      "summary": "A custom planning lane for schools, churches, teams, and organizations coordinating a larger retreat or shared experience.",
+      "idealFor": "Organizers managing a group",
+      "outcome": "A credible path for higher-value custom bookings.",
       "priceAnchor": "Custom",
-      "ctaLabel": "View offer",
+      "ctaLabel": "View program",
       "ctaHref": "/products/enterprise-deployment"
     }
   ]

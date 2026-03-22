@@ -1,15 +1,19 @@
 const API_BASE = import.meta.env.VITE_API_BASE_URL ?? ''
 
-async function request(path, { adminEmail, adminCode, adminKey, method = 'GET', body } = {}) {
+async function request(
+  path,
+  { adminEmail, adminCode, adminKey, method = 'GET', body } = {}
+) {
   const response = await fetch(`${API_BASE}${path}`, {
     method,
+    credentials: 'include',
     headers: {
       'content-type': 'application/json',
-      'x-admin-email': adminEmail,
-      'x-admin-code': adminCode,
-      'x-admin-key': adminKey ?? ''
+      'x-admin-email': adminEmail ?? '',
+      'x-admin-code': adminCode ?? '',
+      'x-admin-key': adminKey ?? '',
     },
-    body: body ? JSON.stringify(body) : undefined
+    body: body ? JSON.stringify(body) : undefined,
   })
 
   const payload = await response.json()
@@ -19,6 +23,23 @@ async function request(path, { adminEmail, adminCode, adminKey, method = 'GET', 
   }
 
   return payload
+}
+
+export function loginAdmin(credentials) {
+  return request('/api/admin/login', {
+    method: 'POST',
+    body: credentials,
+  })
+}
+
+export function getAdminSessionState() {
+  return request('/api/admin/session')
+}
+
+export function logoutAdmin() {
+  return request('/api/admin/logout', {
+    method: 'POST',
+  })
 }
 
 export function getAnalytics(adminSession) {
@@ -41,7 +62,7 @@ export function updateLeadStage(adminSession, leadId, patch) {
   return request(`/api/revenue/leads/${encodeURIComponent(leadId)}`, {
     ...adminSession,
     method: 'PATCH',
-    body: patch
+    body: patch,
   })
 }
 
@@ -49,6 +70,6 @@ export function sendCommand(adminSession, command) {
   return request('/api/command', {
     ...adminSession,
     method: 'POST',
-    body: command
+    body: command,
   })
 }

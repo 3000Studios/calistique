@@ -1,7 +1,10 @@
 import React from 'react'
 import { NavLink, Navigate, Outlet } from 'react-router-dom'
 import AdminChrome from './AdminChrome.jsx'
-import { AdminDashboardProvider, useAdminDashboard } from '../../context/AdminDashboardContext.jsx'
+import {
+  AdminDashboardProvider,
+  useAdminDashboard,
+} from '../../context/AdminDashboardContext.jsx'
 import { getAdminSession } from '../../src/adminSession.js'
 import { SITE_DISPLAY_NAME } from '../../src/siteMeta.js'
 
@@ -11,11 +14,12 @@ const nav = [
   { to: '/admin/deploy', label: 'Deploy', end: false },
   { to: '/admin/traffic', label: 'Traffic & SEO', end: false },
   { to: '/admin/content', label: 'Content', end: false },
-  { to: '/admin/console', label: 'AI console', end: false }
+  { to: '/admin/console', label: 'AI console', end: false },
 ]
 
 function AdminLayoutInner() {
-  const { adminSession, error, handleRefresh, handleSignOut } = useAdminDashboard()
+  const { adminSession, error, handleRefresh, handleSignOut } =
+    useAdminDashboard()
 
   return (
     <div className="admin-app">
@@ -46,7 +50,10 @@ function AdminLayoutInner() {
           <NavLink className="admin-nav-link admin-nav-link--quiet" to="/">
             View site
           </NavLink>
-          <NavLink className="admin-nav-link admin-nav-link--quiet" to="/admin/login">
+          <NavLink
+            className="admin-nav-link admin-nav-link--quiet"
+            to="/admin/login"
+          >
             Switch account
           </NavLink>
         </div>
@@ -59,10 +66,18 @@ function AdminLayoutInner() {
             <p className="admin-topbar__email">{adminSession?.adminEmail}</p>
           </div>
           <div className="admin-topbar__actions">
-            <button className="button button--primary" type="button" onClick={handleRefresh}>
+            <button
+              className="button button--primary"
+              type="button"
+              onClick={handleRefresh}
+            >
               Sync data
             </button>
-            <button className="button button--ghost" type="button" onClick={handleSignOut}>
+            <button
+              className="button button--ghost"
+              type="button"
+              onClick={handleSignOut}
+            >
               Sign out
             </button>
           </div>
@@ -80,7 +95,7 @@ function AdminLayoutInner() {
 
 function AdminGate() {
   const session = getAdminSession()
-  if (!session?.adminEmail || !session?.adminCode) {
+  if (!session?.adminEmail) {
     return <Navigate to="/admin/login" replace />
   }
   return (

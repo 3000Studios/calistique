@@ -41,8 +41,8 @@ export default function SiteFrame() {
               <span className="brand__wordmark">{SITE_DISPLAY_NAME}</span>
             </NavLink>
             <p className="site-header__tagline">
-              Premium Georgia camp experiences, planning support, and
-              family-focused resources.
+              Premium Georgia camp experiences, planning help, and warmer
+              editorial guidance for families and groups.
             </p>
           </div>
 
@@ -128,10 +128,10 @@ export default function SiteFrame() {
           </section>
 
           <section className="site-footer__cta">
-            <span className="eyebrow">Deploy-ready next steps</span>
+            <span className="eyebrow">Plan your next step</span>
             <p>
-              Use pricing for direct booking, contact for guided planning, and
-              resources when you want to learn before choosing.
+              Use pricing when you are ready to move fast, contact when you want
+              planning help, and resources when you still need confidence.
             </p>
             <div className="hero__actions">
               <Link className="button button--primary" to="/pricing">

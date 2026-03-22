@@ -1,52 +1,52 @@
 {
   "slug": "operator-os",
-  "name": "Operator OS",
-  "headline": "Use Operator OS as the premium software lane at the center of the business",
-  "priceAnchor": "$99 / month",
-  "idealFor": "Best for founder-led teams, operators, and technical buyers",
+  "name": "Season Pass",
+  "headline": "Reserve a premium Season Pass when you already know you want a Camp Dream GA experience this season",
+  "priceAnchor": "$149",
+  "idealFor": "Best for families who want the simplest premium path",
   "closeMode": "checkout",
-  "description": "Operator OS is the clearest recurring offer inside myappai. It combines the public funnel, admin workflow, content system, and deploy visibility into one command-centered product.",
+  "description": "Season Pass is the direct-purchase lane inside Camp Dream GA. It is designed for visitors who are already convinced and want a clean, low-friction path into featured Georgia camp experiences.",
   "bullets": [
-    "Manage pages, offers, and workflow execution from one system",
-    "Use natural language or direct commands to shape the live app",
-    "Keep payment and deployment visibility in the same operator surface"
+    "A fast booking path for ready-to-buy families",
+    "Premium positioning without unnecessary complexity",
+    "Designed to convert cleanly on desktop and mobile"
   ],
   "proofPoints": [
     {
-      "eyebrow": "Real capability",
-      "title": "The custom GPT operator now targets the real live app",
-      "description": "Natural-language edits are scoped to the actual frontend and content layers that power production."
+      "eyebrow": "Simple conversion",
+      "title": "Direct booking when the fit is clear",
+      "description": "Season Pass supports the easiest route from discovery to payment."
     },
     {
-      "eyebrow": "Real visibility",
-      "title": "Payments, leads, and deployments stay connected",
-      "description": "The runtime keeps the commercial and operational layers visible instead of splitting them into disconnected tools."
+      "eyebrow": "Trust",
+      "title": "The public site now makes the value clear before checkout",
+      "description": "Visitors can understand the program, price, and next step quickly."
     },
     {
-      "eyebrow": "Real close path",
-      "title": "Checkout-first when providers are ready",
-      "description": "Operator OS is designed for a fast purchase path with Stripe or PayPal routing when configured."
+      "eyebrow": "Premium feel",
+      "title": "The booking flow stays focused",
+      "description": "Sensitive paths stay free from ad clutter or noisy distractions."
     }
   ],
   "sections": [
     {
-      "title": "Command-centered operations",
-      "description": "Use the same system to manage offers, content, and admin actions."
+      "title": "Built for confident buyers",
+      "description": "This lane is best for families who are already ready to reserve a premium experience."
     },
     {
-      "title": "Premium public-to-admin workflow",
-      "description": "The redesign aligns the public site and operator console so the product feels coherent end to end."
+      "title": "Clean checkout path",
+      "description": "The offer keeps the decision path simple instead of forcing extra steps."
     },
     {
-      "title": "Expansion path",
-      "description": "Operator OS creates the strongest entry point into implementation help, team usage, and enterprise deployment."
+      "title": "Strong first revenue lane",
+      "description": "Direct-pay offers create the fastest path to booking revenue while supporting trust in the broader brand."
     }
   ],
   "cta": {
-    "eyebrow": "Recommended path",
-    "heading": "Lead with Operator OS when the buyer is ready to move now.",
-    "body": "This is the shortest path from trust to recurring value because the offer, UI, and deploy story are aligned.",
-    "primaryLabel": "Open pricing and checkout",
+    "eyebrow": "Ready to reserve",
+    "heading": "Use Season Pass when you want the fastest route into a featured experience.",
+    "body": "This path is intentionally direct, premium, and easy to understand.",
+    "primaryLabel": "Open pricing and reserve",
     "primaryHref": "/pricing"
   }
 }

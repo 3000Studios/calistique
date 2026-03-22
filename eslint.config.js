@@ -1,16 +1,42 @@
+import js from '@eslint/js'
+import globals from 'globals'
+
 export default [
   {
-    ignores: ["dist/**", "node_modules/**"]
+    ignores: [
+      'dist/**',
+      'node_modules/**',
+      '.wrangler/**',
+      'coverage/**',
+      'frontend/public/**',
+    ],
   },
+  js.configs.recommended,
   {
-    files: ["**/*.js", "**/*.ts"],
+    files: ['**/*.{js,jsx,mjs,cjs,ts,tsx}'],
     languageOptions: {
-      ecmaVersion: 2023,
-      sourceType: "module"
+      ecmaVersion: 'latest',
+      sourceType: 'module',
+      parserOptions: {
+        ecmaFeatures: {
+          jsx: true,
+        },
+      },
+      globals: {
+        ...globals.browser,
+        ...globals.node,
+      },
     },
     rules: {
-      "no-unused-vars": "warn",
-      "no-console": "off"
-    }
-  }
+      'no-unused-vars': [
+        'warn',
+        {
+          argsIgnorePattern: '^_',
+          varsIgnorePattern: '^(React|_)',
+          caughtErrorsIgnorePattern: '^_',
+        },
+      ],
+      'no-console': 'off',
+    },
+  },
 ]

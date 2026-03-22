@@ -2,8 +2,13 @@ import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import PrismHeadline from '../components/PrismHeadline.jsx'
 import AdminChrome from '../components/admin/AdminChrome.jsx'
+import { loginAdmin } from '../src/adminApi.js'
 import { saveAdminSession } from '../src/adminSession.js'
-import { COPYRIGHT_HOLDER, SITE_DISPLAY_NAME, SITE_DOMAIN } from '../src/siteMeta.js'
+import {
+  COPYRIGHT_HOLDER,
+  SITE_DISPLAY_NAME,
+  SITE_DOMAIN,
+} from '../src/siteMeta.js'
 
 export default function AdminLoginPage() {
   const navigate = useNavigate()
@@ -11,7 +16,7 @@ export default function AdminLoginPage() {
   const [code, setCode] = useState('')
   const [error, setError] = useState('')
 
-  function handleSubmit(event) {
+  async function handleSubmit(event) {
     event.preventDefault()
 
     if (!email.trim() || !code.trim()) {
@@ -19,11 +24,19 @@ export default function AdminLoginPage() {
       return
     }
 
-    saveAdminSession({
-      adminEmail: email.trim(),
-      adminCode: code.trim()
-    })
-    navigate('/admin/overview')
+    try {
+      setError('')
+      const result = await loginAdmin({
+        email: email.trim(),
+        code: code.trim(),
+      })
+      saveAdminSession({
+        adminEmail: result.adminEmail,
+      })
+      navigate('/admin/overview')
+    } catch (nextError) {
+      setError(nextError.message)
+    }
   }
 
   return (
@@ -32,15 +45,21 @@ export default function AdminLoginPage() {
       <main className="admin-login">
         <section className="auth-card admin-login__card">
           <div className="admin-login__brand">
-            <span className="admin-sidebar__mark admin-login__mark" aria-hidden="true" />
+            <span
+              className="admin-sidebar__mark admin-login__mark"
+              aria-hidden="true"
+            />
             <div>
               <span className="eyebrow">{SITE_DISPLAY_NAME}</span>
-              <p className="admin-login__tagline">Admin access · {SITE_DOMAIN}</p>
+              <p className="admin-login__tagline">
+                Admin access · {SITE_DOMAIN}
+              </p>
             </div>
           </div>
           <PrismHeadline text="Sign in to operations" />
           <p className="section-intro">
-            Use your admin email and passcode for analytics, deployments, content edits, and AI commands.
+            Use the configured admin email and passcode for analytics,
+            deployments, content edits, and AI commands.
           </p>
           <form className="stack-md" onSubmit={handleSubmit}>
             <label className="field">

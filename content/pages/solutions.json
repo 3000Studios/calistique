@@ -1,68 +1,55 @@
 {
-  "eyebrow": "Solutions",
-  "headline": "Use one operator system for launch, implementation, and governed deployment",
-  "subheadline": "myappai is designed for teams that want fewer handoffs between strategy, content, operations, payment routing, and deployment execution.",
+  "eyebrow": "Resources and planning model",
+  "headline": "Camp Dream GA blends direct bookings, guided planning, and content-led trust into one public experience",
+  "subheadline": "Instead of forcing every visitor through the same path, the site supports self-serve decisions, premium planning help, and compliant content growth side by side.",
   "heroStats": [
     {
-      "label": "Positioning",
-      "value": "AI system manager"
+      "label": "Audience",
+      "value": "Families + groups"
     },
     {
-      "label": "Core outcome",
-      "value": "Prompt to approved work"
+      "label": "Model",
+      "value": "Bookings + content"
     },
     {
-      "label": "Primary lanes",
-      "value": "Software + Services + Enterprise"
+      "label": "Growth",
+      "value": "SEO + premium conversion"
     }
   ],
-  "stepsEyebrow": "Operating model",
-  "stepsHeadline": "A better route from initial interest to shipped execution",
+  "stepsEyebrow": "How the model works",
+  "stepsHeadline": "A sharper route from first visit to confident action",
   "steps": [
     {
-      "title": "Clarify the commercial path",
-      "description": "The site now makes checkout, implementation, and enterprise qualification visibly distinct."
+      "title": "Discover through search or referral",
+      "description": "Visitors arrive through useful content, branded pages, or direct program interest."
     },
     {
-      "title": "Use the right operating surface",
-      "description": "Public pages handle demand and conversion while admin handles commands, deploys, and content control."
+      "title": "Build trust through clarity",
+      "description": "The site makes the difference between direct booking, guided planning, and custom retreat scoping obvious."
     },
     {
-      "title": "Keep deploy state visible",
-      "description": "The release layer stays part of the system story instead of a hidden operational afterthought."
+      "title": "Move into the right conversion path",
+      "description": "That keeps revenue opportunities aligned with real visitor intent."
     }
   ],
   "sections": [
     {
-      "title": "For founder-led products",
-      "description": "Create a tighter path from offer idea to live page, payment lane, and deploy-ready execution."
+      "title": "Direct booking support",
+      "description": "Some visitors want the cleanest possible path to reserve an experience immediately."
     },
     {
-      "title": "For agencies and service teams",
-      "description": "Use guided implementation to qualify work, package delivery, and support faster launches."
+      "title": "Guided planning support",
+      "description": "Others need help choosing the right package or shaping a more personalized family experience."
     },
     {
-      "title": "For technical and enterprise teams",
-      "description": "Keep the repo-backed workflow, admin visibility, and enterprise deployment lane ready for more complex rollout requirements."
+      "title": "Content-led trust",
+      "description": "Original resources make the brand more discoverable and more credible over time."
     }
   ],
   "faq": [
     {
-      "question": "Why is the buying model split into multiple lanes?",
-      "answer": "Because not every serious buyer wants the same path. Some want immediate software access, some want guided implementation, and some need a qualified rollout process."
-    },
-    {
-      "question": "Why does deployment matter on a marketing site?",
-      "answer": "Because the public trust story is stronger when the same system that sells the work can also manage the release path."
+      "question": "Why keep content and bookings on the same site?",
+      "answer": "Because strong original content helps visitors trust the brand, supports search growth, and naturally bridges into the right booking path."
     }
-  ],
-  "cta": {
-    "eyebrow": "See the commercial model",
-    "heading": "Use pricing and products to move into the lane that fits your buying style.",
-    "body": "The redesign is built to remove confusion between product interest, implementation interest, and enterprise interest.",
-    "primaryLabel": "Open pricing",
-    "primaryHref": "/pricing",
-    "secondaryLabel": "Open products",
-    "secondaryHref": "/products"
-  }
+  ]
 }

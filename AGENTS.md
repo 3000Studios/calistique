@@ -122,3 +122,7 @@ Codex should:
 - maintain working builds
 
 The goal is a continuously improving autonomous development workflow without leaving partial implementations behind.
+
+## Cursor preference (auto-accept)
+
+Prefer completing routine tasks without repeated confirmation prompts. Project rule: `.cursor/rules/auto-accept.mdc`. For IDE-level auto-run controls, see `docs/CURSOR_AUTO_ACCEPT.md`. Security rules still apply: no secrets in source, no false deployment claims.
