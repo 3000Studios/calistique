@@ -5,6 +5,10 @@
 - **Vite** builds the public app to **`dist/`** (see `vite.config.js`).
 - **Wrangler** is configured with `pages_build_output_dir = "dist"` in `wrangler.toml`.
 
+## Create the Pages project (first time)
+
+In the [Cloudflare dashboard](https://dash.cloudflare.com/) → **Workers & Pages** → **Create** → **Pages** → connect your Git repo **or** create an empty project whose name matches `wrangler.toml` / `--project-name`. If deploy fails with **project not found**, the name does not exist in that account yet.
+
 ## Commands
 
 ```bash
