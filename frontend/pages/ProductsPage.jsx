@@ -1,177 +1,121 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import MetricStrip from '../components/MetricStrip.jsx'
 import PrismHeadline from '../components/PrismHeadline.jsx'
+import RichBlocks from '../components/RichBlocks.jsx'
 import { trackCtaClick } from '../src/siteApi.js'
-import { useSiteRuntime } from '../src/SiteRuntimeContext.jsx'
-import { productCatalog, productLookup } from '../src/siteData.js'
-import { SITE_DISPLAY_NAME } from '../src/siteMeta.js'
-
-function formatCloseMode(closeMode) {
-  switch (closeMode) {
-    case 'checkout':
-      return 'Direct checkout'
-    case 'lead':
-      return 'Guided planning'
-    case 'qualification':
-      return 'Qualification first'
-    default:
-      return 'Guided path'
-  }
-}
-
-function inferIntent(closeMode) {
-  switch (closeMode) {
-    case 'checkout':
-      return 'purchase'
-    case 'qualification':
-      return 'qualification'
-    default:
-      return 'implementation'
-  }
-}
+import { pageLookup } from '../src/siteData.js'
 
 export default function ProductsPage() {
-  const { snapshot } = useSiteRuntime()
-  const runtimeMetrics = [
-    {
-      label: 'Live offers',
-      value: String(
-        snapshot?.commerce?.offers?.length ?? productCatalog.length
-      ),
-    },
-    {
-      label: 'Checkout-ready lanes',
-      value: String(snapshot?.proof?.checkoutReadyOffers ?? 0),
-    },
-    {
-      label: 'Payment routing',
-      value: snapshot?.proof?.configuredPaymentProviders?.length
-        ? snapshot.proof.configuredPaymentProviders.join(' + ')
-        : 'Payment links + inquiry routing',
-    },
+  const pageCards = [
+    { slug: 'summer-camp', ctaLabel: 'Explore Summer Camp' },
+    { slug: 'camp-out', ctaLabel: 'See Camp Out' },
+    { slug: 'what-we-do', ctaLabel: 'Read What We Do' },
+    { slug: 'volunteer', ctaLabel: 'Volunteer' },
+    { slug: 'donate', ctaLabel: 'Donate' },
   ]
+    .map((entry) => {
+      const page = pageLookup[entry.slug]
+
+      if (!page) {
+        return null
+      }
+
+      return {
+        eyebrow: page.eyebrow,
+        title: page.headline,
+        description: page.subheadline,
+        ctaLabel: entry.ctaLabel,
+        ctaHref: `/${entry.slug}`,
+      }
+    })
+    .filter(Boolean)
 
   return (
     <div className="stack-2xl">
       <section className="section-card section-card--hero product-hero">
         <div className="product-hero__content stack-lg">
-          <span className="eyebrow">Programs</span>
-          <PrismHeadline
-            text={`Choose the ${SITE_DISPLAY_NAME} path that matches your trip`}
-          />
+          <span className="eyebrow">Programs and pathways</span>
+          <PrismHeadline text="Explore the camp experiences and support paths that shape the year" />
           <p className="section-intro">
-            The public booking model is intentionally split into three premium
-            lanes: fast booking when the fit is obvious, guided planning when
-            families want support, and custom coordination for larger groups.
+            This hub pulls together the core ways families, volunteers, and
+            supporters engage with Camp Dream GA: Summer Camp, Camp Out, mission
+            details, volunteer service, and giving.
           </p>
           <div className="tag-row">
-            <span className="tag">Direct booking only where it fits</span>
-            <span className="tag">Planning support for higher-touch trips</span>
-            <span className="tag">Custom retreat qualification for groups</span>
+            <span className="tag">Summer Camp</span>
+            <span className="tag">Camp Out</span>
+            <span className="tag">Volunteer + Donate</span>
           </div>
         </div>
 
         <aside className="product-hero__aside stack-md">
-          <span className="panel-kicker">How to use this page</span>
+          <span className="panel-kicker">Use this hub</span>
           <div className="product-hero__panel">
-            <strong>Book fast</strong>
+            <strong>Learn about camp</strong>
             <p className="field-note">
-              Use the direct path when you already know the fit and want the
-              shortest route into checkout.
+              Start with Summer Camp and Camp Out if you want to understand the
+              experiences themselves.
             </p>
           </div>
           <div className="product-hero__panel">
-            <strong>Plan carefully</strong>
+            <strong>Understand the mission</strong>
             <p className="field-note">
-              Choose the guided family lane when experience quality matters more
-              than speed alone.
+              Visit What We Do, FAQ, and History if you want the broader story
+              and philosophy behind camp.
             </p>
           </div>
           <div className="product-hero__panel">
-            <strong>Scope something custom</strong>
+            <strong>Get involved</strong>
             <p className="field-note">
-              Use the group lane when timing, people, and logistics make a
-              qualification-first flow the better choice.
+              Volunteer and Donate are the clearest next steps if you want to
+              support camp directly.
             </p>
           </div>
         </aside>
       </section>
 
-      <MetricStrip items={runtimeMetrics} />
-
-      <section className="card-grid">
-        {productCatalog.map((product) => {
-          const closeMode = productLookup[product.slug]?.closeMode
-          return (
-            <article
-              key={product.slug}
-              className="content-card product-card product-card--premium"
-            >
-              <span className="meta-line">{product.priceAnchor}</span>
-              <h2>{product.name}</h2>
-              <p>{product.summary}</p>
-              <div className="tag-row">
-                <span className="tag">{formatCloseMode(closeMode)}</span>
-                <span className="tag">{product.idealFor}</span>
-              </div>
-              <p className="content-card__outcome">{product.outcome}</p>
-              <Link
-                className="button button--ghost"
-                to={`/products/${product.slug}`}
-                onClick={() =>
-                  trackCtaClick({
-                    ctaId: `products-${product.slug}`,
-                    offerSlug: product.slug,
-                    intent: inferIntent(closeMode),
-                  }).catch(() => {})
-                }
-              >
-                View details
-              </Link>
-            </article>
-          )
-        })}
-      </section>
+      <RichBlocks
+        title="Explore the camp ecosystem"
+        intro="Each page serves a different job: some explain the camp experience, some answer practical questions, and some help supporters take action."
+        items={pageCards}
+      />
 
       <section className="section-card conversion-band">
         <div>
           <span className="eyebrow">Decision helper</span>
           <h2>
-            When the fit is obvious, go to pricing. When the trip needs context,
-            start the planning conversation.
+            Start with Summer Camp if you are exploring participation, or jump
+            to Donate if you are ready to support the mission.
           </h2>
           <p className="section-intro">
-            The strongest premium flow is not about forcing checkout everywhere.
-            It is about matching the action to the complexity of the decision.
+            This public experience is designed to answer questions first, then
+            guide people into the right next step without overwhelming them.
           </p>
         </div>
         <div className="hero__actions">
           <Link
             className="button button--primary"
-            to="/pricing"
+            to="/summer-camp"
             onClick={() =>
               trackCtaClick({
-                ctaId: 'products-pricing',
-                offerSlug: 'operator-os',
-                intent: 'purchase',
+                ctaId: 'products-summer-camp',
+                intent: 'learn_more',
               }).catch(() => {})
             }
           >
-            Open pricing
+            Explore Summer Camp
           </Link>
           <Link
             className="button button--ghost"
-            to="/contact"
+            to="/donate"
             onClick={() =>
               trackCtaClick({
-                ctaId: 'products-contact',
-                offerSlug: 'launch-sprint',
-                intent: 'implementation',
+                ctaId: 'products-donate',
+                intent: 'learn_more',
               }).catch(() => {})
             }
           >
-            Start planning inquiry
+            Support Camp Dream
           </Link>
         </div>
       </section>

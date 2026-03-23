@@ -1,0 +1,43 @@
+{
+  "eyebrow": "Our history",
+  "headline": "Camp Dream GA has been serving campers and families since 1996",
+  "subheadline": "What began as a response to a need for a traditional camp environment for children and young adults with disabilities has grown into a lasting ministry shaped by volunteers, families, and supporters.",
+  "heroStats": [
+    {
+      "label": "Started",
+      "value": "1996"
+    },
+    {
+      "label": "Legacy",
+      "value": "Community-built"
+    },
+    {
+      "label": "Today",
+      "value": "Camp + year-round connection"
+    }
+  ],
+  "sectionsHeadline": "What the history says about the mission",
+  "sections": [
+    {
+      "title": "Longevity matters",
+      "description": "A camp that has continued for decades communicates trust, consistency, and deep community roots."
+    },
+    {
+      "title": "The heart of camp has stayed the same",
+      "description": "Even as the public experience evolves, the center remains a camp environment where campers can belong and participate."
+    },
+    {
+      "title": "The future still depends on people",
+      "description": "The same volunteer energy and donor support that helped camp begin are still what keep the mission strong now."
+    }
+  ],
+  "cta": {
+    "eyebrow": "See the present work",
+    "heading": "History makes more sense when you can also see the programs, volunteer pathways, and supporter roles that carry the mission forward now.",
+    "body": "The strongest public experience ties the story of camp directly to the current ways people can participate.",
+    "primaryLabel": "Read What We Do",
+    "primaryHref": "/what-we-do",
+    "secondaryLabel": "Donate",
+    "secondaryHref": "/donate"
+  }
+}

@@ -9,6 +9,7 @@ import ProductPage from '../pages/ProductPage.jsx'
 import CheckoutCancelPage from '../pages/CheckoutCancelPage.jsx'
 import CheckoutSuccessPage from '../pages/CheckoutSuccessPage.jsx'
 import GenericPage from '../pages/GenericPage.jsx'
+import TestSiteBanner from '../components/TestSiteBanner.jsx'
 import AdminLayout from '../components/admin/AdminLayout.jsx'
 import AdminLoginPage from '../pages/AdminLoginPage.jsx'
 import AdminOverviewPage from '../pages/admin/AdminOverviewPage.jsx'
@@ -37,6 +38,7 @@ export default function App() {
 
   return (
     <SiteRuntimeProvider>
+      <TestSiteBanner />
       <Routes>
         <Route element={<SiteFrame />}>
           <Route path="/" element={<HomePage />} />

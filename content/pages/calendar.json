@@ -1,0 +1,43 @@
+{
+  "eyebrow": "Dates and rhythm",
+  "headline": "The Camp Dream GA calendar helps families and volunteers plan the year",
+  "subheadline": "Summer Camp remains the anchor of the yearly schedule, with community updates, Camp Out events, volunteer coordination, and supporter communication filling the rest of the year.",
+  "heroStats": [
+    {
+      "label": "Session 1",
+      "value": "July 12 to 15, 2026"
+    },
+    {
+      "label": "Session 2",
+      "value": "July 16 to 19, 2026"
+    },
+    {
+      "label": "Volunteer response",
+      "value": "By May 30, 2026"
+    }
+  ],
+  "sectionsHeadline": "Key dates to know",
+  "sections": [
+    {
+      "title": "Summer Camp Session 1",
+      "description": "July 12 through July 15, 2026."
+    },
+    {
+      "title": "Summer Camp Session 2",
+      "description": "July 16 through July 19, 2026."
+    },
+    {
+      "title": "Volunteer confirmation timing",
+      "description": "Public volunteer information points to a response deadline around May 30, 2026 for summer service roles."
+    }
+  ],
+  "cta": {
+    "eyebrow": "Next planning step",
+    "heading": "Move from dates into the pages that explain what camp feels like and how to get involved.",
+    "body": "The calendar gives timing. Summer Camp, Volunteer, and Contact pages help with the deeper decision.",
+    "primaryLabel": "Explore Summer Camp",
+    "primaryHref": "/summer-camp",
+    "secondaryLabel": "Volunteer",
+    "secondaryHref": "/volunteer"
+  }
+}

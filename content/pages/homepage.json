@@ -1,196 +1,210 @@
 {
-  "eyebrow": "Georgia camp experiences",
-  "headline": "Camp Dream GA helps families and groups find meaningful camp experiences without the usual planning chaos",
-  "subheadline": "Discover premium Georgia camp programs, seasonal family adventures, and retreat planning support through a clean, trustworthy site built for bookings, inquiries, and long-term search growth.",
+  "eyebrow": "Camp Dream Georgia",
+  "headline": "A traditional Georgia camp experience built for children and young adults with disabilities",
+  "subheadline": "Camp Dream GA brings families, volunteers, donors, and community partners together around Summer Camp, Camp Out, and year-round support that keeps recreation, friendship, and confidence within reach.",
   "primaryCta": {
-    "label": "Explore programs",
-    "to": "/products"
+    "label": "Explore Summer Camp",
+    "to": "/summer-camp"
   },
   "secondaryCta": {
-    "label": "Talk to our planning team",
-    "to": "/contact"
+    "label": "Volunteer With Us",
+    "to": "/volunteer"
   },
-  "operatorSignals": [
-    "family-friendly",
-    "trusted planning",
-    "original resource content",
-    "adsense-ready structure"
+  "heroSignals": [
+    "Since 1996",
+    "Traditional overnight camp",
+    "1:1 volunteer support",
+    "Barrier-free mission"
   ],
   "heroStats": [
     {
-      "label": "Programs",
-      "value": "3 signature lanes"
+      "label": "Summer 2026",
+      "value": "Two camp sessions"
     },
     {
-      "label": "Audience",
-      "value": "Families, schools, groups"
+      "label": "Location",
+      "value": "Calvin Center, Hampton"
     },
     {
-      "label": "Booking paths",
-      "value": "Direct, inquiry, custom"
+      "label": "Support model",
+      "value": "Volunteer-powered"
     }
   ],
   "heroPanel": {
-    "heading": "One polished site for inspiration, trust, and conversion.",
-    "body": "The public experience now balances premium design with practical buying paths: direct checkout for simple packages, inquiry-first for planning support, and custom qualification for larger group retreats.",
+    "heading": "Camp is built around access, joy, and belonging.",
+    "body": "Families come here for more than dates and logistics. They come to find a place where campers are known, supported, and encouraged to participate fully in camp life.",
     "points": [
       {
-        "label": "Season Pass",
-        "value": "Best for families who want a simple, direct path into upcoming camp experiences."
+        "label": "Summer Camp",
+        "title": "Overnight sessions",
+        "value": "A multi-day camp experience with cabin life, recreation, worship, music, and shared community."
       },
       {
-        "label": "Family Adventure Weekend",
-        "value": "Best for households that want a guided package and planning support."
+        "label": "Camp Out",
+        "title": "Year-round connection",
+        "value": "Local events keep campers and volunteers connected between summer sessions."
       },
       {
-        "label": "Group Retreat Planning",
-        "value": "Best for schools, churches, and organizations that need custom coordination."
+        "label": "Community",
+        "title": "Everyone has a role",
+        "value": "Families, donors, volunteers, and friends help make camp possible every season."
       }
     ]
   },
-  "workflowHeadline": "From first visit to confident booking, every step is designed to feel intentional and easy to trust.",
-  "workflowSteps": [
+  "quickSignals": [
+    "Summer Camp at Calvin Center",
+    "Camp Out gatherings through the year",
+    "Volunteer counselors and medical staff",
+    "Donor support keeps camp accessible"
+  ],
+  "impactCards": [
     {
-      "title": "Browse the right program",
-      "description": "Visitors can quickly understand whether they need a direct booking, a guided family package, or a custom retreat conversation."
+      "eyebrow": "Mission",
+      "title": "Barrier-free recreation with dignity",
+      "description": "Camp Dream GA creates camp experiences where children and young adults with disabilities can enjoy recreation, friendship, and new challenges in a setting designed around their needs.",
+      "outcome": "Campers get a place to belong, explore, and be celebrated."
     },
     {
-      "title": "Learn through helpful content",
-      "description": "Original planning articles answer real questions and support organic search without feeling thin or ad-stuffed."
+      "eyebrow": "Support",
+      "title": "A 1:1 volunteer model",
+      "description": "Volunteer counselors, junior counselors, and medical volunteers help each camper receive focused support throughout the camp experience.",
+      "outcome": "Families can trust that campers are known and cared for."
     },
     {
-      "title": "Choose the next step",
-      "description": "Use checkout when the fit is clear, or send a detailed inquiry when the experience needs more planning."
+      "eyebrow": "Community",
+      "title": "Camp does not stop after summer",
+      "description": "Camp Out events, newsletters, and community updates help keep relationships strong beyond the main overnight sessions.",
+      "outcome": "Campers and supporters stay connected year-round."
     }
   ],
-  "buyerPathsIntro": "Each path is designed around a real parent, organizer, or group leader decision.",
-  "buyerPaths": [
+  "programsHeadline": "Programs that shape the Camp Dream GA experience",
+  "programsIntro": "The original site is organized around a few core experiences, so this public rebuild follows that same simple structure while presenting it in a more modern, mobile-first way.",
+  "programCards": [
     {
-      "eyebrow": "Fast booking",
-      "title": "Reserve a Season Pass",
-      "description": "A direct-buy option for visitors who already know they want a premium Georgia camp experience this season.",
-      "outcome": "Fastest route from interest to revenue.",
-      "ctaLabel": "View Season Pass",
-      "ctaHref": "/products/operator-os"
-    },
-    {
-      "eyebrow": "Guided planning",
-      "title": "Start a Family Adventure Weekend",
-      "description": "A higher-touch option for families who want curation, planning help, and a memorable shared experience.",
-      "outcome": "Best route for premium service revenue and stronger satisfaction.",
-      "ctaLabel": "Plan a family weekend",
-      "ctaHref": "/products/launch-sprint"
-    },
-    {
-      "eyebrow": "Custom coordination",
-      "title": "Scope a Group Retreat",
-      "description": "A qualification-first lane for schools, churches, teams, and community organizations with more moving parts.",
-      "outcome": "Best route for larger, custom engagements.",
-      "ctaLabel": "Start retreat planning",
-      "ctaHref": "/products/enterprise-deployment"
-    }
-  ],
-  "audienceIntro": "The site is shaped around the audiences most likely to need clarity, confidence, and premium support.",
-  "audiences": [
-    {
-      "title": "Parents and families",
-      "description": "Use Camp Dream GA to compare experiences, understand what to expect, and move from research to booking with less friction.",
+      "eyebrow": "Featured program",
+      "title": "Summer Camp",
+      "description": "Multi-day overnight sessions hosted at the Calvin Center in Hampton, Georgia for children and young adults with disabilities.",
+      "outcome": "The signature camp experience families plan around each year.",
       "bullets": [
-        "Clear program descriptions",
-        "Honest pricing paths",
-        "Helpful planning content"
-      ]
+        "Cabin life and meals",
+        "Recreation, music, and crafts",
+        "Volunteer counselor support"
+      ],
+      "ctaLabel": "Explore Summer Camp",
+      "ctaHref": "/summer-camp"
     },
     {
-      "title": "Group organizers",
-      "description": "Build a retreat or shared experience without juggling scattered notes, broken forms, and unclear next steps.",
+      "eyebrow": "Year-round program",
+      "title": "Camp Out",
+      "description": "Community events outside the summer season help campers, families, and volunteers stay in touch through shared activities and local gatherings.",
+      "outcome": "A bridge between camp sessions and everyday life.",
       "bullets": [
-        "Qualification-first planning",
-        "Custom scoping support",
-        "Smoother group coordination"
-      ]
+        "Seasonal social events",
+        "Local activity nights",
+        "Community fellowship"
+      ],
+      "ctaLabel": "See Camp Out",
+      "ctaHref": "/camp-out"
     },
     {
-      "title": "Search-driven visitors",
-      "description": "Find genuinely useful resource content that answers questions before you ever commit to a program.",
+      "eyebrow": "Planning help",
+      "title": "Calendar and location",
+      "description": "Families and volunteers can quickly find session timing, location details, and the practical information they need before camp begins.",
+      "outcome": "Clearer planning with less guesswork.",
       "bullets": [
-        "Evergreen guides",
-        "Seasonal planning ideas",
-        "Editorial content designed for trust"
-      ]
+        "Summer session dates",
+        "Calvin Center campus details",
+        "Arrival and preparation guidance"
+      ],
+      "ctaLabel": "View Calendar",
+      "ctaHref": "/calendar"
     }
   ],
-  "proofHeadline": "Trust comes from clarity, useful content, and a public experience that feels complete.",
-  "whyNowHeadline": "Why the rebuilt experience converts better",
-  "whyNowCards": [
+  "communityHeadline": "A community effort that makes camp possible",
+  "communityIntro": "The public experience is also organized around action: volunteering, donating, learning the story of camp, and understanding how the ministry works.",
+  "communityCards": [
     {
-      "eyebrow": "Clarity",
-      "title": "The navigation and content architecture are cleaner",
-      "description": "Visitors can now tell the difference between browsing, booking, and inquiry-first paths immediately.",
-      "outcome": "Less confusion and stronger conversion intent."
+      "eyebrow": "Serve",
+      "title": "Volunteer",
+      "description": "Volunteer counselors, junior counselors, and medical volunteers are essential to the camp experience.",
+      "outcome": "A direct way to step into the mission.",
+      "ctaLabel": "Volunteer roles",
+      "ctaHref": "/volunteer"
     },
     {
-      "eyebrow": "Trust",
-      "title": "Legal pages, policies, and resource depth are now part of the site foundation",
-      "description": "This supports both user confidence and AdSense/publisher readiness.",
-      "outcome": "A more credible public footprint."
+      "eyebrow": "Support",
+      "title": "Donate",
+      "description": "Giving helps keep camp accessible for families and helps sustain the staff, supplies, and programming needed each season.",
+      "outcome": "Financial support becomes camper opportunity.",
+      "ctaLabel": "Give to camp",
+      "ctaHref": "/donate"
     },
     {
-      "eyebrow": "Revenue",
-      "title": "Programs and content now support each other",
-      "description": "Program pages drive bookings while resource pages support search growth and future ad inventory.",
-      "outcome": "A healthier long-term revenue mix."
+      "eyebrow": "Story",
+      "title": "History and team",
+      "description": "Families and supporters deserve to understand where camp came from, what it stands for, and who helps carry it forward today.",
+      "outcome": "More trust through clearer public identity.",
+      "bullets": [
+        "Learn our history",
+        "Meet the team",
+        "See how the mission has grown"
+      ],
+      "ctaLabel": "Read the story",
+      "ctaHref": "/history"
     }
   ],
-  "founderStory": {
-    "eyebrow": "What makes this durable",
-    "heading": "Camp Dream GA is designed to work as both a premium brand site and a scalable content property.",
-    "body": "The site now supports direct monetization through bookings and planning packages while also creating room for compliant content monetization on long-form resource pages.",
-    "points": [
-      "Direct paid offers",
-      "Inquiry-first premium services",
-      "Content-led traffic growth"
-    ]
-  },
-  "productsIntro": "Programs are presented as clear, premium options instead of generic, cluttered listings.",
-  "objectionHeadline": "Questions visitors often need answered before they commit",
-  "objections": [
+  "activityHeadline": "What camp life can include",
+  "activityIntro": "Activities change with each session and event, but the original site consistently points families toward a traditional camp rhythm built around participation, recreation, worship, and community.",
+  "activityHighlights": [
     {
-      "question": "Is this only for one kind of camper?",
-      "answer": "No. The site now supports direct family bookings, guided planning, and larger group retreat coordination."
+      "eyebrow": "Recreation",
+      "title": "Swimming, outdoor play, and active fun",
+      "description": "Camp life includes movement and recreation in a setting prepared for campers of different abilities.",
+      "outcome": "Campers get room to enjoy activity at their own pace."
     },
     {
-      "question": "Can I still talk to a person before buying?",
-      "answer": "Yes. Guided family packages and custom retreats both use an inquiry-first path so you can scope the right fit."
+      "eyebrow": "Creativity",
+      "title": "Music, crafts, and shared experiences",
+      "description": "Creative activities help campers express themselves and participate in the daily rhythm of camp in ways that feel joyful and memorable.",
+      "outcome": "More chances for confidence, expression, and friendship."
     },
     {
-      "question": "Will the resource section feel overloaded with ads?",
-      "answer": "No. Ads are reserved for compliant content templates only and are intentionally kept away from sensitive flows and premium CTAs."
+      "eyebrow": "Community",
+      "title": "Cabin life, meals, and worship",
+      "description": "Camp is not just a list of activities. It is a full shared environment where volunteers and campers live, eat, celebrate, and build community together.",
+      "outcome": "A complete camp atmosphere instead of isolated activities."
     }
   ],
-  "faqHeadline": "Questions families and organizers ask",
-  "faq": [
+  "scheduleEyebrow": "Looking ahead",
+  "scheduleHeadline": "Families and volunteers can plan around a clear yearly rhythm",
+  "scheduleCards": [
     {
-      "question": "Can I book directly online?",
-      "answer": "Yes. Select offers can use a direct checkout path, while more complex experiences use inquiry-first planning."
+      "eyebrow": "Summer 2026",
+      "title": "Session 1: July 12 to July 15",
+      "description": "The first overnight session opens the main summer schedule and brings campers, volunteers, and families back together at Calvin Center.",
+      "outcome": "Ideal for families preparing early for the summer season."
     },
     {
-      "question": "Do you help with custom group retreats?",
-      "answer": "Yes. Group Retreat Planning is designed for schools, churches, teams, and community organizations that need a custom path."
+      "eyebrow": "Summer 2026",
+      "title": "Session 2: July 16 to July 19",
+      "description": "The second session continues the same camp experience with another round of campers, counselors, and program activities.",
+      "outcome": "A second window for families and volunteers who cannot attend the first session."
     },
     {
-      "question": "Why does the site include resource articles?",
-      "answer": "Because strong planning content helps families make better decisions, supports SEO, and creates a compliant foundation for content monetization."
+      "eyebrow": "Year-round",
+      "title": "Camp Out events and supporter updates",
+      "description": "Community events, volunteer communication, and fundraising touchpoints help keep the mission visible outside the main summer schedule.",
+      "outcome": "A healthier connection between summer camp and the rest of the year."
     }
   ],
   "finalCta": {
     "eyebrow": "Choose your next step",
-    "heading": "Browse programs if you are ready to choose, or contact the team if you want help planning the right experience.",
-    "body": "Every route is now built to reduce friction while keeping the premium feel of the brand intact.",
-    "primaryLabel": "Explore programs",
-    "primaryHref": "/products",
-    "secondaryLabel": "Start planning",
-    "secondaryHref": "/contact"
+    "heading": "Start with Summer Camp, volunteer service, or a gift that keeps camp accessible.",
+    "body": "This public site is now organized around the same mission-first structure as the original, while making it easier for families and supporters to navigate on any device.",
+    "primaryLabel": "Support the mission",
+    "primaryHref": "/donate",
+    "secondaryLabel": "Volunteer now",
+    "secondaryHref": "/volunteer"
   },
-  "updatedAt": "2026-03-22T00:00:00.000Z"
+  "updatedAt": "2026-03-23T00:00:00.000Z"
 }

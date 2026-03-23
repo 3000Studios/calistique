@@ -1,0 +1,70 @@
+{
+  "eyebrow": "Signature program",
+  "headline": "Summer Camp is the heart of the Camp Dream GA experience",
+  "subheadline": "Hosted at the Calvin Center in Hampton, Georgia, Summer Camp offers an overnight camp environment for children and young adults with disabilities through a volunteer-supported, community-centered model.",
+  "heroStats": [
+    {
+      "label": "Location",
+      "value": "Calvin Center"
+    },
+    {
+      "label": "Format",
+      "value": "Overnight camp"
+    },
+    {
+      "label": "Support",
+      "value": "1:1 volunteer care"
+    }
+  ],
+  "stepsEyebrow": "Camp flow",
+  "stepsHeadline": "What Summer Camp is designed to provide",
+  "steps": [
+    {
+      "title": "Arrival and welcome",
+      "description": "Families arrive to a prepared campus where campers are welcomed into a supportive environment built around participation."
+    },
+    {
+      "title": "Shared camp life",
+      "description": "Campers experience recreation, music, crafts, meals, worship, and cabin community with volunteer support throughout the session."
+    },
+    {
+      "title": "Confidence and connection",
+      "description": "The goal is not only a full schedule. It is a camp experience that helps campers feel known, included, and encouraged."
+    }
+  ],
+  "sectionsHeadline": "What families should know",
+  "sections": [
+    {
+      "title": "Who camp is for",
+      "description": "Summer Camp is built for children and young adults with disabilities, especially families seeking a traditional camp setting prepared for more individualized support."
+    },
+    {
+      "title": "What camp can include",
+      "description": "Activities may include swimming, music, crafts, recreation, worship, shared meals, and cabin-based community time."
+    },
+    {
+      "title": "How support works",
+      "description": "Volunteer counselors and medical volunteers help create a safer, more relational environment so campers can participate more fully."
+    }
+  ],
+  "faqHeadline": "Summer Camp questions",
+  "faq": [
+    {
+      "question": "Where is Summer Camp held?",
+      "answer": "Camp is held at the Calvin Center in Hampton, Georgia, a campus that provides the setting for the overnight summer sessions."
+    },
+    {
+      "question": "Who supports campers during the session?",
+      "answer": "Volunteer counselors, junior counselors, medical volunteers, and staff work together to help campers participate in camp life."
+    }
+  ],
+  "cta": {
+    "eyebrow": "Keep planning",
+    "heading": "Read the FAQ for practical details or move into the volunteer flow if you want to help make Summer Camp possible.",
+    "body": "Families, volunteers, and donors all connect back to Summer Camp as the main expression of the mission.",
+    "primaryLabel": "Open FAQ",
+    "primaryHref": "/faq",
+    "secondaryLabel": "Volunteer",
+    "secondaryHref": "/volunteer"
+  }
+}

@@ -2,10 +2,12 @@ import { SITE_DOMAIN } from './siteMeta.js'
 
 export const publicNavItems = [
   { label: 'Home', to: '/' },
-  { label: 'About', to: '/about' },
-  { label: 'Programs', to: '/products' },
-  { label: 'Pricing', to: '/pricing' },
-  { label: 'Resources', to: '/blog' },
+  { label: 'Summer Camp', to: '/summer-camp' },
+  { label: 'Camp Out', to: '/camp-out' },
+  { label: 'What We Do', to: '/what-we-do' },
+  { label: 'Volunteer', to: '/volunteer' },
+  { label: 'Donate', to: '/donate' },
+  { label: 'FAQ', to: '/faq' },
   { label: 'Contact', to: '/contact' },
 ]
 
@@ -17,17 +19,17 @@ export const footerLegalItems = [
 ]
 
 export const publicStatusLines = [
-  'GEORGIA PROGRAMS',
-  'PREMIUM FAMILY UX',
-  'SEARCH + ADS READY',
+  'SINCE 1996',
+  '1:1 VOLUNTEER MODEL',
+  'BARRIER-FREE CAMP',
   SITE_DOMAIN,
 ]
 
 export const publicTickerItems = [
-  '// FAMILY CAMP EXPERIENCES, RETREATS, AND PLANNING SUPPORT',
-  '// ORIGINAL GUIDES, TRUST PAGES, AND HELPFUL CONTENT POWER SEARCH GROWTH',
-  '// DIRECT BOOKING, GUIDED PLANNING, AND CUSTOM RETREAT PATHS LIVE IN ONE FUNNEL',
-  '// ADS STAY OFF SENSITIVE FLOWS AND APPEAR ONLY ON COMPLIANT EDITORIAL PAGES',
+  '// SUMMER CAMP + CAMP OUT PROGRAMS FOR CHILDREN AND YOUNG ADULTS WITH DISABILITIES',
+  '// 100% VOLUNTEER OPERATIONS HELP KEEP A 1:1 CAMPER-TO-COUNSELOR EXPERIENCE POSSIBLE',
+  '// DONATIONS, SPONSORSHIP, AND COMMUNITY SUPPORT HELP KEEP COSTS LOW FOR FAMILIES',
+  '// STORIES, FAQS, AND YEAR-ROUND UPDATES HELP FAMILIES, VOLUNTEERS, AND DONORS STAY CONNECTED',
 ]
 
 export const adminNavItems = [

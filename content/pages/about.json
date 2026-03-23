@@ -1,34 +1,43 @@
 {
-  "eyebrow": "About Camp Dream GA",
-  "headline": "A premium Georgia camp brand built around trust, experience, and clarity",
-  "subheadline": "Camp Dream GA exists to help families and organizers discover camp experiences that feel memorable, well-planned, and worth the investment.",
-  "sections": [
+  "eyebrow": "Who We Are",
+  "headline": "Camp Dream GA is a volunteer-powered camp community built around access, joy, and belonging",
+  "subheadline": "The public story of Camp Dream GA starts with a simple mission: children and young adults with disabilities deserve a traditional camp experience shaped around dignity, friendship, recreation, and support.",
+  "heroStats": [
     {
-      "title": "Why the site was rebuilt",
-      "description": "The public experience needed to feel more trustworthy, easier to navigate, and better aligned with how real families and groups make decisions."
+      "label": "Founded",
+      "value": "1996"
     },
     {
-      "title": "How the business works",
-      "description": "The site combines direct program purchases, inquiry-first premium planning, and content-led search growth into one coherent brand system."
+      "label": "Programs",
+      "value": "Summer Camp + Camp Out"
     },
     {
-      "title": "What makes the experience better",
-      "description": "Original content, cleaner structure, legal trust pages, and premium design all work together to make decision-making feel calmer and more confident."
+      "label": "Model",
+      "value": "Volunteer-led"
     }
   ],
-  "faq": [
+  "sectionsHeadline": "What defines the organization",
+  "sections": [
     {
-      "question": "Is Camp Dream GA only a content site?",
-      "answer": "No. It is both a public-facing program and planning site and a content property designed for long-term organic growth."
+      "title": "A traditional camp experience",
+      "description": "Camp Dream GA is not only a care environment. It is a camp community with shared meals, cabin life, recreation, music, worship, and celebration."
+    },
+    {
+      "title": "A barrier-free approach",
+      "description": "Programs are shaped for children and young adults with disabilities so participation and belonging are not treated as extras."
+    },
+    {
+      "title": "A strong volunteer culture",
+      "description": "Volunteers are central to the camp model, making support feel relational and personal instead of distant or transactional."
     }
   ],
   "cta": {
-    "eyebrow": "Start exploring",
-    "heading": "See the programs, pricing, and planning resources that now shape the public experience.",
-    "body": "The strongest first impression comes from a site that looks complete, answers real questions, and makes the next step obvious.",
-    "primaryLabel": "Explore programs",
-    "primaryHref": "/products",
-    "secondaryLabel": "Read resources",
-    "secondaryHref": "/blog"
+    "eyebrow": "See the full story",
+    "heading": "Learn what Camp Dream GA does, where camp is held, and how you can step into the mission.",
+    "body": "The clearest next steps are to read about the programs, visit the volunteer page, or support camp financially.",
+    "primaryLabel": "Read What We Do",
+    "primaryHref": "/what-we-do",
+    "secondaryLabel": "Volunteer",
+    "secondaryHref": "/volunteer"
   }
 }

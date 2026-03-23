@@ -1,69 +1,54 @@
 {
   "eyebrow": "Contact",
-  "headline": "Tell us what kind of Georgia camp experience you want to plan",
-  "subheadline": "Use this page for family package planning, group retreats, partnerships, and custom experience questions that need a real follow-up.",
+  "headline": "Reach Camp Dream GA for family questions, volunteer interest, and supporter conversations",
+  "subheadline": "Use this page when you need help choosing the right program, want to ask a practical camp question, or want to connect about volunteering, giving, or partnership support.",
   "heroStats": [
     {
-      "label": "Response path",
-      "value": "Inquiry first"
+      "label": "Office",
+      "value": "Camp office support"
     },
     {
       "label": "Best for",
-      "value": "Family + group planning"
+      "value": "Families, volunteers, donors"
     },
     {
-      "label": "Use case",
-      "value": "Higher-touch coordination"
+      "label": "Follow-up",
+      "value": "Personal response"
     }
   ],
-  "stepsEyebrow": "What happens next",
-  "stepsHeadline": "The contact route is designed to make follow-up easier and more informed",
-  "steps": [
-    {
-      "title": "Share the goal",
-      "description": "Tell us whether you are planning a family weekend, group retreat, partnership, or custom request."
-    },
-    {
-      "title": "Route the inquiry",
-      "description": "The team can then decide whether the best next step is direct booking, planning support, or custom qualification."
-    },
-    {
-      "title": "Move into the right path",
-      "description": "That keeps complex requests from being forced into the wrong checkout flow."
-    }
-  ],
+  "sectionsHeadline": "Ways people use this page",
   "sections": [
     {
-      "title": "Best for family planning",
-      "description": "Use this path when you want help choosing the right program or building a more personalized weekend."
+      "title": "Families and caregivers",
+      "description": "Ask about camper fit, preparation, timing, medical considerations, registration, and what to expect during the camp experience."
     },
     {
-      "title": "Best for groups",
-      "description": "Use this path for schools, churches, and organizations that need a custom retreat conversation."
+      "title": "Volunteers",
+      "description": "Reach out about counselor roles, junior counselor participation, medical volunteering, dates, and service expectations."
     },
     {
-      "title": "Best for partnerships",
-      "description": "Use this path for sponsorship, content, or brand collaboration opportunities."
+      "title": "Donors and partners",
+      "description": "Use this route for giving questions, sponsorship conversations, church partnerships, and community support ideas."
     }
   ],
   "leadForm": {
-    "heading": "Start the right planning conversation",
-    "intro": "Share enough detail to help us recommend the right path without sending you through the wrong form or booking flow.",
-    "submitLabel": "Send planning inquiry"
+    "heading": "Send a message to the camp team",
+    "intro": "Share the reason you are reaching out and enough context for the team to guide you well.",
+    "submitLabel": "Send message"
   },
   "faq": [
     {
-      "question": "Should I use contact if I am ready to buy a direct package?",
-      "answer": "If the package fits your needs, pricing or the program page is faster. Contact is best when you want guidance or custom planning."
+      "question": "Can I use this page for volunteer questions?",
+      "answer": "Yes. This page works for counselors, junior counselors, medical volunteers, and supporters who need direction."
     }
   ],
   "cta": {
-    "eyebrow": "Prefer to browse first",
-    "heading": "Explore pricing and programs if you want to compare options before reaching out.",
-    "body": "The site is built so you can either self-educate or start a conversation, depending on what you need.",
-    "primaryLabel": "Open pricing",
-    "primaryHref": "/pricing",
-    "secondaryLabel": "See programs",
-    "secondaryHref": "/products"
+    "eyebrow": "Need more detail first?",
+    "heading": "Browse the FAQ, location, and calendar pages if you want the essentials before reaching out.",
+    "body": "The site now keeps the practical planning pages easy to find so families and supporters can move at their own pace.",
+    "primaryLabel": "Open FAQ",
+    "primaryHref": "/faq",
+    "secondaryLabel": "View Calendar",
+    "secondaryHref": "/calendar"
   }
 }

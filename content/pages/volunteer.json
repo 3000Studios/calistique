@@ -1,0 +1,50 @@
+{
+  "eyebrow": "Serve at camp",
+  "headline": "Volunteers are one of the clearest ways Camp Dream GA becomes real for campers",
+  "subheadline": "Camp Dream GA depends on counselors, junior counselors, medical volunteers, leaders, and supporters who are willing to give time, care, encouragement, and practical help.",
+  "heroStats": [
+    {
+      "label": "Model",
+      "value": "Volunteer-powered"
+    },
+    {
+      "label": "Roles",
+      "value": "Counselor, junior, medical"
+    },
+    {
+      "label": "Commitment",
+      "value": "Relationship-centered"
+    }
+  ],
+  "sectionsHeadline": "Volunteer roles",
+  "sections": [
+    {
+      "title": "Counselors",
+      "description": "Volunteer counselors walk closely with campers through the daily rhythm of Summer Camp."
+    },
+    {
+      "title": "Junior counselors",
+      "description": "Junior counselors give younger volunteers a meaningful way to serve while learning the culture and rhythm of camp."
+    },
+    {
+      "title": "Medical staff",
+      "description": "Medical volunteers help make camp safer and more responsive for campers who need closer health support."
+    }
+  ],
+  "faqHeadline": "Volunteer questions",
+  "faq": [
+    {
+      "question": "Can younger volunteers participate?",
+      "answer": "Yes. Junior counselor roles are part of the volunteer structure and provide an age-appropriate way to serve."
+    }
+  ],
+  "cta": {
+    "eyebrow": "Ready to serve?",
+    "heading": "Use the contact page if you want help choosing the right volunteer path.",
+    "body": "Volunteering is one of the strongest ways to step into the Camp Dream GA mission.",
+    "primaryLabel": "Contact the team",
+    "primaryHref": "/contact",
+    "secondaryLabel": "View calendar",
+    "secondaryHref": "/calendar"
+  }
+}

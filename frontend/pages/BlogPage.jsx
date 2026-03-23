@@ -13,17 +13,17 @@ export default function BlogPage() {
     <div className="stack-2xl">
       <section className="section-card section-card--hero product-hero">
         <div className="product-hero__content stack-lg">
-          <span className="eyebrow">Resources</span>
-          <PrismHeadline text="Helpful camp planning resources for families and organizers" />
+          <span className="eyebrow">Stories and updates</span>
+          <PrismHeadline text="Camp stories, planning help, and community updates" />
           <p className="section-intro">
-            These articles support search, trust, and better decisions while
-            reinforcing what {SITE_DISPLAY_NAME} actually helps people do:
-            choose and plan stronger Georgia camp experiences.
+            These articles help families, volunteers, and supporters stay close
+            to the work of {SITE_DISPLAY_NAME} while answering common camp
+            questions and sharing timely updates.
           </p>
           <div className="tag-row">
-            <span className="tag">Original planning content</span>
-            <span className="tag">AdSense-ready editorial layout</span>
-            <span className="tag">Conversion bridges back into programs</span>
+            <span className="tag">Camp stories</span>
+            <span className="tag">Planning help</span>
+            <span className="tag">Supporter updates</span>
           </div>
         </div>
 

@@ -1,0 +1,50 @@
+{
+  "eyebrow": "Mission in action",
+  "headline": "What Camp Dream GA does is create room for campers to belong, participate, and be celebrated",
+  "subheadline": "Camp Dream GA serves children and young adults with disabilities through overnight summer camp, year-round Camp Out gatherings, and a volunteer culture designed around relationship, support, and joy.",
+  "heroStats": [
+    {
+      "label": "Core work",
+      "value": "Camp + community"
+    },
+    {
+      "label": "People served",
+      "value": "Children and young adults"
+    },
+    {
+      "label": "How it happens",
+      "value": "Volunteers + donors"
+    }
+  ],
+  "sectionsHeadline": "Core areas of work",
+  "sections": [
+    {
+      "title": "Summer Camp",
+      "description": "The overnight camp sessions remain the centerpiece of the ministry and the clearest picture of the mission in action."
+    },
+    {
+      "title": "Camp Out",
+      "description": "Year-round gatherings help the community remain connected and give supporters more ways to stay engaged."
+    },
+    {
+      "title": "Volunteer and donor mobilization",
+      "description": "Camp Dream GA depends on people who give their time, skill, and financial support so campers can have a fuller experience."
+    }
+  ],
+  "faqHeadline": "Mission questions",
+  "faq": [
+    {
+      "question": "How can someone help without volunteering at camp?",
+      "answer": "Giving financially, sharing the mission, connecting supporters, and following year-round updates are all meaningful ways to help."
+    }
+  ],
+  "cta": {
+    "eyebrow": "Take the next step",
+    "heading": "Volunteer if you want to serve directly, or donate if you want to help sustain the mission behind every session.",
+    "body": "Camp Dream GA works best when the community can quickly understand both the mission and the action paths connected to it.",
+    "primaryLabel": "Volunteer",
+    "primaryHref": "/volunteer",
+    "secondaryLabel": "Donate",
+    "secondaryHref": "/donate"
+  }
+}

@@ -1,6 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Manrope:wght@500;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
 
 :root {
+  --banner-bg: #591616;
+  --banner-line: rgba(255, 214, 214, 0.3);
+  --banner-ink: #fff4f4;
   --bg: #07111a;
   --bg-elevated: #0c1722;
   --surface: rgba(10, 19, 29, 0.7);
@@ -145,6 +148,44 @@ video {
 .admin-app--login {
   position: relative;
   min-height: 100vh;
+}
+
+.test-site-banner {
+  position: relative;
+  z-index: 30;
+  border-bottom: 1px solid var(--banner-line);
+  background:
+    linear-gradient(
+      90deg,
+      rgba(255, 123, 123, 0.18),
+      rgba(255, 191, 138, 0.14)
+    ),
+    var(--banner-bg);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.test-site-banner__inner {
+  width: min(1380px, calc(100% - 32px));
+  margin: 0 auto;
+  padding: 0.8rem 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  align-items: center;
+  justify-content: center;
+  color: var(--banner-ink);
+  text-align: center;
+  font-size: 0.92rem;
+  line-height: 1.55;
+}
+
+.test-site-banner strong,
+.test-site-banner code {
+  font-family: 'IBM Plex Mono', monospace;
+}
+
+.test-site-banner strong {
+  letter-spacing: 0.08em;
 }
 
 .site-header,

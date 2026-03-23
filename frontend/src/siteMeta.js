@@ -13,10 +13,10 @@ export const SITE_DOMAIN = 'campdreamga.com'
 export const SITE_URL = `https://${SITE_DOMAIN}`
 export const WWW_SITE_URL = `https://www.${SITE_DOMAIN}`
 export const SITE_CATEGORY =
-  'Georgia camp experiences, family programs, and retreat planning'
-export const SITE_DEFAULT_TITLE = `${SITE_DISPLAY_NAME} | Georgia camp experiences and family adventure programs`
+  'Georgia summer camp and community programs for children and young adults with disabilities'
+export const SITE_DEFAULT_TITLE = `${SITE_DISPLAY_NAME} | Georgia summer camp and community programs`
 export const SITE_DEFAULT_DESCRIPTION =
-  'Camp Dream GA helps families, groups, and schools discover premium Georgia camp experiences, seasonal programs, and retreat planning support through one polished, trustworthy site.'
+  'Camp Dream GA shares Summer Camp, Camp Out, volunteer, and donor opportunities for children and young adults with disabilities through one warm, mission-first Georgia camp site.'
 export const COPYRIGHT_HOLDER = SITE_LEGAL_NAME
 export const SUPPORT_EMAIL = 'hello@campdreamga.com'
 export const CONTACT_EMAIL = SUPPORT_EMAIL
