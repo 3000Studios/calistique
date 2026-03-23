@@ -1,4 +1,11 @@
+import './lib/loadEnvironment.js'
+
 const REQUIRED_NODE_MAJOR = 20
+
+function isMissing(name) {
+  const value = process.env[name]
+  return !value || String(value).startsWith('replace-with-')
+}
 
 function parseMajor(version) {
   const major = Number.parseInt(version.replace(/^v/, '').split('.')[0], 10)
@@ -24,8 +31,12 @@ function validateNodeVersion() {
 }
 
 function validateCloudflareVariables() {
-  const required = ['CLOUDFLARE_API_TOKEN', 'CLOUDFLARE_ACCOUNT_ID']
-  const missing = required.filter((name) => !process.env[name])
+  const required = [
+    'CLOUDFLARE_API_TOKEN',
+    'CLOUDFLARE_ACCOUNT_ID',
+    'CLOUDFLARE_PAGES_PROJECT_NAME',
+  ]
+  const missing = required.filter(isMissing)
 
   return {
     ok: missing.length === 0,
@@ -56,8 +67,13 @@ function validateAdminVariables() {
 }
 
 function validateSiteVariables() {
-  const required = ['SITE_URL', 'WWW_SITE_URL']
-  const missing = required.filter((name) => !process.env[name])
+  const required = [
+    'SITE_URL',
+    'WWW_SITE_URL',
+    'SITE_ORIGIN',
+    'WWW_SITE_ORIGIN',
+  ]
+  const missing = required.filter(isMissing)
 
   return {
     ok: missing.length === 0,
@@ -69,11 +85,26 @@ function validateSiteVariables() {
   }
 }
 
+function validateAiVariables() {
+  const required = ['OPENAI_MODEL']
+  const missing = required.filter(isMissing)
+
+  return {
+    ok: missing.length === 0,
+    name: 'ai_env',
+    message:
+      missing.length === 0
+        ? 'AI runtime defaults are present.'
+        : `Missing recommended AI variables: ${missing.join(', ')}.`,
+  }
+}
+
 const checks = [
   validateNodeVersion(),
   validateCloudflareVariables(),
   validateAdminVariables(),
   validateSiteVariables(),
+  validateAiVariables(),
 ]
 const blockingFailures = checks.filter(
   (check) => check.name === 'node_version' && !check.ok

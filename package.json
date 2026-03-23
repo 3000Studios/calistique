@@ -18,8 +18,15 @@
     "typecheck": "tsc --noEmit",
     "preview": "vite preview",
     "server": "node server/index.js",
-    "deploy": "node scripts/deploy-site.js",
-    "pages:deploy": "wrangler pages deploy dist --project-name campdreamga",
+    "deploy": "node scripts/campdreamga-cli.js deploy",
+    "cli": "node scripts/campdreamga-cli.js",
+    "cli:doctor": "node scripts/campdreamga-cli.js doctor",
+    "cli:deploy": "node scripts/campdreamga-cli.js deploy",
+    "pages:deploy": "node scripts/campdreamga-cli.js pages:deploy",
+    "pages:project:list": "node scripts/campdreamga-cli.js pages:list",
+    "pages:project:create": "node scripts/campdreamga-cli.js pages:create",
+    "pages:secret:bulk": "node scripts/campdreamga-cli.js pages:secrets",
+    "cf:whoami": "node scripts/campdreamga-cli.js whoami",
     "pages:dev": "wrangler pages dev dist",
     "command": "node scripts/run-command.js",
     "scheduler": "node ai/scheduler/aiScheduler.js",
@@ -27,6 +34,7 @@
     "test": "node scripts/verify-platform.js && vitest run",
     "test:watch": "vitest",
     "validate:env": "node scripts/validate-environment.js",
+    "verify-platform": "node scripts/verify-platform.js",
     "analyze": "cross-env ANALYZE=true vite build",
     "ci": "npm run validate:env && npm run lint && npm run test && npm run build"
   },
@@ -40,10 +48,10 @@
   "homepage": "https://campdreamga.com/",
   "repository": {
     "type": "git",
-    "url": "https://github.com/3000Studios/voicetowebsite-copyright-mrjwswain.git"
+    "url": "https://github.com/3000Studios/myappai.git"
   },
   "bugs": {
-    "url": "https://github.com/3000Studios/voicetowebsite-copyright-mrjwswain/issues"
+    "url": "https://github.com/3000Studios/myappai/issues"
   },
   "author": "3000Studios",
   "license": "UNLICENSED",

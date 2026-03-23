@@ -1,3 +1,4 @@
+import './lib/loadEnvironment.js'
 import { deploySite } from '../ai/deployment/deployAgent.js'
 import { bootstrapContent } from '../server/services/contentService.js'
 

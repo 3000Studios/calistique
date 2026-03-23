@@ -13,9 +13,12 @@ function normalizeTask(task) {
   }
 
   return {
-    target: typeof task.target === 'string' && task.target.trim() ? task.target.trim() : DEFAULT_TARGET,
+    target:
+      typeof task.target === 'string' && task.target.trim()
+        ? task.target.trim()
+        : DEFAULT_TARGET,
     ...task,
-    action: task.action.trim()
+    action: task.action.trim(),
   }
 }
 
@@ -23,18 +26,24 @@ function normalizePayload(payload) {
   if (!payload || typeof payload !== 'object') {
     return {
       mode: 'autonomous',
-      tasks: []
+      tasks: [],
     }
   }
 
-  const requestedMode = typeof payload.mode === 'string' ? payload.mode.trim().toLowerCase() : ''
+  const requestedMode =
+    typeof payload.mode === 'string' ? payload.mode.trim().toLowerCase() : ''
   const mode = requestedMode === 'single' ? 'single' : 'autonomous'
-  const tasks = Array.isArray(payload.tasks) ? payload.tasks.map(normalizeTask) : []
+  const tasks = Array.isArray(payload.tasks)
+    ? payload.tasks.map(normalizeTask)
+    : []
 
   return {
     mode,
     tasks,
-    metadata: typeof payload.metadata === 'object' && payload.metadata ? payload.metadata : {}
+    metadata:
+      typeof payload.metadata === 'object' && payload.metadata
+        ? payload.metadata
+        : {},
   }
 }
 
@@ -52,7 +61,7 @@ async function runTask(task) {
     return {
       task,
       status: 'skipped',
-      reason: `Unsupported target "${task.target}".`
+      reason: `Unsupported target "${task.target}".`,
     }
   }
 
@@ -61,7 +70,7 @@ async function runTask(task) {
     return {
       task,
       status: 'completed',
-      result
+      result,
     }
   } catch (error) {
     return {
@@ -69,8 +78,8 @@ async function runTask(task) {
       status: 'failed',
       error: {
         message: error.message,
-        name: error.name
-      }
+        name: error.name,
+      },
     }
   }
 }
@@ -97,9 +106,9 @@ export async function runSystemManager(payload = {}) {
       total: results.length,
       completed: results.filter((item) => item.status === 'completed').length,
       skipped: results.filter((item) => item.status === 'skipped').length,
-      failed
+      failed,
     },
     results,
-    status: failed > 0 ? 'degraded' : 'ok'
+    status: failed > 0 ? 'degraded' : 'ok',
   }
 }

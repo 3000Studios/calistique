@@ -1,50 +1,81 @@
 # Production Config
 
-Use these names when setting production secrets and variables for `myappai`.
+Use these names when setting production variables for **Camp Dream GA**.
 
-## Secrets
+## Required deployment secrets
 
 - `CLOUDFLARE_API_TOKEN`
 - `CLOUDFLARE_ACCOUNT_ID`
-- `GH_TOKEN`
+- `ADMIN_EMAIL`
+- `ADMIN_PASSCODE`
+- `ADMIN_API_KEY`
+- `ADMIN_SESSION_SECRET`
 - `OPENAI_API_KEY`
-- `ANTHROPIC_API_KEY`
-- `GEMINI_API_KEY`
-- `OLLAMA_API_URL`
 - `STRIPE_SECRET_KEY`
 - `STRIPE_WEBHOOK_SECRET`
 - `PAYPAL_CLIENT_ID`
 - `PAYPAL_CLIENT_SECRET`
-- `ADSENSE_CUSTOMER_ID`
-- `ADSENSE_PUBLISHER`
-- `ADMIN_API_KEY`
+
+## Optional integration secrets
+
+- `GH_TOKEN`
+- `ANTHROPIC_API_KEY`
+- `GEMINI_API_KEY`
+- `GROQ_API_KEY`
+- `OPENROUTER_API_KEY`
+- `DEEPSEEK_API_KEY`
+- `MISTRAL_API_KEY`
+- `TOGETHER_API_KEY`
+- `UNSPLASH_ACCESS_KEY`
+- `PEXELS_API_KEY`
+- `PIXABAY_API_KEY`
 - `R2_ACCESS_KEY_ID`
 - `R2_SECRET_ACCESS_KEY`
 
-## Plaintext Variables
+## Plaintext production variables
 
-- `GH_BASE_BRANCH=main`
-- `STRIPE_PUBLIC=pk_live_...`
 - `NODE_ENV=production`
-- `AI_PROJECT_NAME=myappai`
-- `R2_BUCKET_NAME=...`
+- `APP_NAME=campdreamga`
+- `AI_PROJECT_NAME=campdreamga`
+- `GH_BASE_BRANCH=main`
+- `CLOUDFLARE_PAGES_BRANCH=main`
+- `CLOUDFLARE_PAGES_PROJECT_NAME=campdreamga`
+- `SITE_URL=https://campdreamga.com`
+- `WWW_SITE_URL=https://www.campdreamga.com`
+- `SITE_ORIGIN=https://campdreamga.com`
+- `WWW_SITE_ORIGIN=https://www.campdreamga.com`
+- `API_MODE=repo-local`
+- `OPENAI_MODEL=gpt-4o`
+- `PAYPAL_ENV=live`
+- `R2_BUCKET_NAME=campdreamga`
 - `R2_S3_ENDPOINT=...`
 - `R2_PUBLIC_BASE_URL=...`
-- `R2_BUCKET_NAME=myappai`
+- `VITE_ENABLE_ADS=false`
+- `VITE_ADSENSE_CLIENT_ID=ca-pub-...`
+- `VITE_GA4_MEASUREMENT_ID=G-...`
+- `VITE_GTM_CONTAINER_ID=GTM-...`
+- `VITE_META_PIXEL_ID=...`
+- `VITE_CLARITY_PROJECT_ID=...`
 
-## Important Corrections
+## Important corrections
 
-- Use `CLOUDFLARE_API_TOKEN`, not `CLOUD_FLARE_API_TOKEN`
-- Use `GH_TOKEN` if you need a GitHub token in runtime or scripts
-- Use `ANTHROPIC_API_KEY`, not `ANTHROPIC_API`
-- Use `OLLAMA_API_URL`, not `OLLAMA_API`
-- The HTTP header should be `x-admin-key`, but the secret stored in Cloudflare or GitHub should be `ADMIN_API_KEY`
-- Keep Cloudflare API tokens and R2 S3 credentials out of tracked files and store them only as local secrets or platform secrets
+- Use `CLOUDFLARE_API_TOKEN`, not `CLOUD_FLARE_API_TOKEN`.
+- The request header is `x-admin-key`, but the stored secret name is `ADMIN_API_KEY`.
+- Keep Cloudflare API tokens, payment credentials, AI provider keys, and R2 S3 credentials out of tracked files.
+- Treat any key pasted into chat, tickets, or logs as compromised and rotate it.
 
-## Deploy Flow
+## Deploy flow
 
-This repo now includes a GitHub Actions workflow at `.github/workflows/production.yml`:
+Preferred flow:
 
-1. Push to `main`
-2. Run `lint`, `test`, and `build`
-3. Deploy `dist/` to Cloudflare Pages using Wrangler
+```bash
+npm install
+npm run cli:doctor
+npm run cli:deploy
+```
+
+If the Pages project does not exist yet:
+
+```bash
+npm run pages:project:create
+```

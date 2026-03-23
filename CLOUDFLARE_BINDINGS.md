@@ -1,57 +1,88 @@
 # Cloudflare Bindings
 
-This repo currently ships as a Cloudflare Pages project with an optional Worker proxy in `worker/worker.js`.
+This repository is configured for a **Cloudflare Pages** deployment that serves the Camp Dream GA public app from `dist/`.
 
-## Safe Local Secret Setup
+## Safe local secret setup
 
-Do not commit Cloudflare, GitHub, Stripe, PayPal, or R2 credentials into the repo.
+Do not commit Cloudflare, GitHub, Stripe, PayPal, OpenAI, or R2 credentials.
 
-Use one of these local-only files instead:
+Use only local, ignored files:
 
+- `.env`
 - `.env.local`
 - `.dev.vars`
 
-Both are ignored by git.
+## Non-secret defaults in `wrangler.toml`
 
-## Recommended Local Variables
+Tracked defaults are limited to safe runtime values:
 
-```env
-ADMIN_API_ORIGIN=http://127.0.0.1:8787
-APP_NAME=myappai
-API_MODE=repo-local
-SITE_ORIGIN=https://myappai.net
-ADMIN_API_KEY=replace-with-strong-random-string
-R2_PUBLIC_BASE_URL=
-R2_BUCKET_NAME=myappai
-R2_S3_ENDPOINT=
-R2_ACCESS_KEY_ID=
-R2_SECRET_ACCESS_KEY=
-```
+- `APP_NAME=campdreamga`
+- `SITE_URL=https://campdreamga.com`
+- `WWW_SITE_URL=https://www.campdreamga.com`
+- `SITE_ORIGIN=https://campdreamga.com`
+- `WWW_SITE_ORIGIN=https://www.campdreamga.com`
+- `API_MODE=repo-local`
+- `VITE_ENABLE_ADS=false`
 
-## Pages Variables
+Secrets must stay out of `wrangler.toml`.
 
-Set these in Cloudflare Pages for production:
+## Recommended Cloudflare Pages variables
 
+Set these in **Cloudflare Pages → Settings → Environment variables**:
+
+- `CLOUDFLARE_PAGES_PROJECT_NAME`
+- `CLOUDFLARE_PAGES_BRANCH`
 - `APP_NAME`
-- `API_MODE`
+- `SITE_URL`
+- `WWW_SITE_URL`
 - `SITE_ORIGIN`
+- `WWW_SITE_ORIGIN`
+- `API_MODE`
+- `ADMIN_EMAIL`
+- `ADMIN_PASSCODE`
 - `ADMIN_API_KEY`
+- `ADMIN_SESSION_SECRET`
+- `OPENAI_API_KEY`
+- `OPENAI_MODEL`
+- `STRIPE_SECRET_KEY`
+- `STRIPE_WEBHOOK_SECRET`
+- `PAYPAL_CLIENT_ID`
+- `PAYPAL_CLIENT_SECRET`
+- `PAYPAL_EMAIL`
+- `PAYPAL_ENV`
+- `UNSPLASH_ACCESS_KEY`
+- `PEXELS_API_KEY`
+- `PIXABAY_API_KEY`
+- `R2_PUBLIC_BASE_URL`
+- `R2_BUCKET_NAME`
+- `R2_S3_ENDPOINT`
+- `R2_ACCESS_KEY_ID`
+- `R2_SECRET_ACCESS_KEY`
 
-## R2 Binding
+For public analytics or ads, set the matching `VITE_*` keys locally before build or in Cloudflare if using git-based Pages builds.
 
-If you want a real Cloudflare R2 binding in `wrangler.toml`, you still need the R2 bucket name.
+## R2 binding
 
-Example shape:
+This repo already includes the bucket binding shape in `wrangler.toml`:
 
 ```toml
 [[r2_buckets]]
 binding = "ASSETS_BUCKET"
-bucket_name = "myappai"
-preview_bucket_name = "myappai"
+bucket_name = "campdreamga"
+preview_bucket_name = "campdreamga-preview"
+```
+
+## Pages secret sync
+
+If you keep secrets in a local `.dev.vars` file, upload them with:
+
+```bash
+npm run pages:secret:bulk
 ```
 
 ## Important
 
-- The S3 endpoint, access key ID, and secret access key are for S3-compatible clients.
 - The Cloudflare API token is separate from R2 S3 credentials.
-- Never commit live token values into `wrangler.toml`, `.env.example`, or tracked source files.
+- `wrangler pages project list` shows which Pages projects are already available in the authenticated account.
+- If `campdreamga` does not exist yet, create it with `npm run pages:project:create`.
+- Never commit live token values into `wrangler.toml`, `.env.example`, `.dev.vars.example`, or tracked source files.
