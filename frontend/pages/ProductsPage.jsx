@@ -1,5 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import InteractiveCampScene from '../components/InteractiveCampScene.jsx'
 import PrismHeadline from '../components/PrismHeadline.jsx'
 import RichBlocks from '../components/RichBlocks.jsx'
 import { trackCtaClick } from '../src/siteApi.js'
@@ -10,6 +11,9 @@ export default function ProductsPage() {
     { slug: 'summer-camp', ctaLabel: 'Explore Summer Camp' },
     { slug: 'camp-out', ctaLabel: 'See Camp Out' },
     { slug: 'what-we-do', ctaLabel: 'Read What We Do' },
+    { slug: 'location', ctaLabel: 'View Location' },
+    { slug: 'faq', ctaLabel: 'Open FAQ' },
+    { slug: 'team', ctaLabel: 'Meet the Team' },
     { slug: 'volunteer', ctaLabel: 'Volunteer' },
     { slug: 'donate', ctaLabel: 'Donate' },
   ]
@@ -49,28 +53,22 @@ export default function ProductsPage() {
         </div>
 
         <aside className="product-hero__aside stack-md">
-          <span className="panel-kicker">Use this hub</span>
-          <div className="product-hero__panel">
-            <strong>Learn about camp</strong>
-            <p className="field-note">
-              Start with Summer Camp and Camp Out if you want to understand the
-              experiences themselves.
-            </p>
-          </div>
-          <div className="product-hero__panel">
-            <strong>Understand the mission</strong>
-            <p className="field-note">
-              Visit What We Do, FAQ, and History if you want the broader story
-              and philosophy behind camp.
-            </p>
-          </div>
-          <div className="product-hero__panel">
-            <strong>Get involved</strong>
-            <p className="field-note">
-              Volunteer and Donate are the clearest next steps if you want to
-              support camp directly.
-            </p>
-          </div>
+          <InteractiveCampScene
+            kicker="Explore the site"
+            title="The original information architecture, rebuilt for a more modern mobile-first experience"
+            body="This hub now mirrors the public paths people expect from Camp Dream GA while keeping a stronger sense of motion, hierarchy, and visual polish."
+            chips={[
+              'Programs',
+              'Planning pages',
+              'Team and stories',
+              'Volunteer + donate',
+            ]}
+            stats={[
+              { label: 'Public paths', value: 'Camp + support' },
+              { label: 'Priority', value: 'Clarity first' },
+              { label: 'Design goal', value: 'Brighter + raised' },
+            ]}
+          />
         </aside>
       </section>
 

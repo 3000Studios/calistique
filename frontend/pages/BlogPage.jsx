@@ -1,6 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import AdSenseSlot from '../components/AdSenseSlot.jsx'
+import InteractiveCampScene from '../components/InteractiveCampScene.jsx'
 import PrismHeadline from '../components/PrismHeadline.jsx'
 import { trackCtaClick } from '../src/siteApi.js'
 import { blogIndex } from '../src/siteData.js'
@@ -29,24 +30,30 @@ export default function BlogPage() {
 
         {featured ? (
           <aside className="product-hero__aside stack-md">
-            <span className="panel-kicker">Featured read</span>
-            <article className="product-hero__panel">
-              <span className="meta-line">{featured.publishedAt}</span>
-              <strong>{featured.title}</strong>
-              <p className="field-note">{featured.excerpt}</p>
-              <Link
-                className="button button--ghost"
-                to={`/blog/${featured.slug}`}
-                onClick={() =>
-                  trackCtaClick({
-                    ctaId: `blog-featured-${featured.slug}`,
-                    intent: 'learn_more',
-                  }).catch(() => {})
-                }
-              >
-                Read featured guide
-              </Link>
-            </article>
+            <InteractiveCampScene
+              kicker="Featured read"
+              title={featured.title}
+              body={featured.excerpt}
+              chips={featured.tags}
+              stats={[
+                { label: 'Published', value: featured.publishedAt },
+                { label: 'Format', value: 'Resource story' },
+                { label: 'Use', value: 'Planning + trust' },
+              ]}
+              variant="story"
+            />
+            <Link
+              className="button button--ghost"
+              to={`/blog/${featured.slug}`}
+              onClick={() =>
+                trackCtaClick({
+                  ctaId: `blog-featured-${featured.slug}`,
+                  intent: 'learn_more',
+                }).catch(() => {})
+              }
+            >
+              Read featured guide
+            </Link>
           </aside>
         ) : null}
       </section>

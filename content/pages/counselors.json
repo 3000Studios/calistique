@@ -1,0 +1,29 @@
+{
+  "eyebrow": "Volunteer role",
+  "headline": "Counselors help campers experience camp with direct encouragement and daily support",
+  "subheadline": "Counselors are central to the Summer Camp experience, walking alongside campers through activities, meals, cabin life, worship, recreation, and the relational moments that make camp memorable.",
+  "sectionsHeadline": "What the role involves",
+  "sections": [
+    {
+      "title": "Presence throughout the day",
+      "description": "Counselors are present with campers through the full rhythm of camp, helping create continuity and trust."
+    },
+    {
+      "title": "Encouragement and support",
+      "description": "The role is both practical and relational, helping campers participate and feel included."
+    },
+    {
+      "title": "Part of a larger team",
+      "description": "Counselors serve alongside staff, medical volunteers, junior counselors, and leaders rather than carrying the work alone."
+    }
+  ],
+  "cta": {
+    "eyebrow": "Keep exploring",
+    "heading": "Read the volunteer overview or reach out if you think the counselor role may be the right fit.",
+    "body": "The best volunteer path starts with clarity about how you want to serve.",
+    "primaryLabel": "Volunteer overview",
+    "primaryHref": "/volunteer",
+    "secondaryLabel": "Contact camp",
+    "secondaryHref": "/contact"
+  }
+}

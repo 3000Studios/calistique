@@ -20,15 +20,21 @@
   "sections": [
     {
       "title": "Counselors",
-      "description": "Volunteer counselors walk closely with campers through the daily rhythm of Summer Camp."
+      "description": "Volunteer counselors walk closely with campers through the daily rhythm of Summer Camp.",
+      "ctaLabel": "Read counselor role",
+      "ctaHref": "/counselors"
     },
     {
       "title": "Junior counselors",
-      "description": "Junior counselors give younger volunteers a meaningful way to serve while learning the culture and rhythm of camp."
+      "description": "Junior counselors give younger volunteers a meaningful way to serve while learning the culture and rhythm of camp.",
+      "ctaLabel": "Read junior counselor role",
+      "ctaHref": "/junior-counselors"
     },
     {
       "title": "Medical staff",
-      "description": "Medical volunteers help make camp safer and more responsive for campers who need closer health support."
+      "description": "Medical volunteers help make camp safer and more responsive for campers who need closer health support.",
+      "ctaLabel": "Read medical role",
+      "ctaHref": "/medical-staff"
     }
   ],
   "faqHeadline": "Volunteer questions",

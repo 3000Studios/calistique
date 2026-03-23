@@ -2,10 +2,11 @@ import { SITE_DOMAIN } from './siteMeta.js'
 
 export const publicNavItems = [
   { label: 'Home', to: '/' },
+  { label: 'What We Do', to: '/what-we-do' },
   { label: 'Summer Camp', to: '/summer-camp' },
   { label: 'Camp Out', to: '/camp-out' },
-  { label: 'What We Do', to: '/what-we-do' },
   { label: 'Volunteer', to: '/volunteer' },
+  { label: 'Team', to: '/team' },
   { label: 'Donate', to: '/donate' },
   { label: 'FAQ', to: '/faq' },
   { label: 'Contact', to: '/contact' },
@@ -29,7 +30,7 @@ export const publicTickerItems = [
   '// SUMMER CAMP + CAMP OUT PROGRAMS FOR CHILDREN AND YOUNG ADULTS WITH DISABILITIES',
   '// 100% VOLUNTEER OPERATIONS HELP KEEP A 1:1 CAMPER-TO-COUNSELOR EXPERIENCE POSSIBLE',
   '// DONATIONS, SPONSORSHIP, AND COMMUNITY SUPPORT HELP KEEP COSTS LOW FOR FAMILIES',
-  '// STORIES, FAQS, AND YEAR-ROUND UPDATES HELP FAMILIES, VOLUNTEERS, AND DONORS STAY CONNECTED',
+  '// STORIES, FAQS, LOCATION DETAILS, AND YEAR-ROUND UPDATES HELP FAMILIES, VOLUNTEERS, AND DONORS STAY CONNECTED',
 ]
 
 export const adminNavItems = [

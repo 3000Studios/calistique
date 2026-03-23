@@ -1,0 +1,29 @@
+{
+  "eyebrow": "Volunteer role",
+  "headline": "Junior counselors help younger volunteers grow into the service culture of camp",
+  "subheadline": "Junior counselor roles create an entry point for younger volunteers who want to serve, learn, and contribute to the camp community in a meaningful way.",
+  "sectionsHeadline": "Why this role matters",
+  "sections": [
+    {
+      "title": "Learn the rhythm of camp",
+      "description": "Junior counselors gain exposure to the responsibility, joy, and teamwork that make Camp Dream GA distinctive."
+    },
+    {
+      "title": "Support the larger team",
+      "description": "The role strengthens the counselor community while helping younger volunteers serve in age-appropriate ways."
+    },
+    {
+      "title": "Build a long-term volunteer culture",
+      "description": "Junior counselor service can help develop future counselors and long-term community leaders."
+    }
+  ],
+  "cta": {
+    "eyebrow": "Next step",
+    "heading": "Use the volunteer overview and contact page to learn whether the junior counselor role is the right match.",
+    "body": "Camp Dream GA uses service pathways that let people grow into the mission over time.",
+    "primaryLabel": "Volunteer overview",
+    "primaryHref": "/volunteer",
+    "secondaryLabel": "Ask a question",
+    "secondaryHref": "/contact"
+  }
+}

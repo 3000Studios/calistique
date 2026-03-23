@@ -42,8 +42,8 @@ export default function SiteFrame() {
             </NavLink>
             <p className="site-header__tagline">
               A traditional Georgia camp experience for children and young
-              adults with disabilities, powered by volunteers, families, and
-              community support.
+              adults with disabilities, powered by volunteers, families, donors,
+              and year-round community support.
             </p>
           </div>
 
@@ -124,6 +124,7 @@ export default function SiteFrame() {
               ))}
             <Link to="/about">Who We Are</Link>
             <Link to="/history">History</Link>
+            <Link to="/team">Team</Link>
             <Link to="/location">Location</Link>
             <Link to="/blog">Stories</Link>
             {footerLegalItems.map((item) => (

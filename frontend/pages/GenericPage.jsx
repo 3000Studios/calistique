@@ -1,11 +1,14 @@
 import React from 'react'
 import { Link, Navigate, useParams } from 'react-router-dom'
+import { motion } from 'framer-motion'
 import AdSenseSlot from '../components/AdSenseSlot.jsx'
 import ContactLeadForm from '../components/ContactLeadForm.jsx'
+import InteractiveCampScene from '../components/InteractiveCampScene.jsx'
 import MetricStrip from '../components/MetricStrip.jsx'
 import OfferCheckoutCard from '../components/OfferCheckoutCard.jsx'
 import PrismHeadline from '../components/PrismHeadline.jsx'
 import RichBlocks from '../components/RichBlocks.jsx'
+import { fadeUp } from '../animations/variants.js'
 import { trackCtaClick } from '../src/siteApi.js'
 import { useSiteRuntime } from '../src/SiteRuntimeContext.jsx'
 import { pageLookup } from '../src/siteData.js'
@@ -102,15 +105,40 @@ export default function GenericPage() {
 
   return (
     <div className="stack-2xl">
-      <section className="section-card section-card--hero">
-        <span className="eyebrow">{page.eyebrow ?? SITE_DISPLAY_NAME}</span>
-        <PrismHeadline text={page.headline ?? page.title ?? slug} />
-        <p className="section-intro">
-          {page.subheadline ??
-            page.intro ??
-            'This page is managed from the shared content layer.'}
-        </p>
-      </section>
+      <motion.section
+        className="section-card section-card--hero product-hero"
+        initial="hidden"
+        animate="visible"
+      >
+        <motion.div
+          className="product-hero__content stack-lg"
+          variants={fadeUp}
+        >
+          <span className="eyebrow">{page.eyebrow ?? SITE_DISPLAY_NAME}</span>
+          <PrismHeadline text={page.headline ?? page.title ?? slug} />
+          <p className="section-intro">
+            {page.subheadline ??
+              page.intro ??
+              'This page is managed from the shared content layer.'}
+          </p>
+        </motion.div>
+
+        <motion.aside className="product-hero__aside" variants={fadeUp}>
+          <InteractiveCampScene
+            kicker={page.eyebrow ?? SITE_DISPLAY_NAME}
+            title={page.heroSceneTitle ?? page.headline ?? page.title ?? slug}
+            body={
+              page.heroSceneBody ??
+              page.subheadline ??
+              page.intro ??
+              'A camp-first public page with a brighter, more animated presentation.'
+            }
+            stats={page.heroStats ?? []}
+            chips={(page.faq ?? []).slice(0, 3).map((entry) => entry.question)}
+            variant="detail"
+          />
+        </motion.aside>
+      </motion.section>
 
       {page.heroStats ? <MetricStrip items={page.heroStats} /> : null}
 

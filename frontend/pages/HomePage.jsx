@@ -1,6 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
+import InteractiveCampScene from '../components/InteractiveCampScene.jsx'
 import MetricStrip from '../components/MetricStrip.jsx'
 import PrismHeadline from '../components/PrismHeadline.jsx'
 import RichBlocks from '../components/RichBlocks.jsx'
@@ -17,6 +18,32 @@ function handleCtaClick(ctaId, intent) {
 
 export default function HomePage() {
   const featuredStories = blogIndex.posts.slice(0, 3)
+  const quickExplore = [
+    {
+      eyebrow: 'Plan',
+      title: 'Location and calendar',
+      description:
+        'Families can move straight into the practical details that usually live on the original site: dates, place, and basic planning guidance.',
+      ctaLabel: 'Open planning pages',
+      ctaHref: '/calendar',
+    },
+    {
+      eyebrow: 'Learn',
+      title: 'FAQ and team',
+      description:
+        'The rebuilt experience keeps the mission visible while making the most common support questions easier to find on mobile.',
+      ctaLabel: 'See FAQ and team',
+      ctaHref: '/faq',
+    },
+    {
+      eyebrow: 'Support',
+      title: 'Volunteer and donate',
+      description:
+        'Action paths for counselors, junior counselors, medical staff, and donors stay close to the public story of camp.',
+      ctaLabel: 'Get involved',
+      ctaHref: '/volunteer',
+    },
+  ]
 
   return (
     <div className="stack-2xl">
@@ -72,26 +99,21 @@ export default function HomePage() {
         >
           <div className="hero__media-frame hero__media-frame--story">
             <div className="hero__video-overlay" />
-            <div className="hero-visual__panel">
-              <span className="panel-kicker">Camp snapshot</span>
-              <h2>{homepage.heroPanel.heading}</h2>
-              <p>{homepage.heroPanel.body}</p>
-              <div className="visual-grid">
-                {homepage.heroPanel.points.map((item) => (
-                  <article key={item.title} className="visual-card">
-                    <span className="meta-line">{item.label}</span>
-                    <h3>{item.title}</h3>
-                    <p className="visual-card__body">{item.value}</p>
-                  </article>
-                ))}
-              </div>
-            </div>
+            <InteractiveCampScene
+              kicker="Interactive hero"
+              title={homepage.heroPanel.heading}
+              body={homepage.heroPanel.body}
+              stats={homepage.heroStats}
+              chips={homepage.quickSignals}
+            />
           </div>
-          <div className="command-strip">
-            {homepage.quickSignals.map((example) => (
-              <span key={example} className="command-chip">
-                {example}
-              </span>
+          <div className="visual-grid">
+            {homepage.heroPanel.points.map((item) => (
+              <article key={item.title} className="visual-card">
+                <span className="meta-line">{item.label}</span>
+                <h3>{item.title}</h3>
+                <p className="visual-card__body">{item.value}</p>
+              </article>
             ))}
           </div>
         </motion.aside>
@@ -158,6 +180,12 @@ export default function HomePage() {
           ))}
         </div>
       </section>
+
+      <RichBlocks
+        title="Explore the same public paths people expect from the original site"
+        intro="The rebuilt demo keeps the familiar Camp Dream GA information architecture in place, then gives it a cleaner visual hierarchy, stronger motion, and a more mobile-friendly layout."
+        items={quickExplore}
+      />
 
       <section className="section-card">
         <div className="section-heading">
