@@ -2,8 +2,22 @@ import React from 'react'
 import { useAdminDashboard } from '../../context/AdminDashboardContext.jsx'
 
 export default function AdminLogsPage() {
-  const { logs, metrics, selfHealState, handleSelfHeal } = useAdminDashboard()
+  const {
+    logs,
+    metrics,
+    selfHealState,
+    handleSelfHeal,
+    deployments,
+    operatorHistory,
+  } = useAdminDashboard()
   const entries = logs?.entries ?? []
+  const latestDeployment = deployments?.history?.[0] ?? null
+  const latestOperatorResult = operatorHistory[0] ?? null
+  const scopeCounts = entries.reduce((accumulator, entry) => {
+    accumulator[entry.scope] = (accumulator[entry.scope] ?? 0) + 1
+    return accumulator
+  }, {})
+  const scopeSummary = Object.entries(scopeCounts).slice(0, 4)
 
   return (
     <div className="stack-xl">
@@ -50,6 +64,63 @@ export default function AdminLogsPage() {
             <p>
               Tracked command volume in the current system metrics snapshot.
             </p>
+          </article>
+          <article className="content-card ux-reveal">
+            <span className="meta-line">Latest deploy</span>
+            <h3>{latestDeployment?.status ?? 'idle'}</h3>
+            <p>
+              {latestDeployment?.finishedAt
+                ? `Finished ${new Date(latestDeployment.finishedAt).toLocaleString()}.`
+                : 'No deployment has been recorded in this view yet.'}
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <section className="section-card admin-surface ux-reveal">
+        <div className="section-heading">
+          <div>
+            <span className="eyebrow">Operator digest</span>
+            <h2>What happened most recently.</h2>
+            <p className="section-intro">
+              Use this summary to spot the last applied mode, the main affected
+              scopes, and the current deploy posture before scanning raw events.
+            </p>
+          </div>
+        </div>
+
+        <div className="card-grid card-grid--compact">
+          <article className="content-card ux-reveal">
+            <span className="meta-line">Latest operator result</span>
+            <h3>{latestOperatorResult?.mode ?? 'idle'}</h3>
+            <p>
+              {latestOperatorResult?.summary ??
+                'Run a request from the operator workspace to populate the latest result summary.'}
+            </p>
+          </article>
+          <article className="content-card ux-reveal">
+            <span className="meta-line">Affected paths</span>
+            <h3>{latestOperatorResult?.affectedPaths?.length ?? 0}</h3>
+            <p>
+              {latestOperatorResult?.affectedPaths?.length
+                ? latestOperatorResult.affectedPaths.join(', ')
+                : 'No affected file paths recorded in the current operator history.'}
+            </p>
+          </article>
+          <article className="content-card ux-reveal">
+            <span className="meta-line">Top scopes</span>
+            <h3>{scopeSummary.length}</h3>
+            <div className="signal-list">
+              {scopeSummary.length ? (
+                scopeSummary.map(([scope, count]) => (
+                  <span key={scope} className="signal-pill">
+                    {scope} · {count}
+                  </span>
+                ))
+              ) : (
+                <span className="signal-pill">No scopes recorded yet</span>
+              )}
+            </div>
           </article>
         </div>
       </section>
