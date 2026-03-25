@@ -34,6 +34,12 @@ export default function AuroraBackdrop({ variant = 'marketing' }) {
     }
 
     const rootStyles = getComputedStyle(document.documentElement)
+    const prefersReducedMotion = window.matchMedia(
+      '(prefers-reduced-motion: reduce)'
+    ).matches
+    const useLiteMotion = window.matchMedia(
+      '(max-width: 900px), (pointer: coarse)'
+    ).matches
     const palette = {
       background: rootStyles.getPropertyValue('--bg').trim() || '#050505',
       prismOne: rootStyles.getPropertyValue('--prism-1').trim() || '#ff0055',
@@ -47,19 +53,39 @@ export default function AuroraBackdrop({ variant = 'marketing' }) {
     const pointer = { x: window.innerWidth / 2, y: window.innerHeight / 2 }
     let scrollOffset = window.scrollY
     const tilt = { x: 0, y: 0 }
-    const particleCount = variant === 'admin' ? 18 : 26
+    const particleCount = prefersReducedMotion
+      ? 0
+      : variant === 'admin'
+        ? useLiteMotion
+          ? 8
+          : 18
+        : useLiteMotion
+          ? 12
+          : 26
     const particles = Array.from({ length: particleCount }, (_, index) => ({
       x: Math.random() * window.innerWidth,
       y: Math.random() * window.innerHeight,
       vx: (Math.random() - 0.5) * 0.35,
       vy: (Math.random() - 0.5) * 0.35,
-      size: Math.random() * 220 + 120,
+      size:
+        Math.random() * (useLiteMotion ? 140 : 220) +
+        (useLiteMotion ? 80 : 120),
       color: [palette.prismOne, palette.prismTwo, palette.prismThree][
         index % 3
       ],
     }))
     const stars = Array.from(
-      { length: variant === 'admin' ? 80 : 130 },
+      {
+        length: prefersReducedMotion
+          ? 28
+          : variant === 'admin'
+            ? useLiteMotion
+              ? 36
+              : 80
+            : useLiteMotion
+              ? 56
+              : 130,
+      },
       () => ({
         x: Math.random() * window.innerWidth,
         y: Math.random() * window.innerHeight,
@@ -139,14 +165,17 @@ export default function AuroraBackdrop({ variant = 'marketing' }) {
     }
 
     function animate() {
-      context.fillStyle = hexToRgba(palette.background, 0.18)
+      context.fillStyle = hexToRgba(
+        palette.background,
+        useLiteMotion ? 0.28 : 0.18
+      )
       context.fillRect(0, 0, width, height)
 
       context.globalCompositeOperation = 'screen'
       drawStars()
       particles.forEach((particle) => {
-        particle.x += particle.vx + tilt.x * 0.15
-        particle.y += particle.vy + tilt.y * 0.15
+        particle.x += particle.vx + (useLiteMotion ? 0 : tilt.x * 0.15)
+        particle.y += particle.vy + (useLiteMotion ? 0 : tilt.y * 0.15)
 
         if (particle.x < -particle.size || particle.x > width + particle.size) {
           particle.vx *= -1
@@ -161,7 +190,10 @@ export default function AuroraBackdrop({ variant = 'marketing' }) {
 
         drawBlob(particle)
       })
-      drawPointerGlow()
+
+      if (!useLiteMotion && !prefersReducedMotion) {
+        drawPointerGlow()
+      }
       context.globalCompositeOperation = 'source-over'
       animationFrame = window.requestAnimationFrame(animate)
     }
@@ -169,9 +201,13 @@ export default function AuroraBackdrop({ variant = 'marketing' }) {
     resizeCanvas()
     animate()
     window.addEventListener('resize', resizeCanvas)
-    window.addEventListener('pointermove', handlePointerMove)
+
+    if (!useLiteMotion && !prefersReducedMotion) {
+      window.addEventListener('pointermove', handlePointerMove)
+      window.addEventListener('deviceorientation', handleOrientation)
+    }
+
     window.addEventListener('scroll', handleScroll, { passive: true })
-    window.addEventListener('deviceorientation', handleOrientation)
 
     return () => {
       window.cancelAnimationFrame(animationFrame)
