@@ -1,8 +1,0 @@
-
-> myappai@1.1.0 dev:server
-> node --watch server/index.js
-
-[dotenv@17.3.1] injecting env (66) from .secrets\myappai.local.env -- tip: ⚙️  specify custom .env file path with { path: '/custom/path/.env' }
-[dotenv@17.3.1] injecting env (19) from .secrets\shared.local.env -- tip: ⚙️  suppress all logs with { quiet: true }
-myappai server listening on http://localhost:8787
-Completed running 'server/index.js'. Waiting for file changes before restarting...
