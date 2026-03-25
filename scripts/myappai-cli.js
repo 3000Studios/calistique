@@ -97,13 +97,23 @@ function run(
 
 function getCloudflareWriteEnv() {
   const writeToken =
-    getFirstSecretValue(['CLOUDFLARE_PAGES_DEPLOY_TOKEN']) || ''
+    getFirstSecretValue([
+      'CLOUDFLARE_PAGES_DEPLOY_TOKEN',
+      'CLOUD_FLARE_API_TOKEN',
+      'CLOUDFLARE_API_TOKEN',
+      'CLOUDFLARE_API_TOKEN_ALT',
+      'CF_API_TOKEN',
+      'CF_API_TOKEN2',
+      'CLOUDFLARE_MASTER_TOKEN',
+      'CLOUDFLARE_MASTERR_TOKEN',
+    ]) || ''
 
   if (!writeToken) {
     return {
       env: undefined,
       unsetEnv: [
         'CLOUDFLARE_API_TOKEN',
+        'CLOUD_FLARE_API_TOKEN',
         'CLOUDFLARE_API_TOKEN_ALT',
         'CF_API_TOKEN',
         'CF_API_TOKEN2',

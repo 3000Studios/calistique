@@ -24,6 +24,12 @@ function clearLegacyEndpointLeak(name) {
   delete process.env[name]
 }
 
+function aliasEnvironmentVariable(sourceName, targetName) {
+  if (process.env[sourceName] && !process.env[targetName]) {
+    process.env[targetName] = process.env[sourceName]
+  }
+}
+
 export function loadEnvironment() {
   if (loadedFiles) {
     return loadedFiles
@@ -50,13 +56,12 @@ export function loadEnvironment() {
 
   loadedFiles = applied
 
-  if (
-    process.env.CLOUDFLARE_MASTERR_TOKEN &&
-    !process.env.CLOUDFLARE_MASTER_TOKEN
-  ) {
-    process.env.CLOUDFLARE_MASTER_TOKEN = process.env.CLOUDFLARE_MASTERR_TOKEN
-  }
-
+  aliasEnvironmentVariable(
+    'CLOUDFLARE_MASTERR_TOKEN',
+    'CLOUDFLARE_MASTER_TOKEN'
+  )
+  aliasEnvironmentVariable('CLOUD_FLARE_API_TOKEN', 'CLOUDFLARE_API_TOKEN')
+  aliasEnvironmentVariable('CLOUD_FLARE_ACCOUNT_ID', 'CLOUDFLARE_ACCOUNT_ID')
   ;['ADMIN_API_ORIGIN', 'API_BASE_URL', 'VITE_API_BASE_URL'].forEach(
     clearLegacyEndpointLeak
   )

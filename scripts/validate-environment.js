@@ -31,12 +31,23 @@ function validateNodeVersion() {
 }
 
 function validateCloudflareVariables() {
-  const required = [
-    'CLOUDFLARE_API_TOKEN',
-    'CLOUDFLARE_ACCOUNT_ID',
-    'CLOUDFLARE_PAGES_PROJECT_NAME',
-  ]
-  const missing = required.filter(isMissing)
+  const hasApiToken =
+    !isMissing('CLOUDFLARE_API_TOKEN') || !isMissing('CLOUD_FLARE_API_TOKEN')
+  const hasAccountId =
+    !isMissing('CLOUDFLARE_ACCOUNT_ID') || !isMissing('CLOUD_FLARE_ACCOUNT_ID')
+  const missing = []
+
+  if (!hasApiToken) {
+    missing.push('CLOUDFLARE_API_TOKEN or CLOUD_FLARE_API_TOKEN')
+  }
+
+  if (!hasAccountId) {
+    missing.push('CLOUDFLARE_ACCOUNT_ID or CLOUD_FLARE_ACCOUNT_ID')
+  }
+
+  if (isMissing('CLOUDFLARE_PAGES_PROJECT_NAME')) {
+    missing.push('CLOUDFLARE_PAGES_PROJECT_NAME')
+  }
 
   return {
     ok: missing.length === 0,

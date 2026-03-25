@@ -7,15 +7,7 @@ export default function PrismHeadline({
 }) {
   return (
     <Tag className={['prism-headline', className].filter(Boolean).join(' ')}>
-      {Array.from(text).map((character, index) => (
-        <span
-          key={`${character}-${index}`}
-          className={`prism-headline__char${character.trim() ? '' : ' prism-headline__char--space'}`}
-          style={{ '--char-index': index }}
-        >
-          {character === ' ' ? '\u00A0' : character}
-        </span>
-      ))}
+      <span className="prism-headline__text">{text}</span>
     </Tag>
   )
 }

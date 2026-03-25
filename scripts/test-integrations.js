@@ -89,7 +89,10 @@ async function testGitHub() {
 }
 
 async function testCloudflare() {
-  const explicitDeployToken = process.env.CLOUDFLARE_PAGES_DEPLOY_TOKEN
+  const explicitDeployToken =
+    process.env.CLOUDFLARE_PAGES_DEPLOY_TOKEN ||
+    process.env.CLOUD_FLARE_API_TOKEN ||
+    process.env.CLOUDFLARE_API_TOKEN
 
   if (explicitDeployToken) {
     const response = await fetch(
@@ -120,6 +123,7 @@ async function testCloudflare() {
   return new Promise((resolve) => {
     const env = { ...process.env }
     delete env.CLOUDFLARE_API_TOKEN
+    delete env.CLOUD_FLARE_API_TOKEN
     delete env.CLOUDFLARE_API_TOKEN_ALT
     delete env.CF_API_TOKEN
     delete env.CF_API_TOKEN2
