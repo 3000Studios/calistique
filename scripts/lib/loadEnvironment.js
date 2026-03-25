@@ -30,7 +30,7 @@ export function loadEnvironment() {
 
     const result = dotenv.config({
       path: absolutePath,
-      override: false,
+      override: relativePath.startsWith('.secrets/'),
     })
 
     if (!result.error) {
@@ -39,6 +39,14 @@ export function loadEnvironment() {
   }
 
   loadedFiles = applied
+
+  if (
+    process.env.CLOUDFLARE_MASTERR_TOKEN &&
+    !process.env.CLOUDFLARE_MASTER_TOKEN
+  ) {
+    process.env.CLOUDFLARE_MASTER_TOKEN = process.env.CLOUDFLARE_MASTERR_TOKEN
+  }
+
   return loadedFiles
 }
 

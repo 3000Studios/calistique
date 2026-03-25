@@ -1,7 +1,9 @@
 #!/usr/bin/env node
 import { spawn } from 'node:child_process'
 import fs from 'node:fs'
+import path from 'node:path'
 import { bootstrapContent } from '../server/services/contentService.js'
+import { repoRoot } from '../server/services/platformPaths.js'
 import { executeRepositoryCommand } from '../api/command.js'
 import {
   getPagesProjectName,
@@ -44,7 +46,11 @@ function quoteWindowsArgument(value) {
   return `"${stringValue.replace(/"/g, '\\"')}"`
 }
 
-function run(command, args, { allowFailure = false } = {}) {
+function run(
+  command,
+  args,
+  { allowFailure = false, env = undefined, unsetEnv = [] } = {}
+) {
   const executable = resolveExecutable(command)
   const spawnConfig =
     process.platform === 'win32'
@@ -63,9 +69,15 @@ function run(command, args, { allowFailure = false } = {}) {
         }
 
   return new Promise((resolve, reject) => {
+    const childEnv = env ? { ...process.env, ...env } : { ...process.env }
+
+    for (const key of unsetEnv) {
+      delete childEnv[key]
+    }
+
     const child = spawn(spawnConfig.file, spawnConfig.args, {
       cwd: process.cwd(),
-      env: process.env,
+      env: childEnv,
       stdio: 'inherit',
       shell: false,
       windowsHide: true,
@@ -81,6 +93,83 @@ function run(command, args, { allowFailure = false } = {}) {
       reject(new Error(`${command} ${args.join(' ')} exited with code ${code}`))
     })
   })
+}
+
+function getCloudflareWriteEnv() {
+  const writeToken =
+    getFirstSecretValue(['CLOUDFLARE_PAGES_DEPLOY_TOKEN']) || ''
+
+  if (!writeToken) {
+    return {
+      env: undefined,
+      unsetEnv: [
+        'CLOUDFLARE_API_TOKEN',
+        'CLOUDFLARE_API_TOKEN_ALT',
+        'CF_API_TOKEN',
+        'CF_API_TOKEN2',
+        'CLOUDFLARE_MASTER_TOKEN',
+        'CLOUDFLARE_MASTERR_TOKEN',
+      ],
+    }
+  }
+
+  return {
+    env: {
+      CLOUDFLARE_API_TOKEN: writeToken,
+    },
+    unsetEnv: [],
+  }
+}
+
+function getPrimarySecretFiles() {
+  return [
+    path.join(repoRoot, '.secrets', 'myappai.local.env'),
+    path.join(repoRoot, '.secrets', 'shared.local.env'),
+  ]
+}
+
+function readRawSecretValue(name) {
+  for (const filePath of getPrimarySecretFiles()) {
+    if (!fs.existsSync(filePath)) {
+      continue
+    }
+
+    const lines = fs.readFileSync(filePath, 'utf8').split(/\r?\n/u)
+
+    for (const line of lines) {
+      if (!line || line.trim().startsWith('#')) {
+        continue
+      }
+
+      const [rawKey, ...rest] = line.split('=')
+      if (rawKey?.trim() !== name) {
+        continue
+      }
+
+      const value = rest.join('=').trim()
+      if (value) {
+        return value
+      }
+    }
+  }
+
+  return ''
+}
+
+function getFirstSecretValue(names) {
+  for (const name of names) {
+    const rawFileValue = readRawSecretValue(name)
+    if (rawFileValue) {
+      return rawFileValue
+    }
+
+    const envValue = process.env[name]?.trim()
+    if (envValue) {
+      return envValue
+    }
+  }
+
+  return ''
 }
 
 async function runNpmScript(scriptName) {
@@ -128,14 +217,24 @@ async function build() {
 }
 
 async function pagesDeploy() {
-  await run('npx', [
-    'wrangler',
-    'pages',
-    'deploy',
-    'dist',
-    '--project-name',
-    PROJECT_NAME,
-  ])
+  const cloudflareWriteEnv = getCloudflareWriteEnv()
+
+  await run(
+    'npx',
+    [
+      'wrangler',
+      'pages',
+      'deploy',
+      'dist',
+      '--project-name',
+      PROJECT_NAME,
+      '--commit-dirty=true',
+    ],
+    {
+      env: cloudflareWriteEnv.env,
+      unsetEnv: cloudflareWriteEnv.unsetEnv,
+    }
+  )
 }
 
 async function deploy() {
@@ -148,27 +247,45 @@ async function deploy() {
 }
 
 async function pagesCreate() {
-  await run('npx', [
-    'wrangler',
-    'pages',
-    'project',
-    'create',
-    PROJECT_NAME,
-    '--production-branch',
-    PRODUCTION_BRANCH,
-  ])
+  const cloudflareWriteEnv = getCloudflareWriteEnv()
+
+  await run(
+    'npx',
+    [
+      'wrangler',
+      'pages',
+      'project',
+      'create',
+      PROJECT_NAME,
+      '--production-branch',
+      PRODUCTION_BRANCH,
+    ],
+    {
+      env: cloudflareWriteEnv.env,
+      unsetEnv: cloudflareWriteEnv.unsetEnv,
+    }
+  )
 }
 
 async function pagesSecrets(file = '.dev.vars') {
-  await run('npx', [
-    'wrangler',
-    'pages',
-    'secret',
-    'bulk',
-    file,
-    '--project-name',
-    PROJECT_NAME,
-  ])
+  const cloudflareWriteEnv = getCloudflareWriteEnv()
+
+  await run(
+    'npx',
+    [
+      'wrangler',
+      'pages',
+      'secret',
+      'bulk',
+      file,
+      '--project-name',
+      PROJECT_NAME,
+    ],
+    {
+      env: cloudflareWriteEnv.env,
+      unsetEnv: cloudflareWriteEnv.unsetEnv,
+    }
+  )
 }
 
 function parseJsonPayload(raw) {

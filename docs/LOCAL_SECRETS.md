@@ -15,6 +15,14 @@ This file is gitignored and is automatically loaded by:
 - validation and deploy commands that use `scripts/lib/loadEnvironment.js`
 - repo-local bots and agents that follow the project instructions
 
+For Cloudflare Pages deploys, you can optionally add:
+
+`CLOUDFLARE_PAGES_DEPLOY_TOKEN=...`
+
+If this variable is not set, manual Pages write commands in this repo will
+fall back to your local Wrangler OAuth login instead of forcing the default
+environment API token.
+
 ## Shared local secrets file
 
 Cross-project tokens and bot credentials can live in:
@@ -38,7 +46,8 @@ The loader checks files in this order:
 
 `.secrets/archive.local.env` is intentionally not auto-loaded.
 
-Earlier files win because the loader does not override variables that are already set.
+The `.secrets/*` files take precedence over ambient machine-level variables so
+broken user or system env values do not contaminate repo-local commands.
 
 ## Fast start
 
