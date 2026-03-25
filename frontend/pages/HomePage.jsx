@@ -55,6 +55,37 @@ export default function HomePage() {
     },
   ]
 
+  const capabilities = [
+    {
+      label: 'Research mode',
+      title: 'Current-web intake with source tracking',
+      description:
+        'The operator can gather recent information, keep source links attached, and distinguish researched facts from code or content changes.',
+      stat: 'Sources attached',
+    },
+    {
+      label: 'Build mode',
+      title: 'Repo-aware updates without leaving the browser',
+      description:
+        'Homepage copy, metadata, styling, content files, and deploy preparation stay in one guided flow instead of scattered tools.',
+      stat: 'Workspace bounded',
+    },
+    {
+      label: 'Deploy mode',
+      title: 'Live delivery with visible deployment feedback',
+      description:
+        'Every operator action can return a deployment summary, changed files, and next steps so the site stays understandable while moving fast.',
+      stat: 'Cloudflare linked',
+    },
+  ]
+
+  const operatingSignals = [
+    'Voice-ready operator workspace',
+    'Secure admin + protected logs',
+    'Manual Wrangler deployment flow',
+    'Mobile-responsive command surface',
+  ]
+
   return (
     <div className="stack-2xl">
       <motion.section
@@ -209,6 +240,69 @@ export default function HomePage() {
               <span className="meta-line">{entry.label}</span>
               <h3>{entry.title}</h3>
               <p>{entry.description}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section className="section-card section-card--split">
+        <div className="section-card__lede">
+          <span className="eyebrow">Control model</span>
+          <h2>Operate the site like a command center, not a pile of tabs.</h2>
+          <p className="section-intro">
+            The public homepage stays focused while the authenticated operator
+            page handles research, planning, changes, audits, logs, and deploy
+            control in one visual system.
+          </p>
+          <div className="signal-list">
+            {operatingSignals.map((signal) => (
+              <div key={signal} className="signal-pill">
+                {signal}
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="operator-storyboard">
+          <div className="operator-storyboard__surface">
+            <div className="operator-storyboard__header">
+              <span className="panel-kicker">Live operator lane</span>
+              <span className="meta-line">browser → plan → apply → deploy</span>
+            </div>
+            <div className="operator-storyboard__prompt">
+              “Refresh the homepage for AI founders, keep the design premium,
+              update metadata, and prepare deployment.”
+            </div>
+            <div className="operator-storyboard__steps">
+              <div className="operator-storyboard__step">
+                <span>Intent</span>
+                <strong>homepage_update</strong>
+              </div>
+              <div className="operator-storyboard__step">
+                <span>Paths</span>
+                <strong>frontend + content</strong>
+              </div>
+              <div className="operator-storyboard__step">
+                <span>Status</span>
+                <strong>deploy ready</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="section-card">
+        <span className="eyebrow">Capabilities</span>
+        <h2>Everything the operator page is designed to keep in one loop.</h2>
+        <div className="capability-grid">
+          {capabilities.map((item) => (
+            <article key={item.title} className="capability-card">
+              <span className="meta-line">{item.label}</span>
+              <h3>{item.title}</h3>
+              <p>{item.description}</p>
+              <div className="capability-card__footer">
+                <span className="mini-chip">{item.stat}</span>
+              </div>
             </article>
           ))}
         </div>

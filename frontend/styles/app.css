@@ -773,7 +773,8 @@ video {
 .product-grid,
 .blog-grid,
 .generic-section-grid,
-.footer-link-columns {
+.footer-link-columns,
+.capability-grid {
   display: grid;
   gap: 1rem;
 }
@@ -787,7 +788,8 @@ video {
 .rich-blocks,
 .visual-grid,
 .timeline-grid,
-.generic-section-grid {
+.generic-section-grid,
+.capability-grid {
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
 }
 
@@ -883,7 +885,8 @@ video {
 .board-card,
 .timeline-card,
 .visual-card,
-.media-card {
+.media-card,
+.capability-card {
   padding: 1rem 1rem 1.1rem;
   border: 1px solid rgba(255, 255, 255, 0.07);
   border-radius: var(--radius-lg);
@@ -895,10 +898,167 @@ video {
 .content-card strong,
 .timeline-card strong,
 .visual-card strong,
-.media-card strong {
+.media-card strong,
+.capability-card strong {
   display: block;
   margin-bottom: 0.35rem;
   font-size: 1.02rem;
+}
+
+.section-card--split {
+  display: grid;
+  grid-template-columns: minmax(0, 0.95fr) minmax(320px, 1.05fr);
+  gap: 1.2rem;
+  align-items: stretch;
+}
+
+.section-card__lede {
+  display: grid;
+  gap: 1rem;
+  align-content: start;
+}
+
+.signal-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.7rem;
+}
+
+.signal-pill {
+  padding: 0.72rem 0.92rem;
+  border: 1px solid rgba(136, 224, 208, 0.18);
+  border-radius: var(--radius-pill);
+  background: rgba(136, 224, 208, 0.08);
+  color: rgba(247, 255, 253, 0.9);
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.operator-storyboard {
+  position: relative;
+  min-height: 100%;
+}
+
+.operator-storyboard::before {
+  content: '';
+  position: absolute;
+  inset: 8% 8% auto auto;
+  width: 12rem;
+  height: 12rem;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(121, 168, 255, 0.2),
+    transparent 70%
+  );
+  filter: blur(16px);
+  pointer-events: none;
+}
+
+.operator-storyboard__surface {
+  position: relative;
+  display: grid;
+  gap: 1rem;
+  min-height: 100%;
+  padding: 1.3rem;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-xl);
+  background:
+    linear-gradient(180deg, rgba(18, 21, 28, 0.96), rgba(8, 12, 18, 0.96)),
+    rgba(255, 255, 255, 0.02);
+  box-shadow:
+    var(--shadow-soft),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.02),
+    0 0 44px rgba(121, 168, 255, 0.08);
+  overflow: hidden;
+}
+
+.operator-storyboard__surface::after {
+  content: '';
+  position: absolute;
+  inset: auto 0 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(136, 224, 208, 0.6),
+    transparent
+  );
+}
+
+.operator-storyboard__header,
+.operator-storyboard__steps,
+.capability-card__footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.85rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.operator-storyboard__prompt {
+  padding: 1rem 1.05rem;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 1rem;
+  background: rgba(255, 255, 255, 0.03);
+  color: rgba(247, 248, 244, 0.9);
+  line-height: 1.75;
+  font-size: 1.02rem;
+}
+
+.operator-storyboard__steps {
+  align-items: stretch;
+}
+
+.operator-storyboard__step {
+  flex: 1 1 150px;
+  display: grid;
+  gap: 0.4rem;
+  padding: 0.95rem;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 0.95rem;
+  background: rgba(255, 255, 255, 0.025);
+}
+
+.operator-storyboard__step span {
+  color: rgba(255, 255, 255, 0.56);
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.operator-storyboard__step strong {
+  font-size: 0.98rem;
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.capability-card {
+  display: grid;
+  gap: 0.75rem;
+  min-height: 100%;
+  transition:
+    transform 0.28s var(--ease-premium),
+    border-color 0.28s var(--ease-premium),
+    background-color 0.28s var(--ease-premium);
+}
+
+.capability-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(136, 224, 208, 0.22);
+  background: rgba(255, 255, 255, 0.045);
+}
+
+.capability-card h3 {
+  margin: 0;
+}
+
+.capability-card p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.74;
 }
 
 .command-strip {
@@ -2492,7 +2652,8 @@ video {
   .conversion-band,
   .site-footer__grid,
   .product-hero,
-  .pathfinder__grid {
+  .pathfinder__grid,
+  .section-card--split {
     grid-template-columns: 1fr;
   }
 
@@ -2607,7 +2768,8 @@ video {
   .product-grid,
   .blog-grid,
   .visual-grid,
-  .timeline-grid {
+  .timeline-grid,
+  .capability-grid {
     grid-template-columns: 1fr;
   }
 
