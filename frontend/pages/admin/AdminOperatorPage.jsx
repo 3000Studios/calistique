@@ -14,7 +14,9 @@ export default function AdminOperatorPage() {
     naturalLanguagePrompt,
     setNaturalLanguagePrompt,
     handleRunCommand,
+    handleDeploy,
     commandBusy,
+    deployBusy,
     operatorHistory,
     analytics,
     deployments,
@@ -25,8 +27,11 @@ export default function AdminOperatorPage() {
   } = useAdminDashboard()
 
   const latestDeployment = deployments?.history?.[0] ?? null
+  const latestResult = operatorHistory[0] ?? null
   const latestPaths = operatorHistory[0]?.affectedPaths ?? []
   const latestSummary = operatorHistory[0]?.summary ?? ''
+  const sourcesCount = latestResult?.sources?.length ?? 0
+  const nextSteps = latestResult?.nextSteps ?? []
 
   const handleTranscript = useCallback(
     (transcript) => {
@@ -106,6 +111,35 @@ export default function AdminOperatorPage() {
               </span>
             </div>
 
+            <div className="operator-brief-grid">
+              <article className="operator-brief-card">
+                <span className="meta-line">Last mode</span>
+                <strong>{latestResult?.mode ?? 'idle'}</strong>
+                <p>
+                  {latestSummary ||
+                    'Your latest operator summary will appear here after a request runs.'}
+                </p>
+              </article>
+              <article className="operator-brief-card">
+                <span className="meta-line">Deploy pulse</span>
+                <strong>{latestDeployment?.status ?? 'idle'}</strong>
+                <p>
+                  {latestDeployment?.finishedAt
+                    ? `Finished ${new Date(latestDeployment.finishedAt).toLocaleString()}.`
+                    : 'No recent deployment recorded yet.'}
+                </p>
+              </article>
+              <article className="operator-brief-card">
+                <span className="meta-line">Research links</span>
+                <strong>{sourcesCount}</strong>
+                <p>
+                  {sourcesCount
+                    ? 'Sources were attached to the latest researched action.'
+                    : 'Source links appear here when research-backed work runs.'}
+                </p>
+              </article>
+            </div>
+
             <div className="operator-prompt">
               <textarea
                 id="promptInput"
@@ -118,6 +152,14 @@ export default function AdminOperatorPage() {
               />
               <div className="operator-prompt__actions">
                 <button
+                  className="operator-button operator-button--ghost"
+                  type="button"
+                  onClick={() => setNaturalLanguagePrompt('')}
+                  disabled={!naturalLanguagePrompt.trim() || commandBusy}
+                >
+                  Clear
+                </button>
+                <button
                   className="btn-primary"
                   type="button"
                   id="sendBtn"
@@ -125,6 +167,14 @@ export default function AdminOperatorPage() {
                   disabled={commandBusy}
                 >
                   {commandBusy ? 'RUNNING' : 'EXECUTE'}
+                </button>
+                <button
+                  className="operator-button operator-button--secondary"
+                  type="button"
+                  onClick={() => void handleDeploy()}
+                  disabled={deployBusy}
+                >
+                  {deployBusy ? 'DEPLOYING' : 'DEPLOY'}
                 </button>
               </div>
             </div>
@@ -183,6 +233,23 @@ export default function AdminOperatorPage() {
                     : 'Voice input ready for browser-supported mic use.'
                   : 'This browser does not expose Web Speech voice input.'}
               </p>
+            </div>
+
+            <div className="operator-next-steps">
+              <span className="meta-line">Next steps</span>
+              <div className="operator-next-steps__list">
+                {nextSteps.length ? (
+                  nextSteps.map((step) => (
+                    <span key={step} className="signal-pill">
+                      {step}
+                    </span>
+                  ))
+                ) : (
+                  <span className="signal-pill">
+                    Run an operator task to populate guided follow-up steps.
+                  </span>
+                )}
+              </div>
             </div>
           </div>
 
