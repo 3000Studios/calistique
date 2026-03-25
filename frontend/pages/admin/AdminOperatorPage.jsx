@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { useAdminDashboard } from '../../context/AdminDashboardContext.jsx'
 import { useOperatorVoice } from '../../hooks/useOperatorVoice.js'
 
@@ -8,6 +8,8 @@ const quickPrompts = [
   'Audit the workspace for risky shell requests and explain the safe boundary',
   'Refresh the homepage copy for SaaS founders and prepare deployment',
 ]
+
+const RECENT_PROMPTS_KEY = 'myappai.operator.recentPrompts'
 
 export default function AdminOperatorPage() {
   const {
@@ -32,6 +34,39 @@ export default function AdminOperatorPage() {
   const latestSummary = operatorHistory[0]?.summary ?? ''
   const sourcesCount = latestResult?.sources?.length ?? 0
   const nextSteps = latestResult?.nextSteps ?? []
+  const planSteps = latestResult?.details?.plan?.steps ?? []
+  const [recentPrompts, setRecentPrompts] = useState(() => {
+    if (typeof window === 'undefined') {
+      return []
+    }
+
+    try {
+      const rawValue = window.localStorage.getItem(RECENT_PROMPTS_KEY)
+      const parsed = rawValue ? JSON.parse(rawValue) : []
+      return Array.isArray(parsed) ? parsed : []
+    } catch {
+      return []
+    }
+  })
+
+  useEffect(() => {
+    if (typeof window === 'undefined') {
+      return
+    }
+
+    window.localStorage.setItem(
+      RECENT_PROMPTS_KEY,
+      JSON.stringify(recentPrompts.slice(0, 6))
+    )
+  }, [recentPrompts])
+
+  const sourceItems = useMemo(
+    () =>
+      Array.isArray(latestResult?.sources)
+        ? latestResult.sources.filter((item) => item?.url)
+        : [],
+    [latestResult]
+  )
 
   const handleTranscript = useCallback(
     (transcript) => {
@@ -53,8 +88,24 @@ export default function AdminOperatorPage() {
   function handleKeyDown(event) {
     if (event.key === 'Enter' && !event.shiftKey) {
       event.preventDefault()
-      void handleRunCommand()
+      void handleExecute()
     }
+  }
+
+  function rememberPrompt(prompt) {
+    const trimmed = prompt.trim()
+    if (!trimmed) {
+      return
+    }
+
+    setRecentPrompts((current) =>
+      [trimmed, ...current.filter((item) => item !== trimmed)].slice(0, 6)
+    )
+  }
+
+  async function handleExecute() {
+    rememberPrompt(naturalLanguagePrompt)
+    await handleRunCommand()
   }
 
   return (
@@ -163,7 +214,7 @@ export default function AdminOperatorPage() {
                   className="btn-primary"
                   type="button"
                   id="sendBtn"
-                  onClick={() => void handleRunCommand()}
+                  onClick={() => void handleExecute()}
                   disabled={commandBusy}
                 >
                   {commandBusy ? 'RUNNING' : 'EXECUTE'}
@@ -236,6 +287,28 @@ export default function AdminOperatorPage() {
             </div>
 
             <div className="operator-next-steps">
+              <span className="meta-line">Recent prompts</span>
+              <div className="operator-next-steps__list">
+                {recentPrompts.length ? (
+                  recentPrompts.map((prompt) => (
+                    <button
+                      key={prompt}
+                      className="operator-chip"
+                      type="button"
+                      onClick={() => setNaturalLanguagePrompt(prompt)}
+                    >
+                      {prompt}
+                    </button>
+                  ))
+                ) : (
+                  <span className="signal-pill">
+                    Your recent operator prompts will stay here for quick reuse.
+                  </span>
+                )}
+              </div>
+            </div>
+
+            <div className="operator-next-steps">
               <span className="meta-line">Next steps</span>
               <div className="operator-next-steps__list">
                 {nextSteps.length ? (
@@ -298,15 +371,28 @@ export default function AdminOperatorPage() {
                 <div className="operator-result-card__body">
                   <div>&gt; {result.summary ?? 'No summary returned.'}</div>
                   <div>Mode: {result.mode ?? 'unknown'}</div>
+                  {result.details?.plan?.steps?.length ? (
+                    <div>Plan: {result.details.plan.steps.join(' → ')}</div>
+                  ) : null}
                   {result.affectedPaths?.length ? (
                     <div>Paths: {result.affectedPaths.join(', ')}</div>
                   ) : null}
                   {result.sources?.length ? (
                     <div>
-                      Sources:{' '}
-                      {result.sources
-                        .map((item) => item.title ?? item.url)
-                        .join(' | ')}
+                      Sources:
+                      <div className="operator-source-list">
+                        {result.sources.map((item) => (
+                          <a
+                            key={item.url ?? item.title}
+                            className="operator-source-link"
+                            href={item.url}
+                            rel="noreferrer"
+                            target="_blank"
+                          >
+                            {item.title ?? item.url}
+                          </a>
+                        ))}
+                      </div>
                     </div>
                   ) : null}
                   {result.blockedReason ? (
@@ -342,6 +428,23 @@ export default function AdminOperatorPage() {
                 </li>
               ))}
             </ul>
+          </section>
+
+          <section className="operator-panel">
+            <div className="operator-section-title">Execution plan</div>
+            <div className="operator-plan-list">
+              {planSteps.length ? (
+                planSteps.map((step) => (
+                  <div key={step} className="operator-plan-item">
+                    {step}
+                  </div>
+                ))
+              ) : (
+                <div className="operator-plan-item">
+                  Run a command to view the interpreted plan steps here.
+                </div>
+              )}
+            </div>
           </section>
 
           <section className="operator-panel">
@@ -392,6 +495,29 @@ export default function AdminOperatorPage() {
                   {selfHealState?.status ?? 'idle'}
                 </span>
               </div>
+            </div>
+          </section>
+
+          <section className="operator-panel">
+            <div className="operator-section-title">Latest sources</div>
+            <div className="operator-plan-list">
+              {sourceItems.length ? (
+                sourceItems.map((item) => (
+                  <a
+                    key={item.url}
+                    className="operator-source-link"
+                    href={item.url}
+                    rel="noreferrer"
+                    target="_blank"
+                  >
+                    {item.title ?? item.url}
+                  </a>
+                ))
+              ) : (
+                <div className="operator-plan-item">
+                  Research-backed results will list source links here.
+                </div>
+              )}
             </div>
           </section>
         </aside>

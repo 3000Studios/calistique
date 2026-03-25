@@ -3171,6 +3171,31 @@ video {
   gap: 0.7rem;
 }
 
+.operator-source-list,
+.operator-plan-list {
+  display: grid;
+  gap: 0.6rem;
+  margin-top: 0.6rem;
+}
+
+.operator-source-link,
+.operator-plan-item {
+  display: block;
+  padding: 0.72rem 0.8rem;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 0.8rem;
+  background: rgba(255, 255, 255, 0.03);
+  color: rgba(255, 255, 255, 0.8);
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.76rem;
+  line-height: 1.6;
+}
+
+.operator-source-link:hover {
+  border-color: rgba(136, 224, 208, 0.22);
+  color: rgba(255, 255, 255, 0.94);
+}
+
 .operator-result-card {
   overflow: hidden;
 }
