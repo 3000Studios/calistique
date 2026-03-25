@@ -336,6 +336,9 @@ export function AdminDashboardProvider({ children }) {
     logoutAdmin()
       .catch(() => {})
       .finally(() => {
+        if (typeof window !== 'undefined') {
+          window.localStorage.removeItem(OPERATOR_STATE_KEY)
+        }
         clearAdminSession()
         navigate('/admin/login', { replace: true })
       })

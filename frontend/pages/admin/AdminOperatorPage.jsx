@@ -109,6 +109,15 @@ export default function AdminOperatorPage() {
     await handleRunCommand()
   }
 
+  function handleResetSession() {
+    clearOperatorSessionState()
+    setRecentPrompts([])
+
+    if (typeof window !== 'undefined') {
+      window.localStorage.removeItem(RECENT_PROMPTS_KEY)
+    }
+  }
+
   return (
     <div className="operator-page">
       <aside className="operator-rail" aria-label="Operator sections">
@@ -214,7 +223,7 @@ export default function AdminOperatorPage() {
                 <button
                   className="operator-button operator-button--ghost"
                   type="button"
-                  onClick={clearOperatorSessionState}
+                  onClick={handleResetSession}
                   disabled={commandBusy || deployBusy}
                 >
                   Reset session
