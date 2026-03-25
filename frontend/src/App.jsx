@@ -1,10 +1,13 @@
 import React, { useEffect } from 'react'
 import { Navigate, Route, Routes } from 'react-router-dom'
 import SiteFrame from '../components/SiteFrame.jsx'
+import ExperienceOrchestrator from '../components/ExperienceOrchestrator.jsx'
 import AdminLayout from '../components/admin/AdminLayout.jsx'
 import HomePage from '../pages/HomePage.jsx'
 import AdminLoginPage from '../pages/AdminLoginPage.jsx'
 import AdminOperatorPage from '../pages/admin/AdminOperatorPage.jsx'
+import AdminLogsPage from '../pages/admin/AdminLogsPage.jsx'
+import AdminSecureLogsPage from '../pages/admin/AdminSecureLogsPage.jsx'
 import NotFoundPage from '../pages/NotFoundPage.jsx'
 import { SiteRuntimeProvider } from './SiteRuntimeContext.jsx'
 import { theme } from './siteData.js'
@@ -25,6 +28,7 @@ export default function App() {
 
   return (
     <SiteRuntimeProvider>
+      <ExperienceOrchestrator />
       <Routes>
         <Route element={<SiteFrame />}>
           <Route path="/" element={<HomePage />} />
@@ -33,6 +37,8 @@ export default function App() {
         <Route path="/admin" element={<AdminLayout />}>
           <Route index element={<Navigate to="operator" replace />} />
           <Route path="operator" element={<AdminOperatorPage />} />
+          <Route path="logs" element={<AdminLogsPage />} />
+          <Route path="secure-logs" element={<AdminSecureLogsPage />} />
         </Route>
         <Route path="*" element={<NotFoundPage />} />
       </Routes>

@@ -3,7 +3,14 @@ import path from 'node:path'
 import dotenv from 'dotenv'
 import { repoRoot } from '../../server/services/platformPaths.js'
 
-const ENV_FILES = ['.env.local', '.env', '.dev.vars.local', '.dev.vars']
+const ENV_FILES = [
+  '.secrets/myappai.local.env',
+  '.secrets/shared.local.env',
+  '.env.local',
+  '.env',
+  '.dev.vars.local',
+  '.dev.vars',
+]
 
 let loadedFiles = null
 

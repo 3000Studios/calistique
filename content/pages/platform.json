@@ -1,32 +1,18 @@
 {
-  "eyebrow": "Why Camp Dream GA",
-  "headline": "A cleaner public experience for discovery, trust, and premium conversion",
-  "intro": "Camp Dream GA brings together high-end design, clear booking paths, original resource content, and SEO-ready structure in one cohesive brand experience.",
+  "updatedFor": "myappai",
+  "headline": "One control plane for research, code, and deployment",
+  "intro": "MyAppAI keeps operator prompts, safe actions, and deploy results in one authenticated workspace.",
   "items": [
     {
-      "slug": "premium-public-site",
-      "title": "Premium public experience",
-      "description": "Warm editorial design, modern navigation, and mobile-first layouts create a more memorable first impression.",
-      "outcome": "Stronger trust and higher intent."
+      "slug": "operator-workspace",
+      "title": "Operator Workspace",
+      "description": "Turn plain-language requests into safe repository edits, research, and deploy workflows."
     },
     {
-      "slug": "content-engine",
-      "title": "Content-led growth",
-      "description": "The resources section is designed for original planning articles, seasonal search demand, and compliant monetization opportunities.",
-      "outcome": "Healthier long-term traffic."
-    },
-    {
-      "slug": "monetization-architecture",
-      "title": "Mixed monetization architecture",
-      "description": "Programs drive direct revenue while resource pages can support carefully placed ads without harming the premium feel.",
-      "outcome": "Better business resilience."
-    },
-    {
-      "slug": "trust-foundation",
-      "title": "Trust and compliance foundation",
-      "description": "Policies, disclosures, canonical handling, and content depth help the site feel more complete to users, partners, and ad reviewers.",
-      "outcome": "Better readiness for growth."
+      "slug": "approved-integrations",
+      "title": "Approved Integrations",
+      "description": "Use Cloudflare, GitHub, and OpenAI intentionally instead of leaking into arbitrary external actions."
     }
   ],
-  "updatedAt": "2026-03-22T00:00:00.000Z"
+  "updatedAt": "2026-03-25T00:00:00.000Z"
 }

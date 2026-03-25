@@ -44,7 +44,7 @@ function validateCloudflareVariables() {
     message:
       missing.length === 0
         ? 'Cloudflare deployment variables are present.'
-        : `Missing optional deployment variables: ${missing.join(', ')}.`,
+        : `Missing optional deployment variables: ${missing.join(', ')}. Add them to .secrets/myappai.local.env or your local environment.`,
   }
 }
 
@@ -62,7 +62,7 @@ function validateAdminVariables() {
     message:
       missing.length === 0
         ? 'Admin session variables are present.'
-        : `Missing admin session variables: ${missing.join(', ')}.`,
+        : `Missing admin session variables: ${missing.join(', ')}. Add them to .secrets/myappai.local.env or your local environment.`,
   }
 }
 
@@ -81,7 +81,7 @@ function validateSiteVariables() {
     message:
       missing.length === 0
         ? 'Canonical site URL variables are present.'
-        : `Missing site variables: ${missing.join(', ')}.`,
+        : `Missing site variables: ${missing.join(', ')}. Add them to .secrets/myappai.local.env or your local environment.`,
   }
 }
 
@@ -95,7 +95,7 @@ function validateAiVariables() {
     message:
       missing.length === 0
         ? 'AI runtime defaults are present.'
-        : `Missing recommended AI variables: ${missing.join(', ')}.`,
+        : `Missing recommended AI variables: ${missing.join(', ')}. Add them to .secrets/myappai.local.env or your local environment.`,
   }
 }
 

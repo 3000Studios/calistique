@@ -1,210 +1,33 @@
 {
-  "eyebrow": "Camp Dream Georgia",
-  "headline": "A traditional Georgia camp experience built for children and young adults with disabilities",
-  "subheadline": "Camp Dream GA brings families, volunteers, donors, and community partners together around Summer Camp, Camp Out, and year-round support that keeps recreation, friendship, and confidence within reach.",
+  "updatedFor": "myappai",
+  "headline": "MyAppAI operator workspace",
+  "subheadline": "Research, plan, edit your repository, and deploy from one browser-based control plane.",
   "primaryCta": {
-    "label": "Explore Summer Camp",
-    "to": "/summer-camp"
+    "label": "Open admin login",
+    "to": "/admin/login"
   },
   "secondaryCta": {
-    "label": "Volunteer With Us",
-    "to": "/volunteer"
+    "label": "Stay on homepage",
+    "to": "/"
   },
   "heroSignals": [
-    "Since 1996",
-    "Traditional overnight camp",
-    "1:1 volunteer support",
-    "Barrier-free mission"
+    "Natural-language orchestration",
+    "Repo-safe execution",
+    "Deploy-ready"
   ],
   "heroStats": [
     {
-      "label": "Summer 2026",
-      "value": "Two camp sessions"
+      "label": "Primary route",
+      "value": "/admin/operator"
     },
     {
-      "label": "Location",
-      "value": "Calvin Center, Hampton"
+      "label": "Deploy target",
+      "value": "myappai.net"
     },
     {
-      "label": "Support model",
-      "value": "Volunteer-powered"
+      "label": "Integrations",
+      "value": "Cloudflare · GitHub · OpenAI"
     }
   ],
-  "heroPanel": {
-    "heading": "Camp is built around access, joy, and belonging.",
-    "body": "Families come here for more than dates and logistics. They come to find a place where campers are known, supported, and encouraged to participate fully in camp life.",
-    "points": [
-      {
-        "label": "Summer Camp",
-        "title": "Overnight sessions",
-        "value": "A multi-day camp experience with cabin life, recreation, worship, music, and shared community."
-      },
-      {
-        "label": "Camp Out",
-        "title": "Year-round connection",
-        "value": "Local events keep campers and volunteers connected between summer sessions."
-      },
-      {
-        "label": "Community",
-        "title": "Everyone has a role",
-        "value": "Families, donors, volunteers, and friends help make camp possible every season."
-      }
-    ]
-  },
-  "quickSignals": [
-    "Summer Camp at Calvin Center",
-    "Camp Out gatherings through the year",
-    "Volunteer counselors and medical staff",
-    "Donor support keeps camp accessible"
-  ],
-  "impactCards": [
-    {
-      "eyebrow": "Mission",
-      "title": "Barrier-free recreation with dignity",
-      "description": "Camp Dream GA creates camp experiences where children and young adults with disabilities can enjoy recreation, friendship, and new challenges in a setting designed around their needs.",
-      "outcome": "Campers get a place to belong, explore, and be celebrated."
-    },
-    {
-      "eyebrow": "Support",
-      "title": "A 1:1 volunteer model",
-      "description": "Volunteer counselors, junior counselors, and medical volunteers help each camper receive focused support throughout the camp experience.",
-      "outcome": "Families can trust that campers are known and cared for."
-    },
-    {
-      "eyebrow": "Community",
-      "title": "Camp does not stop after summer",
-      "description": "Camp Out events, newsletters, and community updates help keep relationships strong beyond the main overnight sessions.",
-      "outcome": "Campers and supporters stay connected year-round."
-    }
-  ],
-  "programsHeadline": "Programs that shape the Camp Dream GA experience",
-  "programsIntro": "The original site is organized around a few core experiences, so this public rebuild follows that same simple structure while presenting it in a more modern, mobile-first way.",
-  "programCards": [
-    {
-      "eyebrow": "Featured program",
-      "title": "Summer Camp",
-      "description": "Multi-day overnight sessions hosted at the Calvin Center in Hampton, Georgia for children and young adults with disabilities.",
-      "outcome": "The signature camp experience families plan around each year.",
-      "bullets": [
-        "Cabin life and meals",
-        "Recreation, music, and crafts",
-        "Volunteer counselor support"
-      ],
-      "ctaLabel": "Explore Summer Camp",
-      "ctaHref": "/summer-camp"
-    },
-    {
-      "eyebrow": "Year-round program",
-      "title": "Camp Out",
-      "description": "Community events outside the summer season help campers, families, and volunteers stay in touch through shared activities and local gatherings.",
-      "outcome": "A bridge between camp sessions and everyday life.",
-      "bullets": [
-        "Seasonal social events",
-        "Local activity nights",
-        "Community fellowship"
-      ],
-      "ctaLabel": "See Camp Out",
-      "ctaHref": "/camp-out"
-    },
-    {
-      "eyebrow": "Planning help",
-      "title": "Calendar and location",
-      "description": "Families and volunteers can quickly find session timing, location details, and the practical information they need before camp begins.",
-      "outcome": "Clearer planning with less guesswork.",
-      "bullets": [
-        "Summer session dates",
-        "Calvin Center campus details",
-        "Arrival and preparation guidance"
-      ],
-      "ctaLabel": "View Calendar",
-      "ctaHref": "/calendar"
-    }
-  ],
-  "communityHeadline": "A community effort that makes camp possible",
-  "communityIntro": "The public experience is also organized around action: volunteering, donating, learning the story of camp, and understanding how the ministry works.",
-  "communityCards": [
-    {
-      "eyebrow": "Serve",
-      "title": "Volunteer",
-      "description": "Volunteer counselors, junior counselors, and medical volunteers are essential to the camp experience.",
-      "outcome": "A direct way to step into the mission.",
-      "ctaLabel": "Volunteer roles",
-      "ctaHref": "/volunteer"
-    },
-    {
-      "eyebrow": "Support",
-      "title": "Donate",
-      "description": "Giving helps keep camp accessible for families and helps sustain the staff, supplies, and programming needed each season.",
-      "outcome": "Financial support becomes camper opportunity.",
-      "ctaLabel": "Give to camp",
-      "ctaHref": "/donate"
-    },
-    {
-      "eyebrow": "Story",
-      "title": "History and team",
-      "description": "Families and supporters deserve to understand where camp came from, what it stands for, and who helps carry it forward today.",
-      "outcome": "More trust through clearer public identity.",
-      "bullets": [
-        "Learn our history",
-        "Meet the team",
-        "See how the mission has grown"
-      ],
-      "ctaLabel": "Read the story",
-      "ctaHref": "/history"
-    }
-  ],
-  "activityHeadline": "What camp life can include",
-  "activityIntro": "Activities change with each session and event, but the original site consistently points families toward a traditional camp rhythm built around participation, recreation, worship, and community.",
-  "activityHighlights": [
-    {
-      "eyebrow": "Recreation",
-      "title": "Swimming, outdoor play, and active fun",
-      "description": "Camp life includes movement and recreation in a setting prepared for campers of different abilities.",
-      "outcome": "Campers get room to enjoy activity at their own pace."
-    },
-    {
-      "eyebrow": "Creativity",
-      "title": "Music, crafts, and shared experiences",
-      "description": "Creative activities help campers express themselves and participate in the daily rhythm of camp in ways that feel joyful and memorable.",
-      "outcome": "More chances for confidence, expression, and friendship."
-    },
-    {
-      "eyebrow": "Community",
-      "title": "Cabin life, meals, and worship",
-      "description": "Camp is not just a list of activities. It is a full shared environment where volunteers and campers live, eat, celebrate, and build community together.",
-      "outcome": "A complete camp atmosphere instead of isolated activities."
-    }
-  ],
-  "scheduleEyebrow": "Looking ahead",
-  "scheduleHeadline": "Families and volunteers can plan around a clear yearly rhythm",
-  "scheduleCards": [
-    {
-      "eyebrow": "Summer 2026",
-      "title": "Session 1: July 12 to July 15",
-      "description": "The first overnight session opens the main summer schedule and brings campers, volunteers, and families back together at Calvin Center.",
-      "outcome": "Ideal for families preparing early for the summer season."
-    },
-    {
-      "eyebrow": "Summer 2026",
-      "title": "Session 2: July 16 to July 19",
-      "description": "The second session continues the same camp experience with another round of campers, counselors, and program activities.",
-      "outcome": "A second window for families and volunteers who cannot attend the first session."
-    },
-    {
-      "eyebrow": "Year-round",
-      "title": "Camp Out events and supporter updates",
-      "description": "Community events, volunteer communication, and fundraising touchpoints help keep the mission visible outside the main summer schedule.",
-      "outcome": "A healthier connection between summer camp and the rest of the year."
-    }
-  ],
-  "finalCta": {
-    "eyebrow": "Choose your next step",
-    "heading": "Start with Summer Camp, volunteer service, or a gift that keeps camp accessible.",
-    "body": "This public site is now organized around the same mission-first structure as the original, while making it easier for families and supporters to navigate on any device.",
-    "primaryLabel": "Support the mission",
-    "primaryHref": "/donate",
-    "secondaryLabel": "Volunteer now",
-    "secondaryHref": "/volunteer"
-  },
-  "updatedAt": "2026-03-23T00:00:00.000Z"
+  "updatedAt": "2026-03-25T00:00:00.000Z"
 }

@@ -54,6 +54,36 @@ export function getContent(adminSession) {
   return request('/api/content', adminSession)
 }
 
+export function getMetrics(adminSession) {
+  return request('/api/metrics', adminSession)
+}
+
+export function getLogs(adminSession) {
+  return request('/api/logs', adminSession)
+}
+
+export function getSecureLogsWithCode(adminSession, code) {
+  return request(
+    `/api/logs/secure?code=${encodeURIComponent(code)}`,
+    adminSession
+  )
+}
+
+export function postClientLog(adminSession, payload) {
+  return request('/api/logs/client', {
+    ...adminSession,
+    method: 'POST',
+    body: payload,
+  })
+}
+
+export function runSelfHeal(adminSession) {
+  return request('/api/heal', {
+    ...adminSession,
+    method: 'POST',
+  })
+}
+
 export function getRevenueQueue(adminSession) {
   return request('/api/revenue', adminSession)
 }

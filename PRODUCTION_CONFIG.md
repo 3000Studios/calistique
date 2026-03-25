@@ -1,6 +1,6 @@
 # Production Config
 
-Use these names when setting production variables for **Camp Dream GA**.
+Use these names when setting production variables for **MyAppAI**.
 
 ## Required deployment secrets
 
@@ -35,19 +35,19 @@ Use these names when setting production variables for **Camp Dream GA**.
 ## Plaintext production variables
 
 - `NODE_ENV=production`
-- `APP_NAME=campdreamga`
-- `AI_PROJECT_NAME=campdreamga`
+- `APP_NAME=myappai`
+- `AI_PROJECT_NAME=myappai`
 - `GH_BASE_BRANCH=main`
 - `CLOUDFLARE_PAGES_BRANCH=main`
-- `CLOUDFLARE_PAGES_PROJECT_NAME=campdreamga`
-- `SITE_URL=https://campdreamga.com`
-- `WWW_SITE_URL=https://www.campdreamga.com`
-- `SITE_ORIGIN=https://campdreamga.com`
-- `WWW_SITE_ORIGIN=https://www.campdreamga.com`
+- `CLOUDFLARE_PAGES_PROJECT_NAME=myappai`
+- `SITE_URL=https://myappai.net`
+- `WWW_SITE_URL=https://www.myappai.net`
+- `SITE_ORIGIN=https://myappai.net`
+- `WWW_SITE_ORIGIN=https://www.myappai.net`
 - `API_MODE=repo-local`
 - `OPENAI_MODEL=gpt-4o`
 - `PAYPAL_ENV=live`
-- `R2_BUCKET_NAME=campdreamga`
+- `R2_BUCKET_NAME=myappai`
 - `R2_S3_ENDPOINT=...`
 - `R2_PUBLIC_BASE_URL=...`
 - `VITE_ENABLE_ADS=false`
@@ -70,8 +70,11 @@ Preferred flow:
 
 ```bash
 npm install
-npm run cli:doctor
-npm run cli:deploy
+npm run validate:env
+npm run lint
+npm run test
+npm run build
+npm run pages:deploy
 ```
 
 If the Pages project does not exist yet:

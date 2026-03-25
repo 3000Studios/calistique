@@ -1,4 +1,4 @@
-# Deployment — Camp Dream GA (Cloudflare Pages)
+# Deployment — MyAppAI (Cloudflare Pages)
 
 ## Build output
 
@@ -7,7 +7,7 @@
 
 ## Preferred operator CLI
 
-Use the repo CLI so the same workflow works locally and in CI:
+Use the repo CLI so the same workflow works locally with manual Wrangler deploys:
 
 ```bash
 npm run cli:doctor
@@ -26,11 +26,11 @@ npm run cli -- command "refresh the homepage hero copy"
 
 ## Create the Pages project (first time)
 
-In the [Cloudflare dashboard](https://dash.cloudflare.com/) → **Workers & Pages** → **Create** → **Pages** → connect your Git repo **or** create an empty project whose name matches `wrangler.toml` / `--project-name`. If deploy fails with **project not found**, the name does not exist in that account yet.
+In the [Cloudflare dashboard](https://dash.cloudflare.com/) → **Workers & Pages** → **Create** → **Pages** → create a Pages project whose name matches `wrangler.toml` / `--project-name`. This repo is set up for manual Wrangler deploys, not GitHub-connected automation. If deploy fails with **project not found**, the name does not exist in that account yet.
 
 This repo defaults to:
 
-- `CLOUDFLARE_PAGES_PROJECT_NAME=campdreamga`
+- `CLOUDFLARE_PAGES_PROJECT_NAME=myappai`
 - `CLOUDFLARE_PAGES_BRANCH=main`
 
 If your Cloudflare account still uses a different Pages project name, set `CLOUDFLARE_PAGES_PROJECT_NAME` in your local `.env` and in Cloudflare before deploying.
@@ -88,7 +88,7 @@ Configure in **Cloudflare Pages → Settings → Environment variables** (and ma
 
 ## Domains
 
-Point **campdreamga.com** and **www.campdreamga.com** to Cloudflare Pages in the Cloudflare dashboard. Prefer a single **canonical** host and redirect the other.
+Point **myappai.net** and **www.myappai.net** to Cloudflare Pages in the Cloudflare dashboard. Prefer a single **canonical** host and redirect the other.
 
 ## Bulk secret upload
 
@@ -101,7 +101,7 @@ npm run pages:secret:bulk
 That command wraps:
 
 ```bash
-npx wrangler pages secret bulk .dev.vars --project-name campdreamga
+npx wrangler pages secret bulk .dev.vars --project-name myappai
 ```
 
 ## Secret rotation

@@ -38,13 +38,15 @@ export default function AuroraBackdrop({ variant = 'marketing' }) {
       background: rootStyles.getPropertyValue('--bg').trim() || '#050505',
       prismOne: rootStyles.getPropertyValue('--prism-1').trim() || '#ff0055',
       prismTwo: rootStyles.getPropertyValue('--prism-2').trim() || '#00ffcc',
-      prismThree: rootStyles.getPropertyValue('--prism-3').trim() || '#5500ff'
+      prismThree: rootStyles.getPropertyValue('--prism-3').trim() || '#5500ff',
     }
 
     let animationFrame = 0
     let width = 0
     let height = 0
     const pointer = { x: window.innerWidth / 2, y: window.innerHeight / 2 }
+    let scrollOffset = window.scrollY
+    const tilt = { x: 0, y: 0 }
     const particleCount = variant === 'admin' ? 18 : 26
     const particles = Array.from({ length: particleCount }, (_, index) => ({
       x: Math.random() * window.innerWidth,
@@ -52,8 +54,19 @@ export default function AuroraBackdrop({ variant = 'marketing' }) {
       vx: (Math.random() - 0.5) * 0.35,
       vy: (Math.random() - 0.5) * 0.35,
       size: Math.random() * 220 + 120,
-      color: [palette.prismOne, palette.prismTwo, palette.prismThree][index % 3]
+      color: [palette.prismOne, palette.prismTwo, palette.prismThree][
+        index % 3
+      ],
     }))
+    const stars = Array.from(
+      { length: variant === 'admin' ? 80 : 130 },
+      () => ({
+        x: Math.random() * window.innerWidth,
+        y: Math.random() * window.innerHeight,
+        radius: Math.random() * 1.4 + 0.2,
+        drift: Math.random() * 0.4 + 0.05,
+      })
+    )
 
     function resizeCanvas() {
       width = canvas.width = window.innerWidth
@@ -63,6 +76,15 @@ export default function AuroraBackdrop({ variant = 'marketing' }) {
     function handlePointerMove(event) {
       pointer.x = event.clientX
       pointer.y = event.clientY
+    }
+
+    function handleScroll() {
+      scrollOffset = window.scrollY
+    }
+
+    function handleOrientation(event) {
+      tilt.x = Math.max(Math.min((event.gamma ?? 0) / 24, 1), -1)
+      tilt.y = Math.max(Math.min((event.beta ?? 0) / 32, 1), -1)
     }
 
     function drawBlob(particle) {
@@ -84,7 +106,14 @@ export default function AuroraBackdrop({ variant = 'marketing' }) {
     }
 
     function drawPointerGlow() {
-      const gradient = context.createRadialGradient(pointer.x, pointer.y, 0, pointer.x, pointer.y, 180)
+      const gradient = context.createRadialGradient(
+        pointer.x,
+        pointer.y,
+        0,
+        pointer.x,
+        pointer.y,
+        180
+      )
       gradient.addColorStop(0, hexToRgba(palette.prismTwo, 0.16))
       gradient.addColorStop(0.35, hexToRgba(palette.prismOne, 0.08))
       gradient.addColorStop(1, 'rgba(0, 0, 0, 0)')
@@ -94,20 +123,39 @@ export default function AuroraBackdrop({ variant = 'marketing' }) {
       context.fill()
     }
 
+    function drawStars() {
+      context.save()
+      context.fillStyle = 'rgba(255,255,255,0.85)'
+      stars.forEach((star, index) => {
+        const x = star.x + tilt.x * 18 + (index % 4) * 0.2
+        const y =
+          ((star.y + scrollOffset * star.drift * 0.06) % (height + 20)) - 10
+        context.globalAlpha = 0.25 + (index % 5) * 0.08
+        context.beginPath()
+        context.arc(x, y, star.radius, 0, Math.PI * 2)
+        context.fill()
+      })
+      context.restore()
+    }
+
     function animate() {
       context.fillStyle = hexToRgba(palette.background, 0.18)
       context.fillRect(0, 0, width, height)
 
       context.globalCompositeOperation = 'screen'
+      drawStars()
       particles.forEach((particle) => {
-        particle.x += particle.vx
-        particle.y += particle.vy
+        particle.x += particle.vx + tilt.x * 0.15
+        particle.y += particle.vy + tilt.y * 0.15
 
         if (particle.x < -particle.size || particle.x > width + particle.size) {
           particle.vx *= -1
         }
 
-        if (particle.y < -particle.size || particle.y > height + particle.size) {
+        if (
+          particle.y < -particle.size ||
+          particle.y > height + particle.size
+        ) {
           particle.vy *= -1
         }
 
@@ -122,19 +170,28 @@ export default function AuroraBackdrop({ variant = 'marketing' }) {
     animate()
     window.addEventListener('resize', resizeCanvas)
     window.addEventListener('pointermove', handlePointerMove)
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    window.addEventListener('deviceorientation', handleOrientation)
 
     return () => {
       window.cancelAnimationFrame(animationFrame)
       window.removeEventListener('resize', resizeCanvas)
       window.removeEventListener('pointermove', handlePointerMove)
+      window.removeEventListener('scroll', handleScroll)
+      window.removeEventListener('deviceorientation', handleOrientation)
     }
   }, [variant])
 
   return (
     <div className={`aurora aurora--${variant}`} aria-hidden="true">
+      <span className="edge-frame edge-frame--top" />
+      <span className="edge-frame edge-frame--right" />
+      <span className="edge-frame edge-frame--bottom" />
+      <span className="edge-frame edge-frame--left" />
       <div className="aurora__veil">
         <canvas ref={canvasRef} className="aurora__canvas" />
       </div>
+      <span className="aurora__stars" />
       <span className="aurora__blob aurora__blob--a" />
       <span className="aurora__blob aurora__blob--b" />
       <span className="aurora__blob aurora__blob--c" />

@@ -73,6 +73,7 @@ The agent must not:
 - remove tests or security checks
 
 All sensitive data must remain in environment variables.
+For this repository, local bots should read secrets from `.secrets/myappai.local.env` first and `.secrets/shared.local.env` second.
 
 ---
 

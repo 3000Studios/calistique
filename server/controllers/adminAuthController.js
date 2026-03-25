@@ -4,12 +4,22 @@ import {
   setAdminSessionCookie,
   validateAdminCredentials,
 } from '../services/adminSessionService.js'
+import { logOperatorEvent, logSecureEvent } from '../services/logService.js'
 
-export function postAdminLogin(request, response) {
+export async function postAdminLogin(request, response) {
   const { email, code, adminKey = '' } = request.body ?? {}
   const result = validateAdminCredentials(email, code, adminKey)
 
   if (!result.ok) {
+    await logSecureEvent({
+      level: 'warn',
+      scope: 'auth',
+      title: 'Admin login failed',
+      message: 'Invalid admin credentials.',
+      details: {
+        attemptedEmail: String(email ?? ''),
+      },
+    })
     response.status(403).json({
       ok: false,
       message: result.message,
@@ -19,6 +29,13 @@ export function postAdminLogin(request, response) {
 
   const session = createAdminSession(result.email)
   setAdminSessionCookie(response, session.signedToken)
+  await logOperatorEvent({
+    level: 'info',
+    scope: 'auth',
+    title: 'Admin login succeeded',
+    message: result.email,
+    actor: result.email,
+  })
   response.json({
     ok: true,
     adminEmail: result.email,

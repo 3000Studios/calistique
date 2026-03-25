@@ -1,6 +1,6 @@
 # Cloudflare Bindings
 
-This repository is configured for a **Cloudflare Pages** deployment that serves the Camp Dream GA public app from `dist/`.
+This repository is configured for a **Cloudflare Pages** deployment that serves the MyAppAI app from `dist/`.
 
 ## Safe local secret setup
 
@@ -16,11 +16,11 @@ Use only local, ignored files:
 
 Tracked defaults are limited to safe runtime values:
 
-- `APP_NAME=campdreamga`
-- `SITE_URL=https://campdreamga.com`
-- `WWW_SITE_URL=https://www.campdreamga.com`
-- `SITE_ORIGIN=https://campdreamga.com`
-- `WWW_SITE_ORIGIN=https://www.campdreamga.com`
+- `APP_NAME=myappai`
+- `SITE_URL=https://myappai.net`
+- `WWW_SITE_URL=https://www.myappai.net`
+- `SITE_ORIGIN=https://myappai.net`
+- `WWW_SITE_ORIGIN=https://www.myappai.net`
 - `API_MODE=repo-local`
 - `VITE_ENABLE_ADS=false`
 
@@ -59,7 +59,7 @@ Set these in **Cloudflare Pages → Settings → Environment variables**:
 - `R2_ACCESS_KEY_ID`
 - `R2_SECRET_ACCESS_KEY`
 
-For public analytics or ads, set the matching `VITE_*` keys locally before build or in Cloudflare if using git-based Pages builds.
+For public analytics or ads, set the matching `VITE_*` keys locally before build or in Cloudflare before running a manual Wrangler deploy.
 
 ## R2 binding
 
@@ -68,8 +68,8 @@ This repo already includes the bucket binding shape in `wrangler.toml`:
 ```toml
 [[r2_buckets]]
 binding = "ASSETS_BUCKET"
-bucket_name = "campdreamga"
-preview_bucket_name = "campdreamga-preview"
+bucket_name = "myappai"
+preview_bucket_name = "myappai-preview"
 ```
 
 ## Pages secret sync
@@ -84,5 +84,5 @@ npm run pages:secret:bulk
 
 - The Cloudflare API token is separate from R2 S3 credentials.
 - `wrangler pages project list` shows which Pages projects are already available in the authenticated account.
-- If `campdreamga` does not exist yet, create it with `npm run pages:project:create`.
+- If `myappai` does not exist yet, create it with `npm run pages:project:create`.
 - Never commit live token values into `wrangler.toml`, `.env.example`, `.dev.vars.example`, or tracked source files.

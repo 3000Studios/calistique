@@ -2,7 +2,6 @@ import { mirrorConversionToClientAnalytics } from './analyticsClient.js'
 
 const API_BASE = import.meta.env.VITE_API_BASE_URL ?? ''
 const SESSION_KEY = 'myappai_session_id'
-const LEGACY_SESSION_KEY = 'campdreamga_session_id'
 
 async function request(path, { method = 'GET', body } = {}) {
   const response = await fetch(`${API_BASE}${path}`, {
@@ -27,15 +26,7 @@ export function getVisitorSessionId() {
     return 'server-render'
   }
 
-  let existing = window.localStorage.getItem(SESSION_KEY)
-  if (!existing) {
-    const legacy = window.localStorage.getItem(LEGACY_SESSION_KEY)
-    if (legacy) {
-      window.localStorage.setItem(SESSION_KEY, legacy)
-      window.localStorage.removeItem(LEGACY_SESSION_KEY)
-      existing = legacy
-    }
-  }
+  const existing = window.localStorage.getItem(SESSION_KEY)
 
   if (existing) {
     return existing

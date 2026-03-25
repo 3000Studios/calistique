@@ -12,8 +12,13 @@ import {
   getAnalytics,
   getContent,
   getDeployments,
+  getLogs,
+  getMetrics,
   getRevenueQueue,
+  getSecureLogsWithCode,
   logoutAdmin,
+  postClientLog,
+  runSelfHeal,
   sendCommand,
   updateLeadStage,
 } from '../src/adminApi.js'
@@ -45,6 +50,10 @@ export function AdminDashboardProvider({ children }) {
   const [deployments, setDeployments] = useState(null)
   const [contentBundle, setContentBundle] = useState(null)
   const [revenueQueue, setRevenueQueue] = useState(null)
+  const [metrics, setMetrics] = useState(null)
+  const [logs, setLogs] = useState(null)
+  const [secureLogs, setSecureLogs] = useState(null)
+  const [selfHealState, setSelfHealState] = useState(null)
   const [commandBusy, setCommandBusy] = useState(false)
   const [editorBusy, setEditorBusy] = useState(false)
   const [deployBusy, setDeployBusy] = useState(false)
@@ -60,18 +69,28 @@ export function AdminDashboardProvider({ children }) {
         return
       }
 
-      const [nextAnalytics, nextDeployments, nextContent, nextRevenueQueue] =
-        await Promise.all([
-          getAnalytics(activeSession),
-          getDeployments(activeSession),
-          getContent(activeSession),
-          getRevenueQueue(activeSession),
-        ])
+      const [
+        nextAnalytics,
+        nextDeployments,
+        nextContent,
+        nextRevenueQueue,
+        nextMetrics,
+        nextLogs,
+      ] = await Promise.all([
+        getAnalytics(activeSession),
+        getDeployments(activeSession),
+        getContent(activeSession),
+        getRevenueQueue(activeSession),
+        getMetrics(activeSession),
+        getLogs(activeSession),
+      ])
 
       setAnalytics(nextAnalytics)
       setDeployments(nextDeployments)
       setContentBundle(nextContent)
       setRevenueQueue(nextRevenueQueue)
+      setMetrics(nextMetrics)
+      setLogs(nextLogs)
     },
     [adminSession]
   )
@@ -233,6 +252,54 @@ export function AdminDashboardProvider({ children }) {
       })
   }, [navigate])
 
+  const handleSelfHeal = useCallback(async () => {
+    try {
+      setError('')
+      const result = await runSelfHeal(adminSession)
+      setSelfHealState(result.result)
+      recordResult({
+        mode: 'self_heal',
+        status: result.result?.status ?? 'success',
+        summary: 'Self-heal audit completed from the admin workspace.',
+        nextSteps: result.result?.warnings?.length
+          ? ['Review warnings inside the logs view.']
+          : ['No immediate fixes required.'],
+      })
+      await refreshDashboard(adminSession)
+    } catch (healError) {
+      setError(healError.message)
+    }
+  }, [adminSession, recordResult, refreshDashboard])
+
+  const handleSecureLogsUnlock = useCallback(
+    async (code) => {
+      try {
+        setError('')
+        const nextSecureLogs = await getSecureLogsWithCode(adminSession, code)
+        setSecureLogs(nextSecureLogs)
+        return nextSecureLogs
+      } catch (unlockError) {
+        setError(unlockError.message)
+        throw unlockError
+      }
+    },
+    [adminSession]
+  )
+
+  const handleClientLog = useCallback(
+    async (payload) => {
+      try {
+        if (!adminSession?.adminEmail) {
+          return
+        }
+        await postClientLog(adminSession, payload)
+      } catch {
+        // Ignore logging transport failures.
+      }
+    },
+    [adminSession]
+  )
+
   const value = useMemo(
     () => ({
       adminSession,
@@ -247,6 +314,10 @@ export function AdminDashboardProvider({ children }) {
       deployments,
       contentBundle,
       revenueQueue,
+      metrics,
+      logs,
+      secureLogs,
+      selfHealState,
       commandBusy,
       editorBusy,
       deployBusy,
@@ -262,6 +333,9 @@ export function AdminDashboardProvider({ children }) {
       handleDiscoverTopics,
       handleRunTrafficCycle,
       handleUpdateLeadStage,
+      handleSelfHeal,
+      handleSecureLogsUnlock,
+      handleClientLog,
       handleSignOut,
     }),
     [
@@ -274,6 +348,10 @@ export function AdminDashboardProvider({ children }) {
       deployments,
       contentBundle,
       revenueQueue,
+      metrics,
+      logs,
+      secureLogs,
+      selfHealState,
       commandBusy,
       editorBusy,
       deployBusy,
@@ -288,6 +366,9 @@ export function AdminDashboardProvider({ children }) {
       handleDiscoverTopics,
       handleRunTrafficCycle,
       handleUpdateLeadStage,
+      handleSelfHeal,
+      handleSecureLogsUnlock,
+      handleClientLog,
       handleSignOut,
     ]
   )

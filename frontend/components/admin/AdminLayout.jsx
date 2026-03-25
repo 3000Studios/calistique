@@ -1,5 +1,5 @@
-import React from 'react'
-import { NavLink, Navigate, Outlet } from 'react-router-dom'
+import React, { useEffect } from 'react'
+import { NavLink, Navigate, Outlet, useLocation } from 'react-router-dom'
 import AdminChrome from './AdminChrome.jsx'
 import {
   AdminDashboardProvider,
@@ -8,11 +8,47 @@ import {
 import { getAdminSession } from '../../src/adminSession.js'
 import { SITE_DISPLAY_NAME } from '../../src/siteMeta.js'
 
-const nav = [{ to: '/admin/operator', label: 'Operator', end: false }]
+const nav = [
+  { to: '/admin/operator', label: 'Operator', end: false },
+  { to: '/admin/logs', label: 'Logs', end: false },
+  { to: '/admin/secure-logs', label: 'Secure Logs', end: false },
+]
 
 function AdminLayoutInner() {
-  const { adminSession, error, handleRefresh, handleSignOut } =
+  const { adminSession, error, handleRefresh, handleSignOut, handleClientLog } =
     useAdminDashboard()
+  const location = useLocation()
+
+  useEffect(() => {
+    function handleWindowError(event) {
+      void handleClientLog({
+        level: 'error',
+        title: 'Client runtime error',
+        message: event.message ?? 'Unknown client runtime error',
+        route: location.pathname,
+      })
+    }
+
+    function handleUnhandledRejection(event) {
+      void handleClientLog({
+        level: 'error',
+        title: 'Unhandled promise rejection',
+        message:
+          event.reason instanceof Error
+            ? event.reason.message
+            : String(event.reason ?? 'Unknown rejection'),
+        route: location.pathname,
+      })
+    }
+
+    window.addEventListener('error', handleWindowError)
+    window.addEventListener('unhandledrejection', handleUnhandledRejection)
+
+    return () => {
+      window.removeEventListener('error', handleWindowError)
+      window.removeEventListener('unhandledrejection', handleUnhandledRejection)
+    }
+  }, [handleClientLog, location.pathname])
 
   return (
     <div className="admin-app">
@@ -57,6 +93,9 @@ function AdminLayoutInner() {
           <div className="admin-topbar__titles">
             <span className="eyebrow">Authenticated</span>
             <p className="admin-topbar__email">{adminSession?.adminEmail}</p>
+            <strong className="admin-topbar__route">
+              {location.pathname.replace('/admin/', '').replace(/-/g, ' ')}
+            </strong>
           </div>
           <div className="admin-topbar__actions">
             <button

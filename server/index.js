@@ -7,6 +7,7 @@ import commandRoutes from './routes/commandRoutes.js'
 import adminAuthRoutes from './routes/adminAuthRoutes.js'
 import publicRoutes from './routes/publicRoutes.js'
 import { bootstrapContent } from './services/contentService.js'
+import { recordUnhandledServerError } from './services/selfHealService.js'
 
 const app = express()
 const PORT = Number(process.env.PORT ?? 8787)
@@ -30,6 +31,7 @@ app.use('/api', commandRoutes)
 
 app.use((error, _request, response, _next) => {
   void _next
+  recordUnhandledServerError(error, _request?.originalUrl ?? '').catch(() => {})
   response.status(400).json({
     error: error.name || 'RequestError',
     message: error.message || 'Request failed.',

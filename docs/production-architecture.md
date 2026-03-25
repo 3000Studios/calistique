@@ -1,8 +1,8 @@
-# Camp Dream GA / MyAppAI Production Architecture
+# MyAppAI Production Architecture
 
 ## Overview
 
-MyAppAI is structured as a command-center architecture where natural language requests are interpreted, planned, executed, and then optionally deployed through Git + Cloudflare Pages.
+MyAppAI is structured as a command-center architecture where natural language requests are interpreted, planned, executed, and then optionally deployed through a manual Wrangler + Cloudflare Pages workflow.
 
 ## Runtime Layers
 
@@ -15,9 +15,9 @@ MyAppAI is structured as a command-center architecture where natural language re
    - `ai/router/commandRouter.js` validates and dispatches actions to generators and services.
 3. **Content + State Layer (`content/`, `server/services/`)**
    - JSON-backed persistent state for pages, products, blog, analytics, queue, and deployment history.
-4. **Delivery Layer (`scripts/`, `.github/workflows/`, `wrangler.toml`)**
-   - GitHub Actions CI validates, lints, tests, builds, and stores build artifacts.
-   - Deploy workflow publishes `dist/` to Cloudflare Pages on `main`.
+4. **Delivery Layer (`scripts/`, `wrangler.toml`)**
+   - Local validation runs through npm scripts before release.
+   - Manual Wrangler deploy publishes `dist/` to Cloudflare Pages when explicitly triggered.
 
 ## AI System Manager Flow
 
@@ -31,27 +31,19 @@ MyAppAI is structured as a command-center architecture where natural language re
 
 ## Deployment Pipeline
 
-### CI workflow (`.github/workflows/ci.yml`)
+### Manual release flow
 
-- Trigger: pushes to `main` + pull requests
-- Stages:
-  1. `npm ci`
-  2. `npm run validate:env`
-  3. `npm run lint`
-  4. `npm run test`
-  5. `npm run build`
-  6. Upload `dist/` artifact
+1. `npm install`
+2. `npm run validate:env`
+3. `npm run lint`
+4. `npm run test`
+5. `npm run build`
+6. `npm run pages:deploy`
 
-### Production deploy (`.github/workflows/deploy-pages.yml`)
+Required local authentication:
 
-- Trigger: pushes to `main` + manual dispatch
-- Stages:
-  1. `npm ci`
-  2. `npm run build`
-  3. `wrangler pages deploy dist --project-name campdreamga`
-- Required GitHub Secrets:
-  - `CLOUDFLARE_API_TOKEN`
-  - `CLOUDFLARE_ACCOUNT_ID`
+- `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID`, or
+- `wrangler login`
 
 ## Operational Checklist
 

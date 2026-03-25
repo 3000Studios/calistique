@@ -3,6 +3,7 @@ import { interpretCommand } from '../../api/aiInterpreter.js'
 import { applyPatch } from '../../api/patchEngine.js'
 import { routeCommand } from '../../ai/router/commandRouter.js'
 import { recordAiActivity } from './analyticsService.js'
+import { logOperatorEvent } from './logService.js'
 import { searchWeb } from './researchService.js'
 
 const BLOCKED_PATTERNS = [
@@ -135,6 +136,15 @@ export async function runOperatorPrompt(command) {
   const plan = planOperatorPrompt(trimmed)
 
   if (plan.intent === 'blocked') {
+    await logOperatorEvent({
+      level: 'warn',
+      scope: 'operator',
+      title: 'Blocked operator prompt',
+      message: trimmed,
+      details: {
+        blockedReason: plan.blockedReason,
+      },
+    })
     return buildResult({
       mode: 'blocked',
       status: 'blocked',
@@ -156,6 +166,15 @@ export async function runOperatorPrompt(command) {
       paths: [],
     })
     await recordAiActivity('deploy_site', 'deploy_site')
+    await logOperatorEvent({
+      level: 'info',
+      scope: 'operator',
+      title: 'Deploy requested',
+      message: trimmed,
+      details: {
+        deployment,
+      },
+    })
     return buildResult({
       mode: 'deploy_site',
       summary: 'Deployment triggered from the operator workspace.',
@@ -172,6 +191,17 @@ export async function runOperatorPrompt(command) {
     paths: [patch.file],
   })
   await recordAiActivity(plan.intent, plan.intent)
+  await logOperatorEvent({
+    level: 'info',
+    scope: 'operator',
+    title: 'Operator prompt executed',
+    message: trimmed,
+    details: {
+      mode: plan.intent,
+      file: patch.file,
+      deployment,
+    },
+  })
 
   return buildResult({
     mode: plan.intent,
@@ -190,6 +220,13 @@ export async function runStructuredOperatorAction(payload) {
     payload.action ?? 'safe_action',
     payload.action ?? 'safe_action'
   )
+  await logOperatorEvent({
+    level: 'info',
+    scope: 'operator',
+    title: 'Structured operator action',
+    message: payload.action ?? 'safe_action',
+    details: result,
+  })
 
   return buildResult({
     mode: payload.action ?? 'safe_action',

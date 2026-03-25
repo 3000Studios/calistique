@@ -1,18 +1,10 @@
 const SESSION_KEY = 'myappai-admin-session'
-const LEGACY_SESSION_KEY = 'campdreamga-admin-session'
 
 export { SESSION_KEY }
 
 export function getAdminSession() {
   try {
-    let raw = localStorage.getItem(SESSION_KEY)
-    if (!raw) {
-      raw = localStorage.getItem(LEGACY_SESSION_KEY)
-      if (raw) {
-        localStorage.setItem(SESSION_KEY, raw)
-        localStorage.removeItem(LEGACY_SESSION_KEY)
-      }
-    }
+    const raw = localStorage.getItem(SESSION_KEY)
     if (!raw) {
       return null
     }
@@ -28,10 +20,8 @@ export function getAdminSession() {
 
 export function saveAdminSession(payload) {
   localStorage.setItem(SESSION_KEY, JSON.stringify(payload))
-  localStorage.removeItem(LEGACY_SESSION_KEY)
 }
 
 export function clearAdminSession() {
   localStorage.removeItem(SESSION_KEY)
-  localStorage.removeItem(LEGACY_SESSION_KEY)
 }

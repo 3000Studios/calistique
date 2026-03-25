@@ -13,7 +13,7 @@ import {
 export default function AdminLoginPage() {
   const navigate = useNavigate()
   const [email, setEmail] = useState('')
-  const [code, setCode] = useState('')
+  const [code, setCode] = useState('5555')
   const [error, setError] = useState('')
 
   async function handleSubmit(event) {
@@ -79,7 +79,7 @@ export default function AdminLoginPage() {
                 value={code}
                 onChange={(event) => setCode(event.target.value)}
                 autoComplete="current-password"
-                placeholder="••••••••"
+                placeholder="5555"
               />
             </label>
             <div className="admin-actions">

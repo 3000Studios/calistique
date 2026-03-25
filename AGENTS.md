@@ -98,6 +98,7 @@ The system must prioritize:
 - Never expose API keys or deployment secrets in code
 - Environment variables must be used for secrets
 - Never modify deployment secrets unless explicitly asked
+- Local repo bots should load secrets from `.secrets/myappai.local.env` first, `.secrets/shared.local.env` second, and should not auto-load `.secrets/archive.local.env`
 
 ## Deployment Rules
 

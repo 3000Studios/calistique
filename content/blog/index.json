@@ -1,28 +1,4 @@
 {
-  "posts": [
-    {
-      "slug": "how-the-1-to-1-camp-model-supports-campers",
-      "title": "How the 1-to-1 camp model helps campers participate more fully",
-      "excerpt": "A closer look at why volunteer support matters so much in a camp environment built for children and young adults with disabilities.",
-      "publishedAt": "2026-03-23",
-      "tags": ["volunteers", "campers", "support"],
-      "adsEligible": true
-    },
-    {
-      "slug": "what-to-pack-for-summer-camp-at-camp-dream-ga",
-      "title": "What to pack for Summer Camp at Camp Dream GA",
-      "excerpt": "A practical packing guide for families who want to feel ready without overpacking or missing the basics that matter most.",
-      "publishedAt": "2026-03-23",
-      "tags": ["summer camp", "packing", "families"],
-      "adsEligible": true
-    },
-    {
-      "slug": "how-camp-out-keeps-the-community-connected",
-      "title": "How Camp Out keeps the Camp Dream GA community connected",
-      "excerpt": "Why year-round gatherings matter for campers, volunteers, and supporters after the summer sessions end.",
-      "publishedAt": "2026-03-22",
-      "tags": ["camp out", "community", "year-round"],
-      "adsEligible": true
-    }
-  ]
+  "updatedFor": "myappai",
+  "posts": []
 }

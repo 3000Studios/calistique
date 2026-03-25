@@ -27,6 +27,8 @@
     "pages:project:create": "node scripts/myappai-cli.js pages:create",
     "pages:secret:bulk": "node scripts/myappai-cli.js pages:secrets",
     "cf:whoami": "node scripts/myappai-cli.js whoami",
+    "secrets:path": "node scripts/show-secrets-path.js",
+    "secrets:test": "node scripts/test-integrations.js",
     "pages:dev": "wrangler pages dev dist",
     "command": "node scripts/run-command.js",
     "scheduler": "node ai/scheduler/aiScheduler.js",

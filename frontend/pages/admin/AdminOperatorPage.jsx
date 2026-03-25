@@ -1,5 +1,6 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import { useAdminDashboard } from '../../context/AdminDashboardContext.jsx'
+import { useOperatorVoice } from '../../hooks/useOperatorVoice.js'
 
 const quickPrompts = [
   'Update site metadata canonical URL to myappai.net',
@@ -17,11 +18,32 @@ export default function AdminOperatorPage() {
     operatorHistory,
     analytics,
     deployments,
+    selfHealState,
+    handleSelfHeal,
+    handleClientLog,
     error,
   } = useAdminDashboard()
 
   const latestDeployment = deployments?.history?.[0] ?? null
   const latestPaths = operatorHistory[0]?.affectedPaths ?? []
+  const latestSummary = operatorHistory[0]?.summary ?? ''
+
+  const handleTranscript = useCallback(
+    (transcript) => {
+      setNaturalLanguagePrompt(transcript)
+      void handleClientLog({
+        level: 'info',
+        title: 'Voice transcript captured',
+        message: transcript,
+        route: '/admin/operator',
+      })
+    },
+    [handleClientLog, setNaturalLanguagePrompt]
+  )
+
+  const voice = useOperatorVoice({
+    onTranscript: handleTranscript,
+  })
 
   function handleKeyDown(event) {
     if (event.key === 'Enter' && !event.shiftKey) {
@@ -108,6 +130,32 @@ export default function AdminOperatorPage() {
             </div>
 
             <div className="operator-chips">
+              <button
+                className="operator-chip operator-chip--accent"
+                type="button"
+                onClick={() =>
+                  voice.listening
+                    ? voice.stopListening()
+                    : voice.startListening()
+                }
+                disabled={!voice.supported}
+              >
+                {voice.listening
+                  ? 'Stop mic'
+                  : voice.supported
+                    ? 'Start voice'
+                    : 'Voice unavailable'}
+              </button>
+              <button
+                className="operator-chip"
+                type="button"
+                onClick={() =>
+                  voice.speak(latestSummary || naturalLanguagePrompt)
+                }
+                disabled={voice.speaking || !latestSummary}
+              >
+                {voice.speaking ? 'Speaking' : 'Speak last result'}
+              </button>
               {quickPrompts.map((prompt) => (
                 <button
                   key={prompt}
@@ -118,6 +166,23 @@ export default function AdminOperatorPage() {
                   {prompt}
                 </button>
               ))}
+              <button
+                className="operator-chip operator-chip--accent"
+                type="button"
+                onClick={() => void handleSelfHeal()}
+              >
+                Run self-heal audit
+              </button>
+            </div>
+            <div className="operator-voice-status">
+              <span className="meta-line">Voice</span>
+              <p>
+                {voice.supported
+                  ? voice.listening
+                    ? `Listening: ${voice.transcript || 'speak now...'}`
+                    : 'Voice input ready for browser-supported mic use.'
+                  : 'This browser does not expose Web Speech voice input.'}
+              </p>
             </div>
           </div>
 
@@ -252,6 +317,12 @@ export default function AdminOperatorPage() {
                 <span className="operator-stat-label">Changed files</span>
                 <span className="operator-stat-value">
                   {latestPaths.length}
+                </span>
+              </div>
+              <div className="operator-stat-box">
+                <span className="operator-stat-label">Heal state</span>
+                <span className="operator-stat-value">
+                  {selfHealState?.status ?? 'idle'}
                 </span>
               </div>
             </div>

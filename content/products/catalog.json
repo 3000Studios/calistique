@@ -1,34 +1,4 @@
 {
-  "products": [
-    {
-      "slug": "operator-os",
-      "name": "Season Pass",
-      "summary": "A premium direct-booking path for families who want a simple way to reserve featured Camp Dream GA experiences.",
-      "idealFor": "Families ready to reserve now",
-      "outcome": "The fastest route from inspiration to booked revenue.",
-      "priceAnchor": "$149",
-      "ctaLabel": "View program",
-      "ctaHref": "/products/operator-os"
-    },
-    {
-      "slug": "launch-sprint",
-      "name": "Family Adventure Weekend",
-      "summary": "A guided package for families who want a more curated camp-inspired experience with planning support.",
-      "idealFor": "Families who want more guidance",
-      "outcome": "A premium, higher-touch revenue path.",
-      "priceAnchor": "$895+",
-      "ctaLabel": "View program",
-      "ctaHref": "/products/launch-sprint"
-    },
-    {
-      "slug": "enterprise-deployment",
-      "name": "Group Retreat Planning",
-      "summary": "A custom planning lane for schools, churches, teams, and organizations coordinating a larger retreat or shared experience.",
-      "idealFor": "Organizers managing a group",
-      "outcome": "A credible path for higher-value custom bookings.",
-      "priceAnchor": "Custom",
-      "ctaLabel": "View program",
-      "ctaHref": "/products/enterprise-deployment"
-    }
-  ]
+  "updatedFor": "myappai",
+  "products": []
 }
