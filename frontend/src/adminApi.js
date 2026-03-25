@@ -1,10 +1,46 @@
-const API_BASE = import.meta.env.VITE_API_BASE_URL ?? ''
+function normalizeApiBase(value) {
+  const trimmed = String(value ?? '')
+    .trim()
+    .replace(/\/$/, '')
+
+  if (/campdreamga/i.test(trimmed)) {
+    return ''
+  }
+
+  return trimmed
+}
+
+function canUseSameOriginApi() {
+  if (typeof window === 'undefined') {
+    return false
+  }
+
+  return ['localhost', '127.0.0.1'].includes(window.location.hostname)
+}
+
+const API_BASE = normalizeApiBase(import.meta.env.VITE_API_BASE_URL)
+
+function getResolvedApiBase() {
+  if (API_BASE) {
+    return API_BASE
+  }
+
+  return canUseSameOriginApi() ? '' : null
+}
 
 async function request(
   path,
   { adminEmail, adminCode, adminKey, method = 'GET', body } = {}
 ) {
-  const response = await fetch(`${API_BASE}${path}`, {
+  const resolvedApiBase = getResolvedApiBase()
+
+  if (!resolvedApiBase) {
+    throw new Error(
+      'The operator API is not connected to this Pages deployment yet.'
+    )
+  }
+
+  const response = await fetch(`${resolvedApiBase}${path}`, {
     method,
     credentials: 'include',
     headers: {

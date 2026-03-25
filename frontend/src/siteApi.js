@@ -1,10 +1,50 @@
 import { mirrorConversionToClientAnalytics } from './analyticsClient.js'
 
-const API_BASE = import.meta.env.VITE_API_BASE_URL ?? ''
+function normalizeApiBase(value) {
+  const trimmed = String(value ?? '')
+    .trim()
+    .replace(/\/$/, '')
+
+  if (/campdreamga/i.test(trimmed)) {
+    return ''
+  }
+
+  return trimmed
+}
+
+function canUseSameOriginApi() {
+  if (typeof window === 'undefined') {
+    return false
+  }
+
+  return ['localhost', '127.0.0.1'].includes(window.location.hostname)
+}
+
+const API_BASE = normalizeApiBase(import.meta.env.VITE_API_BASE_URL)
 const SESSION_KEY = 'myappai_session_id'
 
+function getResolvedApiBase() {
+  if (API_BASE) {
+    return API_BASE
+  }
+
+  return canUseSameOriginApi() ? '' : null
+}
+
 async function request(path, { method = 'GET', body } = {}) {
-  const response = await fetch(`${API_BASE}${path}`, {
+  const resolvedApiBase = getResolvedApiBase()
+
+  if (!resolvedApiBase) {
+    if (path === '/api/public/events' && method === 'POST') {
+      return { ok: false, skipped: true }
+    }
+
+    throw new Error(
+      'The public API is not connected to this Pages deployment yet.'
+    )
+  }
+
+  const response = await fetch(`${resolvedApiBase}${path}`, {
     method,
     headers: {
       'content-type': 'application/json',

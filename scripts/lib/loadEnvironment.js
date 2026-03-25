@@ -14,6 +14,16 @@ const ENV_FILES = [
 
 let loadedFiles = null
 
+function clearLegacyEndpointLeak(name) {
+  const value = process.env[name]
+
+  if (!value || !/campdreamga/i.test(String(value))) {
+    return
+  }
+
+  delete process.env[name]
+}
+
 export function loadEnvironment() {
   if (loadedFiles) {
     return loadedFiles
@@ -46,6 +56,10 @@ export function loadEnvironment() {
   ) {
     process.env.CLOUDFLARE_MASTER_TOKEN = process.env.CLOUDFLARE_MASTERR_TOKEN
   }
+
+  ;['ADMIN_API_ORIGIN', 'API_BASE_URL', 'VITE_API_BASE_URL'].forEach(
+    clearLegacyEndpointLeak
+  )
 
   return loadedFiles
 }
