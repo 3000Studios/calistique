@@ -57,7 +57,7 @@ Configure in **Cloudflare Pages → Settings → Environment variables** (and ma
 - `SITE_URL`, `WWW_SITE_URL`, `SITE_ORIGIN`, `WWW_SITE_ORIGIN`
 - `APP_NAME`, `API_MODE`
 - **Public site (Vite `VITE_*`)**:
-  `VITE_API_BASE_URL`
+  `VITE_API_BASE_URL` (optional when the frontend and Worker/API share the same Pages origin)
   `VITE_GA4_MEASUREMENT_ID`
   `VITE_GTM_CONTAINER_ID`
   `VITE_META_PIXEL_ID`
