@@ -13,3 +13,7 @@ dist
 .DS_Store
 .tmp-dev-out.log
 .tmp-dev-err.log
+.tmp-frontend.log
+.tmp-frontend.err.log
+.tmp-server.log
+.tmp-server.err.log
