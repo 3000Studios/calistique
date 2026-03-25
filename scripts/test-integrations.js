@@ -1,6 +1,33 @@
 import './lib/loadEnvironment.js'
+import { spawn } from 'node:child_process'
 
 const results = []
+
+function resolveExecutable(command) {
+  if (process.platform !== 'win32') {
+    return command
+  }
+
+  if (command === 'npx') {
+    return 'npx.cmd'
+  }
+
+  return command
+}
+
+function quoteWindowsArgument(value) {
+  const stringValue = String(value ?? '')
+
+  if (!stringValue) {
+    return '""'
+  }
+
+  if (!/[\s"]/u.test(stringValue)) {
+    return stringValue
+  }
+
+  return `"${stringValue.replace(/"/g, '\\"')}"`
+}
 
 async function testOpenAI() {
   const apiKey = process.env.OPENAI_API_KEY
@@ -62,35 +89,107 @@ async function testGitHub() {
 }
 
 async function testCloudflare() {
-  const token = process.env.CLOUDFLARE_API_TOKEN
-  if (!token) {
+  const explicitDeployToken = process.env.CLOUDFLARE_PAGES_DEPLOY_TOKEN
+
+  if (explicitDeployToken) {
+    const response = await fetch(
+      'https://api.cloudflare.com/client/v4/user/tokens/verify',
+      {
+        headers: { Authorization: `Bearer ${explicitDeployToken}` },
+      }
+    )
+
+    if (!response.ok) {
+      return {
+        name: 'cloudflare',
+        ok: false,
+        message: `Deploy token HTTP ${response.status}`,
+      }
+    }
+
+    const payload = await response.json()
     return {
       name: 'cloudflare',
-      ok: false,
-      skipped: true,
-      message: 'Missing CLOUDFLARE_API_TOKEN.',
+      ok: Boolean(payload.success),
+      message: payload.success
+        ? 'Deploy token verified.'
+        : (payload.errors?.[0]?.message ?? 'Deploy token verification failed.'),
     }
   }
 
-  const response = await fetch(
-    'https://api.cloudflare.com/client/v4/user/tokens/verify',
-    {
-      headers: { Authorization: `Bearer ${token}` },
-    }
-  )
+  return new Promise((resolve) => {
+    const env = { ...process.env }
+    delete env.CLOUDFLARE_API_TOKEN
+    delete env.CLOUDFLARE_API_TOKEN_ALT
+    delete env.CF_API_TOKEN
+    delete env.CF_API_TOKEN2
+    delete env.CLOUDFLARE_MASTER_TOKEN
+    delete env.CLOUDFLARE_MASTERR_TOKEN
 
-  if (!response.ok) {
-    return { name: 'cloudflare', ok: false, message: `HTTP ${response.status}` }
-  }
+    const executable = resolveExecutable('npx')
+    const spawnConfig =
+      process.platform === 'win32'
+        ? {
+            file: 'cmd.exe',
+            args: [
+              '/d',
+              '/s',
+              '/c',
+              [executable, 'wrangler', 'whoami']
+                .map(quoteWindowsArgument)
+                .join(' '),
+            ],
+          }
+        : {
+            file: executable,
+            args: ['wrangler', 'whoami'],
+          }
 
-  const payload = await response.json()
-  return {
-    name: 'cloudflare',
-    ok: Boolean(payload.success),
-    message: payload.success
-      ? 'Token verified.'
-      : (payload.errors?.[0]?.message ?? 'Verification failed.'),
-  }
+    const child = spawn(spawnConfig.file, spawnConfig.args, {
+      cwd: process.cwd(),
+      env,
+      shell: false,
+      windowsHide: true,
+    })
+
+    let stdout = ''
+    let stderr = ''
+
+    child.stdout.on('data', (chunk) => {
+      stdout += String(chunk)
+    })
+
+    child.stderr.on('data', (chunk) => {
+      stderr += String(chunk)
+    })
+
+    child.on('error', (error) => {
+      resolve({
+        name: 'cloudflare',
+        ok: false,
+        message: error instanceof Error ? error.message : String(error),
+      })
+    })
+
+    child.on('close', (code) => {
+      if (code === 0) {
+        resolve({
+          name: 'cloudflare',
+          ok: true,
+          message: stdout.includes('OAuth Token')
+            ? 'Wrangler OAuth session verified.'
+            : 'Cloudflare auth verified.',
+        })
+        return
+      }
+
+      resolve({
+        name: 'cloudflare',
+        ok: false,
+        message: stderr.trim() || stdout.trim() || `wrangler exited ${code}`,
+      })
+    })
+  })
 }
 
 async function testStripe() {
