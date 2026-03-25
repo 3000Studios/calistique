@@ -1,6 +1,6 @@
-# Camp Dream GA / MyAppAI
+# MyAppAI
 
-Camp Dream GA is a Vite + React public site with a local Express admin/API layer, Cloudflare Pages deployment support, analytics hooks, monetization scaffolding, and an operator command workflow for structured or natural-language site updates.
+MyAppAI is a Vite + React public homepage with a local Express admin/API layer, a browser-based operator workspace, and manual Wrangler deployment support for safe operator-driven updates.
 
 ## Quick start
 
@@ -45,7 +45,7 @@ This repo expects a Pages project defined by:
 - `CLOUDFLARE_PAGES_PROJECT_NAME`
 - `CLOUDFLARE_PAGES_BRANCH`
 
-Default values are `campdreamga` and `main`.
+Default values are `myappai` and `main`.
 
 If that project does not exist yet, create it with:
 
@@ -58,6 +58,8 @@ Then deploy with:
 ```bash
 npm run cli:deploy
 ```
+
+Deployments are manual Wrangler deploys only. This repo does not rely on GitHub Actions or GitHub-based auto-deploy workflows.
 
 ## Documentation
 
