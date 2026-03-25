@@ -2068,6 +2068,47 @@ video {
   gap: 0.4rem;
 }
 
+.admin-sidebar__toggle {
+  display: none;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.85rem;
+  padding: 0.9rem 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 1rem;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.admin-sidebar__toggle strong {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.admin-sidebar__toggle span {
+  display: block;
+  width: 1rem;
+  height: 1px;
+  margin-right: auto;
+  background: rgba(255, 255, 255, 0.84);
+  transition:
+    transform 0.24s var(--ease-premium),
+    opacity 0.24s var(--ease-premium);
+}
+
+.admin-sidebar__toggle--active span:nth-child(1) {
+  transform: translateY(5px) rotate(45deg);
+}
+
+.admin-sidebar__toggle--active span:nth-child(2) {
+  opacity: 0;
+}
+
+.admin-sidebar__toggle--active span:nth-child(3) {
+  transform: translateY(-5px) rotate(-45deg);
+}
+
 .admin-sidebar__nav {
   flex: 1;
 }
@@ -2188,6 +2229,45 @@ video {
 .admin-login__mark {
   width: 2.3rem;
   height: 2.3rem;
+}
+
+.admin-login__signals {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.7rem;
+  margin-top: 1rem;
+}
+
+.admin-login__support {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 0.9rem;
+  margin-top: 1rem;
+}
+
+.admin-login__support-card {
+  display: grid;
+  gap: 0.5rem;
+  padding: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 1rem;
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.admin-login__support-card strong {
+  font-family: 'Orbitron', 'Manrope', sans-serif;
+  font-size: 1rem;
+  letter-spacing: 0.02em;
+  text-shadow:
+    0 2px 0 rgba(255, 255, 255, 0.06),
+    0 10px 24px rgba(0, 0, 0, 0.36),
+    0 0 18px rgba(137, 239, 227, 0.08);
+}
+
+.admin-login__support-card p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.72;
 }
 
 .admin-login__copyright {
@@ -2796,6 +2876,23 @@ video {
   .hero__media-frame,
   .hero__video {
     min-height: 15rem;
+  }
+
+  .admin-sidebar__toggle {
+    display: flex;
+  }
+
+  .admin-sidebar__nav {
+    display: none;
+  }
+
+  .admin-sidebar__nav--open {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .admin-sidebar__footer {
+    grid-template-columns: 1fr;
   }
 }
 

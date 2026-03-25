@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { NavLink, Navigate, Outlet, useLocation } from 'react-router-dom'
 import AdminChrome from './AdminChrome.jsx'
 import {
@@ -15,9 +15,21 @@ const nav = [
 ]
 
 function AdminLayoutInner() {
-  const { adminSession, error, handleRefresh, handleSignOut, handleClientLog } =
-    useAdminDashboard()
+  const {
+    adminSession,
+    error,
+    handleRefresh,
+    handleSignOut,
+    handleClientLog,
+    handleDeploy,
+    deployBusy,
+  } = useAdminDashboard()
   const location = useLocation()
+  const [navOpen, setNavOpen] = useState(false)
+
+  useEffect(() => {
+    setNavOpen(false)
+  }, [location.pathname])
 
   useEffect(() => {
     function handleWindowError(event) {
@@ -61,7 +73,24 @@ function AdminLayoutInner() {
             <span className="admin-sidebar__subtitle">Operator Workspace</span>
           </div>
         </div>
-        <nav className="admin-sidebar__nav">
+        <button
+          className={`admin-sidebar__toggle${navOpen ? ' admin-sidebar__toggle--active' : ''}`}
+          type="button"
+          aria-expanded={navOpen}
+          aria-controls="admin-sidebar-nav"
+          onClick={() => setNavOpen((current) => !current)}
+        >
+          <span />
+          <span />
+          <span />
+          <strong>Menu</strong>
+        </button>
+        <nav
+          id="admin-sidebar-nav"
+          className={`admin-sidebar__nav${
+            navOpen ? ' admin-sidebar__nav--open' : ''
+          }`}
+        >
           {nav.map((item) => (
             <NavLink
               key={item.to}
@@ -98,6 +127,14 @@ function AdminLayoutInner() {
             </strong>
           </div>
           <div className="admin-topbar__actions">
+            <button
+              className="button button--ghost"
+              type="button"
+              onClick={() => void handleDeploy()}
+              disabled={deployBusy}
+            >
+              {deployBusy ? 'Deploying…' : 'Deploy site'}
+            </button>
             <button
               className="button button--primary"
               type="button"

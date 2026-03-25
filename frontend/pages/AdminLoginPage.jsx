@@ -16,6 +16,12 @@ export default function AdminLoginPage() {
   const [code, setCode] = useState('5555')
   const [error, setError] = useState('')
 
+  const loginSignals = [
+    'Use your configured admin email',
+    'Default passcode lane is 5555',
+    'Secure logs require 8888 after login',
+  ]
+
   async function handleSubmit(event) {
     event.preventDefault()
 
@@ -61,6 +67,13 @@ export default function AdminLoginPage() {
             Use the configured admin email and passcode to open the MyAppAI
             control plane for research, repo changes, and deploy workflows.
           </p>
+          <div className="admin-login__signals">
+            {loginSignals.map((signal) => (
+              <span key={signal} className="signal-pill">
+                {signal}
+              </span>
+            ))}
+          </div>
           <form className="stack-md" onSubmit={handleSubmit}>
             <label className="field">
               <span>Admin email</span>
@@ -86,9 +99,34 @@ export default function AdminLoginPage() {
               <button className="button button--primary" type="submit">
                 Continue to operator
               </button>
+              <button
+                className="button button--ghost"
+                type="button"
+                onClick={() => navigate('/')}
+              >
+                Back to homepage
+              </button>
             </div>
           </form>
           {error ? <div className="error-banner">{error}</div> : null}
+          <div className="admin-login__support">
+            <div className="admin-login__support-card">
+              <span className="meta-line">After login</span>
+              <strong>Operator</strong>
+              <p>
+                Prompt the workspace, review changed paths, and trigger deploys
+                without leaving the admin surface.
+              </p>
+            </div>
+            <div className="admin-login__support-card">
+              <span className="meta-line">Protected lane</span>
+              <strong>Secure logs</strong>
+              <p>
+                Use the secondary code gate to inspect the protected log stream
+                after you enter the operator area.
+              </p>
+            </div>
+          </div>
           <p className="admin-login__copyright">
             © {new Date().getFullYear()} {COPYRIGHT_HOLDER}
           </p>
