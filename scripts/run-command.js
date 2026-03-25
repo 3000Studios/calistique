@@ -22,9 +22,10 @@ function parseCommand(argv) {
 
   if (!raw) {
     return {
-      action: 'create_blog_post',
-      topic: 'AI automation',
-      length: 'medium',
+      action: 'homepage_update',
+      page: 'homepage',
+      field: 'subheadline',
+      value: 'MyAppAI operator platform',
       autoDeploy: false,
     }
   }

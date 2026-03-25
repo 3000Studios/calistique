@@ -10,196 +10,81 @@ import {
   systemRoot,
 } from './platformPaths.js'
 
+const ACTIVE_MARKER = 'myappai'
+const ACTIVE_PAGE_SLUGS = new Set(['homepage', 'platform', 'pricing', 'theme'])
+
 const DEFAULT_FILES = {
   pages: {
     'homepage.json': {
-      headline: 'AI builds your app pipeline',
+      updatedFor: ACTIVE_MARKER,
+      headline: 'MyAppAI operator workspace',
       subheadline:
-        'Route local-model commands into content, assets, commits, and Cloudflare-ready builds from one workspace.',
-      cta: 'Open the admin console',
-      secondaryCta: 'View architecture',
+        'Research, plan, edit your repository, and deploy from one browser-based control plane.',
+      primaryCta: { label: 'Open admin login', to: '/admin/login' },
+      secondaryCta: { label: 'Stay on homepage', to: '/' },
+      heroSignals: [
+        'Natural-language orchestration',
+        'Repo-safe execution',
+        'Deploy-ready',
+      ],
       heroStats: [
-        { label: 'Local models online', value: '3' },
-        { label: 'Automated deploy path', value: 'Git -> Cloudflare' },
-        { label: 'Editable content source', value: '/content' },
+        { label: 'Primary route', value: '/admin/operator' },
+        { label: 'Deploy target', value: 'myappai.net' },
+        { label: 'Integrations', value: 'Cloudflare · GitHub · OpenAI' },
       ],
-      sections: [
-        {
-          title: 'Command-first publishing',
-          description:
-            'Send structured JSON actions to a router that validates intent before touching the workspace.',
-        },
-        {
-          title: 'Local AI orchestration',
-          description:
-            'Use Ollama-hosted models for code, reasoning, analysis, and content generation without leaving the repo.',
-        },
-        {
-          title: 'Deploy from source control',
-          description:
-            'Every accepted content mutation can stage, commit, and push for Cloudflare Pages to rebuild automatically.',
-        },
-      ],
-      updatedAt: '2026-03-14T00:00:00.000Z',
+      updatedAt: '2026-03-25T00:00:00.000Z',
     },
     'platform.json': {
-      headline: 'Five systems, one platform',
+      updatedFor: ACTIVE_MARKER,
+      headline: 'One control plane for research, code, and deployment',
       intro:
-        'The repository now acts as an AI control plane, content engine, deployment surface, and public website.',
+        'MyAppAI keeps operator prompts, safe actions, and deploy results in one authenticated workspace.',
       items: [
         {
-          slug: 'command-router',
-          title: 'Command Router API',
+          slug: 'operator-workspace',
+          title: 'Operator Workspace',
           description:
-            'Validates structured actions and dispatches them to generators, media providers, file editors, and deploy agents.',
+            'Turn plain-language requests into safe repository edits, research, and deploy workflows.',
         },
         {
-          slug: 'content-engine',
-          title: 'Content Engine',
+          slug: 'approved-integrations',
+          title: 'Approved Integrations',
           description:
-            'Creates and edits JSON-driven pages, blog posts, feature blocks, pricing data, and product copy under /content.',
-        },
-        {
-          slug: 'media-engine',
-          title: 'Media Engine',
-          description:
-            'Discovers free assets from Unsplash, Pexels, and Pixabay, then stores local copies in frontend/assets.',
-        },
-        {
-          slug: 'deploy-agent',
-          title: 'Deploy Agent',
-          description:
-            'Stages workspace changes, commits them with AI-aware messages, pushes upstream, and records deployment status.',
+            'Use Cloudflare, GitHub, and OpenAI intentionally instead of leaking into arbitrary external actions.',
         },
       ],
-      updatedAt: '2026-03-14T00:00:00.000Z',
+      updatedAt: '2026-03-25T00:00:00.000Z',
     },
     'pricing.json': {
-      headline: 'Start local, scale with confidence',
-      tiers: [
-        {
-          name: 'Launch',
-          price: '$0',
-          description:
-            'Local development, manual commands, and one deploy operator.',
-          features: [
-            'Ollama model routing',
-            'JSON content engine',
-            'Cloudflare-ready build output',
-          ],
-        },
-        {
-          name: 'Studio',
-          price: '$79',
-          description:
-            'Daily content automation with deploy telemetry and admin workflows.',
-          features: [
-            'Automated blog generation',
-            'Media asset discovery',
-            'Deployment history and analytics',
-          ],
-        },
-        {
-          name: 'Operator',
-          price: '$199',
-          description:
-            'High-touch orchestration for products, landing pages, and scheduled AI jobs.',
-          features: [
-            'Multi-product content lanes',
-            'Workspace file editing',
-            'Advanced local model switching',
-          ],
-        },
-      ],
-      updatedAt: '2026-03-14T00:00:00.000Z',
+      updatedFor: ACTIVE_MARKER,
+      headline: 'Operator pricing is handled off-platform for now',
+      tiers: [],
+      updatedAt: '2026-03-25T00:00:00.000Z',
     },
     'theme.json': {
-      name: 'Signal Sunrise',
+      updatedFor: ACTIVE_MARKER,
+      name: 'Operator Dark',
       palette: {
-        canvas: '#0d1021',
-        surface: '#151a35',
-        ink: '#f7f2e8',
-        accent: '#ff8a3d',
-        highlight: '#5be7c4',
-        line: '#2b335f',
+        bg: '#0a0a0b',
+        surface: '#141417',
+        ink: '#e2e2e7',
+        accent: '#3b82f6',
+        highlight: '#10b981',
+        line: 'rgba(255,255,255,0.08)',
       },
-      motion: {
-        hero: 'stagger-rise',
-        sections: 'soft-slide',
-      },
-      updatedAt: '2026-03-14T00:00:00.000Z',
+      updatedAt: '2026-03-25T00:00:00.000Z',
     },
   },
   blog: {
     'index.json': {
-      posts: [
-        {
-          slug: 'best-family-camp-experiences-in-georgia',
-          title: 'How to choose the best family camp experiences in Georgia',
-          excerpt:
-            'A practical guide to comparing camp-style family experiences in Georgia without getting overwhelmed by vague promises or confusing booking paths.',
-          publishedAt: '2026-03-22',
-          tags: ['family camp', 'georgia', 'planning'],
-        },
-      ],
-    },
-    'best-family-camp-experiences-in-georgia.json': {
-      slug: 'best-family-camp-experiences-in-georgia',
-      title: 'How to choose the best family camp experiences in Georgia',
-      excerpt:
-        'A practical guide to comparing camp-style family experiences in Georgia without getting overwhelmed by vague promises or confusing booking paths.',
-      publishedAt: '2026-03-22',
-      tags: ['family camp', 'georgia', 'planning'],
-      sections: [
-        {
-          heading:
-            'Start with the kind of experience your family actually wants',
-          body: 'Many families start broad, but the better approach is deciding whether you want a simple seasonal booking, a guided family weekend, or a more immersive shared experience.',
-        },
-        {
-          heading: 'Look for clarity, not just pretty photos',
-          body: 'A trustworthy camp site should make the experience, price range, and next step obvious instead of relying on vague language.',
-        },
-        {
-          heading: 'Choose the booking path that matches the complexity',
-          body: 'Direct booking works best when the offer is simple and clearly defined. Inquiry-first planning is better when you want guidance or package recommendations.',
-        },
-      ],
+      updatedFor: ACTIVE_MARKER,
+      posts: [],
     },
   },
   products: {
     'catalog.json': {
-      products: [
-        {
-          slug: 'operator-os',
-          name: 'Season Pass',
-          summary:
-            'A premium direct-booking lane for families who want a simple way to reserve a featured Camp Dream GA experience.',
-          outcome: 'Create the fastest route from interest to booking revenue.',
-          priceAnchor: '$149',
-        },
-        {
-          slug: 'launch-sprint',
-          name: 'Family Adventure Weekend',
-          summary:
-            'A guided planning lane for families who want a more curated experience and support.',
-          outcome: 'Create premium service revenue and stronger fit.',
-          priceAnchor: '$895+',
-        },
-      ],
-    },
-    'operator-os.json': {
-      slug: 'operator-os',
-      name: 'Season Pass',
-      headline:
-        'Reserve a premium Season Pass when you want the simplest route into a Camp Dream GA experience',
-      description:
-        'Season Pass creates a direct, premium booking path for visitors who already know they want a Camp Dream GA experience.',
-      bullets: [
-        'A clean direct-booking path',
-        'Premium positioning with low friction',
-        'Built for mobile and desktop conversion',
-      ],
+      updatedFor: ACTIVE_MARKER,
+      products: [],
     },
   },
   system: {
@@ -208,6 +93,7 @@ const DEFAULT_FILES = {
         commandsToday: 0,
         deploymentsToday: 0,
         lastAction: 'idle',
+        lastMode: 'idle',
       },
       updatedAt: null,
     },
@@ -219,13 +105,13 @@ const DEFAULT_FILES = {
     'deployments.json': {
       history: [
         {
-          id: 'bootstrap-20260314',
+          id: 'bootstrap-20260325',
           status: 'idle',
-          message: 'Platform bootstrap ready for first AI-managed deploy.',
+          message: 'MyAppAI operator platform ready for deploy.',
           branch: 'main',
           commitSha: null,
-          startedAt: '2026-03-14T00:00:00.000Z',
-          finishedAt: '2026-03-14T00:00:00.000Z',
+          startedAt: '2026-03-25T00:00:00.000Z',
+          finishedAt: '2026-03-25T00:00:00.000Z',
         },
       ],
     },
@@ -240,6 +126,12 @@ const DEFAULT_FILES = {
     'payments.json': {
       payments: [],
       updatedAt: null,
+    },
+    'state.json': {
+      scheduler: {
+        status: 'idle',
+      },
+      tasks: {},
     },
   },
 }
@@ -351,6 +243,22 @@ async function ensureDefaultFiles() {
   }
 }
 
+function isActiveContentRecord(directory, slug, data) {
+  if (directory === systemRoot) {
+    return true
+  }
+
+  if (data?.updatedFor === ACTIVE_MARKER) {
+    return true
+  }
+
+  if (directory === pagesRoot) {
+    return ACTIVE_PAGE_SLUGS.has(slug)
+  }
+
+  return false
+}
+
 async function listJsonDirectory(directory) {
   await ensureDirectory(directory)
 
@@ -359,16 +267,23 @@ async function listJsonDirectory(directory) {
     (entry) => entry.isFile() && entry.name.endsWith('.json')
   )
 
-  const records = await Promise.all(
-    jsonEntries.map(async (entry) => {
-      const filePath = path.join(directory, entry.name)
-      return {
-        slug: entry.name.replace(/\.json$/i, ''),
-        filePath: normalize(path.relative(repoRoot, filePath)),
-        data: await readJson(filePath),
-      }
+  const records = []
+
+  for (const entry of jsonEntries) {
+    const filePath = path.join(directory, entry.name)
+    const data = await readJson(filePath)
+    const slug = entry.name.replace(/\.json$/i, '')
+
+    if (!isActiveContentRecord(directory, slug, data)) {
+      continue
+    }
+
+    records.push({
+      slug,
+      filePath: normalize(path.relative(repoRoot, filePath)),
+      data,
     })
-  )
+  }
 
   return records.sort((left, right) => left.slug.localeCompare(right.slug))
 }
@@ -434,6 +349,7 @@ export async function createPage(pageName, pagePayload) {
   const current = (await pathExists(filePath)) ? await readJson(filePath) : {}
   const nextPage = mergeObjects(current, {
     slug,
+    updatedFor: ACTIVE_MARKER,
     ...pagePayload,
     updatedAt: nowIso(),
   })
@@ -451,9 +367,13 @@ export async function updatePageContent(pageName, field, value) {
   await bootstrapContent()
   const slug = slugify(pageName)
   const filePath = path.join(pagesRoot, `${slug}.json`)
-  const page = await readJson(filePath, { slug })
+  const page = await readJson(filePath, {
+    slug,
+    updatedFor: ACTIVE_MARKER,
+  })
 
   setByPath(page, field, value)
+  page.updatedFor = ACTIVE_MARKER
   page.updatedAt = nowIso()
 
   await writeJson(filePath, page)
@@ -477,13 +397,17 @@ export async function saveBlogPost(postPayload) {
   const post = {
     ...postPayload,
     slug,
+    updatedFor: ACTIVE_MARKER,
     updatedAt: nowIso(),
   }
 
   await writeJson(filePath, post)
 
   const indexPath = path.join(blogRoot, 'index.json')
-  const indexData = await readJson(indexPath, { posts: [] })
+  const indexData = await readJson(indexPath, {
+    updatedFor: ACTIVE_MARKER,
+    posts: [],
+  })
   const summary = {
     slug,
     title: post.title,
@@ -492,6 +416,7 @@ export async function saveBlogPost(postPayload) {
     tags: post.tags ?? [],
   }
 
+  indexData.updatedFor = ACTIVE_MARKER
   indexData.posts = [
     summary,
     ...indexData.posts.filter((entry) => entry.slug !== slug),
@@ -522,6 +447,7 @@ export async function upsertFeatureSection(featureSection) {
     ...featureSection,
   }
 
+  featurePage.updatedFor = ACTIVE_MARKER
   featurePage.items = [
     nextItem,
     ...featurePage.items.filter((item) => item.slug !== nextItem.slug),
@@ -545,6 +471,7 @@ export async function updateTheme(themePatch) {
     DEFAULT_FILES.pages['theme.json']
   )
   const nextTheme = mergeObjects(currentTheme, themePatch)
+  nextTheme.updatedFor = ACTIVE_MARKER
   nextTheme.updatedAt = nowIso()
 
   await writeJson(filePath, nextTheme)

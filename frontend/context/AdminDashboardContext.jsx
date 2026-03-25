@@ -21,16 +21,16 @@ import { clearAdminSession, getAdminSession } from '../src/adminSession.js'
 
 const defaultCommand = JSON.stringify(
   {
-    action: 'create_blog_post',
-    topic: 'AI automation',
-    length: 'medium',
+    action: 'homepage_update',
+    prompt: 'Refresh the homepage copy for an operator-first SaaS audience.',
     autoDeploy: false,
   },
   null,
   2
 )
+
 const defaultPrompt =
-  'Refresh the homepage messaging so it emphasizes automation, deployment, and premium operator workflow design.'
+  'Rebrand the homepage around MyAppAI as an operator platform and prepare it for deployment.'
 
 const AdminDashboardContext = createContext(null)
 
@@ -50,6 +50,7 @@ export function AdminDashboardProvider({ children }) {
   const [deployBusy, setDeployBusy] = useState(false)
   const [trafficBusy, setTrafficBusy] = useState(false)
   const [lastResult, setLastResult] = useState(null)
+  const [operatorHistory, setOperatorHistory] = useState([])
   const [error, setError] = useState('')
   const [initialLoadDone, setInitialLoadDone] = useState(false)
 
@@ -58,6 +59,7 @@ export function AdminDashboardProvider({ children }) {
       if (!activeSession?.adminEmail) {
         return
       }
+
       const [nextAnalytics, nextDeployments, nextContent, nextRevenueQueue] =
         await Promise.all([
           getAnalytics(activeSession),
@@ -65,6 +67,7 @@ export function AdminDashboardProvider({ children }) {
           getContent(activeSession),
           getRevenueQueue(activeSession),
         ])
+
       setAnalytics(nextAnalytics)
       setDeployments(nextDeployments)
       setContentBundle(nextContent)
@@ -77,29 +80,37 @@ export function AdminDashboardProvider({ children }) {
     if (!adminSession?.adminEmail) {
       return
     }
+
     getAdminSessionState()
       .then(() => refreshDashboard(adminSession))
       .catch((loadError) => setError(loadError.message))
       .finally(() => setInitialLoadDone(true))
   }, [adminSession, refreshDashboard])
 
+  const recordResult = useCallback((result) => {
+    setLastResult(result)
+    setOperatorHistory((current) => [result, ...current].slice(0, 8))
+  }, [])
+
   const handleRunCommand = useCallback(async () => {
     try {
       setError('')
       setCommandBusy(true)
+
       const payload =
         consoleMode === 'json'
           ? JSON.parse(commandText)
           : {
               command: naturalLanguagePrompt.trim(),
+              mode: 'operator',
             }
 
       if (consoleMode !== 'json' && !payload.command) {
-        throw new Error('Enter a prompt for the custom GPT operator.')
+        throw new Error('Enter a prompt for the operator workspace.')
       }
 
       const result = await sendCommand(adminSession, payload)
-      setLastResult(result)
+      recordResult(result)
       await refreshDashboard(adminSession)
     } catch (runError) {
       setError(runError.message)
@@ -111,6 +122,7 @@ export function AdminDashboardProvider({ children }) {
     commandText,
     consoleMode,
     naturalLanguagePrompt,
+    recordResult,
     refreshDashboard,
   ])
 
@@ -125,7 +137,7 @@ export function AdminDashboardProvider({ children }) {
           contents,
           autoDeploy: false,
         })
-        setLastResult(result)
+        recordResult(result)
         await refreshDashboard(adminSession)
       } catch (saveError) {
         setError(saveError.message)
@@ -133,7 +145,7 @@ export function AdminDashboardProvider({ children }) {
         setEditorBusy(false)
       }
     },
-    [adminSession, refreshDashboard]
+    [adminSession, recordResult, refreshDashboard]
   )
 
   const handleDeploy = useCallback(async () => {
@@ -144,14 +156,14 @@ export function AdminDashboardProvider({ children }) {
         action: 'deploy_site',
         message: 'Admin-triggered deploy',
       })
-      setLastResult(result)
+      recordResult(result)
       await refreshDashboard(adminSession)
     } catch (deployError) {
       setError(deployError.message)
     } finally {
       setDeployBusy(false)
     }
-  }, [adminSession, refreshDashboard])
+  }, [adminSession, recordResult, refreshDashboard])
 
   const handleRefresh = useCallback(async () => {
     try {
@@ -170,14 +182,14 @@ export function AdminDashboardProvider({ children }) {
         action: 'discover_topics',
         limit: 6,
       })
-      setLastResult(result)
+      recordResult(result)
       await refreshDashboard(adminSession)
     } catch (trafficError) {
       setError(trafficError.message)
     } finally {
       setTrafficBusy(false)
     }
-  }, [adminSession, refreshDashboard])
+  }, [adminSession, recordResult, refreshDashboard])
 
   const handleRunTrafficCycle = useCallback(async () => {
     try {
@@ -189,27 +201,27 @@ export function AdminDashboardProvider({ children }) {
         includeImages: true,
         autoDeploy: false,
       })
-      setLastResult(result)
+      recordResult(result)
       await refreshDashboard(adminSession)
     } catch (trafficError) {
       setError(trafficError.message)
     } finally {
       setTrafficBusy(false)
     }
-  }, [adminSession, refreshDashboard])
+  }, [adminSession, recordResult, refreshDashboard])
 
   const handleUpdateLeadStage = useCallback(
     async (leadId, patch) => {
       try {
         setError('')
         const result = await updateLeadStage(adminSession, leadId, patch)
-        setLastResult(result)
+        recordResult(result)
         await refreshDashboard(adminSession)
       } catch (updateError) {
         setError(updateError.message)
       }
     },
-    [adminSession, refreshDashboard]
+    [adminSession, recordResult, refreshDashboard]
   )
 
   const handleSignOut = useCallback(() => {
@@ -240,6 +252,7 @@ export function AdminDashboardProvider({ children }) {
       deployBusy,
       trafficBusy,
       lastResult,
+      operatorHistory,
       error,
       setError,
       refreshDashboard: handleRefresh,
@@ -266,6 +279,7 @@ export function AdminDashboardProvider({ children }) {
       deployBusy,
       trafficBusy,
       lastResult,
+      operatorHistory,
       error,
       handleRefresh,
       handleRunCommand,

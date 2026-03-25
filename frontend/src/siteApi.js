@@ -1,8 +1,8 @@
 import { mirrorConversionToClientAnalytics } from './analyticsClient.js'
 
 const API_BASE = import.meta.env.VITE_API_BASE_URL ?? ''
-const SESSION_KEY = 'campdreamga_session_id'
-const LEGACY_SESSION_KEY = 'myappai_session_id'
+const SESSION_KEY = 'myappai_session_id'
+const LEGACY_SESSION_KEY = 'campdreamga_session_id'
 
 async function request(path, { method = 'GET', body } = {}) {
   const response = await fetch(`${API_BASE}${path}`, {
@@ -93,40 +93,4 @@ export function submitLead(lead) {
     method: 'POST',
     body: lead,
   })
-}
-
-export function askPublicAssistant(message, history = []) {
-  return request('/api/public/assistant', {
-    method: 'POST',
-    body: {
-      message,
-      history,
-    },
-  })
-}
-
-export function startStripeCheckout(offerSlug) {
-  return request('/api/public/checkout/stripe', {
-    method: 'POST',
-    body: { offerSlug },
-  })
-}
-
-export function startPayPalCheckout(offerSlug) {
-  return request('/api/public/checkout/paypal', {
-    method: 'POST',
-    body: { offerSlug },
-  })
-}
-
-export function verifyStripeCheckout(sessionId) {
-  return request(
-    `/api/public/checkout/stripe/success?session_id=${encodeURIComponent(sessionId)}`
-  )
-}
-
-export function capturePayPalCheckout(orderId) {
-  return request(
-    `/api/public/checkout/paypal/capture?token=${encodeURIComponent(orderId)}`
-  )
 }

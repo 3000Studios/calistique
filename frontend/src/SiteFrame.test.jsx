@@ -23,8 +23,8 @@ describe('SiteFrame', () => {
     expect(
       screen.getByRole('navigation', { name: /primary/i })
     ).toBeInTheDocument()
-    expect(screen.getByText('Camp Dream GA')).toBeInTheDocument()
+    expect(screen.getByText('MyAppAI')).toBeInTheDocument()
     expect(screen.getByRole('contentinfo')).toBeInTheDocument()
-    expect(screen.getByText(/Why Camp Dream GA/i)).toBeInTheDocument()
+    expect(screen.getByText(/Why MyAppAI/i)).toBeInTheDocument()
   })
 })

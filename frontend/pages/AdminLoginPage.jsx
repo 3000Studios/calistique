@@ -33,7 +33,7 @@ export default function AdminLoginPage() {
       saveAdminSession({
         adminEmail: result.adminEmail,
       })
-      navigate('/admin/overview')
+      navigate('/admin/operator')
     } catch (nextError) {
       setError(nextError.message)
     }
@@ -52,14 +52,14 @@ export default function AdminLoginPage() {
             <div>
               <span className="eyebrow">{SITE_DISPLAY_NAME}</span>
               <p className="admin-login__tagline">
-                Admin access · {SITE_DOMAIN}
+                Operator access · {SITE_DOMAIN}
               </p>
             </div>
           </div>
-          <PrismHeadline text="Sign in to operations" />
+          <PrismHeadline text="Sign in to the operator workspace" />
           <p className="section-intro">
-            Use the configured admin email and passcode for analytics,
-            deployments, content edits, and AI commands.
+            Use the configured admin email and passcode to open the MyAppAI
+            control plane for research, repo changes, and deploy workflows.
           </p>
           <form className="stack-md" onSubmit={handleSubmit}>
             <label className="field">
@@ -84,7 +84,7 @@ export default function AdminLoginPage() {
             </label>
             <div className="admin-actions">
               <button className="button button--primary" type="submit">
-                Continue to dashboard
+                Continue to operator
               </button>
             </div>
           </form>

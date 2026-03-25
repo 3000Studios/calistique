@@ -1,5 +1,5 @@
 {
-  "name": "campdreamga",
+  "name": "myappai",
   "version": "1.1.0",
   "private": true,
   "type": "module",
@@ -18,15 +18,15 @@
     "typecheck": "tsc --noEmit",
     "preview": "vite preview",
     "server": "node server/index.js",
-    "deploy": "node scripts/campdreamga-cli.js deploy",
-    "cli": "node scripts/campdreamga-cli.js",
-    "cli:doctor": "node scripts/campdreamga-cli.js doctor",
-    "cli:deploy": "node scripts/campdreamga-cli.js deploy",
-    "pages:deploy": "node scripts/campdreamga-cli.js pages:deploy",
-    "pages:project:list": "node scripts/campdreamga-cli.js pages:list",
-    "pages:project:create": "node scripts/campdreamga-cli.js pages:create",
-    "pages:secret:bulk": "node scripts/campdreamga-cli.js pages:secrets",
-    "cf:whoami": "node scripts/campdreamga-cli.js whoami",
+    "deploy": "node scripts/myappai-cli.js deploy",
+    "cli": "node scripts/myappai-cli.js",
+    "cli:doctor": "node scripts/myappai-cli.js doctor",
+    "cli:deploy": "node scripts/myappai-cli.js deploy",
+    "pages:deploy": "node scripts/myappai-cli.js pages:deploy",
+    "pages:project:list": "node scripts/myappai-cli.js pages:list",
+    "pages:project:create": "node scripts/myappai-cli.js pages:create",
+    "pages:secret:bulk": "node scripts/myappai-cli.js pages:secrets",
+    "cf:whoami": "node scripts/myappai-cli.js whoami",
     "pages:dev": "wrangler pages dev dist",
     "command": "node scripts/run-command.js",
     "scheduler": "node ai/scheduler/aiScheduler.js",
@@ -39,13 +39,13 @@
     "ci": "npm run validate:env && npm run lint && npm run test && npm run build"
   },
   "keywords": [
-    "campdreamga",
-    "campdreamga.com",
-    "camping",
-    "georgia",
-    "adsense-ready"
+    "myappai",
+    "myappai.net",
+    "operator",
+    "deployment",
+    "automation"
   ],
-  "homepage": "https://campdreamga.com/",
+  "homepage": "https://myappai.net/",
   "repository": {
     "type": "git",
     "url": "https://github.com/3000Studios/myappai.git"
@@ -55,7 +55,7 @@
   },
   "author": "3000Studios",
   "license": "UNLICENSED",
-  "description": "Camp Dream GA public site and admin manager for bookings, content, and deployment operations.",
+  "description": "MyAppAI operator platform for browser-based research, repository changes, and deployment workflows.",
   "lint-staged": {
     "*.{js,jsx,json,md,css}": [
       "prettier --write"

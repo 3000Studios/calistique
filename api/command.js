@@ -1,28 +1,27 @@
 import express from 'express'
-import { routeCommand } from '../ai/router/commandRouter.js'
-import { interpretCommand } from './aiInterpreter.js'
-import { applyPatch } from './patchEngine.js'
-import { deployUpdate } from './gitDeploy.js'
 import { runSystemManager } from '../engine/systemManager.js'
+import {
+  runOperatorPrompt,
+  runStructuredOperatorAction,
+} from '../server/services/operatorService.js'
 
 const router = express.Router()
 
 export async function executeRepositoryCommand(payload) {
   if (
     payload &&
-    (
-      typeof payload.mode === 'string' ||
-      (Array.isArray(payload.tasks) && payload.tasks.length > 0)
-    )
+    (typeof payload.mode === 'string' ||
+      (Array.isArray(payload.tasks) && payload.tasks.length > 0))
   ) {
     return runSystemManager(payload)
   }
 
   if (payload && typeof payload.action === 'string') {
-    return routeCommand(payload)
+    return runStructuredOperatorAction(payload)
   }
 
-  const command = typeof payload?.command === 'string' ? payload.command.trim() : ''
+  const command =
+    typeof payload?.command === 'string' ? payload.command.trim() : ''
 
   if (!command) {
     const error = new Error('Missing command')
@@ -30,20 +29,7 @@ export async function executeRepositoryCommand(payload) {
     throw error
   }
 
-  const instruction = await interpretCommand(command)
-  const patch = await applyPatch(instruction)
-  const deployment = await deployUpdate({
-    commitMessage: instruction.commitMessage,
-    paths: [patch.file]
-  })
-
-  return {
-    status: 'success',
-    mode: 'natural_language',
-    instruction,
-    patch,
-    deployment
-  }
+  return runOperatorPrompt(command)
 }
 
 router.post('/', async (request, response, next) => {

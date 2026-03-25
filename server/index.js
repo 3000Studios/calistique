@@ -19,7 +19,7 @@ app.get('/api/health', async (_request, response) => {
   await bootstrapContent()
   response.json({
     status: 'ok',
-    service: 'campdreamga-platform',
+    service: 'myappai-platform',
     mode: 'local-repo-server',
   })
 })
@@ -42,7 +42,7 @@ if (process.argv[1] && path.resolve(process.argv[1]) === __filename) {
   bootstrapContent()
     .then(() => {
       app.listen(PORT, () => {
-        console.log(`campdreamga server listening on http://localhost:${PORT}`)
+        console.log(`myappai server listening on http://localhost:${PORT}`)
       })
     })
     .catch((error) => {

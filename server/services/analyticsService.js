@@ -1,33 +1,37 @@
-import { getContentBundle, getSystemDefault, readSystemDocument, writeSystemDocument } from './contentService.js'
-import { getPaymentsSnapshot } from './commerceService.js'
+import {
+  getContentBundle,
+  getSystemDefault,
+  readSystemDocument,
+  writeSystemDocument,
+} from './contentService.js'
 import { listAvailableModels } from './ollamaService.js'
 
 const DEFAULT_ANALYTICS = {
   aiActivity: {
     commandsToday: 0,
     deploymentsToday: 0,
-    lastAction: 'idle'
+    lastAction: 'idle',
+    lastMode: 'idle',
   },
-  updatedAt: null
+  updatedAt: null,
 }
 
 const DEFAULT_EVENTS = {
   events: [],
-  updatedAt: null
+  updatedAt: null,
 }
 
 const DEFAULT_LEADS = {
   leads: [],
-  updatedAt: null
+  updatedAt: null,
 }
 
 const EVENT_TYPES = new Set([
   'page_view',
   'cta_click',
   'lead_submit',
-  'checkout_start',
-  'checkout_success',
-  'checkout_cancel'
+  'operator_prompt',
+  'operator_result',
 ])
 
 function nowIso() {
@@ -38,18 +42,25 @@ function normalizeEventType(type) {
   return EVENT_TYPES.has(type) ? type : 'page_view'
 }
 
-export async function recordAiActivity(action) {
-  const analytics = await readSystemDocument('analytics.json', DEFAULT_ANALYTICS)
+export async function recordAiActivity(action, mode = 'safe_action') {
+  const analytics = await readSystemDocument(
+    'analytics.json',
+    DEFAULT_ANALYTICS
+  )
   analytics.aiActivity = analytics.aiActivity ?? DEFAULT_ANALYTICS.aiActivity
   analytics.aiActivity.commandsToday += 1
   analytics.aiActivity.lastAction = action
+  analytics.aiActivity.lastMode = mode
   analytics.updatedAt = nowIso()
   await writeSystemDocument('analytics.json', analytics)
   return analytics
 }
 
 export async function recordDeploymentActivity() {
-  const analytics = await readSystemDocument('analytics.json', DEFAULT_ANALYTICS)
+  const analytics = await readSystemDocument(
+    'analytics.json',
+    DEFAULT_ANALYTICS
+  )
   analytics.aiActivity = analytics.aiActivity ?? DEFAULT_ANALYTICS.aiActivity
   analytics.aiActivity.deploymentsToday += 1
   analytics.updatedAt = nowIso()
@@ -66,12 +77,10 @@ export async function recordSiteEvent(eventPayload) {
     sessionId: eventPayload.sessionId ?? 'anonymous',
     referrer: eventPayload.referrer ?? '',
     ctaId: eventPayload.ctaId ?? '',
-    offerSlug: eventPayload.offerSlug ?? '',
-    provider: eventPayload.provider ?? '',
     intent: eventPayload.intent ?? '',
     stage: eventPayload.stage ?? '',
     details: eventPayload.details ?? null,
-    createdAt: nowIso()
+    createdAt: nowIso(),
   }
 
   events.events = [nextEvent, ...(events.events ?? [])].slice(0, 5000)
@@ -90,17 +99,19 @@ export async function recordLead(leadPayload) {
   const nextLead = {
     id: `lead-${Date.now()}`,
     name: String(leadPayload.name ?? '').trim(),
-    email: String(leadPayload.email ?? '').trim().toLowerCase(),
+    email: String(leadPayload.email ?? '')
+      .trim()
+      .toLowerCase(),
     company: String(leadPayload.company ?? '').trim(),
     interest: String(leadPayload.interest ?? '').trim(),
     notes: String(leadPayload.notes ?? '').trim(),
     sourcePath: String(leadPayload.sourcePath ?? '/').trim() || '/',
     ctaId: String(leadPayload.ctaId ?? '').trim(),
-    intent: String(leadPayload.intent ?? 'high_intent').trim(),
+    intent: String(leadPayload.intent ?? 'operator_interest').trim(),
     stage: String(leadPayload.stage ?? 'new').trim(),
     status: 'open',
     createdAt,
-    updatedAt: createdAt
+    updatedAt: createdAt,
   }
 
   leads.leads = [nextLead, ...(leads.leads ?? [])].slice(0, 1000)
@@ -116,7 +127,9 @@ export async function getLeadSnapshot(limit = 100) {
 
 export async function updateLeadStage(leadId, patch) {
   const leads = await readSystemDocument('leads.json', DEFAULT_LEADS)
-  const leadIndex = (leads.leads ?? []).findIndex((entry) => entry.id === leadId)
+  const leadIndex = (leads.leads ?? []).findIndex(
+    (entry) => entry.id === leadId
+  )
 
   if (leadIndex < 0) {
     throw new Error(`Lead "${leadId}" was not found.`)
@@ -125,13 +138,17 @@ export async function updateLeadStage(leadId, patch) {
   const updatedAt = nowIso()
   leads.leads[leadIndex] = {
     ...leads.leads[leadIndex],
-    stage: patch.stage ? String(patch.stage).trim() : leads.leads[leadIndex].stage,
-    status: patch.status ? String(patch.status).trim() : leads.leads[leadIndex].status,
+    stage: patch.stage
+      ? String(patch.stage).trim()
+      : leads.leads[leadIndex].stage,
+    status: patch.status
+      ? String(patch.status).trim()
+      : leads.leads[leadIndex].status,
     notes:
       typeof patch.notes === 'string'
         ? patch.notes.trim()
         : leads.leads[leadIndex].notes,
-    updatedAt
+    updatedAt,
   }
 
   leads.updatedAt = updatedAt
@@ -140,57 +157,52 @@ export async function updateLeadStage(leadId, patch) {
 }
 
 export async function getAnalyticsSnapshot() {
-  const [analytics, bundle, models, traffic, events, leads, payments] = await Promise.all([
-    readSystemDocument('analytics.json', DEFAULT_ANALYTICS),
-    getContentBundle(),
-    listAvailableModels(),
-    readSystemDocument('traffic.json', getSystemDefault('traffic.json')),
-    readSystemDocument('events.json', DEFAULT_EVENTS),
-    readSystemDocument('leads.json', DEFAULT_LEADS),
-    getPaymentsSnapshot()
-  ])
+  const [analytics, bundle, models, traffic, events, leads] = await Promise.all(
+    [
+      readSystemDocument('analytics.json', DEFAULT_ANALYTICS),
+      getContentBundle(),
+      listAvailableModels(),
+      readSystemDocument('traffic.json', getSystemDefault('traffic.json')),
+      readSystemDocument('events.json', DEFAULT_EVENTS),
+      readSystemDocument('leads.json', DEFAULT_LEADS),
+    ]
+  )
 
-  const pageViewEvents = (events.events ?? []).filter((entry) => entry.type === 'page_view')
-  const ctaClickEvents = (events.events ?? []).filter((entry) => entry.type === 'cta_click')
-  const checkoutStartEvents = (events.events ?? []).filter((entry) => entry.type === 'checkout_start')
-  const checkoutSuccessEvents = (events.events ?? []).filter((entry) => entry.type === 'checkout_success')
-  const checkoutCancelEvents = (events.events ?? []).filter((entry) => entry.type === 'checkout_cancel')
-  const leadSubmitEvents = (events.events ?? []).filter((entry) => entry.type === 'lead_submit')
-  const visitorIds = new Set(pageViewEvents.map((entry) => entry.sessionId).filter(Boolean))
-  const completedPayments = payments.filter((entry) => entry.status === 'completed')
-  const revenue = completedPayments.reduce((sum, entry) => sum + (entry.amountCents ?? 0), 0) / 100
-  const visitors = visitorIds.size
-  const purchases = completedPayments.length
-  const leadCount = (leads.leads ?? []).length
+  const pageViewEvents = (events.events ?? []).filter(
+    (entry) => entry.type === 'page_view'
+  )
+  const ctaClickEvents = (events.events ?? []).filter(
+    (entry) => entry.type === 'cta_click'
+  )
+  const visitorIds = new Set(
+    pageViewEvents.map((entry) => entry.sessionId).filter(Boolean)
+  )
 
   return {
     ...analytics,
-    visitors,
+    visitors: visitorIds.size,
     pageViews: pageViewEvents.length,
-    leads: leadCount,
-    purchases,
+    leads: (leads.leads ?? []).length,
+    purchases: 0,
     ctaClicks: ctaClickEvents.length,
-    checkoutStarts: checkoutStartEvents.length,
-    checkoutSuccesses: checkoutSuccessEvents.length,
-    checkoutCancels: checkoutCancelEvents.length,
-    leadSubmits: leadSubmitEvents.length,
-    conversionRate: visitors > 0 ? purchases / visitors : 0,
-    revenue,
+    conversionRate: 0,
+    revenue: 0,
     contentCounts: {
       pages: bundle.pages.length,
       blog: bundle.blog.length,
-      products: bundle.products.length
+      products: bundle.products.length,
+      system: bundle.system.length,
     },
     traffic: {
       queuedTopics: traffic.queue?.length ?? 0,
       publishedPages: traffic.published?.length ?? 0,
-      topQueuedTopic: traffic.queue?.[0] ?? null
+      topQueuedTopic: traffic.queue?.[0] ?? null,
     },
     models,
     dataSources: {
       visitors: 'content/system/events.json',
       leads: 'content/system/leads.json',
-      revenue: 'content/system/payments.json'
-    }
+      deployments: 'content/system/deployments.json',
+    },
   }
 }

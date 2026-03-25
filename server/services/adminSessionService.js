@@ -1,6 +1,6 @@
 import crypto from 'node:crypto'
 
-const SESSION_COOKIE = 'campdreamga_admin_session'
+const SESSION_COOKIE = 'myappai_admin_session'
 const SESSION_TTL_MS = 1000 * 60 * 60 * 12
 const activeSessions = new Map()
 

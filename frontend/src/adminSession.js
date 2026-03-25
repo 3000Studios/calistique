@@ -1,5 +1,5 @@
-const SESSION_KEY = 'campdreamga-admin-session'
-const LEGACY_SESSION_KEY = 'myappai-admin-session'
+const SESSION_KEY = 'myappai-admin-session'
+const LEGACY_SESSION_KEY = 'campdreamga-admin-session'
 
 export { SESSION_KEY }
 

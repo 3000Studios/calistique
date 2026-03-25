@@ -88,10 +88,10 @@ async function runNpmScript(scriptName) {
 }
 
 function printHelp() {
-  console.log(`Camp Dream GA operator CLI
+  console.log(`MyAppAI operator CLI
 
 Usage:
-  node scripts/campdreamga-cli.js <command> [args]
+  node scripts/myappai-cli.js <command> [args]
 
 Commands:
   doctor                Validate env, verify platform, show git and Cloudflare status
@@ -190,9 +190,10 @@ function parseCommandInput(args) {
 
   if (!raw) {
     return {
-      action: 'create_blog_post',
-      topic: 'Georgia camp planning',
-      length: 'medium',
+      action: 'homepage_update',
+      page: 'homepage',
+      field: 'subheadline',
+      value: 'MyAppAI operator platform',
       autoDeploy: false,
     }
   }

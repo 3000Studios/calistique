@@ -3,8 +3,24 @@ import path from 'node:path'
 import OpenAI from 'openai'
 import { repoRoot } from '../server/services/platformPaths.js'
 
-const ALLOWED_EDIT_PREFIXES = ['frontend', 'content/pages', 'content/products', 'content/blog']
-const TEXT_EXTENSIONS = new Set(['.html', '.css', '.js', '.ts', '.tsx', '.jsx', '.md', '.txt', '.json'])
+const ALLOWED_EDIT_PREFIXES = [
+  'frontend/src',
+  'frontend/pages',
+  'frontend/styles',
+  'content/pages',
+  'content/system',
+]
+const TEXT_EXTENSIONS = new Set([
+  '.html',
+  '.css',
+  '.js',
+  '.ts',
+  '.tsx',
+  '.jsx',
+  '.md',
+  '.txt',
+  '.json',
+])
 const MAX_FILE_CONTEXT_CHARS = 12000
 const MAX_TOTAL_CONTEXT_CHARS = 40000
 
@@ -12,7 +28,9 @@ function getClient() {
   const apiKey = process.env.OPENAI_API_KEY
 
   if (!apiKey) {
-    throw new Error('OPENAI_API_KEY is required for natural-language repository commands.')
+    throw new Error(
+      'OPENAI_API_KEY is required for natural-language repository commands.'
+    )
   }
 
   return new OpenAI({ apiKey })
@@ -37,7 +55,10 @@ async function collectFileContexts(relativeDir, bucket) {
       continue
     }
 
-    const childRelativePath = path.posix.join(relativeDir.replaceAll('\\', '/'), entry.name)
+    const childRelativePath = path.posix.join(
+      relativeDir.replaceAll('\\', '/'),
+      entry.name
+    )
 
     if (entry.isDirectory()) {
       await collectFileContexts(childRelativePath, bucket)
@@ -56,7 +77,7 @@ async function collectFileContexts(relativeDir, bucket) {
 
     bucket.files.push({
       file: childRelativePath,
-      contents: truncated
+      contents: truncated,
     })
     bucket.totalChars += truncated.length
   }
@@ -65,7 +86,7 @@ async function collectFileContexts(relativeDir, bucket) {
 async function getEditableFileContext() {
   const bucket = {
     files: [],
-    totalChars: 0
+    totalChars: 0,
   }
 
   for (const prefix of ALLOWED_EDIT_PREFIXES) {
@@ -76,16 +97,25 @@ async function getEditableFileContext() {
 }
 
 function isAllowedEditablePath(filePath) {
-  return ALLOWED_EDIT_PREFIXES.some((prefix) => filePath === prefix || filePath.startsWith(`${prefix}/`))
+  return ALLOWED_EDIT_PREFIXES.some(
+    (prefix) => filePath === prefix || filePath.startsWith(`${prefix}/`)
+  )
 }
 
 function validateInstruction(instruction) {
-  if (!instruction || typeof instruction !== 'object' || Array.isArray(instruction)) {
+  if (
+    !instruction ||
+    typeof instruction !== 'object' ||
+    Array.isArray(instruction)
+  ) {
     throw new Error('AI interpreter returned an invalid instruction payload.')
   }
 
   if (instruction.action === 'reject') {
-    throw new Error(instruction.reason || 'Command rejected because it could not be converted into a safe single-file patch.')
+    throw new Error(
+      instruction.reason ||
+        'Command rejected because it could not be converted into a safe single-file patch.'
+    )
   }
 
   const requiredFields = ['file', 'action', 'target', 'value']
@@ -96,9 +126,14 @@ function validateInstruction(instruction) {
     }
   }
 
-  const normalizedFile = instruction.file.trim().replaceAll('\\', '/').replace(/^\/+/, '')
+  const normalizedFile = instruction.file
+    .trim()
+    .replaceAll('\\', '/')
+    .replace(/^\/+/, '')
   if (!isAllowedEditablePath(normalizedFile)) {
-    throw new Error(`AI interpreter can only edit: ${ALLOWED_EDIT_PREFIXES.join(', ')}.`)
+    throw new Error(
+      `AI interpreter can only edit: ${ALLOWED_EDIT_PREFIXES.join(', ')}.`
+    )
   }
 
   return {
@@ -107,13 +142,14 @@ function validateInstruction(instruction) {
     target: instruction.target,
     value: instruction.value,
     commitMessage:
-      typeof instruction.commitMessage === 'string' && instruction.commitMessage.trim()
+      typeof instruction.commitMessage === 'string' &&
+      instruction.commitMessage.trim()
         ? instruction.commitMessage.trim().slice(0, 72)
         : 'AI voice update',
     summary:
       typeof instruction.summary === 'string' && instruction.summary.trim()
         ? instruction.summary.trim()
-        : 'Natural-language repository update'
+        : 'Natural-language repository update',
   }
 }
 
@@ -136,7 +172,7 @@ Return JSON only.
 
 Allowed editable areas: ${ALLOWED_EDIT_PREFIXES.join(', ')}.
 Allowed actions: replace_text, insert_before, insert_after, append_text.
-Forbidden targets: .env files, secrets, GitHub workflows, deployment credentials, server code, API code, shell commands.
+Forbidden targets: .env files, secrets, GitHub workflows, deployment credentials, server code, API code, shell commands, machine-control code, checkout/payment flows.
 Only produce a single-file edit.
 Use exact target text copied from the supplied file snapshots.
 
@@ -154,16 +190,16 @@ If the request cannot be completed safely as one allowed file edit, respond with
 {
   "action": "reject",
   "reason": "short reason"
-}`
+}`,
       },
       {
         role: 'user',
         content: `User command: ${command.trim()}
 
 Editable file snapshots:
-${JSON.stringify(editableFiles, null, 2)}`
-      }
-    ]
+${JSON.stringify(editableFiles, null, 2)}`,
+      },
+    ],
   })
 
   const text = completion.choices[0]?.message?.content

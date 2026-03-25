@@ -1,13 +1,9 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import InteractiveCampScene from '../components/InteractiveCampScene.jsx'
-import MetricStrip from '../components/MetricStrip.jsx'
 import PrismHeadline from '../components/PrismHeadline.jsx'
-import RichBlocks from '../components/RichBlocks.jsx'
 import { fadeUp, staggerParent } from '../animations/variants.js'
 import { trackCtaClick } from '../src/siteApi.js'
-import { blogIndex, homepage } from '../src/siteData.js'
 
 function handleCtaClick(ctaId, intent) {
   trackCtaClick({
@@ -17,31 +13,45 @@ function handleCtaClick(ctaId, intent) {
 }
 
 export default function HomePage() {
-  const featuredStories = blogIndex.posts.slice(0, 3)
-  const quickExplore = [
+  const pillars = [
     {
-      eyebrow: 'Plan',
-      title: 'Location and calendar',
+      eyebrow: 'Research',
+      title: 'Browse before you build',
       description:
-        'Families can move straight into the practical details that usually live on the original site: dates, place, and basic planning guidance.',
-      ctaLabel: 'Open planning pages',
-      ctaHref: '/calendar',
+        'Ask for current information, source-backed summaries, or competitive scans and keep the research attached to the work that follows.',
     },
     {
-      eyebrow: 'Learn',
-      title: 'FAQ and team',
+      eyebrow: 'Operate',
+      title: 'Describe the change once',
       description:
-        'The rebuilt experience keeps the mission visible while making the most common support questions easier to find on mobile.',
-      ctaLabel: 'See FAQ and team',
-      ctaHref: '/faq',
+        'Use plain language to update copy, metadata, styling, workspace files, and deployment flows from the same operator surface.',
     },
     {
-      eyebrow: 'Support',
-      title: 'Volunteer and donate',
+      eyebrow: 'Deploy',
+      title: 'Ship directly from admin',
       description:
-        'Action paths for counselors, junior counselors, medical staff, and donors stay close to the public story of camp.',
-      ctaLabel: 'Get involved',
-      ctaHref: '/volunteer',
+        'Review affected files, confirm the result, and send changes live through the integrated deploy pipeline.',
+    },
+  ]
+
+  const workflow = [
+    {
+      label: '01',
+      title: 'Prompt the operator',
+      description:
+        'Type what you want in a few sentences and let the backend interpret it into safe repository work.',
+    },
+    {
+      label: '02',
+      title: 'Inspect the plan',
+      description:
+        'See summaries, changed paths, deployment intent, and any blocked actions before risky work gets through.',
+    },
+    {
+      label: '03',
+      title: 'Deploy with confidence',
+      description:
+        'Run builds, deploy live, and keep operational status visible inside the same admin workspace.',
     },
   ]
 
@@ -57,18 +67,31 @@ export default function HomePage() {
           className="hero__copy hero__copy--immersive"
           variants={fadeUp}
         >
-          <span className="eyebrow">{homepage.eyebrow}</span>
-          <PrismHeadline text={homepage.headline} />
-          <p className="hero__lede">{homepage.subheadline}</p>
+          <span className="eyebrow">MyAppAI operator platform</span>
+          <PrismHeadline text="Tell the site what to do." />
+          <p className="hero__lede">
+            MyAppAI is a browser-based control plane for research, code changes,
+            UI refreshes, safe automation, and live deployment. One homepage.
+            One admin login. One operator workspace.
+          </p>
           <div className="tag-row">
-            {homepage.heroSignals.map((signal) => (
+            {[
+              'Natural-language orchestration',
+              'Repo-safe editing',
+              'Approved integrations only',
+              'Deploy-ready',
+            ].map((signal) => (
               <span key={signal} className="tag">
                 {signal}
               </span>
             ))}
           </div>
           <div className="hero__trust-grid">
-            {homepage.heroStats.map((item) => (
+            {[
+              { label: 'Admin surface', value: 'Operator-first' },
+              { label: 'Execution scope', value: 'Repo + deploy + research' },
+              { label: 'Integrations', value: 'Cloudflare · GitHub · OpenAI' },
+            ].map((item) => (
               <article key={item.label} className="hero-stat-card">
                 <span className="meta-line">{item.label}</span>
                 <strong>{item.value}</strong>
@@ -78,17 +101,21 @@ export default function HomePage() {
           <div className="hero__actions">
             <Link
               className="button button--primary"
-              to={homepage.primaryCta.to}
-              onClick={() => handleCtaClick('home-summer-camp', 'learn_more')}
+              to="/admin/login"
+              onClick={() =>
+                handleCtaClick('home-admin-login', 'operator_access')
+              }
             >
-              {homepage.primaryCta.label}
+              Open admin login
             </Link>
             <Link
               className="button button--ghost"
-              to={homepage.secondaryCta.to}
-              onClick={() => handleCtaClick('home-volunteer', 'learn_more')}
+              to="/"
+              onClick={() =>
+                handleCtaClick('home-platform-overview', 'learn_more')
+              }
             >
-              {homepage.secondaryCta.label}
+              See workflow
             </Link>
           </div>
         </motion.div>
@@ -97,18 +124,46 @@ export default function HomePage() {
           className="hero__panel hero__panel--story"
           variants={fadeUp}
         >
-          <div className="hero__media-frame hero__media-frame--story">
-            <div className="hero__video-overlay" />
-            <InteractiveCampScene
-              kicker="Interactive hero"
-              title={homepage.heroPanel.heading}
-              body={homepage.heroPanel.body}
-              stats={homepage.heroStats}
-              chips={homepage.quickSignals}
-            />
+          <div className="hero-visual">
+            <div className="hero-visual__orb hero-visual__orb--a" />
+            <div className="hero-visual__orb hero-visual__orb--b" />
+            <div className="hero-visual__panel">
+              <span className="panel-kicker">Operator preview</span>
+              <div className="hero-visual__screen">
+                <div className="hero-visual__bar" />
+                <div className="hero-visual__grid">
+                  <div className="hero-visual__cell" />
+                  <div className="hero-visual__cell" />
+                  <div className="hero-visual__cell" />
+                </div>
+              </div>
+              <div className="hero-visual__row">
+                <div className="hero-visual__metric">
+                  <span className="meta-line">Result mode</span>
+                  <strong>research_and_apply</strong>
+                </div>
+                <div className="hero-visual__metric">
+                  <span className="meta-line">Safety lane</span>
+                  <strong>repo bounded</strong>
+                </div>
+              </div>
+            </div>
           </div>
           <div className="visual-grid">
-            {homepage.heroPanel.points.map((item) => (
+            {[
+              {
+                label: 'Prompt',
+                title: 'Rebrand the homepage and deploy',
+                value:
+                  'The operator interprets the request, edits approved files, and returns a deployment record.',
+              },
+              {
+                label: 'Research',
+                title: 'Find the latest references',
+                value:
+                  'Web research results attach sources so the operator can separate facts from applied code changes.',
+              },
+            ].map((item) => (
               <article key={item.title} className="visual-card">
                 <span className="meta-line">{item.label}</span>
                 <h3>{item.title}</h3>
@@ -119,111 +174,41 @@ export default function HomePage() {
         </motion.aside>
       </motion.section>
 
-      <MetricStrip items={homepage.heroStats} />
-
       <section className="section-card">
         <div className="section-heading">
           <div>
-            <span className="eyebrow">Why Camp Dream GA</span>
+            <span className="eyebrow">Platform scope</span>
             <h2>
-              A camp experience built around access, relationship, and real joy.
+              Built for operator-led website management, not a pile of
+              disconnected tools.
             </h2>
             <p className="section-intro">
-              Summer Camp, Camp Out, volunteers, and donors all support the same
-              mission: making sure children and young adults with disabilities
-              can experience recreation, friendship, and fun in a place designed
-              for them.
+              The public surface stays intentionally minimal so the operational
+              power lives behind admin auth where browsing, editing, planning,
+              and deployment can happen in one place.
             </p>
           </div>
         </div>
         <div className="card-grid card-grid--compact">
-          {homepage.impactCards.map((item) => (
+          {pillars.map((item) => (
             <article key={item.title} className="content-card">
               <span className="meta-line">{item.eyebrow}</span>
               <h3>{item.title}</h3>
               <p>{item.description}</p>
-              <p className="content-card__outcome">{item.outcome}</p>
             </article>
           ))}
         </div>
       </section>
 
-      <RichBlocks
-        title={homepage.programsHeadline}
-        intro={homepage.programsIntro}
-        items={homepage.programCards}
-      />
-
-      <RichBlocks
-        title={homepage.communityHeadline}
-        intro={homepage.communityIntro}
-        items={homepage.communityCards}
-      />
-
-      <RichBlocks
-        title={homepage.activityHeadline}
-        intro={homepage.activityIntro}
-        items={homepage.activityHighlights}
-      />
-
       <section className="section-card">
-        <span className="eyebrow">{homepage.scheduleEyebrow}</span>
-        <h2>{homepage.scheduleHeadline}</h2>
+        <span className="eyebrow">Workflow</span>
+        <h2>From idea to live deploy in three moves.</h2>
         <div className="card-grid card-grid--compact">
-          {homepage.scheduleCards.map((entry) => (
+          {workflow.map((entry) => (
             <article key={entry.title} className="content-card">
-              <span className="meta-line">{entry.eyebrow}</span>
+              <span className="meta-line">{entry.label}</span>
               <h3>{entry.title}</h3>
               <p>{entry.description}</p>
-              <p className="content-card__outcome">{entry.outcome}</p>
-            </article>
-          ))}
-        </div>
-      </section>
-
-      <RichBlocks
-        title="Explore the same public paths people expect from the original site"
-        intro="The rebuilt demo keeps the familiar Camp Dream GA information architecture in place, then gives it a cleaner visual hierarchy, stronger motion, and a more mobile-friendly layout."
-        items={quickExplore}
-      />
-
-      <section className="section-card">
-        <div className="section-heading">
-          <div>
-            <span className="eyebrow">Stories and updates</span>
-            <h2>Stay connected with camp news, planning help, and updates.</h2>
-            <p className="section-intro">
-              The stories section helps families, volunteers, and supporters
-              understand what camp life feels like while staying connected to
-              current opportunities.
-            </p>
-          </div>
-          <Link className="button button--ghost" to="/blog">
-            Read stories
-          </Link>
-        </div>
-        <div className="card-grid">
-          {featuredStories.map((post) => (
-            <article key={post.slug} className="content-card blog-card">
-              <span className="meta-line">{post.publishedAt}</span>
-              <h3>{post.title}</h3>
-              <p className="blog-card__excerpt">{post.excerpt}</p>
-              <div className="tag-row">
-                {post.tags.map((tag) => (
-                  <span key={tag} className="tag">
-                    {tag}
-                  </span>
-                ))}
-              </div>
-              <Link
-                className="button button--ghost"
-                to={`/blog/${post.slug}`}
-                onClick={() =>
-                  handleCtaClick(`home-story-${post.slug}`, 'learn_more')
-                }
-              >
-                Read update
-              </Link>
             </article>
           ))}
         </div>
@@ -231,24 +216,29 @@ export default function HomePage() {
 
       <section className="section-card cta-band">
         <div>
-          <span className="eyebrow">{homepage.finalCta.eyebrow}</span>
-          <h2>{homepage.finalCta.heading}</h2>
-          <p className="section-intro">{homepage.finalCta.body}</p>
+          <span className="eyebrow">Start now</span>
+          <h2>Log in and work on the website from the website.</h2>
+          <p className="section-intro">
+            MyAppAI is designed so the authenticated operator workspace becomes
+            the place where you research, request, review, and ship changes.
+          </p>
         </div>
         <div className="hero__actions">
           <Link
             className="button button--primary"
-            to={homepage.finalCta.primaryHref}
-            onClick={() => handleCtaClick('home-final-donate', 'learn_more')}
+            to="/admin/login"
+            onClick={() =>
+              handleCtaClick('home-final-login', 'operator_access')
+            }
           >
-            {homepage.finalCta.primaryLabel}
+            Go to admin login
           </Link>
           <Link
             className="button button--ghost"
-            to={homepage.finalCta.secondaryHref}
-            onClick={() => handleCtaClick('home-final-volunteer', 'learn_more')}
+            to="/"
+            onClick={() => handleCtaClick('home-final-overview', 'learn_more')}
           >
-            {homepage.finalCta.secondaryLabel}
+            Stay on homepage
           </Link>
         </div>
       </section>

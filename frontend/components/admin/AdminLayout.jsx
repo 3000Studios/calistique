@@ -8,14 +8,7 @@ import {
 import { getAdminSession } from '../../src/adminSession.js'
 import { SITE_DISPLAY_NAME } from '../../src/siteMeta.js'
 
-const nav = [
-  { to: '/admin/overview', label: 'Overview', end: false },
-  { to: '/admin/revenue', label: 'Revenue', end: false },
-  { to: '/admin/deploy', label: 'Deploy', end: false },
-  { to: '/admin/traffic', label: 'Traffic & SEO', end: false },
-  { to: '/admin/content', label: 'Content', end: false },
-  { to: '/admin/console', label: 'AI console', end: false },
-]
+const nav = [{ to: '/admin/operator', label: 'Operator', end: false }]
 
 function AdminLayoutInner() {
   const { adminSession, error, handleRefresh, handleSignOut } =
@@ -29,7 +22,7 @@ function AdminLayoutInner() {
           <span className="admin-sidebar__mark" aria-hidden="true" />
           <div>
             <span className="admin-sidebar__title">{SITE_DISPLAY_NAME}</span>
-            <span className="admin-sidebar__subtitle">Operations</span>
+            <span className="admin-sidebar__subtitle">Operator Workspace</span>
           </div>
         </div>
         <nav className="admin-sidebar__nav">
@@ -62,7 +55,7 @@ function AdminLayoutInner() {
       <div className="admin-main">
         <header className="admin-topbar">
           <div className="admin-topbar__titles">
-            <span className="eyebrow">Signed in</span>
+            <span className="eyebrow">Authenticated</span>
             <p className="admin-topbar__email">{adminSession?.adminEmail}</p>
           </div>
           <div className="admin-topbar__actions">

@@ -1,9 +1,12 @@
 function fromModules(modules) {
   return Object.fromEntries(
-    Object.entries(modules).map(([filePath, moduleValue]) => {
-      const slug = filePath.split('/').at(-1).replace('.json', '')
-      return [slug, moduleValue.default ?? moduleValue]
-    })
+    Object.entries(modules)
+      .map(([filePath, moduleValue]) => {
+        const slug = filePath.split('/').at(-1).replace('.json', '')
+        const data = moduleValue.default ?? moduleValue
+        return [slug, data]
+      })
+      .filter(([, data]) => data?.updatedFor === 'myappai')
   )
 }
 
@@ -19,17 +22,17 @@ const products = fromModules(
 
 export const theme = pages.theme ?? {
   palette: {
-    bg: '#f3ede2',
-    surface: '#fffaf2',
-    ink: '#1f2a22',
-    accent: '#b86e3c',
-    highlight: '#426b56',
-    line: '#d8c5ad',
+    bg: '#0a0a0b',
+    surface: '#141417',
+    ink: '#e2e2e7',
+    accent: '#3b82f6',
+    highlight: '#10b981',
+    line: 'rgba(255,255,255,0.08)',
   },
 }
 
-export const homepage = pages.homepage ?? { sections: [], heroStats: [] }
-export const platformPage = pages.platform ?? pages.features ?? { items: [] }
+export const homepage = pages.homepage ?? { heroStats: [] }
+export const platformPage = pages.platform ?? { items: [] }
 export const pricingPage = pages.pricing ?? { tiers: [] }
 export const pageLookup = pages
 export const blogIndex = blog.index ?? { posts: [] }

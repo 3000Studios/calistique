@@ -14,11 +14,11 @@ await bootstrapContent()
 const content = await getContentBundle()
 const analytics = await getAnalyticsSnapshot()
 const command = validateCommand({
-  action: 'create_blog_post',
-  topic: 'AI automation',
+  action: 'homepage_update',
+  value: 'MyAppAI operator platform',
   autoDeploy: false,
 })
-const modelRoute = await resolveModelRoute({ action: 'create_blog_post' })
+const modelRoute = await resolveModelRoute({ action: 'homepage_update' })
 const discovery = await previewTrafficTopics({ limit: 3 })
 const systemManager = await runSystemManager({
   mode: 'single',
@@ -40,6 +40,7 @@ console.log(
         pages: content.pages.length,
         blog: content.blog.length,
         products: content.products.length,
+        system: content.system.length,
       },
       analyticsSummary: {
         visitors: analytics.visitors,

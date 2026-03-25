@@ -3,7 +3,6 @@ import { Link, NavLink, Outlet, useLocation } from 'react-router-dom'
 import AuroraBackdrop from '../backgrounds/AuroraBackdrop.jsx'
 import SiteSeo from './SiteSeo.jsx'
 import {
-  footerLegalItems,
   publicNavItems,
   publicStatusLines,
   publicTickerItems,
@@ -41,9 +40,8 @@ export default function SiteFrame() {
               <span className="brand__wordmark">{SITE_DISPLAY_NAME}</span>
             </NavLink>
             <p className="site-header__tagline">
-              A traditional Georgia camp experience for children and young
-              adults with disabilities, powered by volunteers, families, donors,
-              and year-round community support.
+              Browser-first operator control for research, code changes, safe
+              automation, and live deployment from one authenticated workspace.
             </p>
           </div>
 
@@ -75,11 +73,11 @@ export default function SiteFrame() {
               ))}
             </nav>
             <div className="site-header__actions">
-              <Link className="button button--ghost" to="/volunteer">
-                Volunteer
+              <Link className="button button--ghost" to="/">
+                Platform
               </Link>
-              <Link className="button button--primary" to="/donate">
-                Donate
+              <Link className="button button--primary" to="/admin/login">
+                Admin login
               </Link>
             </div>
           </div>
@@ -101,53 +99,48 @@ export default function SiteFrame() {
       <footer className="site-footer">
         <div className="site-footer__grid">
           <section className="site-footer__brand">
-            <span className="eyebrow">Why Camp Dream GA</span>
+            <span className="eyebrow">Why MyAppAI</span>
             <h2>
-              Summer Camp joy, year-round community, and a mission built around
-              access, dignity, and fun.
+              One operator surface for browsing, planning, coding, shipping, and
+              keeping your site live.
             </h2>
             <p>
-              Camp Dream GA exists to help children and young adults with
-              disabilities experience recreation, friendship, and confidence in
-              a space built for them.
+              MyAppAI turns plain-language instructions into safe repository
+              changes, research-backed updates, and deployment workflows you can
+              manage from anywhere.
             </p>
           </section>
 
           <section className="site-footer__links">
-            <span className="eyebrow">Explore</span>
-            {publicNavItems
-              .filter((item) => item.to !== '/admin')
-              .map((item) => (
-                <Link key={item.to} to={item.to}>
-                  {item.label}
-                </Link>
-              ))}
-            <Link to="/about">Who We Are</Link>
-            <Link to="/history">History</Link>
-            <Link to="/team">Team</Link>
-            <Link to="/location">Location</Link>
-            <Link to="/blog">Stories</Link>
-            {footerLegalItems.map((item) => (
+            <span className="eyebrow">Access</span>
+            {publicNavItems.map((item) => (
               <Link key={item.to} to={item.to}>
                 {item.label}
               </Link>
             ))}
+            <a href={REPOSITORY_URL} rel="noreferrer">
+              GitHub repository
+            </a>
           </section>
 
           <section className="site-footer__cta">
-            <span className="eyebrow">Get involved</span>
+            <span className="eyebrow">Start operating</span>
             <p>
-              Families can learn about Summer Camp and Camp Out, volunteers can
-              step into service, and donors can help keep camp accessible to
-              more campers each year.
+              Sign in to the operator workspace to manage content, run guided
+              research, refine UI, and trigger live deploys from the same admin
+              page.
             </p>
             <div className="hero__actions">
-              <Link className="button button--primary" to="/summer-camp">
-                Explore Summer Camp
+              <Link className="button button--primary" to="/admin/login">
+                Open operator
               </Link>
-              <Link className="button button--ghost" to="/donate">
-                Support the mission
-              </Link>
+              <a
+                className="button button--ghost"
+                href={REPOSITORY_URL}
+                rel="noreferrer"
+              >
+                Inspect source
+              </a>
             </div>
           </section>
         </div>
