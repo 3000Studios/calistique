@@ -17,6 +17,7 @@ export default function AdminOperatorPage() {
     setNaturalLanguagePrompt,
     handleRunCommand,
     handleDeploy,
+    clearOperatorSessionState,
     commandBusy,
     deployBusy,
     operatorHistory,
@@ -211,6 +212,14 @@ export default function AdminOperatorPage() {
                   Clear
                 </button>
                 <button
+                  className="operator-button operator-button--ghost"
+                  type="button"
+                  onClick={clearOperatorSessionState}
+                  disabled={commandBusy || deployBusy}
+                >
+                  Reset session
+                </button>
+                <button
                   className="btn-primary"
                   type="button"
                   id="sendBtn"
@@ -369,6 +378,12 @@ export default function AdminOperatorPage() {
                   </span>
                 </header>
                 <div className="operator-result-card__body">
+                  {result.prompt ? <div>Prompt: {result.prompt}</div> : null}
+                  {result.createdAt ? (
+                    <div>
+                      Time: {new Date(result.createdAt).toLocaleString()}
+                    </div>
+                  ) : null}
                   <div>&gt; {result.summary ?? 'No summary returned.'}</div>
                   <div>Mode: {result.mode ?? 'unknown'}</div>
                   {result.details?.plan?.steps?.length ? (

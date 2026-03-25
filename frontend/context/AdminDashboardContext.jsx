@@ -37,15 +37,53 @@ const defaultCommand = JSON.stringify(
 const defaultPrompt =
   'Rebrand the homepage around MyAppAI as an operator platform and prepare it for deployment.'
 
+const OPERATOR_STATE_KEY = 'myappai.operator.workspaceState'
+
+function getStoredOperatorState() {
+  if (typeof window === 'undefined') {
+    return null
+  }
+
+  try {
+    const rawValue = window.localStorage.getItem(OPERATOR_STATE_KEY)
+    if (!rawValue) {
+      return null
+    }
+
+    const parsed = JSON.parse(rawValue)
+    return parsed && typeof parsed === 'object' ? parsed : null
+  } catch {
+    return null
+  }
+}
+
+function createOperatorResultEntry(result, metadata = {}) {
+  return {
+    ...result,
+    id:
+      result?.id ??
+      `operator-result-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
+    createdAt: result?.createdAt ?? new Date().toISOString(),
+    prompt: metadata.prompt ?? result?.prompt ?? '',
+    trigger: metadata.trigger ?? result?.trigger ?? 'operator',
+  }
+}
+
 const AdminDashboardContext = createContext(null)
 
 export function AdminDashboardProvider({ children }) {
   const navigate = useNavigate()
+  const storedOperatorState = getStoredOperatorState()
   const [adminSession] = useState(() => getAdminSession())
-  const [consoleMode, setConsoleMode] = useState('prompt')
-  const [commandText, setCommandText] = useState(defaultCommand)
-  const [naturalLanguagePrompt, setNaturalLanguagePrompt] =
-    useState(defaultPrompt)
+  const [consoleMode, setConsoleMode] = useState(
+    storedOperatorState?.consoleMode ?? 'prompt'
+  )
+  const [commandText, setCommandText] = useState(
+    storedOperatorState?.commandText ?? defaultCommand
+  )
+  const [naturalLanguagePrompt, setNaturalLanguagePrompt] = useState(
+    storedOperatorState?.naturalLanguagePrompt ?? defaultPrompt
+  )
   const [analytics, setAnalytics] = useState(null)
   const [deployments, setDeployments] = useState(null)
   const [contentBundle, setContentBundle] = useState(null)
@@ -58,8 +96,14 @@ export function AdminDashboardProvider({ children }) {
   const [editorBusy, setEditorBusy] = useState(false)
   const [deployBusy, setDeployBusy] = useState(false)
   const [trafficBusy, setTrafficBusy] = useState(false)
-  const [lastResult, setLastResult] = useState(null)
-  const [operatorHistory, setOperatorHistory] = useState([])
+  const [lastResult, setLastResult] = useState(
+    storedOperatorState?.lastResult ?? null
+  )
+  const [operatorHistory, setOperatorHistory] = useState(
+    Array.isArray(storedOperatorState?.operatorHistory)
+      ? storedOperatorState.operatorHistory
+      : []
+  )
   const [error, setError] = useState('')
   const [initialLoadDone, setInitialLoadDone] = useState(false)
 
@@ -106,9 +150,34 @@ export function AdminDashboardProvider({ children }) {
       .finally(() => setInitialLoadDone(true))
   }, [adminSession, refreshDashboard])
 
-  const recordResult = useCallback((result) => {
-    setLastResult(result)
-    setOperatorHistory((current) => [result, ...current].slice(0, 8))
+  useEffect(() => {
+    if (typeof window === 'undefined') {
+      return
+    }
+
+    window.localStorage.setItem(
+      OPERATOR_STATE_KEY,
+      JSON.stringify({
+        consoleMode,
+        commandText,
+        naturalLanguagePrompt,
+        lastResult,
+        operatorHistory: operatorHistory.slice(0, 8),
+      })
+    )
+  }, [
+    commandText,
+    consoleMode,
+    lastResult,
+    naturalLanguagePrompt,
+    operatorHistory,
+  ])
+
+  const recordResult = useCallback((result, metadata = {}) => {
+    const nextResult = createOperatorResultEntry(result, metadata)
+    setLastResult(nextResult)
+    setOperatorHistory((current) => [nextResult, ...current].slice(0, 8))
+    return nextResult
   }, [])
 
   const handleRunCommand = useCallback(async () => {
@@ -129,7 +198,12 @@ export function AdminDashboardProvider({ children }) {
       }
 
       const result = await sendCommand(adminSession, payload)
-      recordResult(result)
+      recordResult(result, {
+        prompt:
+          consoleMode === 'json'
+            ? 'Structured JSON command'
+            : naturalLanguagePrompt.trim(),
+      })
       await refreshDashboard(adminSession)
     } catch (runError) {
       setError(runError.message)
@@ -156,7 +230,10 @@ export function AdminDashboardProvider({ children }) {
           contents,
           autoDeploy: false,
         })
-        recordResult(result)
+        recordResult(result, {
+          prompt: `Edit workspace file ${targetPath}`,
+          trigger: 'editor',
+        })
         await refreshDashboard(adminSession)
       } catch (saveError) {
         setError(saveError.message)
@@ -175,7 +252,10 @@ export function AdminDashboardProvider({ children }) {
         action: 'deploy_site',
         message: 'Admin-triggered deploy',
       })
-      recordResult(result)
+      recordResult(result, {
+        prompt: 'Deploy site',
+        trigger: 'deploy',
+      })
       await refreshDashboard(adminSession)
     } catch (deployError) {
       setError(deployError.message)
@@ -201,7 +281,10 @@ export function AdminDashboardProvider({ children }) {
         action: 'discover_topics',
         limit: 6,
       })
-      recordResult(result)
+      recordResult(result, {
+        prompt: 'Discover topics',
+        trigger: 'traffic',
+      })
       await refreshDashboard(adminSession)
     } catch (trafficError) {
       setError(trafficError.message)
@@ -220,7 +303,10 @@ export function AdminDashboardProvider({ children }) {
         includeImages: true,
         autoDeploy: false,
       })
-      recordResult(result)
+      recordResult(result, {
+        prompt: 'Run traffic cycle',
+        trigger: 'traffic',
+      })
       await refreshDashboard(adminSession)
     } catch (trafficError) {
       setError(trafficError.message)
@@ -234,7 +320,10 @@ export function AdminDashboardProvider({ children }) {
       try {
         setError('')
         const result = await updateLeadStage(adminSession, leadId, patch)
-        recordResult(result)
+        recordResult(result, {
+          prompt: `Update lead stage for ${leadId}`,
+          trigger: 'revenue',
+        })
         await refreshDashboard(adminSession)
       } catch (updateError) {
         setError(updateError.message)
@@ -257,14 +346,20 @@ export function AdminDashboardProvider({ children }) {
       setError('')
       const result = await runSelfHeal(adminSession)
       setSelfHealState(result.result)
-      recordResult({
-        mode: 'self_heal',
-        status: result.result?.status ?? 'success',
-        summary: 'Self-heal audit completed from the admin workspace.',
-        nextSteps: result.result?.warnings?.length
-          ? ['Review warnings inside the logs view.']
-          : ['No immediate fixes required.'],
-      })
+      recordResult(
+        {
+          mode: 'self_heal',
+          status: result.result?.status ?? 'success',
+          summary: 'Self-heal audit completed from the admin workspace.',
+          nextSteps: result.result?.warnings?.length
+            ? ['Review warnings inside the logs view.']
+            : ['No immediate fixes required.'],
+        },
+        {
+          prompt: 'Run self-heal audit',
+          trigger: 'heal',
+        }
+      )
       await refreshDashboard(adminSession)
     } catch (healError) {
       setError(healError.message)
@@ -285,6 +380,19 @@ export function AdminDashboardProvider({ children }) {
     },
     [adminSession]
   )
+
+  const clearOperatorSessionState = useCallback(() => {
+    setConsoleMode('prompt')
+    setCommandText(defaultCommand)
+    setNaturalLanguagePrompt(defaultPrompt)
+    setLastResult(null)
+    setOperatorHistory([])
+    setError('')
+
+    if (typeof window !== 'undefined') {
+      window.localStorage.removeItem(OPERATOR_STATE_KEY)
+    }
+  }, [])
 
   const handleClientLog = useCallback(
     async (payload) => {
@@ -337,6 +445,7 @@ export function AdminDashboardProvider({ children }) {
       handleSecureLogsUnlock,
       handleClientLog,
       handleSignOut,
+      clearOperatorSessionState,
     }),
     [
       adminSession,
@@ -370,6 +479,7 @@ export function AdminDashboardProvider({ children }) {
       handleSecureLogsUnlock,
       handleClientLog,
       handleSignOut,
+      clearOperatorSessionState,
     ]
   )
 
