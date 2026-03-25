@@ -166,7 +166,16 @@ export default function AdminOperatorPage() {
         <section className="operator-workspace">
           <div className="operator-monolith">
             <div className="operator-monolith__header">
-              <span className="operator-label">Command Interface</span>
+              <div className="operator-monolith__title-block">
+                <span className="operator-label">Command Interface</span>
+                <h1 className="operator-monolith__title">
+                  Guide the site in plain language.
+                </h1>
+                <p className="operator-monolith__lede">
+                  Prompt the operator once, review the interpreted plan, and
+                  move from research to deploy without leaving the workspace.
+                </p>
+              </div>
               <span className="operator-label operator-label--quiet">
                 Safe repo + deploy control
               </span>
@@ -345,6 +354,18 @@ export default function AdminOperatorPage() {
           </div>
 
           <div className="operator-results">
+            <div className="operator-results__header">
+              <div>
+                <span className="operator-label">Execution feed</span>
+                <h2 className="operator-results__title">
+                  Latest operator runs
+                </h2>
+              </div>
+              <span className="operator-results__count">
+                {operatorHistory.length || 0} stored
+              </span>
+            </div>
+
             {error ? (
               <article className="operator-result-card operator-result-card--blocked">
                 <header className="operator-result-card__header">
@@ -365,6 +386,11 @@ export default function AdminOperatorPage() {
                   &gt; Type a request and press Enter to execute. The operator
                   will summarize the mode, changed paths, sources, and
                   deployment status here.
+                  <div className="operator-result-card__empty-grid">
+                    <div className="operator-plan-item">Prompt with intent</div>
+                    <div className="operator-plan-item">Inspect the plan</div>
+                    <div className="operator-plan-item">Deploy when ready</div>
+                  </div>
                 </div>
               </article>
             ) : null}
