@@ -9,3 +9,5 @@ logs
 dist
 .vscode
 .DS_Store
+.tmp-dev-out.log
+.tmp-dev-err.log
