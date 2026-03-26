@@ -3311,6 +3311,11 @@ video {
   color: #ef4444;
 }
 
+.operator-result-card--error .operator-result-card__status,
+.operator-result-card__error {
+  color: #f59e0b;
+}
+
 .operator-inspector {
   display: grid;
   gap: 1rem;
@@ -4035,7 +4040,8 @@ body::after {
   line-height: 1.8;
 }
 
-.operator-result-card__blocked {
+.operator-result-card__blocked,
+.operator-result-card__error {
   font-weight: 600;
 }
 

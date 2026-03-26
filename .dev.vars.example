@@ -6,7 +6,8 @@ SITE_URL=https://myappai.net
 WWW_SITE_URL=https://www.myappai.net
 SITE_ORIGIN=https://myappai.net
 WWW_SITE_ORIGIN=https://www.myappai.net
-ADMIN_API_ORIGIN=https://myappai.net
+# Must be an external repo-backed operator API, not this Pages URL.
+ADMIN_API_ORIGIN=https://operator-api.example.com
 ADMIN_EMAIL=admin@myappai.net
 ADMIN_PASSCODE=5555
 ADMIN_API_KEY=replace-with-strong-random-string

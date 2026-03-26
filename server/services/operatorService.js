@@ -18,7 +18,8 @@ const RESEARCH_PATTERNS = [
   /\bfind\b/i,
   /\blook up\b/i,
 ]
-const DEPLOY_PATTERNS = [/\bdeploy\b/i, /\bship live\b/i, /\bpush live\b/i]
+const DEPLOY_ONLY_PATTERN =
+  /^(please\s+)?(?:(can|could|would)\s+you\s+)?(deploy|ship live|push live)\b/i
 
 function isBlockedPrompt(command) {
   return BLOCKED_PATTERNS.find((pattern) => pattern.test(command))
@@ -29,7 +30,7 @@ function needsResearch(command) {
 }
 
 function isDeployOnlyPrompt(command) {
-  return DEPLOY_PATTERNS.some((pattern) => pattern.test(command))
+  return DEPLOY_ONLY_PATTERN.test(String(command ?? '').trim())
 }
 
 function planOperatorPrompt(command) {
@@ -186,10 +187,6 @@ export async function runOperatorPrompt(command) {
 
   const instruction = await interpretCommand(trimmed)
   const patch = await applyPatch(instruction)
-  const deployment = await deployUpdate({
-    commitMessage: instruction.commitMessage,
-    paths: [patch.file],
-  })
   await recordAiActivity(plan.intent, plan.intent)
   await logOperatorEvent({
     level: 'info',
@@ -199,7 +196,7 @@ export async function runOperatorPrompt(command) {
     details: {
       mode: plan.intent,
       file: patch.file,
-      deployment,
+      deployment: null,
     },
   })
 
@@ -207,9 +204,9 @@ export async function runOperatorPrompt(command) {
     mode: plan.intent,
     summary: instruction.summary,
     affectedPaths: [patch.file],
-    deployment,
+    deployment: null,
     sources,
-    nextSteps: deployment ? ['Review live deployment output.'] : [],
+    nextSteps: ['Review the change summary, then deploy when ready.'],
     details: { plan, instruction },
   })
 }

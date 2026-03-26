@@ -65,6 +65,7 @@ Configure in **Cloudflare Pages → Settings → Environment variables** (and ma
   `VITE_ENABLE_ADS`
   `VITE_ADSENSE_CLIENT_ID`
 - **Server / API**:
+  `ADMIN_API_ORIGIN` (Pages only: must point to an external repo-backed operator API, not the Pages site itself)
   `ADMIN_EMAIL`
   `ADMIN_PASSCODE`
   `ADMIN_API_KEY`
