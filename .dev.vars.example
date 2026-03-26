@@ -18,6 +18,7 @@ OPENAI_MODEL=gpt-4o
 # For Pages/edge this must be a public Ollama endpoint reachable from Cloudflare.
 OLLAMA_API_URL=https://ollama.example.com
 OLLAMA_MODEL=llama3.2:3b
+OLLAMA_PROXY_SECRET=
 TELEGRAM_BOT_TOKEN=replace-with-telegram-bot-token
 TELEGRAM_WEBHOOK_URL=https://myappai.net/api/public/telegram/webhook
 TELEGRAM_WEBHOOK_SECRET=replace-with-random-telegram-webhook-secret

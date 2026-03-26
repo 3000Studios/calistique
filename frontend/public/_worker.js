@@ -3,6 +3,7 @@ const SESSION_TTL_SECONDS = 60 * 60 * 12
 const DEFAULT_OLLAMA_MODEL = 'llama3.2:3b'
 const TELEGRAM_API_ORIGIN = 'https://api.telegram.org'
 const TELEGRAM_SECRET_HEADER = 'x-telegram-bot-api-secret-token'
+const OLLAMA_PROXY_SECRET_HEADER = 'x-ollama-proxy-secret'
 const MAX_TELEGRAM_REPLY_LENGTH = 3900
 const JSON_HEADERS = {
   'content-type': 'application/json; charset=utf-8',
@@ -379,6 +380,10 @@ function getOllamaModel(env) {
   )
 }
 
+function getOllamaProxySecret(env) {
+  return getConfiguredEnvironmentValue(env, 'OLLAMA_PROXY_SECRET')
+}
+
 function getTelegramBotToken(env) {
   return getConfiguredEnvironmentValue(env, 'TELEGRAM_BOT_TOKEN')
 }
@@ -467,6 +472,186 @@ function buildEdgeAssistantMessages(env, message, history) {
 
 function extractOllamaReply(payload) {
   return String(payload?.message?.content ?? payload?.response ?? '').trim()
+}
+
+function normalizeOllamaProxyModel(model, env) {
+  const normalized = String(model ?? '').trim()
+
+  if (!normalized) {
+    return getOllamaModel(env)
+  }
+
+  return normalized.startsWith('ollama/')
+    ? normalized.slice('ollama/'.length)
+    : normalized
+}
+
+function resolveOllamaProxyUpstreamPath(pathname) {
+  const prefix = pathname.startsWith('/api/public/ollama')
+    ? '/api/public/ollama'
+    : '/api/ollama'
+  const suffix = pathname.slice(prefix.length).replace(/\/+$/u, '')
+
+  if (!suffix) {
+    return '/api/generate'
+  }
+
+  if (suffix === '/status') {
+    return '/status'
+  }
+
+  if (suffix === '/generate' || suffix === '/api/generate') {
+    return '/api/generate'
+  }
+
+  if (suffix === '/chat' || suffix === '/api/chat') {
+    return '/api/chat'
+  }
+
+  if (suffix === '/tags' || suffix === '/api/tags') {
+    return '/api/tags'
+  }
+
+  throw new Error(
+    'Unsupported Ollama proxy path. Use /api/ollama, /api/ollama/chat, /api/ollama/generate, or /api/ollama/tags.'
+  )
+}
+
+function buildOllamaProxyStatus(env) {
+  return {
+    ok: true,
+    ollamaConfigured: Boolean(getOllamaApiUrl(env)),
+    proxySecretConfigured: Boolean(getOllamaProxySecret(env)),
+    model: getOllamaModel(env),
+  }
+}
+
+function cloneUpstreamHeaders(headers) {
+  const cloned = new Headers()
+
+  headers.forEach((value, key) => {
+    const normalizedKey = key.toLowerCase()
+
+    if (
+      normalizedKey === 'content-length' ||
+      normalizedKey === 'transfer-encoding' ||
+      normalizedKey === 'connection'
+    ) {
+      return
+    }
+
+    cloned.set(key, value)
+  })
+
+  return cloned
+}
+
+function createOllamaProxyErrorResponse(message, status = 400) {
+  return jsonResponse(
+    {
+      ok: false,
+      message,
+    },
+    status
+  )
+}
+
+async function handleOllamaProxy(request, env, pathname) {
+  const configuredSecret = getOllamaProxySecret(env)
+
+  if (configuredSecret) {
+    const suppliedSecret = String(
+      request.headers.get(OLLAMA_PROXY_SECRET_HEADER) ?? ''
+    ).trim()
+
+    if (suppliedSecret !== configuredSecret) {
+      return createOllamaProxyErrorResponse(
+        'Valid Ollama proxy secret required.',
+        403
+      )
+    }
+  }
+
+  const apiUrl = getOllamaApiUrl(env)
+
+  if (!apiUrl) {
+    return createOllamaProxyErrorResponse(
+      'OLLAMA_API_URL must be configured before the proxy can forward requests.',
+      503
+    )
+  }
+
+  let upstreamPath
+
+  try {
+    upstreamPath = resolveOllamaProxyUpstreamPath(pathname)
+  } catch (error) {
+    return createOllamaProxyErrorResponse(
+      error instanceof Error ? error.message : String(error),
+      404
+    )
+  }
+
+  if (upstreamPath === '/status') {
+    return jsonResponse(buildOllamaProxyStatus(env))
+  }
+
+  const targetUrl = `${apiUrl.replace(/\/+$/u, '')}${upstreamPath}`
+
+  if (request.method === 'GET' || request.method === 'HEAD') {
+    if (upstreamPath !== '/api/tags') {
+      return createOllamaProxyErrorResponse(
+        'Use GET only with /api/ollama/status or /api/ollama/tags.',
+        405
+      )
+    }
+
+    const upstreamResponse = await fetch(targetUrl, {
+      method: request.method,
+    })
+
+    return new Response(upstreamResponse.body, {
+      status: upstreamResponse.status,
+      headers: cloneUpstreamHeaders(upstreamResponse.headers),
+    })
+  }
+
+  if (upstreamPath === '/api/tags') {
+    return createOllamaProxyErrorResponse('Use GET with /api/ollama/tags.', 405)
+  }
+
+  const payload = await request.json().catch(() => null)
+
+  if (!payload || typeof payload !== 'object' || Array.isArray(payload)) {
+    return createOllamaProxyErrorResponse(
+      'Ollama proxy request body must be a JSON object.',
+      400
+    )
+  }
+
+  const normalizedPayload = {
+    ...payload,
+  }
+
+  if (upstreamPath !== '/api/tags') {
+    normalizedPayload.model = normalizeOllamaProxyModel(
+      normalizedPayload.model,
+      env
+    )
+  }
+
+  const upstreamResponse = await fetch(targetUrl, {
+    method: request.method,
+    headers: {
+      'content-type': 'application/json',
+    },
+    body: JSON.stringify(normalizedPayload),
+  })
+
+  return new Response(upstreamResponse.body, {
+    status: upstreamResponse.status,
+    headers: cloneUpstreamHeaders(upstreamResponse.headers),
+  })
 }
 
 async function answerEdgePublicAssistant(env, { message, history = [] } = {}) {
@@ -803,6 +988,15 @@ function isProxyableOrigin(request, env) {
   }
 }
 
+function isEdgeHandledApiPath(pathname) {
+  return (
+    pathname === '/api/health' ||
+    pathname.startsWith('/api/public/') ||
+    pathname === '/api/ollama' ||
+    pathname.startsWith('/api/ollama/')
+  )
+}
+
 function proxyToAdmin(request, env) {
   const incomingUrl = new URL(request.url)
   const targetUrl = new URL(
@@ -913,15 +1107,15 @@ function handleAdminLogout() {
 }
 
 async function handleApi(request, env) {
-  if (isProxyableOrigin(request, env)) {
+  const url = new URL(request.url)
+  const { pathname } = url
+  const proxied = isProxyableOrigin(request, env)
+
+  if (proxied && !isEdgeHandledApiPath(pathname)) {
     return proxyToAdmin(request, env)
   }
 
-  const url = new URL(request.url)
-  const { pathname } = url
-
   if (pathname === '/api/health') {
-    const proxied = isProxyableOrigin(request, env)
     return jsonResponse({
       status: 'ok',
       app: env.APP_NAME ?? 'myappai',
@@ -984,6 +1178,21 @@ async function handleApi(request, env) {
     request.method === 'POST'
   ) {
     return handleTelegramWebhook(request, env)
+  }
+
+  if (
+    (pathname === '/api/ollama' || pathname.startsWith('/api/ollama/')) &&
+    ['GET', 'HEAD', 'POST'].includes(request.method)
+  ) {
+    return handleOllamaProxy(request, env, pathname)
+  }
+
+  if (
+    (pathname === '/api/public/ollama' ||
+      pathname.startsWith('/api/public/ollama/')) &&
+    ['GET', 'HEAD', 'POST'].includes(request.method)
+  ) {
+    return handleOllamaProxy(request, env, pathname)
   }
 
   if (pathname === '/api/admin/login' && request.method === 'POST') {

@@ -6,8 +6,10 @@ import {
   getDeployments,
   getLogs,
   getMetrics,
+  getOllamaProxyStatus,
   getRevenueQueue,
   patchLeadStage,
+  proxyOllamaRequest,
 } from '../controllers/commandController.js'
 import { adminAuth } from '../middleware/adminAuth.js'
 import {
@@ -17,6 +19,15 @@ import {
 } from '../controllers/logController.js'
 
 const router = Router()
+
+router.get('/ollama/status', getOllamaProxyStatus)
+router.post('/ollama', proxyOllamaRequest)
+router.post('/ollama/generate', proxyOllamaRequest)
+router.post('/ollama/api/generate', proxyOllamaRequest)
+router.post('/ollama/chat', proxyOllamaRequest)
+router.post('/ollama/api/chat', proxyOllamaRequest)
+router.get('/ollama/tags', proxyOllamaRequest)
+router.get('/ollama/api/tags', proxyOllamaRequest)
 
 router.get('/analytics', adminAuth, getAnalytics)
 router.get('/deployments', adminAuth, getDeployments)
