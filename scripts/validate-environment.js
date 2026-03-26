@@ -97,16 +97,16 @@ function validateSiteVariables() {
 }
 
 function validateAiVariables() {
-  const required = ['OPENAI_MODEL']
-  const missing = required.filter(isMissing)
+  const hasOpenAiModel = !isMissing('OPENAI_MODEL')
+  const hasClaudeModel = !isMissing('CLAUDE_MODEL')
 
   return {
-    ok: missing.length === 0,
+    ok: hasOpenAiModel || hasClaudeModel,
     name: 'ai_env',
     message:
-      missing.length === 0
+      hasOpenAiModel || hasClaudeModel
         ? 'AI runtime defaults are present.'
-        : `Missing recommended AI variables: ${missing.join(', ')}. Add them to .secrets/myappai.local.env or your local environment.`,
+        : 'Missing recommended AI variables: OPENAI_MODEL or CLAUDE_MODEL. Add one of them to .secrets/myappai.local.env or your local environment.',
   }
 }
 
