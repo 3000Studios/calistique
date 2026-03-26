@@ -2,11 +2,23 @@ import OpenAI from 'openai'
 import { getAnalyticsSnapshot } from './analyticsService.js'
 import { getCommerceSnapshot } from './commerceService.js'
 import { getDeploymentHistory } from './deploymentService.js'
+import { generateJsonWithOllama, listAvailableModels } from './ollamaService.js'
 import { SITE_DISPLAY_NAME } from '../../frontend/src/siteMeta.js'
 
 const DEFAULT_OPENAI_MODEL = 'gpt-4o'
 const DEFAULT_CLAUDE_MODEL = 'claude-3-5-sonnet-latest'
+const DEFAULT_OLLAMA_MODEL = 'llama3.2:3b'
 const CLAUDE_MESSAGES_API_URL = 'https://api.anthropic.com/v1/messages'
+const OLLAMA_MODEL_FAMILY_PREFERENCES = [
+  'qwen2.5',
+  'qwen3',
+  'llama3.1',
+  'llama3.2',
+  'llama3',
+  'gemma3',
+  'gemma2',
+  'mistral',
+]
 const ASSISTANT_SYSTEM_PROMPT = `You are the public-facing concierge for ${SITE_DISPLAY_NAME}. Answer like a senior product strategist with concise, direct guidance.
 
 Return JSON only in this shape:
@@ -61,6 +73,10 @@ function getAssistantProvider() {
     .trim()
     .toLowerCase()
 
+  if (provider === 'ollama' || provider === 'local' || provider === 'free') {
+    return 'ollama'
+  }
+
   if (
     provider === 'claude' ||
     provider === 'anthropic' ||
@@ -70,6 +86,10 @@ function getAssistantProvider() {
   }
 
   return 'openai'
+}
+
+function isMatchingModelFamily(modelName, family) {
+  return modelName === family || modelName.startsWith(`${family}:`)
 }
 
 function normalizeHistory(history) {
@@ -262,6 +282,56 @@ async function requestClaudeResponse({ message, history, context }) {
   return parseAssistantPayload(extractClaudeText(payload))
 }
 
+function buildOllamaPrompt(message, history, context) {
+  const conversation = normalizeHistory(history)
+    .map(
+      (entry) =>
+        `${entry.role === 'assistant' ? 'Assistant' : 'User'}: ${entry.content}`
+    )
+    .join('\n\n')
+
+  return `Business context:
+${JSON.stringify(context, null, 2)}
+
+Recent conversation:
+${conversation || 'No prior conversation.'}
+
+Latest user request:
+${message.trim()}
+
+Return JSON only.`
+}
+
+async function resolveOllamaModel() {
+  const configuredModel = getConfiguredEnvironmentValue('OLLAMA_MODEL')
+
+  if (configuredModel) {
+    return configuredModel
+  }
+
+  const availableModels = await listAvailableModels()
+
+  for (const family of OLLAMA_MODEL_FAMILY_PREFERENCES) {
+    const matchedModel = availableModels.find((model) =>
+      isMatchingModelFamily(model.name, family)
+    )
+
+    if (matchedModel?.name) {
+      return matchedModel.name
+    }
+  }
+
+  return availableModels[0]?.name ?? DEFAULT_OLLAMA_MODEL
+}
+
+async function requestOllamaResponse({ message, history, context }) {
+  return generateJsonWithOllama({
+    model: await resolveOllamaModel(),
+    prompt: buildOllamaPrompt(message, history, context),
+    systemPrompt: ASSISTANT_SYSTEM_PROMPT,
+  })
+}
+
 function buildFallbackResponse(message, context) {
   const lowerMessage = message.toLowerCase()
   const providerList = context.configuredProviders.length
@@ -344,6 +414,19 @@ export async function answerPublicAssistant({ message, history = [] }) {
   const context = buildContext(analytics, commerce, deployments)
   const fallback = buildFallbackResponse(trimmedMessage, context)
   const provider = getAssistantProvider()
+
+  if (provider === 'ollama') {
+    try {
+      const payload = await requestOllamaResponse({
+        message: trimmedMessage,
+        history,
+        context,
+      })
+      return finalizeAssistantResponse(payload, 'ollama', fallback)
+    } catch {
+      return fallback
+    }
+  }
 
   if (provider === 'claude') {
     if (hasClaudeKey()) {

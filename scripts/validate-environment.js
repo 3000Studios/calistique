@@ -99,14 +99,15 @@ function validateSiteVariables() {
 function validateAiVariables() {
   const hasOpenAiModel = !isMissing('OPENAI_MODEL')
   const hasClaudeModel = !isMissing('CLAUDE_MODEL')
+  const hasOllamaModel = !isMissing('OLLAMA_MODEL')
 
   return {
-    ok: hasOpenAiModel || hasClaudeModel,
+    ok: hasOpenAiModel || hasClaudeModel || hasOllamaModel,
     name: 'ai_env',
     message:
-      hasOpenAiModel || hasClaudeModel
+      hasOpenAiModel || hasClaudeModel || hasOllamaModel
         ? 'AI runtime defaults are present.'
-        : 'Missing recommended AI variables: OPENAI_MODEL or CLAUDE_MODEL. Add one of them to .secrets/myappai.local.env or your local environment.',
+        : 'Missing recommended AI variables: OPENAI_MODEL, CLAUDE_MODEL, or OLLAMA_MODEL. Add one of them to .secrets/myappai.local.env or your local environment.',
   }
 }
 
