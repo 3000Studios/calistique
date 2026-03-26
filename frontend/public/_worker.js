@@ -1,5 +1,9 @@
 const SESSION_COOKIE = 'myappai_admin_session'
 const SESSION_TTL_SECONDS = 60 * 60 * 12
+const DEFAULT_OLLAMA_MODEL = 'llama3.2:3b'
+const TELEGRAM_API_ORIGIN = 'https://api.telegram.org'
+const TELEGRAM_SECRET_HEADER = 'x-telegram-bot-api-secret-token'
+const MAX_TELEGRAM_REPLY_LENGTH = 3900
 const JSON_HEADERS = {
   'content-type': 'application/json; charset=utf-8',
   'cache-control': 'no-store',
@@ -102,6 +106,28 @@ function createSetCookie(value, maxAge) {
   ]
 
   return parts.join('; ')
+}
+
+function isConfiguredValue(value) {
+  const normalized = String(value ?? '').trim()
+
+  return (
+    normalized.length > 0 &&
+    !normalized.startsWith('your-') &&
+    !normalized.startsWith('replace-with-')
+  )
+}
+
+function getConfiguredEnvironmentValue(env, ...names) {
+  for (const name of names) {
+    const value = String(env[name] ?? '').trim()
+
+    if (isConfiguredValue(value)) {
+      return value
+    }
+  }
+
+  return ''
 }
 
 function getAdminEmail(env) {
@@ -329,6 +355,347 @@ function buildPublicSiteSnapshot(env) {
       offers: [],
     },
   }
+}
+
+function getPublicAssistantProvider(env) {
+  const provider = String(env.PUBLIC_ASSISTANT_PROVIDER ?? 'fallback')
+    .trim()
+    .toLowerCase()
+
+  if (provider === 'ollama' || provider === 'local' || provider === 'free') {
+    return 'ollama'
+  }
+
+  return 'fallback'
+}
+
+function getOllamaApiUrl(env) {
+  return getConfiguredEnvironmentValue(env, 'OLLAMA_API_URL')
+}
+
+function getOllamaModel(env) {
+  return (
+    getConfiguredEnvironmentValue(env, 'OLLAMA_MODEL') || DEFAULT_OLLAMA_MODEL
+  )
+}
+
+function getTelegramBotToken(env) {
+  return getConfiguredEnvironmentValue(env, 'TELEGRAM_BOT_TOKEN')
+}
+
+function getTelegramWebhookSecret(env) {
+  return getConfiguredEnvironmentValue(env, 'TELEGRAM_WEBHOOK_SECRET')
+}
+
+function getTelegramAllowedChatIds(env) {
+  return new Set(
+    String(env.TELEGRAM_ALLOWED_CHAT_IDS ?? '')
+      .split(',')
+      .map((value) => value.trim())
+      .filter(Boolean)
+  )
+}
+
+function isAllowedTelegramChatId(env, chatId) {
+  const allowedChatIds = getTelegramAllowedChatIds(env)
+
+  return allowedChatIds.size === 0 || allowedChatIds.has(String(chatId))
+}
+
+function normalizeAssistantHistory(history) {
+  return Array.isArray(history)
+    ? history
+        .filter(
+          (entry) =>
+            entry &&
+            (entry.role === 'user' || entry.role === 'assistant') &&
+            typeof entry.content === 'string'
+        )
+        .slice(-6)
+        .map((entry) => ({
+          role: entry.role,
+          content: entry.content.slice(0, 1200),
+        }))
+    : []
+}
+
+function buildAssistantSuggestions() {
+  return [
+    { label: 'Open admin', href: '/admin/login' },
+    { label: 'View docs', href: '/' },
+  ]
+}
+
+function buildEdgeAssistantFallback(env, message) {
+  const appName = String(env.APP_NAME ?? 'myappai').trim() || 'myappai'
+  const lowerMessage = String(message ?? '').toLowerCase()
+
+  if (
+    lowerMessage.includes('deploy') ||
+    lowerMessage.includes('admin') ||
+    lowerMessage.includes('dashboard')
+  ) {
+    return {
+      reply: `${appName} can sign you into the operator dashboard, review system health, and guide deploy-ready changes. Open /admin/login to continue in the full workspace.`,
+      suggestions: buildAssistantSuggestions(),
+      source: 'fallback',
+    }
+  }
+
+  return {
+    reply: `${appName} is running with the edge assistant fallback right now. Ask about setup, deployment, or how to route work through the operator dashboard and I will point you in the right direction.`,
+    suggestions: buildAssistantSuggestions(),
+    source: 'fallback',
+  }
+}
+
+function buildEdgeAssistantMessages(env, message, history) {
+  return [
+    {
+      role: 'system',
+      content: `You are the public-facing assistant for ${
+        env.APP_NAME ?? 'myappai'
+      }. Reply in plain text only. Keep answers concise, practical, and grounded in the website context. Mention the admin dashboard when the user is asking about live edits, deployment, or operator workflows.`,
+    },
+    ...normalizeAssistantHistory(history),
+    {
+      role: 'user',
+      content: String(message ?? '').trim(),
+    },
+  ]
+}
+
+function extractOllamaReply(payload) {
+  return String(payload?.message?.content ?? payload?.response ?? '').trim()
+}
+
+async function answerEdgePublicAssistant(env, { message, history = [] } = {}) {
+  if (typeof message !== 'string' || !message.trim()) {
+    throw new Error('A message is required.')
+  }
+
+  const trimmedMessage = message.trim()
+  const fallback = buildEdgeAssistantFallback(env, trimmedMessage)
+
+  if (getPublicAssistantProvider(env) !== 'ollama') {
+    return fallback
+  }
+
+  const apiUrl = getOllamaApiUrl(env)
+
+  if (!apiUrl) {
+    return fallback
+  }
+
+  try {
+    const response = await fetch(`${apiUrl.replace(/\/+$/, '')}/api/chat`, {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json',
+      },
+      body: JSON.stringify({
+        model: getOllamaModel(env),
+        stream: false,
+        messages: buildEdgeAssistantMessages(env, trimmedMessage, history),
+      }),
+    })
+
+    if (!response.ok) {
+      throw new Error(`Ollama request failed with ${response.status}.`)
+    }
+
+    const payload = await response.json()
+    const reply = extractOllamaReply(payload)
+
+    if (!reply) {
+      return fallback
+    }
+
+    return {
+      reply,
+      suggestions: fallback.suggestions,
+      source: 'ollama',
+    }
+  } catch {
+    return fallback
+  }
+}
+
+function getTelegramCommandName(text) {
+  const normalized = String(text ?? '').trim()
+
+  if (!normalized.startsWith('/')) {
+    return ''
+  }
+
+  const token = normalized.split(/\s+/, 1)[0]
+  const [command] = token.split('@', 1)
+
+  return command.toLowerCase()
+}
+
+function extractTelegramMessage(update) {
+  const message =
+    update?.message ??
+    update?.edited_message ??
+    update?.channel_post ??
+    update?.edited_channel_post ??
+    null
+
+  if (!message?.chat?.id) {
+    return null
+  }
+
+  const text = String(message.text ?? message.caption ?? '').trim()
+
+  if (!text) {
+    return null
+  }
+
+  return {
+    chatId: String(message.chat.id),
+    text,
+  }
+}
+
+function truncateTelegramText(text) {
+  const normalized = String(text ?? '').trim()
+
+  if (normalized.length <= MAX_TELEGRAM_REPLY_LENGTH) {
+    return normalized
+  }
+
+  return `${normalized.slice(0, MAX_TELEGRAM_REPLY_LENGTH - 3).trim()}...`
+}
+
+function buildTelegramBridgeStatus(env) {
+  return {
+    ok: true,
+    botTokenConfigured: Boolean(getTelegramBotToken(env)),
+    webhookSecretConfigured: Boolean(getTelegramWebhookSecret(env)),
+    allowedChatIdsConfigured: getTelegramAllowedChatIds(env).size > 0,
+    ollamaConfigured: Boolean(getOllamaApiUrl(env)),
+    provider: getPublicAssistantProvider(env),
+    model: getOllamaModel(env),
+  }
+}
+
+function buildTelegramWelcomeReply(env) {
+  return `${String(env.APP_NAME ?? 'myappai').trim() || 'myappai'} is connected. Send a message and I will answer with the same Ollama-first assistant path configured for the site. Use /status to confirm the active model.`
+}
+
+function buildTelegramStatusReply(env) {
+  return `${String(env.APP_NAME ?? 'myappai').trim() || 'myappai'} is online.\nProvider: ${getPublicAssistantProvider(env)}\nModel: ${getOllamaModel(env)}\nSite: ${env.SITE_URL ?? 'https://myappai.net'}`
+}
+
+async function sendTelegramMessage(env, { chatId, text }) {
+  const token = getTelegramBotToken(env)
+
+  if (!token) {
+    throw new Error(
+      'TELEGRAM_BOT_TOKEN must be configured before Telegram delivery can work.'
+    )
+  }
+
+  const response = await fetch(
+    `${TELEGRAM_API_ORIGIN}/bot${token}/sendMessage`,
+    {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json',
+      },
+      body: JSON.stringify({
+        chat_id: chatId,
+        text: truncateTelegramText(text),
+      }),
+    }
+  )
+
+  if (!response.ok) {
+    throw new Error(`Telegram sendMessage failed with ${response.status}.`)
+  }
+
+  return response.json()
+}
+
+async function handleTelegramWebhook(request, env) {
+  const secret = getTelegramWebhookSecret(env)
+
+  if (secret) {
+    const suppliedSecret = String(
+      request.headers.get(TELEGRAM_SECRET_HEADER) ?? ''
+    ).trim()
+
+    if (suppliedSecret !== secret) {
+      return jsonResponse(
+        {
+          ok: false,
+          message: 'Valid Telegram webhook secret required.',
+        },
+        403
+      )
+    }
+  }
+
+  if (!getTelegramBotToken(env)) {
+    return jsonResponse(
+      {
+        ok: false,
+        message:
+          'TELEGRAM_BOT_TOKEN must be configured before Telegram delivery can work.',
+      },
+      503
+    )
+  }
+
+  const update = await request.json().catch(() => ({}))
+  const incoming = extractTelegramMessage(update)
+
+  if (!incoming) {
+    return jsonResponse({
+      ok: true,
+      ignored: true,
+      reason: 'No text message found in the update.',
+    })
+  }
+
+  if (!isAllowedTelegramChatId(env, incoming.chatId)) {
+    return jsonResponse({
+      ok: true,
+      ignored: true,
+      reason: 'Chat is not allowed for this bot.',
+      chatId: incoming.chatId,
+    })
+  }
+
+  let replyText = ''
+  let source = 'system'
+  const command = getTelegramCommandName(incoming.text)
+
+  if (command === '/start' || command === '/help') {
+    replyText = buildTelegramWelcomeReply(env)
+  } else if (command === '/status') {
+    replyText = buildTelegramStatusReply(env)
+  } else {
+    const assistant = await answerEdgePublicAssistant(env, {
+      message: incoming.text,
+    })
+
+    replyText = assistant.reply
+    source = assistant.source
+  }
+
+  await sendTelegramMessage(env, {
+    chatId: incoming.chatId,
+    text: replyText,
+  })
+
+  return jsonResponse({
+    ok: true,
+    delivered: true,
+    chatId: incoming.chatId,
+    source,
+  })
 }
 
 function buildDeploymentsSnapshot() {
@@ -585,6 +952,38 @@ async function handleApi(request, env) {
       },
       201
     )
+  }
+
+  if (pathname === '/api/public/assistant' && request.method === 'POST') {
+    const body = await request.json().catch(() => ({}))
+
+    try {
+      const result = await answerEdgePublicAssistant(env, {
+        message: body.message ?? '',
+        history: Array.isArray(body.history) ? body.history : [],
+      })
+
+      return jsonResponse(result)
+    } catch (error) {
+      return jsonResponse(
+        {
+          ok: false,
+          message: error instanceof Error ? error.message : String(error),
+        },
+        400
+      )
+    }
+  }
+
+  if (pathname === '/api/public/telegram/status' && request.method === 'GET') {
+    return jsonResponse(buildTelegramBridgeStatus(env))
+  }
+
+  if (
+    pathname === '/api/public/telegram/webhook' &&
+    request.method === 'POST'
+  ) {
+    return handleTelegramWebhook(request, env)
   }
 
   if (pathname === '/api/admin/login' && request.method === 'POST') {

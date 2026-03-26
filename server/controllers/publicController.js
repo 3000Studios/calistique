@@ -3,7 +3,13 @@ import {
   recordLead,
   recordSiteEvent,
 } from '../services/analyticsService.js'
+import { answerPublicAssistant } from '../services/assistantService.js'
 import { getDeploymentHistory } from '../services/deploymentService.js'
+import {
+  assertTelegramWebhookRequest,
+  getTelegramSetupSummary,
+  handleTelegramWebhookUpdate,
+} from '../services/telegramBridgeService.js'
 import {
   SITE_CATEGORY,
   SITE_DISPLAY_NAME,
@@ -75,6 +81,45 @@ export async function postLeadCapture(request, response, next) {
       lead,
     })
   } catch (error) {
+    next(error)
+  }
+}
+
+export async function postPublicAssistant(request, response, next) {
+  try {
+    const result = await answerPublicAssistant({
+      message: request.body?.message ?? '',
+      history: Array.isArray(request.body?.history) ? request.body.history : [],
+    })
+
+    response.json(result)
+  } catch (error) {
+    next(error)
+  }
+}
+
+export async function getTelegramBridgeStatus(_request, response) {
+  response.json({
+    ok: true,
+    ...getTelegramSetupSummary(),
+  })
+}
+
+export async function postTelegramWebhook(request, response, next) {
+  try {
+    assertTelegramWebhookRequest(request)
+    const result = await handleTelegramWebhookUpdate(request.body ?? {})
+
+    response.json(result)
+  } catch (error) {
+    if (error?.statusCode) {
+      response.status(error.statusCode).json({
+        ok: false,
+        message: error.message,
+      })
+      return
+    }
+
     next(error)
   }
 }
