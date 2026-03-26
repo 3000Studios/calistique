@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import { spawn } from 'node:child_process'
+import { spawn, spawnSync } from 'node:child_process'
 import fs from 'node:fs'
 import path from 'node:path'
 import { bootstrapContent } from '../server/services/contentService.js'
@@ -182,6 +182,25 @@ function getFirstSecretValue(names) {
   return ''
 }
 
+function getGitOutput(args) {
+  const result = spawnSync('git', args, {
+    cwd: process.cwd(),
+    env: process.env,
+    encoding: 'utf8',
+    shell: false,
+    windowsHide: true,
+  })
+
+  if (result.status !== 0) {
+    const detail = String(result.stderr || result.stdout || '').trim()
+    throw new Error(
+      `git ${args.join(' ')} failed${detail ? `: ${detail}` : '.'}`
+    )
+  }
+
+  return String(result.stdout ?? '').trim()
+}
+
 async function runNpmScript(scriptName) {
   await run('npm', ['run', scriptName])
 }
@@ -228,6 +247,8 @@ async function build() {
 
 async function pagesDeploy() {
   const cloudflareWriteEnv = getCloudflareWriteEnv()
+  const commitHash = getGitOutput(['rev-parse', '--short', 'HEAD'])
+  const commitMessage = getGitOutput(['log', '-1', '--pretty=%s'])
 
   await run(
     'npx',
@@ -238,6 +259,12 @@ async function pagesDeploy() {
       'dist',
       '--project-name',
       PROJECT_NAME,
+      '--branch',
+      PRODUCTION_BRANCH,
+      '--commit-hash',
+      commitHash,
+      '--commit-message',
+      commitMessage,
       '--commit-dirty=true',
     ],
     {
