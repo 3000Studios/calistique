@@ -69,6 +69,23 @@ function createOperatorResultEntry(result, metadata = {}) {
   }
 }
 
+function createOperatorFailureResult({
+  mode = 'operator_error',
+  summary,
+  message,
+  nextSteps = [],
+}) {
+  return {
+    mode,
+    status: 'error',
+    summary,
+    nextSteps,
+    details: {
+      error: message,
+    },
+  }
+}
+
 const AdminDashboardContext = createContext(null)
 
 export function AdminDashboardProvider({ children }) {
@@ -190,7 +207,6 @@ export function AdminDashboardProvider({ children }) {
           ? JSON.parse(commandText)
           : {
               command: naturalLanguagePrompt.trim(),
-              mode: 'operator',
             }
 
       if (consoleMode !== 'json' && !payload.command) {
@@ -206,7 +222,34 @@ export function AdminDashboardProvider({ children }) {
       })
       await refreshDashboard(adminSession)
     } catch (runError) {
-      setError(runError.message)
+      const message =
+        runError instanceof Error ? runError.message : String(runError ?? '')
+      setError(message)
+      recordResult(
+        createOperatorFailureResult({
+          summary:
+            consoleMode === 'json'
+              ? 'Command JSON failed before it could apply a safe change.'
+              : 'Operator prompt failed before it could apply a safe change.',
+          message,
+          nextSteps:
+            consoleMode === 'json'
+              ? [
+                  'Check the action name and required fields in the JSON payload.',
+                ]
+              : [
+                  'Make the request more specific about the page or section to change.',
+                  'Use Command JSON if you want a structured action instead of prompt interpretation.',
+                ],
+        }),
+        {
+          prompt:
+            consoleMode === 'json'
+              ? 'Structured JSON command'
+              : naturalLanguagePrompt.trim(),
+          trigger: consoleMode === 'json' ? 'json-error' : 'prompt-error',
+        }
+      )
     } finally {
       setCommandBusy(false)
     }

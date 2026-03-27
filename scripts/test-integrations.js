@@ -56,6 +56,32 @@ async function testOpenAI() {
   }
 }
 
+async function testOllama() {
+  const apiUrl = String(process.env.OLLAMA_API_URL ?? '').trim()
+
+  if (!apiUrl) {
+    return {
+      name: 'ollama',
+      ok: false,
+      skipped: true,
+      message: 'Missing OLLAMA_API_URL.',
+    }
+  }
+
+  const response = await fetch(`${apiUrl.replace(/\/+$/, '')}/api/tags`)
+
+  if (!response.ok) {
+    return { name: 'ollama', ok: false, message: `HTTP ${response.status}` }
+  }
+
+  const payload = await response.json()
+  return {
+    name: 'ollama',
+    ok: true,
+    message: `Reachable. Models visible: ${Array.isArray(payload.models) ? payload.models.length : 0}.`,
+  }
+}
+
 async function testGitHub() {
   const token = process.env.GH_TOKEN || process.env.GH_PAT
   if (!token) {
@@ -290,6 +316,41 @@ async function testGemini() {
   }
 }
 
+async function testTelegram() {
+  const token = String(process.env.TELEGRAM_BOT_TOKEN ?? '').trim()
+
+  if (!token) {
+    return {
+      name: 'telegram',
+      ok: false,
+      skipped: true,
+      message: 'Missing TELEGRAM_BOT_TOKEN.',
+    }
+  }
+
+  const response = await fetch(`https://api.telegram.org/bot${token}/getMe`)
+
+  if (!response.ok) {
+    return { name: 'telegram', ok: false, message: `HTTP ${response.status}` }
+  }
+
+  const payload = await response.json()
+
+  if (!payload.ok) {
+    return {
+      name: 'telegram',
+      ok: false,
+      message: String(payload.description ?? 'Telegram authentication failed.'),
+    }
+  }
+
+  return {
+    name: 'telegram',
+    ok: true,
+    message: `Authenticated as @${payload.result?.username ?? 'unknown'}.`,
+  }
+}
+
 async function runTest(fn) {
   try {
     results.push(await fn())
@@ -302,12 +363,14 @@ async function runTest(fn) {
   }
 }
 
+await runTest(testOllama)
 await runTest(testOpenAI)
 await runTest(testGitHub)
 await runTest(testCloudflare)
 await runTest(testStripe)
 await runTest(testPayPal)
 await runTest(testGemini)
+await runTest(testTelegram)
 
 console.log(
   JSON.stringify(

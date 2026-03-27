@@ -6,6 +6,12 @@ import { getRecentCommits } from '../services/gitService.js'
 import { getPublicLogs } from '../services/logService.js'
 import { getSystemMetrics } from '../services/metricsService.js'
 import {
+  assertOllamaProxyRequest,
+  forwardOllamaProxyHttpRequest,
+  getOllamaProxyStatusSummary,
+  pipeOllamaProxyResponse,
+} from '../services/ollamaProxyService.js'
+import {
   getRevenueQueueSnapshot,
   updateLeadStage,
 } from '../services/revenueQueueService.js'
@@ -89,6 +95,38 @@ export async function patchLeadStage(request, response, next) {
       lead,
     })
   } catch (error) {
+    next(error)
+  }
+}
+
+export async function getOllamaProxyStatus(_request, response) {
+  response.json(getOllamaProxyStatusSummary())
+}
+
+export async function proxyOllamaRequest(request, response, next) {
+  try {
+    assertOllamaProxyRequest(request)
+    const forwarded = await forwardOllamaProxyHttpRequest({
+      requestPath: request.path,
+      method: request.method,
+      body: request.body,
+    })
+
+    if (forwarded.kind === 'summary') {
+      response.status(forwarded.status).json(forwarded.payload)
+      return
+    }
+
+    await pipeOllamaProxyResponse(response, forwarded.response)
+  } catch (error) {
+    if (error?.statusCode) {
+      response.status(error.statusCode).json({
+        ok: false,
+        message: error.message,
+      })
+      return
+    }
+
     next(error)
   }
 }

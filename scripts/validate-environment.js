@@ -97,16 +97,52 @@ function validateSiteVariables() {
 }
 
 function validateAiVariables() {
-  const required = ['OPENAI_MODEL']
-  const missing = required.filter(isMissing)
+  const hasOpenAiModel = !isMissing('OPENAI_MODEL')
+  const hasClaudeModel = !isMissing('CLAUDE_MODEL')
+  const hasOllamaModel = !isMissing('OLLAMA_MODEL')
+
+  return {
+    ok: hasOpenAiModel || hasClaudeModel || hasOllamaModel,
+    name: 'ai_env',
+    message:
+      hasOpenAiModel || hasClaudeModel || hasOllamaModel
+        ? 'AI runtime defaults are present.'
+        : 'Missing recommended AI variables: OPENAI_MODEL, CLAUDE_MODEL, or OLLAMA_MODEL. Add one of them to .secrets/myappai.local.env or your local environment.',
+  }
+}
+
+function validateTelegramVariables() {
+  const botTokenConfigured = !isMissing('TELEGRAM_BOT_TOKEN')
+  const webhookUrlConfigured = !isMissing('TELEGRAM_WEBHOOK_URL')
+  const secretConfigured = !isMissing('TELEGRAM_WEBHOOK_SECRET')
+  const anyConfigured =
+    botTokenConfigured || webhookUrlConfigured || secretConfigured
+  const missing = []
+
+  if (!anyConfigured) {
+    return {
+      ok: true,
+      name: 'telegram_env',
+      message:
+        'Telegram bridge variables are optional and currently not configured.',
+    }
+  }
+
+  if (!botTokenConfigured) {
+    missing.push('TELEGRAM_BOT_TOKEN')
+  }
+
+  if (!webhookUrlConfigured) {
+    missing.push('TELEGRAM_WEBHOOK_URL')
+  }
 
   return {
     ok: missing.length === 0,
-    name: 'ai_env',
+    name: 'telegram_env',
     message:
       missing.length === 0
-        ? 'AI runtime defaults are present.'
-        : `Missing recommended AI variables: ${missing.join(', ')}. Add them to .secrets/myappai.local.env or your local environment.`,
+        ? `Telegram bridge variables are present.${secretConfigured ? ' Webhook secret protection is enabled.' : ' Add TELEGRAM_WEBHOOK_SECRET for stronger webhook validation.'}`
+        : `Telegram bridge is partially configured. Missing: ${missing.join(', ')}.`,
   }
 }
 
@@ -116,6 +152,7 @@ const checks = [
   validateAdminVariables(),
   validateSiteVariables(),
   validateAiVariables(),
+  validateTelegramVariables(),
 ]
 const blockingFailures = checks.filter(
   (check) => check.name === 'node_version' && !check.ok

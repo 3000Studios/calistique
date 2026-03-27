@@ -23,6 +23,7 @@ const TEXT_EXTENSIONS = new Set([
 ])
 const MAX_FILE_CONTEXT_CHARS = 12000
 const MAX_TOTAL_CONTEXT_CHARS = 40000
+const MAX_REPAIR_FILE_CONTEXT_CHARS = 18000
 
 function getClient() {
   const apiKey = process.env.OPENAI_API_KEY
@@ -34,6 +35,10 @@ function getClient() {
   }
 
   return new OpenAI({ apiKey })
+}
+
+function getModelName() {
+  return process.env.OPENAI_MODEL ?? 'gpt-4o'
 }
 
 async function collectFileContexts(relativeDir, bucket) {
@@ -102,6 +107,10 @@ function isAllowedEditablePath(filePath) {
   )
 }
 
+function countOccurrences(content, target) {
+  return content.split(target).length - 1
+}
+
 function validateInstruction(instruction) {
   if (
     !instruction ||
@@ -153,20 +162,54 @@ function validateInstruction(instruction) {
   }
 }
 
-export async function interpretCommand(command) {
-  if (typeof command !== 'string' || !command.trim()) {
-    throw new Error('Command must be a non-empty string.')
+async function readEditableFileContents(filePath) {
+  try {
+    return await fs.readFile(path.join(repoRoot, filePath), 'utf8')
+  } catch {
+    throw new Error(
+      `Editable file "${filePath}" was not found in the workspace.`
+    )
+  }
+}
+
+export function getInstructionTargetIssue(instruction, fileContents) {
+  if (instruction.action === 'append_text') {
+    return null
   }
 
-  const editableFiles = await getEditableFileContext()
-  const client = getClient()
-  const completion = await client.chat.completions.create({
-    model: process.env.OPENAI_MODEL ?? 'gpt-4o',
+  const occurrences = countOccurrences(fileContents, instruction.target)
+
+  if (occurrences === 1) {
+    return null
+  }
+
+  return occurrences === 0
+    ? 'Target text was not found in the selected file.'
+    : 'Target text matched more than one location in the selected file.'
+}
+
+async function requestInstruction(messages) {
+  const completion = await getClient().chat.completions.create({
+    model: getModelName(),
+    temperature: 0,
     response_format: { type: 'json_object' },
-    messages: [
-      {
-        role: 'system',
-        content: `You control a website repository.
+    messages,
+  })
+
+  const text = completion.choices[0]?.message?.content
+
+  if (!text) {
+    throw new Error('OpenAI returned an empty interpreter response.')
+  }
+
+  return validateInstruction(JSON.parse(text))
+}
+
+function buildInitialMessages(command, editableFiles) {
+  return [
+    {
+      role: 'system',
+      content: `You control a website repository.
 
 Return JSON only.
 
@@ -191,22 +234,85 @@ If the request cannot be completed safely as one allowed file edit, respond with
   "action": "reject",
   "reason": "short reason"
 }`,
-      },
-      {
-        role: 'user',
-        content: `User command: ${command.trim()}
+    },
+    {
+      role: 'user',
+      content: `User command: ${command.trim()}
 
 Editable file snapshots:
 ${JSON.stringify(editableFiles, null, 2)}`,
-      },
-    ],
-  })
+    },
+  ]
+}
 
-  const text = completion.choices[0]?.message?.content
+function buildRepairMessages(command, instruction, targetIssue, fileContents) {
+  return [
+    {
+      role: 'system',
+      content: `You are repairing a previously invalid repository edit instruction.
 
-  if (!text) {
-    throw new Error('OpenAI returned an empty interpreter response.')
+Return JSON only.
+
+Keep the file path as "${instruction.file}" unless the request must be rejected.
+Allowed actions: replace_text, insert_before, insert_after, append_text.
+If you use replace_text, insert_before, or insert_after, the target must appear exactly once in the provided file contents.
+If the request cannot be completed safely as one allowed file edit, respond with:
+{
+  "action": "reject",
+  "reason": "short reason"
+}`,
+    },
+    {
+      role: 'user',
+      content: `Original user command: ${command.trim()}
+
+Previous invalid instruction:
+${JSON.stringify(instruction, null, 2)}
+
+Validation issue: ${targetIssue}
+
+Current file contents for ${instruction.file}:
+${fileContents.slice(0, MAX_REPAIR_FILE_CONTEXT_CHARS)}`,
+    },
+  ]
+}
+
+async function ensureUsableInstruction(command, instruction) {
+  const fileContents = await readEditableFileContents(instruction.file)
+  const targetIssue = getInstructionTargetIssue(instruction, fileContents)
+
+  if (!targetIssue) {
+    return instruction
   }
 
-  return validateInstruction(JSON.parse(text))
+  const repairedInstruction = await requestInstruction(
+    buildRepairMessages(command, instruction, targetIssue, fileContents)
+  )
+  const repairedFileContents = await readEditableFileContents(
+    repairedInstruction.file
+  )
+  const repairedIssue = getInstructionTargetIssue(
+    repairedInstruction,
+    repairedFileContents
+  )
+
+  if (repairedIssue) {
+    throw new Error(
+      `Operator could not map the request to a unique file edit. ${repairedIssue}`
+    )
+  }
+
+  return repairedInstruction
+}
+
+export async function interpretCommand(command) {
+  if (typeof command !== 'string' || !command.trim()) {
+    throw new Error('Command must be a non-empty string.')
+  }
+
+  const editableFiles = await getEditableFileContext()
+  const instruction = await requestInstruction(
+    buildInitialMessages(command, editableFiles)
+  )
+  return ensureUsableInstruction(command, instruction)
 }

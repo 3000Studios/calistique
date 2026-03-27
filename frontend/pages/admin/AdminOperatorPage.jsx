@@ -11,6 +11,40 @@ const quickPrompts = [
 
 const RECENT_PROMPTS_KEY = 'myappai.operator.recentPrompts'
 
+function getResultToneClass(result) {
+  if (result?.status === 'blocked') {
+    return ' operator-result-card--blocked'
+  }
+
+  if (result?.status === 'error' || result?.status === 'unavailable') {
+    return ' operator-result-card--error'
+  }
+
+  return ''
+}
+
+function getResultIssue(result) {
+  return (
+    result?.blockedReason ??
+    result?.unavailableReason ??
+    result?.errorReason ??
+    result?.details?.error ??
+    ''
+  )
+}
+
+function formatMetricValue(value, fallback = 'idle') {
+  if (typeof value === 'string' && value.trim()) {
+    return value.trim()
+  }
+
+  if (typeof value === 'number' || typeof value === 'boolean') {
+    return String(value)
+  }
+
+  return fallback
+}
+
 export default function AdminOperatorPage() {
   const {
     naturalLanguagePrompt,
@@ -366,13 +400,15 @@ export default function AdminOperatorPage() {
               </span>
             </div>
 
-            {error ? (
-              <article className="operator-result-card operator-result-card--blocked">
+            {error && operatorHistory.length === 0 ? (
+              <article className="operator-result-card operator-result-card--error">
                 <header className="operator-result-card__header">
                   <span className="operator-label">Operator error</span>
-                  <span className="operator-result-card__status">blocked</span>
+                  <span className="operator-result-card__status">error</span>
                 </header>
-                <div className="operator-result-card__body">{error}</div>
+                <div className="operator-result-card__body">
+                  <div className="operator-result-card__error">{error}</div>
+                </div>
               </article>
             ) : null}
 
@@ -398,11 +434,7 @@ export default function AdminOperatorPage() {
             {operatorHistory.map((result, index) => (
               <article
                 key={`${result.summary ?? result.mode ?? 'result'}-${index}`}
-                className={`operator-result-card${
-                  result.status === 'blocked'
-                    ? ' operator-result-card--blocked'
-                    : ''
-                }`}
+                className={`operator-result-card${getResultToneClass(result)}`}
               >
                 <header className="operator-result-card__header">
                   <span className="operator-label">
@@ -445,9 +477,15 @@ export default function AdminOperatorPage() {
                       </div>
                     </div>
                   ) : null}
-                  {result.blockedReason ? (
-                    <div className="operator-result-card__blocked">
-                      {result.blockedReason}
+                  {getResultIssue(result) ? (
+                    <div
+                      className={
+                        result.status === 'blocked'
+                          ? 'operator-result-card__blocked'
+                          : 'operator-result-card__error'
+                      }
+                    >
+                      {getResultIssue(result)}
                     </div>
                   ) : null}
                   {result.deployment?.status ? (
@@ -530,7 +568,7 @@ export default function AdminOperatorPage() {
               <div className="operator-stat-box">
                 <span className="operator-stat-label">Last action</span>
                 <span className="operator-stat-value">
-                  {analytics?.aiActivity?.lastAction ?? 'idle'}
+                  {formatMetricValue(analytics?.aiActivity?.lastAction)}
                 </span>
               </div>
               <div className="operator-stat-box">

@@ -67,3 +67,5 @@ Deployments are manual Wrangler deploys only. This repo does not rely on GitHub 
 - `docs/ARCHITECTURE_AND_ADSENSE.md`
 - `docs/CUSTOM_GPT_SITE_OPERATOR.md`
 - `docs/MASTER_1_ULTRA_PROMPT.md`
+- `docs/OPENCLAW_CLAUDE_BOT.md`
+- `docs/OLLAMA_FREE_ASSISTANT.md`
