@@ -1,3 +1,9 @@
+import {
+  canHandleRemoteOperator,
+  getRemoteCommandUnavailableReason,
+  handleRemoteOperatorCommand,
+} from './remoteOperator.js'
+
 const SESSION_COOKIE = 'myappai_admin_session'
 const SESSION_TTL_SECONDS = 60 * 60 * 12
 const DEFAULT_OLLAMA_MODEL = 'llama3.2:3b'
@@ -936,6 +942,12 @@ function buildMetricsSnapshot() {
 }
 
 function getCommandUnavailableReason(request, env) {
+  const remoteReason = getRemoteCommandUnavailableReason(env)
+
+  if (remoteReason) {
+    return remoteReason
+  }
+
   const origin = String(env.ADMIN_API_ORIGIN ?? '').trim()
 
   if (!origin) {
@@ -1283,6 +1295,10 @@ async function handleApi(request, env) {
   }
 
   if (pathname === '/api/command' && request.method === 'POST') {
+    if (canHandleRemoteOperator(env)) {
+      return handleRemoteOperatorCommand(request, env)
+    }
+
     return jsonResponse(buildUnavailableCommandResponse(request, env))
   }
 

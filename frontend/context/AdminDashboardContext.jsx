@@ -207,7 +207,6 @@ export function AdminDashboardProvider({ children }) {
           ? JSON.parse(commandText)
           : {
               command: naturalLanguagePrompt.trim(),
-              mode: 'operator',
             }
 
       if (consoleMode !== 'json' && !payload.command) {

@@ -8,6 +8,13 @@ import {
 const router = express.Router()
 
 export async function executeRepositoryCommand(payload) {
+  const command =
+    typeof payload?.command === 'string' ? payload.command.trim() : ''
+
+  if (command) {
+    return runOperatorPrompt(command)
+  }
+
   if (
     payload &&
     (typeof payload.mode === 'string' ||
@@ -19,9 +26,6 @@ export async function executeRepositoryCommand(payload) {
   if (payload && typeof payload.action === 'string') {
     return runStructuredOperatorAction(payload)
   }
-
-  const command =
-    typeof payload?.command === 'string' ? payload.command.trim() : ''
 
   if (!command) {
     const error = new Error('Missing command')
