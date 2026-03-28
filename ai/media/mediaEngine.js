@@ -1,6 +1,10 @@
 import fs from 'node:fs/promises'
 import path from 'node:path'
-import { frontendAssetsRoot, frontendBackgroundsRoot, repoRoot } from '../../server/services/platformPaths.js'
+import {
+  frontendAssetsRoot,
+  frontendBackgroundsRoot,
+  repoRoot,
+} from '../../server/services/platformPaths.js'
 import { slugify, writeJson } from '../../server/services/contentService.js'
 
 const PROVIDERS = {
@@ -11,8 +15,8 @@ const PROVIDERS = {
         `https://api.unsplash.com/search/photos?query=${encodeURIComponent(query)}&per_page=4&orientation=landscape`,
         {
           headers: {
-            Authorization: `Client-ID ${process.env.UNSPLASH_ACCESS_KEY}`
-          }
+            Authorization: `Client-ID ${process.env.UNSPLASH_ACCESS_KEY}`,
+          },
         }
       )
       const payload = await response.json()
@@ -21,9 +25,9 @@ const PROVIDERS = {
         type: 'image',
         url: item.urls?.regular,
         attribution: `${item.user?.name} via Unsplash`,
-        sourceUrl: item.links?.html
+        sourceUrl: item.links?.html,
       }))
-    }
+    },
   },
   pexels: {
     enabled: () => Boolean(process.env.PEXELS_API_KEY),
@@ -32,8 +36,8 @@ const PROVIDERS = {
         `https://api.pexels.com/v1/search?query=${encodeURIComponent(query)}&per_page=4&orientation=landscape`,
         {
           headers: {
-            Authorization: process.env.PEXELS_API_KEY
-          }
+            Authorization: process.env.PEXELS_API_KEY,
+          },
         }
       )
       const payload = await response.json()
@@ -42,9 +46,9 @@ const PROVIDERS = {
         type: 'image',
         url: item.src?.large,
         attribution: `${item.photographer} via Pexels`,
-        sourceUrl: item.url
+        sourceUrl: item.url,
       }))
-    }
+    },
   },
   pixabay: {
     enabled: () => Boolean(process.env.PIXABAY_API_KEY),
@@ -58,10 +62,10 @@ const PROVIDERS = {
         type: 'image',
         url: item.largeImageURL,
         attribution: `${item.user} via Pixabay`,
-        sourceUrl: item.pageURL
+        sourceUrl: item.pageURL,
       }))
-    }
-  }
+    },
+  },
 }
 
 function normalizeRelative(targetPath) {
@@ -91,7 +95,9 @@ async function downloadAsset(asset, filePrefix) {
   }
 
   const arrayBuffer = await response.arrayBuffer()
-  const extension = extensionFromContentType(response.headers.get('content-type'))
+  const extension = extensionFromContentType(
+    response.headers.get('content-type')
+  )
   const fileName = `${filePrefix}${extension}`
   const targetPath = path.join(frontendAssetsRoot, fileName)
 
@@ -102,7 +108,7 @@ async function downloadAsset(asset, filePrefix) {
     ...asset,
     imagePath: asset.type === 'image' ? normalizeRelative(targetPath) : null,
     videoPath: asset.type === 'video' ? normalizeRelative(targetPath) : null,
-    storedAt: normalizeRelative(targetPath)
+    storedAt: normalizeRelative(targetPath),
   }
 }
 
@@ -120,9 +126,10 @@ async function createPlaceholderAsset(query, variant = 'image') {
     type: variant,
     imagePath: variant === 'image' ? normalizeRelative(targetPath) : null,
     videoPath: variant === 'video' ? normalizeRelative(targetPath) : null,
-    attribution: 'Generated placeholder asset stored locally in frontend/assets.',
+    attribution:
+      'Generated placeholder asset stored locally in frontend/assets.',
     storedAt: normalizeRelative(targetPath),
-    sourceUrl: null
+    sourceUrl: null,
   }
 }
 
@@ -154,11 +161,16 @@ export async function generateImages({ query, count = 1, provider }) {
 
   const selectedAssets = remoteAssets.slice(0, count)
   return Promise.all(
-    selectedAssets.map((asset, index) => downloadAsset(asset, `${slugify(query)}-${Date.now()}-${index}`))
+    selectedAssets.map((asset, index) =>
+      downloadAsset(asset, `${slugify(query)}-${Date.now()}-${index}`)
+    )
   )
 }
 
-export async function generateBackground({ query, palette = ['#101736', '#ff8a3d', '#5be7c4'] }) {
+export async function generateBackground({
+  query,
+  palette = ['#101736', '#ff8a3d', '#5be7c4'],
+}) {
   const [asset] = await generateImages({ query, count: 1 })
   const backgroundDocument = {
     name: `${slugify(query)}-background`,
@@ -166,14 +178,17 @@ export async function generateBackground({ query, palette = ['#101736', '#ff8a3d
     palette,
     assetPath: asset.imagePath,
     attribution: asset.attribution,
-    createdAt: new Date().toISOString()
+    createdAt: new Date().toISOString(),
   }
 
-  const targetPath = path.join(frontendBackgroundsRoot, `${slugify(query)}.json`)
+  const targetPath = path.join(
+    frontendBackgroundsRoot,
+    `${slugify(query)}.json`
+  )
   await writeJson(targetPath, backgroundDocument)
 
   return {
     ...asset,
-    backgroundConfigPath: normalizeRelative(targetPath)
+    backgroundConfigPath: normalizeRelative(targetPath),
   }
 }

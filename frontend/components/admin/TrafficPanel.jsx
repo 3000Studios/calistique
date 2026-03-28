@@ -1,6 +1,12 @@
 import React from 'react'
 
-export default function TrafficPanel({ analytics, contentBundle, onDiscoverTopics, onRunTrafficCycle, busy }) {
+export default function TrafficPanel({
+  analytics,
+  contentBundle,
+  onDiscoverTopics,
+  onRunTrafficCycle,
+  busy,
+}) {
   const traffic = analytics?.traffic
   const recentPosts = (contentBundle?.blog ?? []).slice(0, 4)
 
@@ -12,10 +18,20 @@ export default function TrafficPanel({ analytics, contentBundle, onDiscoverTopic
           <h2>Search demand and publishing loop</h2>
         </div>
         <div className="admin-actions">
-          <button className="button button--ghost" type="button" onClick={onDiscoverTopics} disabled={busy}>
+          <button
+            className="button button--ghost"
+            type="button"
+            onClick={onDiscoverTopics}
+            disabled={busy}
+          >
             Preview topics
           </button>
-          <button className="button button--primary" type="button" onClick={onRunTrafficCycle} disabled={busy}>
+          <button
+            className="button button--primary"
+            type="button"
+            onClick={onRunTrafficCycle}
+            disabled={busy}
+          >
             {busy ? 'Running...' : 'Run traffic cycle'}
           </button>
         </div>
@@ -39,8 +55,14 @@ export default function TrafficPanel({ analytics, contentBundle, onDiscoverTopic
       <div className="admin-subsection">
         <h3>Best queued topic</h3>
         <div className="content-card content-card--dense">
-          <strong>{traffic?.topQueuedTopic?.topic ?? 'No queued topics yet'}</strong>
-          <p>{traffic?.topQueuedTopic?.intent ? `Intent: ${traffic.topQueuedTopic.intent}` : 'Run discovery to populate the queue.'}</p>
+          <strong>
+            {traffic?.topQueuedTopic?.topic ?? 'No queued topics yet'}
+          </strong>
+          <p>
+            {traffic?.topQueuedTopic?.intent
+              ? `Intent: ${traffic.topQueuedTopic.intent}`
+              : 'Run discovery to populate the queue.'}
+          </p>
         </div>
       </div>
 

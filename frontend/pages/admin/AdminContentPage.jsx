@@ -12,10 +12,15 @@ export default function AdminContentPage() {
         <span className="eyebrow">Content</span>
         <PrismHeadline text="Edit workspace JSON" />
         <p className="section-intro">
-          Select a content module and save structured data back to the repo through the command API.
+          Select a content module and save structured data back to the repo
+          through the command API.
         </p>
       </div>
-      <ContentEditor contentBundle={contentBundle} onSaveFile={handleSaveFile} busy={editorBusy} />
+      <ContentEditor
+        contentBundle={contentBundle}
+        onSaveFile={handleSaveFile}
+        busy={editorBusy}
+      />
     </div>
   )
 }

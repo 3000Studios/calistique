@@ -20,9 +20,11 @@ The local app runs with:
 
 ```bash
 npm run dev
+npm run check:fast
 npm run lint
 npm run typecheck
 npm run test
+npm run test:unit
 npm run build
 npm run cli:doctor
 npm run cli -- command "refresh the homepage hero copy"
@@ -61,11 +63,22 @@ npm run cli:deploy
 
 Deployments are manual Wrangler deploys only. This repo does not rely on GitHub Actions or GitHub-based auto-deploy workflows.
 
+## Faster local workflow
+
+For day-to-day iteration, use the lighter loop first:
+
+```bash
+npm run check:fast
+```
+
+That runs cached linting, incremental typechecking, and unit tests without the heavier environment validation and platform verification steps. Keep `npm run test`, `npm run build`, or `npm run check:full` for release-ready verification.
+
 ## Documentation
 
 - `docs/DEPLOYMENT.md`
 - `docs/ARCHITECTURE_AND_ADSENSE.md`
 - `docs/CUSTOM_GPT_SITE_OPERATOR.md`
+- `docs/ENVIRONMENT_SETUP_MATRIX.md`
 - `docs/MASTER_1_ULTRA_PROMPT.md`
 - `docs/OPENCLAW_CLAUDE_BOT.md`
 - `docs/OLLAMA_FREE_ASSISTANT.md`

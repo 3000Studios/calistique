@@ -15,11 +15,13 @@ Whenever a task is issued, follow this pipeline:
 1. Read repository structure
 2. Identify relevant files
 3. Install dependencies
-4. Run build
-5. Run tests
-6. Apply code modifications
-7. Re-run tests
-8. Commit and push changes
+4. Validate environment
+5. Run lint
+6. Run tests
+7. Apply code modifications
+8. Re-run lint, tests, and build as needed
+9. Commit intentionally
+10. Push or publish only after verification
 
 ---
 
@@ -99,6 +101,8 @@ When implementing features:
 4. build project
 5. open pull request
 
+If the repo is already operating directly on `main`, replace the branch and PR step with an intentional verified commit and a documented publish path.
+
 ---
 
 # Code Quality Rules
@@ -145,3 +149,5 @@ Codex should:
 - improve code quality
 - update dependencies
 - maintain working deployments
+- keep rules and environment docs current when operational behavior changes
+- preserve user work in dirty trees instead of resetting it

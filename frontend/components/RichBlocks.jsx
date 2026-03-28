@@ -5,18 +5,21 @@ import { fadeUp, staggerParent } from '../animations/variants.js'
 import { trackCtaClick } from '../src/siteApi.js'
 
 function isExternalHref(href) {
-  return typeof href === 'string' && (
-    /^(?:[a-z]+:)?\/\//i.test(href) ||
-    href.startsWith('mailto:') ||
-    href.startsWith('tel:')
+  return (
+    typeof href === 'string' &&
+    (/^(?:[a-z]+:)?\/\//i.test(href) ||
+      href.startsWith('mailto:') ||
+      href.startsWith('tel:'))
   )
 }
 
 function slugify(value) {
-  return String(value ?? 'item')
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/(^-|-$)/g, '') || 'item'
+  return (
+    String(value ?? 'item')
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/(^-|-$)/g, '') || 'item'
+  )
 }
 
 function inferOfferSlug(item) {
@@ -61,7 +64,7 @@ function handleClick(item) {
   trackCtaClick({
     ctaId: `rich-block-${slugify(item.slug ?? item.title ?? item.heading ?? item.name)}`,
     offerSlug: inferOfferSlug(item),
-    intent: inferIntent(item)
+    intent: inferIntent(item),
   }).catch(() => {})
 }
 
@@ -70,13 +73,27 @@ export default function RichBlocks({ title, intro, items = [] }) {
     <section className="section-card">
       {title ? <h2>{title}</h2> : null}
       {intro ? <p className="section-intro">{intro}</p> : null}
-      <motion.div className="card-grid" variants={staggerParent} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.2 }}>
+      <motion.div
+        className="card-grid"
+        variants={staggerParent}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.2 }}
+      >
         {items.map((item) => (
-          <motion.article key={item.slug ?? item.title ?? item.heading} className="content-card" variants={fadeUp}>
-            {item.eyebrow ? <span className="meta-line">{item.eyebrow}</span> : null}
+          <motion.article
+            key={item.slug ?? item.title ?? item.heading}
+            className="content-card"
+            variants={fadeUp}
+          >
+            {item.eyebrow ? (
+              <span className="meta-line">{item.eyebrow}</span>
+            ) : null}
             <h3>{item.title ?? item.heading ?? item.name}</h3>
             <p>{item.description ?? item.body ?? item.summary}</p>
-            {item.outcome ? <p className="content-card__outcome">{item.outcome}</p> : null}
+            {item.outcome ? (
+              <p className="content-card__outcome">{item.outcome}</p>
+            ) : null}
             {item.bullets ? (
               <ul className="bullet-list">
                 {item.bullets.map((bullet) => (
@@ -84,19 +101,25 @@ export default function RichBlocks({ title, intro, items = [] }) {
                 ))}
               </ul>
             ) : null}
-            {item.ctaLabel && item.ctaHref
-              ? isExternalHref(item.ctaHref)
-                ? (
-                  <a className="button button--ghost" href={item.ctaHref} onClick={() => handleClick(item)}>
-                    {item.ctaLabel}
-                  </a>
-                )
-                : (
-                  <Link className="button button--ghost" to={item.ctaHref} onClick={() => handleClick(item)}>
-                    {item.ctaLabel}
-                  </Link>
-                )
-              : null}
+            {item.ctaLabel && item.ctaHref ? (
+              isExternalHref(item.ctaHref) ? (
+                <a
+                  className="button button--ghost"
+                  href={item.ctaHref}
+                  onClick={() => handleClick(item)}
+                >
+                  {item.ctaLabel}
+                </a>
+              ) : (
+                <Link
+                  className="button button--ghost"
+                  to={item.ctaHref}
+                  onClick={() => handleClick(item)}
+                >
+                  {item.ctaLabel}
+                </Link>
+              )
+            ) : null}
           </motion.article>
         ))}
       </motion.div>

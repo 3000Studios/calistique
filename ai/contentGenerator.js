@@ -1,5 +1,5 @@
 export {
   generateBlogPost,
   generateFeatureSection,
-  generateLandingPage
+  generateLandingPage,
 } from './generators/contentGenerator.js'

@@ -48,7 +48,7 @@ function getResolvedApiBase() {
 async function request(path, { method = 'GET', body } = {}) {
   const resolvedApiBase = getResolvedApiBase()
 
-  if (!resolvedApiBase) {
+  if (resolvedApiBase == null) {
     if (path === '/api/public/events' && method === 'POST') {
       return { ok: false, skipped: true }
     }

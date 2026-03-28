@@ -48,7 +48,7 @@ async function request(
 ) {
   const resolvedApiBase = getResolvedApiBase()
 
-  if (!resolvedApiBase) {
+  if (resolvedApiBase == null) {
     throw new Error(
       'The operator API is not connected to this Pages deployment yet.'
     )

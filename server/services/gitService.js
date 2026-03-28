@@ -6,26 +6,30 @@ const execFileAsync = promisify(execFile)
 const DEFAULT_BASE_BRANCH = process.env.GH_BASE_BRANCH?.trim() || 'main'
 
 function normalizePathSpec(targetPath) {
-  return String(targetPath ?? '').replaceAll('\\', '/').trim()
+  return String(targetPath ?? '')
+    .replaceAll('\\', '/')
+    .trim()
 }
 
 function buildStatusArgs(paths = []) {
   const normalizedPaths = paths.map(normalizePathSpec).filter(Boolean)
-  return normalizedPaths.length ? ['status', '--short', '--', ...normalizedPaths] : ['status', '--short']
+  return normalizedPaths.length
+    ? ['status', '--short', '--', ...normalizedPaths]
+    : ['status', '--short']
 }
 
 async function runGit(args, { allowFailure = false } = {}) {
   try {
     return await execFileAsync('git', args, {
       cwd: repoRoot,
-      windowsHide: true
+      windowsHide: true,
     })
   } catch (error) {
     if (allowFailure) {
       return {
         stdout: error.stdout ?? '',
         stderr: error.stderr ?? error.message,
-        failed: true
+        failed: true,
       }
     }
 
@@ -48,7 +52,7 @@ export async function getRecentCommits(limit = 5) {
     'log',
     `--max-count=${limit}`,
     '--pretty=format:%H|%h|%an|%ad|%s',
-    '--date=iso'
+    '--date=iso',
   ])
 
   if (!stdout.trim()) {
@@ -65,8 +69,12 @@ export async function getRecentCommits(limit = 5) {
 }
 
 export async function commitAndPush(commitMessage, paths = []) {
-  const normalizedPaths = [...new Set(paths.map(normalizePathSpec).filter(Boolean))]
-  const { stdout: statusOutput } = await runGit(buildStatusArgs(normalizedPaths))
+  const normalizedPaths = [
+    ...new Set(paths.map(normalizePathSpec).filter(Boolean)),
+  ]
+  const { stdout: statusOutput } = await runGit(
+    buildStatusArgs(normalizedPaths)
+  )
   const status = statusOutput.trim()
   const branch = DEFAULT_BASE_BRANCH || (await getCurrentBranch())
 
@@ -74,7 +82,7 @@ export async function commitAndPush(commitMessage, paths = []) {
     return {
       status: 'skipped',
       message: 'No workspace changes to deploy.',
-      branch
+      branch,
     }
   }
 
@@ -88,13 +96,15 @@ export async function commitAndPush(commitMessage, paths = []) {
     ? ['commit', '--only', '-m', commitMessage, '--', ...normalizedPaths]
     : ['commit', '-m', commitMessage]
   const commitResult = await runGit(commitArgs, { allowFailure: true })
-  const pushResult = await runGit(['push', 'origin', `HEAD:${branch}`], { allowFailure: true })
+  const pushResult = await runGit(['push', 'origin', `HEAD:${branch}`], {
+    allowFailure: true,
+  })
 
   return {
     status: pushResult.failed ? 'push_failed' : 'pushed',
     branch,
     commitOutput: commitResult.stdout || commitResult.stderr,
     pushOutput: pushResult.stdout || pushResult.stderr,
-    pushFailed: Boolean(pushResult.failed)
+    pushFailed: Boolean(pushResult.failed),
   }
 }
