@@ -76,3 +76,9 @@ npm run check:full
 curl https://myappai.net/api/public/telegram/status
 curl https://myappai.net/api/ollama/status
 ```
+
+For a Windows-first guided audit of remaining values, generated local secrets, live endpoint status, and token verification:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\scripts\Get-MyAppAIRemainingSecrets.ps1 -CheckLive
+```

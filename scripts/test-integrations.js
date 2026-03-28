@@ -355,10 +355,15 @@ async function runTest(fn) {
   try {
     results.push(await fn())
   } catch (error) {
+    const detail =
+      error instanceof Error
+        ? `${error.message}${error.cause instanceof Error ? ` (cause: ${error.cause.message})` : ''}`
+        : String(error)
+
     results.push({
       name: fn.name.replace(/^test/, '').toLowerCase(),
       ok: false,
-      message: error instanceof Error ? error.message : String(error),
+      message: detail,
     })
   }
 }

@@ -59,6 +59,7 @@ broken user or system env values do not contaminate repo-local commands.
 6. Run `npm run validate:env`
 7. Run `npm run secrets:test`
 8. Run `npm run secrets:path` any time you want to confirm the exact primary file path
+9. Run `powershell -ExecutionPolicy Bypass -File .\scripts\Get-MyAppAIRemainingSecrets.ps1 -CheckLive` for a current audit of what is configured, what is still missing, and what the live site is reporting
 
 ## Important boundary
 
