@@ -101,9 +101,10 @@ export default function HomePage() {
           <span className="eyebrow">MyAppAI operator platform</span>
           <PrismHeadline text="Tell the site what to do." />
           <p className="hero__lede">
-            MyAppAI is a browser-based control plane for research, code changes,
-            UI refreshes, safe automation, and live deployment. One homepage.
-            One admin login. One operator workspace.
+            For SaaS founders seeking to optimize processes, MyAppAI provides an
+            integrated platform for research, seamless UI updates, secure
+            automation, and effective live deployments. Manage your entire
+            workspace effortlessly.
           </p>
           <div className="tag-row">
             {[
@@ -141,7 +142,7 @@ export default function HomePage() {
             </Link>
             <Link
               className="button button--ghost"
-              to="/"
+              to="/#homepage-workflow"
               onClick={() =>
                 handleCtaClick('home-platform-overview', 'learn_more')
               }
@@ -231,7 +232,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="section-card">
+      <section id="homepage-workflow" className="section-card section-anchor">
         <span className="eyebrow">Workflow</span>
         <h2>From idea to live deploy in three moves.</h2>
         <div className="card-grid card-grid--compact">
