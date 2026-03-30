@@ -32,41 +32,12 @@ function resolveExecutable(command) {
   return command
 }
 
-function quoteWindowsArgument(value) {
-  const stringValue = String(value ?? '')
-
-  if (!stringValue) {
-    return '""'
-  }
-
-  if (!/[\s"]/u.test(stringValue)) {
-    return stringValue
-  }
-
-  return `"${stringValue.replace(/"/g, '\\"')}"`
-}
-
 function run(
   command,
   args,
   { allowFailure = false, env = undefined, unsetEnv = [] } = {}
 ) {
   const executable = resolveExecutable(command)
-  const spawnConfig =
-    process.platform === 'win32'
-      ? {
-          file: 'cmd.exe',
-          args: [
-            '/d',
-            '/s',
-            '/c',
-            [executable, ...args.map(quoteWindowsArgument)].join(' '),
-          ],
-        }
-      : {
-          file: executable,
-          args,
-        }
 
   return new Promise((resolve, reject) => {
     const childEnv = env ? { ...process.env, ...env } : { ...process.env }
@@ -75,7 +46,7 @@ function run(
       delete childEnv[key]
     }
 
-    const child = spawn(spawnConfig.file, spawnConfig.args, {
+    const child = spawn(executable, args, {
       cwd: process.cwd(),
       env: childEnv,
       stdio: 'inherit',
