@@ -5,17 +5,24 @@ import { repoRoot } from './platformPaths.js'
 const execFileAsync = promisify(execFile)
 const DEFAULT_BASE_BRANCH = process.env.GH_BASE_BRANCH?.trim() || 'main'
 
+export function isGitSyncEnabled() {
+  const v = String(process.env.OPERATOR_GIT_SYNC ?? '1')
+    .trim()
+    .toLowerCase()
+  return v !== '0' && v !== 'false' && v !== 'off'
+}
+
+function requireMainBranchEnabled() {
+  const v = String(process.env.OPERATOR_REQUIRE_MAIN_BRANCH ?? '1')
+    .trim()
+    .toLowerCase()
+  return v !== '0' && v !== 'false' && v !== 'off'
+}
+
 function normalizePathSpec(targetPath) {
   return String(targetPath ?? '')
     .replaceAll('\\', '/')
     .trim()
-}
-
-function buildStatusArgs(paths = []) {
-  const normalizedPaths = paths.map(normalizePathSpec).filter(Boolean)
-  return normalizedPaths.length
-    ? ['status', '--short', '--', ...normalizedPaths]
-    : ['status', '--short']
 }
 
 async function runGit(args, { allowFailure = false } = {}) {
@@ -68,43 +75,109 @@ export async function getRecentCommits(limit = 5) {
     })
 }
 
+async function hasStagedChanges() {
+  try {
+    await execFileAsync('git', ['diff', '--cached', '--quiet'], {
+      cwd: repoRoot,
+      windowsHide: true,
+    })
+    return false
+  } catch (error) {
+    if (error && error.code === 1) {
+      return true
+    }
+
+    throw error
+  }
+}
+
+export async function prepareBranchForDeploy() {
+  if (!isGitSyncEnabled()) {
+    return { status: 'disabled' }
+  }
+
+  const targetBranch = DEFAULT_BASE_BRANCH
+  const currentBranch = await getCurrentBranch()
+
+  if (requireMainBranchEnabled() && currentBranch !== targetBranch) {
+    throw new Error(
+      `Git sync requires branch "${targetBranch}" (current: "${currentBranch}"). Checkout ${targetBranch} before shipping live.`
+    )
+  }
+
+  if (process.env.OPERATOR_GIT_PULL_BEFORE_SYNC === '1') {
+    const pullResult = await runGit(
+      ['pull', '--rebase', 'origin', targetBranch],
+      { allowFailure: true }
+    )
+
+    if (pullResult.failed) {
+      throw new Error(
+        `git pull --rebase failed before deploy: ${pullResult.stderr || pullResult.stdout || 'unknown error'}`
+      )
+    }
+  }
+
+  return { status: 'ok', branch: targetBranch, currentBranch }
+}
+
+/**
+ * Stage all tracked changes, commit if needed, push to origin target branch.
+ * Call after `npm run build` so generated assets (e.g. sitemap) are included.
+ */
 export async function commitAndPush(commitMessage, paths = []) {
   const normalizedPaths = [
     ...new Set(paths.map(normalizePathSpec).filter(Boolean)),
   ]
-  const { stdout: statusOutput } = await runGit(
-    buildStatusArgs(normalizedPaths)
-  )
-  const status = statusOutput.trim()
-  const branch = DEFAULT_BASE_BRANCH || (await getCurrentBranch())
+  const targetBranch = DEFAULT_BASE_BRANCH
+  const currentBranch = await getCurrentBranch()
 
-  if (!status) {
-    return {
-      status: 'skipped',
-      message: 'No workspace changes to deploy.',
-      branch,
-    }
+  if (requireMainBranchEnabled() && currentBranch !== targetBranch) {
+    throw new Error(
+      `Git sync requires branch "${targetBranch}" (current: "${currentBranch}"). Checkout ${targetBranch} before shipping live.`
+    )
   }
 
   if (normalizedPaths.length) {
     await runGit(['add', '--', ...normalizedPaths])
   } else {
-    await runGit(['add', '.'])
+    await runGit(['add', '-A'])
   }
 
-  const commitArgs = normalizedPaths.length
-    ? ['commit', '--only', '-m', commitMessage, '--', ...normalizedPaths]
-    : ['commit', '-m', commitMessage]
-  const commitResult = await runGit(commitArgs, { allowFailure: true })
-  const pushResult = await runGit(['push', 'origin', `HEAD:${branch}`], {
+  const staged = await hasStagedChanges()
+  let commitOutput = ''
+
+  if (staged) {
+    const commitArgs = normalizedPaths.length
+      ? ['commit', '--only', '-m', commitMessage, '--', ...normalizedPaths]
+      : ['commit', '-m', commitMessage]
+    const commitResult = await runGit(commitArgs, { allowFailure: true })
+    commitOutput =
+      `${commitResult.stdout || ''}${commitResult.stderr || ''}`.trim()
+
+    if (commitResult.failed && !/nothing to commit/i.test(commitOutput)) {
+      throw new Error(`git commit failed: ${commitOutput || 'unknown error'}`)
+    }
+  }
+
+  const pushResult = await runGit(['push', 'origin', `HEAD:${targetBranch}`], {
     allowFailure: true,
   })
+  const pushOutput =
+    `${pushResult.stdout || ''}${pushResult.stderr || ''}`.trim()
+
+  if (pushResult.failed) {
+    throw new Error(`git push failed: ${pushOutput || 'unknown error'}`)
+  }
 
   return {
-    status: pushResult.failed ? 'push_failed' : 'pushed',
-    branch,
-    commitOutput: commitResult.stdout || commitResult.stderr,
-    pushOutput: pushResult.stdout || pushResult.stderr,
-    pushFailed: Boolean(pushResult.failed),
+    status: staged ? 'pushed' : 'pushed_no_commit',
+    branch: targetBranch,
+    currentBranch,
+    commitOutput,
+    pushOutput,
+    message: staged
+      ? 'Committed and pushed to origin.'
+      : 'No new commit; push completed (branch already up to date).',
   }
 }

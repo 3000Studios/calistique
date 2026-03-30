@@ -2,6 +2,11 @@ import { execFile } from 'node:child_process'
 import { promisify } from 'node:util'
 import { recordDeployment } from '../../server/services/deploymentService.js'
 import { recordDeploymentActivity } from '../../server/services/analyticsService.js'
+import {
+  commitAndPush,
+  isGitSyncEnabled,
+  prepareBranchForDeploy,
+} from '../../server/services/gitService.js'
 import { repoRoot } from '../../server/services/platformPaths.js'
 
 const execFileAsync = promisify(execFile)
@@ -53,7 +58,22 @@ export async function deploySite({ message = 'Manual operator deploy' } = {}) {
   const branch = getProductionBranch()
 
   try {
+    let gitSync = { status: 'disabled', message: 'OPERATOR_GIT_SYNC is off.' }
+
+    if (isGitSyncEnabled()) {
+      await prepareBranchForDeploy()
+    }
+
     const buildResult = await runProcess('npm', ['run', 'build'])
+
+    if (isGitSyncEnabled()) {
+      const safeMessage = String(message ?? 'Manual operator deploy')
+        .replace(/\r?\n/g, ' ')
+        .trim()
+        .slice(0, 200)
+      gitSync = await commitAndPush(safeMessage || 'Manual operator deploy', [])
+    }
+
     const deployResult = await runProcess('npx', [
       'wrangler',
       'pages',
@@ -76,6 +96,7 @@ export async function deploySite({ message = 'Manual operator deploy' } = {}) {
       strategy: 'manual-wrangler',
       buildOutput: buildResult.stdout || buildResult.stderr || '',
       deployOutput: deployResult.stdout || deployResult.stderr || '',
+      gitSync,
     }
 
     await recordDeployment(deployment)
@@ -93,6 +114,7 @@ export async function deploySite({ message = 'Manual operator deploy' } = {}) {
       strategy: 'manual-wrangler',
       buildOutput: error.stdout || '',
       deployOutput: error.stderr || error.message,
+      gitSync: error.gitSync ?? null,
     }
 
     await recordDeployment(deployment)

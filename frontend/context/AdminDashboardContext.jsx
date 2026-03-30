@@ -101,6 +101,9 @@ export function AdminDashboardProvider({ children }) {
   const [naturalLanguagePrompt, setNaturalLanguagePrompt] = useState(
     storedOperatorState?.naturalLanguagePrompt ?? defaultPrompt
   )
+  const [shipLiveAfterRun, setShipLiveAfterRun] = useState(
+    storedOperatorState?.shipLiveAfterRun !== false
+  )
   const [analytics, setAnalytics] = useState(null)
   const [deployments, setDeployments] = useState(null)
   const [contentBundle, setContentBundle] = useState(null)
@@ -178,6 +181,7 @@ export function AdminDashboardProvider({ children }) {
         consoleMode,
         commandText,
         naturalLanguagePrompt,
+        shipLiveAfterRun,
         lastResult,
         operatorHistory: operatorHistory.slice(0, 8),
       })
@@ -188,6 +192,7 @@ export function AdminDashboardProvider({ children }) {
     lastResult,
     naturalLanguagePrompt,
     operatorHistory,
+    shipLiveAfterRun,
   ])
 
   const recordResult = useCallback((result, metadata = {}) => {
@@ -202,12 +207,23 @@ export function AdminDashboardProvider({ children }) {
       setError('')
       setCommandBusy(true)
 
-      const payload =
-        consoleMode === 'json'
-          ? JSON.parse(commandText)
-          : {
-              command: naturalLanguagePrompt.trim(),
-            }
+      let payload
+      if (consoleMode === 'json') {
+        payload = JSON.parse(commandText)
+        if (
+          payload &&
+          typeof payload === 'object' &&
+          typeof payload.command === 'string' &&
+          !('shipLiveAfterEdit' in payload)
+        ) {
+          payload = { ...payload, shipLiveAfterEdit: shipLiveAfterRun }
+        }
+      } else {
+        payload = {
+          command: naturalLanguagePrompt.trim(),
+          shipLiveAfterEdit: shipLiveAfterRun,
+        }
+      }
 
       if (consoleMode !== 'json' && !payload.command) {
         throw new Error('Enter a prompt for the operator workspace.')
@@ -260,6 +276,7 @@ export function AdminDashboardProvider({ children }) {
     naturalLanguagePrompt,
     recordResult,
     refreshDashboard,
+    shipLiveAfterRun,
   ])
 
   const handleSaveFile = useCallback(
@@ -431,6 +448,7 @@ export function AdminDashboardProvider({ children }) {
     setConsoleMode('prompt')
     setCommandText(defaultCommand)
     setNaturalLanguagePrompt(defaultPrompt)
+    setShipLiveAfterRun(true)
     setLastResult(null)
     setOperatorHistory([])
     setError('')
@@ -464,6 +482,8 @@ export function AdminDashboardProvider({ children }) {
       setCommandText,
       naturalLanguagePrompt,
       setNaturalLanguagePrompt,
+      shipLiveAfterRun,
+      setShipLiveAfterRun,
       analytics,
       deployments,
       contentBundle,
@@ -499,6 +519,7 @@ export function AdminDashboardProvider({ children }) {
       consoleMode,
       commandText,
       naturalLanguagePrompt,
+      shipLiveAfterRun,
       analytics,
       deployments,
       contentBundle,

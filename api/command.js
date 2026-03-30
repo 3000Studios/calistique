@@ -12,7 +12,9 @@ export async function executeRepositoryCommand(payload) {
     typeof payload?.command === 'string' ? payload.command.trim() : ''
 
   if (command) {
-    return runOperatorPrompt(command)
+    return runOperatorPrompt(command, {
+      shipLiveAfterEdit: Boolean(payload?.shipLiveAfterEdit),
+    })
   }
 
   if (

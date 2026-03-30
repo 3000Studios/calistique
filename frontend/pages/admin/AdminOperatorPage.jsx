@@ -49,6 +49,8 @@ export default function AdminOperatorPage() {
   const {
     naturalLanguagePrompt,
     setNaturalLanguagePrompt,
+    shipLiveAfterRun,
+    setShipLiveAfterRun,
     handleRunCommand,
     handleDeploy,
     clearOperatorSessionState,
@@ -206,8 +208,10 @@ export default function AdminOperatorPage() {
                   Guide the site in plain language.
                 </h1>
                 <p className="operator-monolith__lede">
-                  Prompt the operator once, review the interpreted plan, and
-                  move from research to deploy without leaving the workspace.
+                  Type what you want (or use voice), enable ship-live, and press
+                  run to commit, push <code>main</code>, build, and deploy to
+                  myappai.net—or type <code>deploy</code> alone to deploy the
+                  current workspace.
                 </p>
               </div>
               <span className="operator-label operator-label--quiet">
@@ -245,6 +249,19 @@ export default function AdminOperatorPage() {
             </div>
 
             <div className="operator-prompt">
+              <label className="operator-ship-live">
+                <input
+                  type="checkbox"
+                  checked={shipLiveAfterRun}
+                  onChange={(event) =>
+                    setShipLiveAfterRun(event.target.checked)
+                  }
+                />
+                <span>
+                  After this edit: commit, push to <code>main</code>, build, and
+                  deploy live (myappai.net). Uncheck to only apply the patch.
+                </span>
+              </label>
               <textarea
                 id="promptInput"
                 value={naturalLanguagePrompt}
@@ -278,7 +295,11 @@ export default function AdminOperatorPage() {
                   onClick={() => void handleExecute()}
                   disabled={commandBusy}
                 >
-                  {commandBusy ? 'RUNNING' : 'EXECUTE'}
+                  {commandBusy
+                    ? 'RUNNING'
+                    : shipLiveAfterRun
+                      ? 'RUN + SHIP LIVE'
+                      : 'EXECUTE'}
                 </button>
                 <button
                   className="operator-button operator-button--secondary"
