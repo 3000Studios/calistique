@@ -98,7 +98,7 @@ export default function HomePage() {
           className="hero__copy hero__copy--immersive"
           variants={fadeUp}
         >
-          <span className="eyebrow">MyAppAI operator platform</span>
+          <motion.span className="eyebrow" style={{ fontSize: '4em', color: 'blue' }} animate={{ opacity: [0, 1], transition: { duration: 2 } }} exit={{ opacity: 0 }} whileHover={{ scale: 1.1 }}>MyAppAI operator platform</motion.span>
           <PrismHeadline text="Tell the site what to do." />
           <p className="hero__lede">
             For SaaS founders seeking to optimize processes, MyAppAI provides an
