@@ -9,6 +9,7 @@ import AdminOperatorPage from '../pages/admin/AdminOperatorPage.jsx'
 import AdminOpenClawPage from '../pages/admin/AdminOpenClawPage.jsx'
 import AdminLogsPage from '../pages/admin/AdminLogsPage.jsx'
 import AdminSecureLogsPage from '../pages/admin/AdminSecureLogsPage.jsx'
+import OpenClaw from '../pages/OpenClaw.jsx'
 import NotFoundPage from '../pages/NotFoundPage.jsx'
 import { SiteRuntimeProvider } from './SiteRuntimeContext.jsx'
 import { theme } from './siteData.js'
@@ -33,6 +34,7 @@ export default function App() {
       <Routes>
         <Route element={<SiteFrame />}>
           <Route path="/" element={<HomePage />} />
+          <Route path="/openclaw" element={<OpenClaw />} />
         </Route>
         <Route path="/admin/login" element={<AdminLoginPage />} />
         <Route path="/admin" element={<AdminLayout />}>
