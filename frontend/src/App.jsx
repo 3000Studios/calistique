@@ -6,6 +6,7 @@ import AdminLayout from '../components/admin/AdminLayout.jsx'
 import HomePage from '../pages/HomePage.jsx'
 import AdminLoginPage from '../pages/AdminLoginPage.jsx'
 import AdminOperatorPage from '../pages/admin/AdminOperatorPage.jsx'
+import AdminOpenClawPage from '../pages/admin/AdminOpenClawPage.jsx'
 import AdminLogsPage from '../pages/admin/AdminLogsPage.jsx'
 import AdminSecureLogsPage from '../pages/admin/AdminSecureLogsPage.jsx'
 import NotFoundPage from '../pages/NotFoundPage.jsx'
@@ -37,6 +38,7 @@ export default function App() {
         <Route path="/admin" element={<AdminLayout />}>
           <Route index element={<Navigate to="operator" replace />} />
           <Route path="operator" element={<AdminOperatorPage />} />
+          <Route path="openclaw" element={<AdminOpenClawPage />} />
           <Route path="logs" element={<AdminLogsPage />} />
           <Route path="secure-logs" element={<AdminSecureLogsPage />} />
         </Route>

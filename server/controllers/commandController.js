@@ -15,6 +15,11 @@ import {
   getRevenueQueueSnapshot,
   updateLeadStage,
 } from '../services/revenueQueueService.js'
+import { transcribePublicMedia } from '../services/transcriptionService.js'
+import {
+  generateGeminiText,
+  streamGeminiText,
+} from '../services/geminiService.js'
 
 export async function postCommand(request, response, next) {
   try {
@@ -96,6 +101,57 @@ export async function patchLeadStage(request, response, next) {
     })
   } catch (error) {
     next(error)
+  }
+}
+
+export async function postWhisperTranscription(request, response, next) {
+  try {
+    const result = await transcribePublicMedia(request.body ?? {})
+    response.json(result)
+  } catch (error) {
+    next(error)
+  }
+}
+
+export async function postGeminiGenerate(request, response, next) {
+  try {
+    const { prompt, model, systemInstruction } = request.body ?? {}
+    const result = await generateGeminiText({
+      prompt,
+      model,
+      systemInstruction,
+    })
+    response.json(result)
+  } catch (error) {
+    next(error)
+  }
+}
+
+export async function postGeminiStream(request, response, next) {
+  try {
+    const { prompt, model, systemInstruction } = request.body ?? {}
+    response.setHeader('Content-Type', 'text/event-stream')
+    response.setHeader('Cache-Control', 'no-cache')
+    response.setHeader('Connection', 'keep-alive')
+    response.flushHeaders?.()
+
+    await streamGeminiText({ prompt, model, systemInstruction }, (chunk) => {
+      const payload = JSON.stringify({ chunk })
+      response.write(`data: ${payload}\n\n`)
+    })
+
+    response.write('event: done\ndata: {"ok":true}\n\n')
+    response.end()
+  } catch (error) {
+    if (!response.headersSent) {
+      next(error)
+      return
+    }
+    const payload = JSON.stringify({
+      error: error instanceof Error ? error.message : String(error),
+    })
+    response.write(`event: error\ndata: ${payload}\n\n`)
+    response.end()
   }
 }
 

@@ -5,14 +5,68 @@ import {
   AdminDashboardProvider,
   useAdminDashboard,
 } from '../../context/AdminDashboardContext.jsx'
-import { getAdminSession } from '../../src/adminSession.js'
+import { getAdminSessionState } from '../../src/adminApi.js'
+import {
+  clearAdminSession,
+  getAdminSession,
+  saveAdminSession,
+} from '../../src/adminSession.js'
 import { SITE_DISPLAY_NAME } from '../../src/siteMeta.js'
 
 const nav = [
   { to: '/admin/operator', label: 'Operator', end: false },
+  { to: '/admin/openclaw', label: 'OpenClaw AI', end: false },
   { to: '/admin/logs', label: 'Logs', end: false },
   { to: '/admin/secure-logs', label: 'Secure Logs', end: false },
 ]
+
+function AdminSessionGate({ children }) {
+  const [status, setStatus] = useState('checking')
+
+  useEffect(() => {
+    const localSession = getAdminSession()
+    if (!localSession?.adminEmail) {
+      setStatus('missing')
+      return
+    }
+
+    getAdminSessionState()
+      .then((payload) => {
+        if (payload?.adminEmail) {
+          saveAdminSession({ adminEmail: payload.adminEmail })
+        }
+        setStatus('ok')
+      })
+      .catch(() => {
+        clearAdminSession()
+        setStatus('missing')
+      })
+  }, [])
+
+  if (status === 'checking') {
+    return (
+      <div className="admin-section stack-lg">
+        <section className="admin-card">
+          <div className="admin-card__header">
+            <div>
+              <span className="eyebrow">Admin session</span>
+              <h2>Checking access…</h2>
+            </div>
+          </div>
+          <p className="section-intro">
+            Confirming your server-side admin session before loading tools.
+          </p>
+        </section>
+      </div>
+    )
+  }
+
+  if (status !== 'ok') {
+    return <Navigate to="/admin/login" replace />
+  }
+
+  return children
+}
 
 function AdminLayoutInner() {
   const {
@@ -123,7 +177,7 @@ function AdminLayoutInner() {
             <span className="eyebrow">Authenticated</span>
             <p className="admin-topbar__email">{adminSession?.adminEmail}</p>
             <strong className="admin-topbar__route">
-              {location.pathname.replace('/admin/', '').replace(/-/g, ' ')}
+              {location.pathname.replace('/admin/', '').replaceAll('-', ' ')}
             </strong>
           </div>
           <div className="admin-topbar__actions">
@@ -163,14 +217,12 @@ function AdminLayoutInner() {
 }
 
 function AdminGate() {
-  const session = getAdminSession()
-  if (!session?.adminEmail) {
-    return <Navigate to="/admin/login" replace />
-  }
   return (
-    <AdminDashboardProvider>
-      <AdminLayoutInner />
-    </AdminDashboardProvider>
+    <AdminSessionGate>
+      <AdminDashboardProvider>
+        <AdminLayoutInner />
+      </AdminDashboardProvider>
+    </AdminSessionGate>
   )
 }
 

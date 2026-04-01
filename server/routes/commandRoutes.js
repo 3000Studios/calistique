@@ -9,6 +9,9 @@ import {
   getOllamaProxyStatus,
   getRevenueQueue,
   patchLeadStage,
+  postGeminiGenerate,
+  postGeminiStream,
+  postWhisperTranscription,
   proxyOllamaRequest,
 } from '../controllers/commandController.js'
 import { adminAuth } from '../middleware/adminAuth.js'
@@ -39,6 +42,9 @@ router.get('/metrics', adminAuth, getMetrics)
 router.post('/heal', adminAuth, postSelfHealRun)
 router.get('/revenue', adminAuth, getRevenueQueue)
 router.patch('/revenue/leads/:id', adminAuth, patchLeadStage)
+router.post('/transcription/whisper', adminAuth, postWhisperTranscription)
+router.post('/gemini', adminAuth, postGeminiGenerate)
+router.post('/gemini/stream', adminAuth, postGeminiStream)
 router.use('/command', adminAuth, commandApiRouter)
 
 export default router

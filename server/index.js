@@ -14,7 +14,7 @@ const PORT = Number(process.env.PORT ?? 8787)
 const __filename = fileURLToPath(import.meta.url)
 
 app.use(cors())
-app.use(express.json({ limit: '2mb' }))
+app.use(express.json({ limit: '60mb' }))
 
 app.get('/api/health', async (_request, response) => {
   await bootstrapContent()
