@@ -17,3 +17,6 @@ dist
 .tmp-frontend.err.log
 .tmp-server.log
 .tmp-server.err.log
+.tmp-pagesdev-out.log
+.tmp-pagesdev-err.log
+.cache

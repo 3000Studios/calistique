@@ -13,7 +13,7 @@ echo "=== MYAPPAI ENV SETUP START ==="
 apt-get update -y
 
 apt-get install -y \
-  git curl wget build-essential python3 python3-pip nodejs npm jq
+  git curl wget jq ca-certificates build-essential python3 python3-pip nodejs npm powershell
 
 npm install -g \
   pnpm yarn typescript eslint prettier wrangler vite
@@ -36,18 +36,24 @@ echo "=== MYAPPAI ENV READY ==="
 
 ## Commands
 
-- Lint: `npm run lint || eslint . || echo "No lint config"`
-- Test: `npm run test || pytest || echo "No tests yet"`
-- Build: `npm run build || echo "No build step"`
+- Validate env: `npm run validate:env`
+- Lint: `npm run lint`
+- Test: `npm run test`
+- Build: `npm run build`
+- Full check: `npm run check:full`
 
 ## Optional Environment Variables
 
 - `NODE_ENV=development`
 - `PYTHONUNBUFFERED=1`
 - `AI_PROJECT_NAME=myappai`
+- `CLOUDFLARE_PAGES_PROJECT_NAME=myappai`
+- `CLOUDFLARE_PAGES_BRANCH=main`
 
 ## Notes
 
 - The repo already defines working `lint`, `test`, and `build` scripts in `package.json`.
 - `main` is treated as the live production branch, so pushes may deploy directly depending on Cloudflare Pages settings.
 - `AGENTS.md` contains the higher-level operating rules Codex should follow inside this repo.
+- Repo-local secrets should load from `.secrets/myappai.local.env` before `.secrets/shared.local.env`.
+- For current environment and token guidance, see `docs/ENV_AUDIT_PLAYBOOK.md`.

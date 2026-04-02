@@ -6,7 +6,7 @@ function flattenContent(contentBundle) {
       section,
       slug: item.slug,
       filePath: item.filePath,
-      data: item.data
+      data: item.data,
     }))
   )
 }
@@ -23,7 +23,9 @@ export default function ContentEditor({ contentBundle, onSaveFile, busy }) {
   }, [entries, selectedPath])
 
   useEffect(() => {
-    const entry = entries.find((candidate) => candidate.filePath === selectedPath)
+    const entry = entries.find(
+      (candidate) => candidate.filePath === selectedPath
+    )
     setEditorValue(entry ? JSON.stringify(entry.data, null, 2) : '')
   }, [entries, selectedPath])
 
@@ -37,7 +39,10 @@ export default function ContentEditor({ contentBundle, onSaveFile, busy }) {
       </div>
       <label className="field">
         <span>Content file</span>
-        <select value={selectedPath} onChange={(event) => setSelectedPath(event.target.value)}>
+        <select
+          value={selectedPath}
+          onChange={(event) => setSelectedPath(event.target.value)}
+        >
           {entries.map((entry) => (
             <option key={entry.filePath} value={entry.filePath}>
               {entry.section} / {entry.slug}

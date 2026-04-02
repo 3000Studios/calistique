@@ -8,7 +8,12 @@ export default function DeploymentPanel({ deployments, onDeploy, busy }) {
           <span className="eyebrow">Deployments</span>
           <h2>Git and Cloudflare handoff</h2>
         </div>
-        <button className="button button--ghost" type="button" onClick={onDeploy} disabled={busy}>
+        <button
+          className="button button--ghost"
+          type="button"
+          onClick={onDeploy}
+          disabled={busy}
+        >
           {busy ? 'Deploying...' : 'Trigger deploy'}
         </button>
       </div>
@@ -21,7 +26,9 @@ export default function DeploymentPanel({ deployments, onDeploy, busy }) {
               <span>{entry.branch}</span>
             </div>
             <p>{entry.message}</p>
-            <span className="meta-line">{entry.finishedAt ?? entry.startedAt}</span>
+            <span className="meta-line">
+              {entry.finishedAt ?? entry.startedAt}
+            </span>
           </article>
         ))}
       </div>

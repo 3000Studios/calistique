@@ -1,5 +1,8 @@
 import { getAnalyticsSnapshot } from '../../server/services/analyticsService.js'
-import { getContentBundle, readJson } from '../../server/services/contentService.js'
+import {
+  getContentBundle,
+  readJson,
+} from '../../server/services/contentService.js'
 import { systemRoot } from '../../server/services/platformPaths.js'
 import path from 'node:path'
 
@@ -24,7 +27,7 @@ function blogTopicFromContext(analytics, traffic) {
     'growth automation',
     'AI workflow systems',
     'AI content pipelines',
-    'AI traffic generation'
+    'AI traffic generation',
   ])
 }
 
@@ -33,7 +36,10 @@ export async function decideNextTasks() {
     readJson(STATE_FILE, {}),
     getAnalyticsSnapshot(),
     getContentBundle(),
-    readJson(path.join(systemRoot, 'traffic.json'), { queue: [], published: [] })
+    readJson(path.join(systemRoot, 'traffic.json'), {
+      queue: [],
+      published: [],
+    }),
   ])
 
   const tasks = []
@@ -53,7 +59,7 @@ export async function decideNextTasks() {
     tasks.push({
       action: 'discover_topics',
       limit: 5,
-      seedTopics: ['AI automation', 'growth automation', 'landing pages']
+      seedTopics: ['AI automation', 'growth automation', 'landing pages'],
     })
   }
 
@@ -62,7 +68,7 @@ export async function decideNextTasks() {
       action: 'run_traffic_cycle',
       count: queuedTopics > 4 ? 1 : 2,
       includeImages: true,
-      autoDeploy: false
+      autoDeploy: false,
     })
   }
 
@@ -71,7 +77,7 @@ export async function decideNextTasks() {
       action: 'create_blog_post',
       topic: blogTopicFromContext(analytics, traffic),
       length: visitors < 500 ? 'medium' : 'long',
-      autoDeploy: false
+      autoDeploy: false,
     })
   }
 
@@ -81,7 +87,7 @@ export async function decideNextTasks() {
       page: `growth-system-${new Date().toISOString().slice(11, 16).replace(':', '-')}`,
       topic: 'AI powered growth system',
       goal: 'capture qualified leads',
-      autoDeploy: false
+      autoDeploy: false,
     })
   }
 
@@ -91,7 +97,7 @@ export async function decideNextTasks() {
   ) {
     tasks.push({
       action: 'deploy_site',
-      message: 'AI planner deployment'
+      message: 'AI planner deployment',
     })
   }
 

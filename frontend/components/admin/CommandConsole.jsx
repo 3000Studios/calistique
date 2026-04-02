@@ -1,9 +1,10 @@
 import React from 'react'
+import { useAdminDashboard } from '../../context/AdminDashboardContext.jsx'
 
 const promptPresets = [
   'Rewrite the homepage hero to emphasize deployment and operator workflows.',
   'Tighten the pricing copy so it feels more premium and clearer.',
-  'Refresh the contact page to qualify enterprise deployment leads better.'
+  'Refresh the contact page to qualify enterprise deployment leads better.',
 ]
 
 const jsonPresets = [
@@ -13,8 +14,8 @@ const jsonPresets = [
       action: 'create_landing_page',
       topic: 'AI automation tools',
       goal: 'generate leads',
-      autoDeploy: false
-    }
+      autoDeploy: false,
+    },
   },
   {
     label: 'Blog post',
@@ -22,16 +23,16 @@ const jsonPresets = [
       action: 'create_blog_post',
       topic: 'AI-powered conversion optimization',
       length: 'medium',
-      autoDeploy: false
-    }
+      autoDeploy: false,
+    },
   },
   {
     label: 'Deploy',
     command: {
       action: 'deploy_site',
-      message: 'Admin-triggered deploy'
-    }
-  }
+      message: 'Admin-triggered deploy',
+    },
+  },
 ]
 
 export default function CommandConsole({
@@ -43,8 +44,10 @@ export default function CommandConsole({
   onNaturalLanguagePromptChange,
   onRunCommand,
   busy,
-  lastResult
+  lastResult,
 }) {
+  const { shipLiveAfterRun, setShipLiveAfterRun } = useAdminDashboard()
+
   return (
     <section className="admin-card">
       <div className="admin-card__header">
@@ -74,7 +77,12 @@ export default function CommandConsole({
         <>
           <div className="preset-row">
             {promptPresets.map((preset) => (
-              <button key={preset} className="pill-button" type="button" onClick={() => onNaturalLanguagePromptChange(preset)}>
+              <button
+                key={preset}
+                className="pill-button"
+                type="button"
+                onClick={() => onNaturalLanguagePromptChange(preset)}
+              >
                 {preset}
               </button>
             ))}
@@ -83,10 +91,28 @@ export default function CommandConsole({
             className="code-editor code-editor--large"
             spellCheck="false"
             value={naturalLanguagePrompt}
-            onChange={(event) => onNaturalLanguagePromptChange(event.target.value)}
+            onChange={(event) =>
+              onNaturalLanguagePromptChange(event.target.value)
+            }
           />
+          <label
+            className="field-note"
+            style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}
+          >
+            <input
+              type="checkbox"
+              checked={shipLiveAfterRun}
+              onChange={(event) => setShipLiveAfterRun(event.target.checked)}
+            />
+            <span>
+              After this edit: commit, push to <code>main</code>, build, and
+              deploy to Cloudflare Pages (myappai.net).
+            </span>
+          </label>
           <p className="field-note">
-            Natural-language mode targets the live `frontend/` and `content/` app, then deploys only the changed file paths.
+            Natural-language mode edits safe paths under <code>frontend/</code>{' '}
+            and <code>content/</code>. End the prompt with &quot;and
+            deploy&quot; to ship even if this box is off.
           </p>
         </>
       ) : (
@@ -97,7 +123,9 @@ export default function CommandConsole({
                 key={preset.label}
                 className="pill-button"
                 type="button"
-                onClick={() => onCommandTextChange(JSON.stringify(preset.command, null, 2))}
+                onClick={() =>
+                  onCommandTextChange(JSON.stringify(preset.command, null, 2))
+                }
               >
                 {preset.label}
               </button>
@@ -113,11 +141,26 @@ export default function CommandConsole({
       )}
 
       <div className="admin-actions">
-        <button className="button button--primary" type="button" onClick={onRunCommand} disabled={busy}>
-          {busy ? 'Running...' : consoleMode === 'prompt' ? 'Run custom GPT' : 'Run JSON command'}
+        <button
+          className="button button--primary"
+          type="button"
+          onClick={onRunCommand}
+          disabled={busy}
+        >
+          {busy
+            ? 'Running...'
+            : consoleMode === 'prompt'
+              ? shipLiveAfterRun
+                ? 'Run + ship live'
+                : 'Run custom GPT'
+              : 'Run JSON command'}
         </button>
       </div>
-      {lastResult ? <pre className="result-panel">{JSON.stringify(lastResult, null, 2)}</pre> : null}
+      {lastResult ? (
+        <pre className="result-panel">
+          {JSON.stringify(lastResult, null, 2)}
+        </pre>
+      ) : null}
     </section>
   )
 }

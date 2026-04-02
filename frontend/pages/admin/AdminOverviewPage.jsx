@@ -27,7 +27,9 @@ export default function AdminOverviewPage() {
               <h2>Response payload</h2>
             </div>
           </div>
-          <pre className="result-panel result-panel--inline">{JSON.stringify(lastResult, null, 2)}</pre>
+          <pre className="result-panel result-panel--inline">
+            {JSON.stringify(lastResult, null, 2)}
+          </pre>
         </section>
       ) : null}
     </div>

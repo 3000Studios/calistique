@@ -17,7 +17,21 @@ function canUseSameOriginApi() {
     return false
   }
 
-  return ['localhost', '127.0.0.1'].includes(window.location.hostname)
+  const { hostname, protocol } = window.location
+
+  if (['localhost', '127.0.0.1'].includes(hostname)) {
+    return true
+  }
+
+  if (protocol !== 'https:') {
+    return false
+  }
+
+  return (
+    hostname === 'myappai.net' ||
+    hostname === 'www.myappai.net' ||
+    hostname.endsWith('.pages.dev')
+  )
 }
 
 const API_BASE = normalizeApiBase(import.meta.env.VITE_API_BASE_URL)
@@ -34,7 +48,7 @@ function getResolvedApiBase() {
 async function request(path, { method = 'GET', body } = {}) {
   const resolvedApiBase = getResolvedApiBase()
 
-  if (!resolvedApiBase) {
+  if (resolvedApiBase == null) {
     if (path === '/api/public/events' && method === 'POST') {
       return { ok: false, skipped: true }
     }

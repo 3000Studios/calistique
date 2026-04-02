@@ -18,7 +18,11 @@ const RESEARCH_PATTERNS = [
   /\bfind\b/i,
   /\blook up\b/i,
 ]
-const DEPLOY_PATTERNS = [/\bdeploy\b/i, /\bship live\b/i, /\bpush live\b/i]
+/** Matches prompts that should only trigger a live deploy (no file edit). */
+const DEPLOY_ONLY_PATTERN =
+  /^(please\s+)?(?:(can|could|would)\s+you\s+)?(deploy|ship live|push live|go live|publish(\s+live)?)\b/i
+const DEPLOY_ONLY_STANDALONE_PATTERN =
+  /^\s*(deploy|ship\s+it|push\s+it|go\s+live|publish(\s+live)?)\s*\.?\s*$/i
 
 function isBlockedPrompt(command) {
   return BLOCKED_PATTERNS.find((pattern) => pattern.test(command))
@@ -29,7 +33,38 @@ function needsResearch(command) {
 }
 
 function isDeployOnlyPrompt(command) {
-  return DEPLOY_PATTERNS.some((pattern) => pattern.test(command))
+  const t = String(command ?? '').trim()
+  if (!t || needsResearch(t)) {
+    return false
+  }
+
+  if (DEPLOY_ONLY_STANDALONE_PATTERN.test(t)) {
+    return true
+  }
+
+  return DEPLOY_ONLY_PATTERN.test(t)
+}
+
+/** True when the user asked to ship live at the end of an edit-style prompt. */
+function wantsDeployAfterEdit(command) {
+  const t = String(command ?? '').trim()
+  if (!t) {
+    return false
+  }
+
+  return /\b(and\s+then\s+)?(deploy|ship\s+live|push\s+live|go\s+live|publish(\s+live)?)\s*\.?\s*$/i.test(
+    t
+  )
+}
+
+function sanitizeDeployCommitMessage(raw, fallback = 'Operator live deploy') {
+  const cleaned = String(raw ?? '')
+    .replace(/\r?\n/g, ' ')
+    .replace(/"/g, "'")
+    .trim()
+    .slice(0, 200)
+
+  return cleaned || fallback
 }
 
 function planOperatorPrompt(command) {
@@ -127,7 +162,8 @@ function collectAffectedPaths(result) {
   ].filter(Boolean)
 }
 
-export async function runOperatorPrompt(command) {
+export async function runOperatorPrompt(command, options = {}) {
+  const shipLiveAfterEdit = Boolean(options.shipLiveAfterEdit)
   const trimmed = String(command ?? '').trim()
   if (!trimmed) {
     throw new Error('Operator prompt is required.')
@@ -162,7 +198,10 @@ export async function runOperatorPrompt(command) {
 
   if (plan.intent === 'deploy_site') {
     const deployment = await deployUpdate({
-      commitMessage: 'Operator-triggered deploy',
+      commitMessage: sanitizeDeployCommitMessage(
+        trimmed,
+        'Operator-triggered deploy'
+      ),
       paths: [],
     })
     await recordAiActivity('deploy_site', 'deploy_site')
@@ -186,11 +225,26 @@ export async function runOperatorPrompt(command) {
 
   const instruction = await interpretCommand(trimmed)
   const patch = await applyPatch(instruction)
-  const deployment = await deployUpdate({
-    commitMessage: instruction.commitMessage,
-    paths: [patch.file],
-  })
   await recordAiActivity(plan.intent, plan.intent)
+
+  const shouldShipLive = shipLiveAfterEdit || wantsDeployAfterEdit(trimmed)
+  let deployment = null
+  let nextSteps = ['Review the change summary, then deploy when ready.']
+
+  if (shouldShipLive) {
+    deployment = await deployUpdate({
+      commitMessage: sanitizeDeployCommitMessage(
+        trimmed,
+        `Live deploy: ${patch.file}`
+      ),
+      paths: [],
+    })
+    nextSteps = [
+      'Live deploy finished: git sync (if enabled), build, and Cloudflare Pages update.',
+      'Confirm git push and deployment status in the panels below.',
+    ]
+  }
+
   await logOperatorEvent({
     level: 'info',
     scope: 'operator',
@@ -200,6 +254,7 @@ export async function runOperatorPrompt(command) {
       mode: plan.intent,
       file: patch.file,
       deployment,
+      shipLiveAfterEdit: shouldShipLive,
     },
   })
 
@@ -209,8 +264,8 @@ export async function runOperatorPrompt(command) {
     affectedPaths: [patch.file],
     deployment,
     sources,
-    nextSteps: deployment ? ['Review live deployment output.'] : [],
-    details: { plan, instruction },
+    nextSteps,
+    details: { plan, instruction, shipLiveAfterEdit: shouldShipLive },
   })
 }
 

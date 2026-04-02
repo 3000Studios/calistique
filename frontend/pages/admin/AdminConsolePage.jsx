@@ -13,7 +13,7 @@ export default function AdminConsolePage() {
     setNaturalLanguagePrompt,
     handleRunCommand,
     commandBusy,
-    lastResult
+    lastResult,
   } = useAdminDashboard()
 
   return (
@@ -22,7 +22,8 @@ export default function AdminConsolePage() {
         <span className="eyebrow">AI console</span>
         <PrismHeadline text="Command router" />
         <p className="section-intro">
-          Run natural-language or JSON actions against the live platform for content changes, deploys, and automation.
+          Run natural-language or JSON actions against the live platform for
+          content changes, deploys, and automation.
         </p>
       </div>
       <CommandConsole

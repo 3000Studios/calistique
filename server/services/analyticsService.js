@@ -38,6 +38,30 @@ function nowIso() {
   return new Date().toISOString()
 }
 
+function normalizeActivityValue(value, fallback = 'idle') {
+  if (typeof value === 'string' && value.trim()) {
+    return value.trim()
+  }
+
+  if (typeof value === 'number' || typeof value === 'boolean') {
+    return String(value)
+  }
+
+  if (value && typeof value === 'object') {
+    if (typeof value.action === 'string' && value.action.trim()) {
+      return value.action.trim()
+    }
+
+    if (typeof value.mode === 'string' && value.mode.trim()) {
+      return value.mode.trim()
+    }
+
+    return fallback
+  }
+
+  return fallback
+}
+
 function normalizeEventType(type) {
   return EVENT_TYPES.has(type) ? type : 'page_view'
 }
@@ -49,8 +73,11 @@ export async function recordAiActivity(action, mode = 'safe_action') {
   )
   analytics.aiActivity = analytics.aiActivity ?? DEFAULT_ANALYTICS.aiActivity
   analytics.aiActivity.commandsToday += 1
-  analytics.aiActivity.lastAction = action
-  analytics.aiActivity.lastMode = mode
+  analytics.aiActivity.lastAction = normalizeActivityValue(
+    action,
+    'safe_action'
+  )
+  analytics.aiActivity.lastMode = normalizeActivityValue(mode, 'safe_action')
   analytics.updatedAt = nowIso()
   await writeSystemDocument('analytics.json', analytics)
   return analytics
@@ -180,6 +207,14 @@ export async function getAnalyticsSnapshot() {
 
   return {
     ...analytics,
+    aiActivity: {
+      ...(analytics.aiActivity ?? DEFAULT_ANALYTICS.aiActivity),
+      lastAction: normalizeActivityValue(
+        analytics.aiActivity?.lastAction,
+        'idle'
+      ),
+      lastMode: normalizeActivityValue(analytics.aiActivity?.lastMode, 'idle'),
+    },
     visitors: visitorIds.size,
     pageViews: pageViewEvents.length,
     leads: (leads.leads ?? []).length,

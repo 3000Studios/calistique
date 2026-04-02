@@ -27,17 +27,20 @@ function fallbackPage({ page, topic, goal }) {
     sections: [
       {
         title: 'Command routing',
-        description: 'Route structured actions into content, media, and deployment services without manual handoffs.'
+        description:
+          'Route structured actions into content, media, and deployment services without manual handoffs.',
       },
       {
         title: 'Source-controlled content',
-        description: 'Keep every generated page diffable and reviewable by storing JSON content directly in the repo.'
+        description:
+          'Keep every generated page diffable and reviewable by storing JSON content directly in the repo.',
       },
       {
         title: 'Automatic deployment',
-        description: 'Trigger git commits and Cloudflare rebuilds from a single AI-managed command path.'
-      }
-    ]
+        description:
+          'Trigger git commits and Cloudflare rebuilds from a single AI-managed command path.',
+      },
+    ],
   }
 }
 
@@ -52,8 +55,8 @@ function fallbackBlogPost({ topic, length }) {
     tags: ['ai', 'automation', slugify(topic)],
     sections: Array.from({ length: sectionCount }, (_, index) => ({
       heading: `Section ${index + 1}: ${topic}`,
-      body: `${topic} becomes more useful when commands, content generation, and deployment automation all live in the same repository.`
-    }))
+      body: `${topic} becomes more useful when commands, content generation, and deployment automation all live in the same repository.`,
+    })),
   }
 }
 
@@ -65,31 +68,36 @@ function fallbackFeatureSection({ product, topic }) {
     bullets: [
       'Validate commands before writing files',
       'Choose the right local model for the task',
-      'Commit and push changes for Cloudflare auto-deploy'
-    ]
+      'Commit and push changes for Cloudflare auto-deploy',
+    ],
   }
 }
 
-async function tryGenerateJson({ action, prompt, fallbackFactory, taskType = undefined }) {
+async function tryGenerateJson({
+  action,
+  prompt,
+  fallbackFactory,
+  taskType = undefined,
+}) {
   try {
     const route = await resolveModelRoute({ action, taskType })
     const payload = await generateJsonWithOllama({
       model: route.model,
       systemPrompt:
         'You create concise marketing JSON for a software platform. Respond with valid JSON only and do not include markdown.',
-      prompt
+      prompt,
     })
 
     return {
       provider: 'ollama',
       model: route.model,
-      payload
+      payload,
     }
   } catch {
     return {
       provider: 'fallback',
       model: 'template',
-      payload: fallbackFactory()
+      payload: fallbackFactory(),
     }
   }
 }
@@ -106,7 +114,7 @@ Requirements:
 - page slug: ${page}
 - topic: ${topic ?? page}
 - revenue goal: ${goal ?? 'generate leads'}
-`
+`,
   })
 }
 
@@ -121,7 +129,7 @@ Requirements:
 - sections must be an array with ${parseLength(length)} sections
 - each section includes heading and body
 - topic: ${topic}
-`
+`,
   })
 }
 
@@ -136,6 +144,6 @@ Requirements:
 - bullets must contain exactly 3 strings
 - product: ${product}
 - topic: ${topic ?? 'AI orchestration'}
-`
+`,
   })
 }

@@ -15,7 +15,21 @@ function canUseSameOriginApi() {
     return false
   }
 
-  return ['localhost', '127.0.0.1'].includes(window.location.hostname)
+  const { hostname, protocol } = window.location
+
+  if (['localhost', '127.0.0.1'].includes(hostname)) {
+    return true
+  }
+
+  if (protocol !== 'https:') {
+    return false
+  }
+
+  return (
+    hostname === 'myappai.net' ||
+    hostname === 'www.myappai.net' ||
+    hostname.endsWith('.pages.dev')
+  )
 }
 
 const API_BASE = normalizeApiBase(import.meta.env.VITE_API_BASE_URL)
@@ -34,7 +48,7 @@ async function request(
 ) {
   const resolvedApiBase = getResolvedApiBase()
 
-  if (!resolvedApiBase) {
+  if (resolvedApiBase == null) {
     throw new Error(
       'The operator API is not connected to this Pages deployment yet.'
     )
@@ -138,4 +152,88 @@ export function sendCommand(adminSession, command) {
     method: 'POST',
     body: command,
   })
+}
+
+export function transcribeWhisper(adminSession, payload) {
+  return request('/api/transcription/whisper', {
+    ...adminSession,
+    method: 'POST',
+    body: payload,
+  })
+}
+
+export function askGemini(adminSession, payload) {
+  return request('/api/gemini', {
+    ...adminSession,
+    method: 'POST',
+    body: payload,
+  })
+}
+
+export async function askGeminiStream(adminSession, payload, onChunk) {
+  const resolvedApiBase = getResolvedApiBase()
+  if (resolvedApiBase == null) {
+    throw new Error(
+      'The operator API is not connected to this Pages deployment yet.'
+    )
+  }
+
+  const response = await fetch(`${resolvedApiBase}/api/gemini/stream`, {
+    method: 'POST',
+    credentials: 'include',
+    headers: {
+      'content-type': 'application/json',
+      'x-admin-email': adminSession?.adminEmail ?? '',
+      'x-admin-code': adminSession?.adminCode ?? '',
+      'x-admin-key': adminSession?.adminKey ?? '',
+    },
+    body: JSON.stringify(payload),
+  })
+
+  if (!response.ok || !response.body) {
+    const payloadError = await response.json().catch(() => ({}))
+    throw new Error(
+      payloadError.message ?? payloadError.error ?? 'Stream request failed.'
+    )
+  }
+
+  const decoder = new TextDecoder()
+  const reader = response.body.getReader()
+  let buffer = ''
+
+  while (true) {
+    const { done, value } = await reader.read()
+    if (done) {
+      break
+    }
+    buffer += decoder.decode(value, { stream: true })
+    const events = buffer.split('\n\n')
+    buffer = events.pop() ?? ''
+
+    for (const eventBlock of events) {
+      const lines = eventBlock.split('\n')
+      const eventTypeLine = lines.find((line) => line.startsWith('event:'))
+      const dataLine = lines.find((line) => line.startsWith('data:'))
+      const eventType = eventTypeLine?.replace('event:', '').trim() || 'message'
+      const dataText = dataLine?.replace('data:', '').trim()
+      if (!dataText) {
+        continue
+      }
+      const data = JSON.parse(dataText)
+
+      if (eventType === 'error') {
+        throw new Error(data.error ?? 'Gemini stream failed.')
+      }
+      if (eventType === 'done') {
+        return
+      }
+      if (
+        typeof data.chunk === 'string' &&
+        data.chunk &&
+        typeof onChunk === 'function'
+      ) {
+        onChunk(data.chunk)
+      }
+    }
+  }
 }

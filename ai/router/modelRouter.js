@@ -7,7 +7,7 @@ const TASK_MODEL_PREFERENCE = {
   reasoning: 'llama3',
   ui_copy: 'llama3',
   fast_task: 'mistral',
-  fallback: 'llama3'
+  fallback: 'llama3',
 }
 
 function familyMatches(modelName, family) {
@@ -31,17 +31,27 @@ function inferTaskType(action) {
   }
 }
 
-export async function resolveModelRoute({ action, taskType, complexity = 'standard' } = {}) {
+export async function resolveModelRoute({
+  action,
+  taskType,
+  complexity = 'standard',
+} = {}) {
   const availableModels = await listAvailableModels()
   const inferredTaskType =
-    taskType ?? (complexity === 'high' && action === 'edit_workspace_file' ? 'heavy_code_generation' : inferTaskType(action))
-  const preferredFamily = TASK_MODEL_PREFERENCE[inferredTaskType] ?? TASK_MODEL_PREFERENCE.fallback
-  const matchedModel = availableModels.find((model) => familyMatches(model.name, preferredFamily))
+    taskType ??
+    (complexity === 'high' && action === 'edit_workspace_file'
+      ? 'heavy_code_generation'
+      : inferTaskType(action))
+  const preferredFamily =
+    TASK_MODEL_PREFERENCE[inferredTaskType] ?? TASK_MODEL_PREFERENCE.fallback
+  const matchedModel = availableModels.find((model) =>
+    familyMatches(model.name, preferredFamily)
+  )
 
   return {
     taskType: inferredTaskType,
     preferredFamily,
     model: matchedModel?.name ?? preferredFamily,
-    availableModels
+    availableModels,
   }
 }

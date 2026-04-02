@@ -9,6 +9,8 @@ export default [
       '.wrangler/**',
       'coverage/**',
       'frontend/public/**',
+      'api/**/*.ts',
+      'engine/**/*.ts',
     ],
   },
   js.configs.recommended,

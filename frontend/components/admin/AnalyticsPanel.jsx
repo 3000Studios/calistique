@@ -27,7 +27,11 @@ export default function AnalyticsPanel({ analytics }) {
           <span>Purchases</span>
         </article>
         <article className="content-card">
-          <strong>{analytics ? `${(analytics.conversionRate * 100).toFixed(1)}%` : '0%'}</strong>
+          <strong>
+            {analytics
+              ? `${(analytics.conversionRate * 100).toFixed(1)}%`
+              : '0%'}
+          </strong>
           <span>Conversion rate</span>
         </article>
         <article className="content-card">
@@ -42,9 +46,15 @@ export default function AnalyticsPanel({ analytics }) {
       <div className="admin-subsection">
         <h3>Data sources</h3>
         <div className="tag-row">
-          <span className="tag">Visitors: {analytics?.dataSources?.visitors ?? 'n/a'}</span>
-          <span className="tag">Leads: {analytics?.dataSources?.leads ?? 'n/a'}</span>
-          <span className="tag">Revenue: {analytics?.dataSources?.revenue ?? 'n/a'}</span>
+          <span className="tag">
+            Visitors: {analytics?.dataSources?.visitors ?? 'n/a'}
+          </span>
+          <span className="tag">
+            Leads: {analytics?.dataSources?.leads ?? 'n/a'}
+          </span>
+          <span className="tag">
+            Revenue: {analytics?.dataSources?.revenue ?? 'n/a'}
+          </span>
         </div>
       </div>
       <div className="admin-subsection">
@@ -60,8 +70,12 @@ export default function AnalyticsPanel({ analytics }) {
       <div className="admin-subsection">
         <h3>Traffic loop</h3>
         <div className="tag-row">
-          <span className="tag">Queued: {analytics?.traffic?.queuedTopics ?? 0}</span>
-          <span className="tag">Published: {analytics?.traffic?.publishedPages ?? 0}</span>
+          <span className="tag">
+            Queued: {analytics?.traffic?.queuedTopics ?? 0}
+          </span>
+          <span className="tag">
+            Published: {analytics?.traffic?.publishedPages ?? 0}
+          </span>
         </div>
       </div>
     </section>

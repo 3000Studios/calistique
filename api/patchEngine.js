@@ -2,9 +2,26 @@ import fs from 'node:fs/promises'
 import path from 'node:path'
 import { repoRoot } from '../server/services/platformPaths.js'
 
-const ALLOWED_EDIT_PREFIXES = ['frontend', 'content/pages', 'content/products', 'content/blog']
-const DISALLOWED_SEGMENTS = new Set(['.git', '.github', 'node_modules', 'server', 'api'])
-const SUPPORTED_ACTIONS = new Set(['replace_text', 'insert_before', 'insert_after', 'append_text'])
+const ALLOWED_EDIT_PREFIXES = [
+  'frontend',
+  'content/pages',
+  'content/products',
+  'content/blog',
+  'content/system',
+]
+const DISALLOWED_SEGMENTS = new Set([
+  '.git',
+  '.github',
+  'node_modules',
+  'server',
+  'api',
+])
+const SUPPORTED_ACTIONS = new Set([
+  'replace_text',
+  'insert_before',
+  'insert_after',
+  'append_text',
+])
 
 function normalizeRelativePath(filePath) {
   return filePath.replaceAll('\\', '/').replace(/^\/+/, '')
@@ -14,15 +31,26 @@ function assertAllowedFile(filePath) {
   const normalizedPath = normalizeRelativePath(filePath)
   const segments = normalizedPath.split('/')
 
-  if (!ALLOWED_EDIT_PREFIXES.some((prefix) => normalizedPath === prefix || normalizedPath.startsWith(`${prefix}/`))) {
-    throw new Error(`Edits are limited to: ${ALLOWED_EDIT_PREFIXES.join(', ')}.`)
+  if (
+    !ALLOWED_EDIT_PREFIXES.some(
+      (prefix) =>
+        normalizedPath === prefix || normalizedPath.startsWith(`${prefix}/`)
+    )
+  ) {
+    throw new Error(
+      `Edits are limited to: ${ALLOWED_EDIT_PREFIXES.join(', ')}.`
+    )
   }
 
   if (segments.some((segment) => DISALLOWED_SEGMENTS.has(segment))) {
     throw new Error('The requested file path is not editable.')
   }
 
-  if (normalizedPath.includes('..') || normalizedPath.endsWith('.env') || normalizedPath.includes('/.env')) {
+  if (
+    normalizedPath.includes('..') ||
+    normalizedPath.endsWith('.env') ||
+    normalizedPath.includes('/.env')
+  ) {
     throw new Error('Editing environment files is not allowed.')
   }
 
@@ -72,7 +100,9 @@ export async function applyPatch(instruction) {
   }
 
   if (typeof action !== 'string' || !SUPPORTED_ACTIONS.has(action)) {
-    throw new Error(`Instruction.action must be one of: ${[...SUPPORTED_ACTIONS].join(', ')}.`)
+    throw new Error(
+      `Instruction.action must be one of: ${[...SUPPORTED_ACTIONS].join(', ')}.`
+    )
   }
 
   if (typeof value !== 'string') {
@@ -80,7 +110,9 @@ export async function applyPatch(instruction) {
   }
 
   if (action !== 'append_text' && (typeof target !== 'string' || !target)) {
-    throw new Error('Instruction.target must be a non-empty string for this action.')
+    throw new Error(
+      'Instruction.target must be a non-empty string for this action.'
+    )
   }
 
   const relativePath = assertAllowedFile(file)
@@ -97,6 +129,6 @@ export async function applyPatch(instruction) {
   return {
     file: relativePath,
     action,
-    changed: true
+    changed: true,
   }
 }

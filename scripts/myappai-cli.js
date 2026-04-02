@@ -1,5 +1,6 @@
 #!/usr/bin/env node
-import { spawn } from 'node:child_process'
+import { execFile, spawnSync } from 'node:child_process'
+import { promisify } from 'node:util'
 import fs from 'node:fs'
 import path from 'node:path'
 import { bootstrapContent } from '../server/services/contentService.js'
@@ -13,8 +14,22 @@ import {
 
 loadEnvironment()
 
+const execFileAsync = promisify(execFile)
+
 const PROJECT_NAME = getPagesProjectName()
 const PRODUCTION_BRANCH = getProductionBranch()
+
+const WRANGLER_CLI = path.join(
+  repoRoot,
+  'node_modules',
+  'wrangler',
+  'bin',
+  'wrangler.js'
+)
+
+function runWrangler(args, options) {
+  return run(process.execPath, [WRANGLER_CLI, ...args], options)
+}
 
 function resolveExecutable(command) {
   if (process.platform !== 'win32') {
@@ -32,67 +47,36 @@ function resolveExecutable(command) {
   return command
 }
 
-function quoteWindowsArgument(value) {
-  const stringValue = String(value ?? '')
-
-  if (!stringValue) {
-    return '""'
-  }
-
-  if (!/[\s"]/u.test(stringValue)) {
-    return stringValue
-  }
-
-  return `"${stringValue.replace(/"/g, '\\"')}"`
-}
-
-function run(
+async function run(
   command,
   args,
   { allowFailure = false, env = undefined, unsetEnv = [] } = {}
 ) {
   const executable = resolveExecutable(command)
-  const spawnConfig =
-    process.platform === 'win32'
-      ? {
-          file: 'cmd.exe',
-          args: [
-            '/d',
-            '/s',
-            '/c',
-            [executable, ...args.map(quoteWindowsArgument)].join(' '),
-          ],
-        }
-      : {
-          file: executable,
-          args,
-        }
+  const childEnv = env ? { ...process.env, ...env } : { ...process.env }
 
-  return new Promise((resolve, reject) => {
-    const childEnv = env ? { ...process.env, ...env } : { ...process.env }
+  for (const key of unsetEnv) {
+    delete childEnv[key]
+  }
 
-    for (const key of unsetEnv) {
-      delete childEnv[key]
-    }
-
-    const child = spawn(spawnConfig.file, spawnConfig.args, {
+  try {
+    await execFileAsync(executable, args, {
       cwd: process.cwd(),
       env: childEnv,
-      stdio: 'inherit',
-      shell: false,
       windowsHide: true,
+      stdio: 'inherit',
     })
+    return 0
+  } catch (error) {
+    const code = typeof error?.code === 'number' ? error.code : 1
+    if (allowFailure) {
+      return code
+    }
 
-    child.on('error', reject)
-    child.on('close', (code) => {
-      if (code === 0 || allowFailure) {
-        resolve(code ?? 0)
-        return
-      }
-
-      reject(new Error(`${command} ${args.join(' ')} exited with code ${code}`))
-    })
-  })
+    throw new Error(
+      `${command} ${args.join(' ')} exited with code ${code}: ${error?.message ?? ''}`
+    )
+  }
 }
 
 function getCloudflareWriteEnv() {
@@ -182,6 +166,25 @@ function getFirstSecretValue(names) {
   return ''
 }
 
+function getGitOutput(args) {
+  const result = spawnSync('git', args, {
+    cwd: process.cwd(),
+    env: process.env,
+    encoding: 'utf8',
+    shell: false,
+    windowsHide: true,
+  })
+
+  if (result.status !== 0) {
+    const detail = String(result.stderr || result.stdout || '').trim()
+    throw new Error(
+      `git ${args.join(' ')} failed${detail ? `: ${detail}` : '.'}`
+    )
+  }
+
+  return String(result.stdout ?? '').trim()
+}
+
 async function runNpmScript(scriptName) {
   await run('npm', ['run', scriptName])
 }
@@ -216,10 +219,8 @@ async function doctor() {
   await runNpmScript('validate:env')
   await runNpmScript('verify-platform')
   await run('git', ['status', '--short', '--branch'], { allowFailure: true })
-  await run('npx', ['wrangler', 'whoami'], { allowFailure: true })
-  await run('npx', ['wrangler', 'pages', 'project', 'list'], {
-    allowFailure: true,
-  })
+  await runWrangler(['whoami'], { allowFailure: true })
+  await runWrangler(['pages', 'project', 'list'], { allowFailure: true })
 }
 
 async function build() {
@@ -228,16 +229,22 @@ async function build() {
 
 async function pagesDeploy() {
   const cloudflareWriteEnv = getCloudflareWriteEnv()
+  const commitHash = getGitOutput(['rev-parse', '--short', 'HEAD'])
+  const commitMessage = getGitOutput(['log', '-1', '--pretty=%s'])
 
-  await run(
-    'npx',
+  await runWrangler(
     [
-      'wrangler',
       'pages',
       'deploy',
       'dist',
       '--project-name',
       PROJECT_NAME,
+      '--branch',
+      PRODUCTION_BRANCH,
+      '--commit-hash',
+      commitHash,
+      '--commit-message',
+      commitMessage,
       '--commit-dirty=true',
     ],
     {
@@ -259,10 +266,8 @@ async function deploy() {
 async function pagesCreate() {
   const cloudflareWriteEnv = getCloudflareWriteEnv()
 
-  await run(
-    'npx',
+  await runWrangler(
     [
-      'wrangler',
       'pages',
       'project',
       'create',
@@ -280,17 +285,8 @@ async function pagesCreate() {
 async function pagesSecrets(file = '.dev.vars') {
   const cloudflareWriteEnv = getCloudflareWriteEnv()
 
-  await run(
-    'npx',
-    [
-      'wrangler',
-      'pages',
-      'secret',
-      'bulk',
-      file,
-      '--project-name',
-      PROJECT_NAME,
-    ],
+  await runWrangler(
+    ['pages', 'secret', 'bulk', file, '--project-name', PROJECT_NAME],
     {
       env: cloudflareWriteEnv.env,
       unsetEnv: cloudflareWriteEnv.unsetEnv,
@@ -370,7 +366,7 @@ try {
       await pagesDeploy()
       break
     case 'pages:list':
-      await run('npx', ['wrangler', 'pages', 'project', 'list'])
+      await runWrangler(['pages', 'project', 'list'])
       break
     case 'pages:create':
       await pagesCreate()
@@ -379,7 +375,7 @@ try {
       await pagesSecrets(rest[0] || '.dev.vars')
       break
     case 'whoami':
-      await run('npx', ['wrangler', 'whoami'])
+      await runWrangler(['whoami'])
       break
     case 'command':
       await runOperatorCommand(rest)

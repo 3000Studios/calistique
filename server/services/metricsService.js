@@ -4,9 +4,9 @@ import { readSystemDocument } from './contentService.js'
 
 const DEFAULT_STATE = {
   scheduler: {
-    status: 'idle'
+    status: 'idle',
   },
-  tasks: {}
+  tasks: {},
 }
 
 function getCpuPercent() {
@@ -23,7 +23,7 @@ function getCpuPercent() {
 
       return {
         idle: accumulator.idle + (times.idle ?? 0),
-        total: accumulator.total + total
+        total: accumulator.total + total,
       }
     },
     { idle: 0, total: 0 }
@@ -50,7 +50,7 @@ function getRamPercent() {
 export async function getSystemMetrics() {
   const [analytics, state] = await Promise.all([
     getAnalyticsSnapshot(),
-    readSystemDocument('state.json', DEFAULT_STATE)
+    readSystemDocument('state.json', DEFAULT_STATE),
   ])
 
   const taskEntries = Object.values(state.tasks ?? {})
@@ -64,6 +64,6 @@ export async function getSystemMetrics() {
     deploymentsToday: analytics.aiActivity?.deploymentsToday ?? 0,
     lastAction: analytics.aiActivity?.lastAction ?? 'idle',
     schedulerStatus: state.scheduler?.status ?? 'idle',
-    updatedAt: analytics.updatedAt ?? new Date().toISOString()
+    updatedAt: analytics.updatedAt ?? new Date().toISOString(),
   }
 }

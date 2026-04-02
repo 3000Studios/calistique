@@ -2,8 +2,8 @@ function jsonResponse(payload, status = 200) {
   return new Response(JSON.stringify(payload, null, 2), {
     status,
     headers: {
-      'content-type': 'application/json'
-    }
+      'content-type': 'application/json',
+    },
   })
 }
 
@@ -13,14 +13,17 @@ async function proxyToAdmin(request, env) {
       {
         status: 'repo-local',
         message:
-          'This worker can proxy to the local admin API when ADMIN_API_ORIGIN is configured. Use the Node server for write operations.'
+          'This worker can proxy to the local admin API when ADMIN_API_ORIGIN is configured. Use the Node server for write operations.',
       },
       501
     )
   }
 
   const url = new URL(request.url)
-  const targetUrl = new URL(`${url.pathname}${url.search}`, env.ADMIN_API_ORIGIN)
+  const targetUrl = new URL(
+    `${url.pathname}${url.search}`,
+    env.ADMIN_API_ORIGIN
+  )
 
   return fetch(targetUrl, request)
 }
@@ -34,7 +37,7 @@ export default {
         return jsonResponse({
           status: 'AI system online',
           app: env.APP_NAME ?? 'AI System Manager',
-          mode: env.API_MODE ?? 'repo-local'
+          mode: env.API_MODE ?? 'repo-local',
         })
       }
 
@@ -44,7 +47,7 @@ export default {
     return jsonResponse({
       status: 'AI system online',
       app: env.APP_NAME ?? 'AI System Manager',
-      siteOrigin: env.SITE_ORIGIN ?? null
+      siteOrigin: env.SITE_ORIGIN ?? null,
     })
-  }
+  },
 }

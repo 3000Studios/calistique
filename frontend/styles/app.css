@@ -706,26 +706,32 @@ video {
   align-items: stretch;
 }
 
+.section-anchor {
+  scroll-margin-top: 5.75rem;
+}
+
 .hero__copy,
 .hero__panel {
   min-height: 100%;
 }
 
 .hero__copy {
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
   gap: 1.15rem;
   padding: 2rem;
-  border: 1px solid var(--line);
+  border: 1px solid var(--line-strong);
   background:
     linear-gradient(
       180deg,
-      rgba(255, 255, 255, 0.035),
-      rgba(255, 255, 255, 0.01)
+      rgba(255, 255, 255, 0.045),
+      rgba(255, 255, 255, 0.012)
     ),
-    linear-gradient(135deg, rgba(9, 18, 27, 0.96), rgba(8, 14, 20, 0.82));
-  box-shadow: var(--shadow);
+    linear-gradient(135deg, rgba(9, 18, 27, 0.92), rgba(8, 14, 20, 0.78));
+  backdrop-filter: blur(20px) saturate(132%);
+  box-shadow: var(--shadow), var(--shadow-glow);
 }
 
 .hero__copy--immersive {
@@ -1543,6 +1549,21 @@ video {
   gap: 1.5rem;
 }
 
+.section-card.cta-band {
+  border-color: rgba(120, 223, 223, 0.2);
+  background:
+    linear-gradient(
+      125deg,
+      rgba(97, 212, 255, 0.07),
+      rgba(114, 241, 214, 0.04),
+      rgba(8, 19, 31, 0.82)
+    ),
+    var(--surface);
+  box-shadow:
+    var(--shadow),
+    0 0 80px rgba(97, 212, 255, 0.06);
+}
+
 .detail-grid,
 .product-hero {
   display: grid;
@@ -1703,9 +1724,23 @@ video {
 
 .hero-stat-card {
   padding: 0.95rem 1rem;
-  border: 1px solid rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.09);
   border-radius: 1rem;
-  background: rgba(255, 255, 255, 0.035);
+  background: linear-gradient(
+    145deg,
+    rgba(255, 255, 255, 0.05),
+    rgba(255, 255, 255, 0.02)
+  );
+  transition:
+    border-color 0.28s var(--ease-premium),
+    box-shadow 0.28s var(--ease-premium),
+    transform 0.28s var(--ease-premium);
+}
+
+.hero-stat-card:hover {
+  border-color: rgba(136, 224, 208, 0.22);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.18);
+  transform: translateY(-2px);
 }
 
 .hero-stat-card strong {
@@ -3174,6 +3209,26 @@ video {
   margin-top: 1rem;
 }
 
+.operator-ship-live {
+  display: flex;
+  gap: 0.5rem;
+  align-items: flex-start;
+  margin-bottom: 0.65rem;
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.75);
+  line-height: 1.35;
+  cursor: pointer;
+}
+
+.operator-ship-live input {
+  margin-top: 0.2rem;
+  cursor: pointer;
+}
+
+.operator-ship-live code {
+  font-size: 0.85em;
+}
+
 .operator-prompt textarea {
   width: 100%;
   min-height: 9rem;
@@ -3309,6 +3364,11 @@ video {
 .operator-result-card--blocked .operator-result-card__status,
 .operator-result-card__blocked {
   color: #ef4444;
+}
+
+.operator-result-card--error .operator-result-card__status,
+.operator-result-card__error {
+  color: #f59e0b;
 }
 
 .operator-inspector {
@@ -4035,7 +4095,8 @@ body::after {
   line-height: 1.8;
 }
 
-.operator-result-card__blocked {
+.operator-result-card__blocked,
+.operator-result-card__error {
   font-weight: 600;
 }
 

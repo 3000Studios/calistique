@@ -12,10 +12,15 @@ export default function AdminDeployPage() {
         <span className="eyebrow">Deploy</span>
         <PrismHeadline text="Ship to production" />
         <p className="section-intro">
-          Trigger Cloudflare and Git deployments, then review history and recent commits.
+          Trigger Cloudflare and Git deployments, then review history and recent
+          commits.
         </p>
       </div>
-      <DeploymentPanel deployments={deployments} onDeploy={handleDeploy} busy={deployBusy} />
+      <DeploymentPanel
+        deployments={deployments}
+        onDeploy={handleDeploy}
+        busy={deployBusy}
+      />
     </div>
   )
 }
