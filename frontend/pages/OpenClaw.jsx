@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import AnimatedBackground from '../components/AnimatedBackground.jsx'
+import ClawedBot from '../components/ClawedBot.jsx'
+import OpenClawPreview from '../components/OpenClawPreview.jsx'
+import OpenClawSkills from '../components/OpenClawSkills.jsx'
 import './OpenClaw.css'
 
 const OpenClaw = () => {
@@ -15,6 +18,8 @@ const OpenClaw = () => {
   const [isExecuting, setIsExecuting] = useState(false)
   const [command, setCommand] = useState('')
   const [logs, setLogs] = useState([])
+  const [currentRequest, setCurrentRequest] = useState(null)
+  const [isProcessing, setIsProcessing] = useState(false)
 
   useEffect(() => {
     // Check if already authenticated
@@ -206,22 +211,31 @@ const OpenClaw = () => {
       </header>
 
       <div className="dashboard-tabs">
-        {['dashboard', 'agents', 'tasks', 'website', 'revenue', 'logs'].map(
-          (tab) => (
-            <button
-              key={tab}
-              className={`tab-button ${activeTab === tab ? 'active' : ''}`}
-              onClick={() => setActiveTab(tab)}
-            >
-              {tab.charAt(0).toUpperCase() + tab.slice(1)}
-            </button>
-          )
-        )}
+        {[
+          'dashboard',
+          'skills',
+          'preview',
+          'agents',
+          'tasks',
+          'website',
+          'revenue',
+          'logs',
+        ].map((tab) => (
+          <button
+            key={tab}
+            className={`tab-button ${activeTab === tab ? 'active' : ''}`}
+            onClick={() => setActiveTab(tab)}
+          >
+            {tab.charAt(0).toUpperCase() + tab.slice(1)}
+          </button>
+        ))}
       </div>
 
       <div className="tab-content">
         <AnimatePresence mode="wait">
           {activeTab === 'dashboard' && renderDashboardTab()}
+          {activeTab === 'skills' && renderSkillsTab()}
+          {activeTab === 'preview' && renderPreviewTab()}
           {activeTab === 'agents' && renderAgentsTab()}
           {activeTab === 'tasks' && renderTasksTab()}
           {activeTab === 'website' && renderWebsiteTab()}
@@ -507,6 +521,41 @@ const OpenClaw = () => {
           ))
         )}
       </div>
+    </motion.div>
+  )
+
+  const renderSkillsTab = () => (
+    <motion.div
+      key="skills"
+      initial={{ opacity: 0, x: 20 }}
+      animate={{ opacity: 1, x: 0 }}
+      exit={{ opacity: 0, x: -20 }}
+      className="tab-panel"
+    >
+      <OpenClawSkills />
+    </motion.div>
+  )
+
+  const renderPreviewTab = () => (
+    <motion.div
+      key="preview"
+      initial={{ opacity: 0, x: 20 }}
+      animate={{ opacity: 1, x: 0 }}
+      exit={{ opacity: 0, x: -20 }}
+      className="tab-panel"
+    >
+      <OpenClawPreview
+        request={currentRequest}
+        isProcessing={isProcessing}
+        onApprove={() => {
+          setIsProcessing(false)
+          setCurrentRequest(null)
+        }}
+        onReject={() => {
+          setIsProcessing(false)
+          setCurrentRequest(null)
+        }}
+      />
     </motion.div>
   )
 
