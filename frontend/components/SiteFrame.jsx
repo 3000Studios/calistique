@@ -3,6 +3,7 @@ import { Outlet, useLocation, Link } from 'react-router-dom'
 import AuroraBackdrop from '../backgrounds/AuroraBackdrop.jsx'
 import SiteSeo from './SiteSeo.jsx'
 import Navigation from './Navigation.jsx'
+import GlobalTicker from './GlobalTicker.jsx'
 import { publicTickerItems, publicNavItems } from '../src/siteChrome.js'
 import {
   REPOSITORY_URL,
@@ -103,6 +104,9 @@ export default function SiteFrame() {
           </a>
         </p>
       </footer>
+
+      {/* Global Ticker */}
+      <GlobalTicker />
     </div>
   )
 }
