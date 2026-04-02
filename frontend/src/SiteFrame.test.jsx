@@ -4,12 +4,12 @@ import { render, screen } from '@testing-library/react'
 import { MemoryRouter, Route, Routes } from 'react-router-dom'
 import SiteFrame from '../components/SiteFrame.jsx'
 
-vi.mock('./siteApi.js', () => ({
+vi.mock('../src/siteApi.js', () => ({
   trackConversionEvent: vi.fn(() => Promise.resolve()),
 }))
 
 describe('SiteFrame', () => {
-  it('renders primary navigation, brand, and footer trust copy', () => {
+  it('renders brand, footer trust copy and global ticker', () => {
     render(
       <MemoryRouter initialEntries={['/']}>
         <Routes>
@@ -20,11 +20,9 @@ describe('SiteFrame', () => {
       </MemoryRouter>
     )
 
-    expect(
-      screen.getByRole('navigation', { name: /primary/i })
-    ).toBeInTheDocument()
     expect(screen.getByText('MyAppAI')).toBeInTheDocument()
     expect(screen.getByRole('contentinfo')).toBeInTheDocument()
     expect(screen.getByText(/Why MyAppAI/i)).toBeInTheDocument()
+    expect(screen.getByText('Loading live data...')).toBeInTheDocument()
   })
 })
