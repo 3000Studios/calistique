@@ -1,30 +1,24 @@
-import React, { useEffect, useState } from 'react'
-import { Link, NavLink, Outlet, useLocation } from 'react-router-dom'
+import React, { useEffect } from 'react'
+import { Outlet, useLocation, Link } from 'react-router-dom'
 import AuroraBackdrop from '../backgrounds/AuroraBackdrop.jsx'
 import SiteSeo from './SiteSeo.jsx'
-import {
-  publicNavItems,
-  publicStatusLines,
-  publicTickerItems,
-} from '../src/siteChrome.js'
+import Navigation from './Navigation.jsx'
+import { publicTickerItems, publicNavItems } from '../src/siteChrome.js'
 import {
   REPOSITORY_URL,
-  SITE_DISPLAY_NAME,
-  SITE_DOMAIN,
-  SITE_URL,
   getCopyrightLine,
+  SITE_URL,
+  SITE_DOMAIN,
 } from '../src/siteMeta.js'
 import { trackConversionEvent } from '../src/siteApi.js'
 
 export default function SiteFrame() {
   const location = useLocation()
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
   useEffect(() => {
     trackConversionEvent('page_view', {
       path: `${location.pathname}${location.search}`,
     }).catch(() => {})
-    setMobileMenuOpen(false)
   }, [location.pathname, location.search])
 
   return (
@@ -33,63 +27,7 @@ export default function SiteFrame() {
       <AuroraBackdrop variant="public" />
 
       <header className="site-header">
-        <div className="site-header__inner">
-          <div className="site-header__brand">
-            <NavLink className="brand" to="/">
-              <span className="brand__pulse" />
-              <span className="brand__wordmark">{SITE_DISPLAY_NAME}</span>
-            </NavLink>
-            <p className="site-header__tagline">
-              Browser-first operator control for research, code changes, safe
-              automation, and live deployment from one authenticated workspace.
-            </p>
-          </div>
-
-          <button
-            className={`site-nav__toggle${mobileMenuOpen ? ' site-nav__toggle--active' : ''}`}
-            type="button"
-            onClick={() => setMobileMenuOpen((current) => !current)}
-            aria-expanded={mobileMenuOpen}
-            aria-controls="site-navigation"
-          >
-            <span />
-            <span />
-          </button>
-
-          <div
-            className={`site-header__nav-wrap${mobileMenuOpen ? ' site-header__nav-wrap--open' : ''}`}
-          >
-            <nav className="site-nav" id="site-navigation" aria-label="Primary">
-              {publicNavItems.map((item) => (
-                <NavLink
-                  key={item.to}
-                  to={item.to}
-                  className={({ isActive }) =>
-                    `site-nav__link${isActive ? ' site-nav__link--active' : ''}`
-                  }
-                >
-                  {item.label}
-                </NavLink>
-              ))}
-            </nav>
-            <div className="site-header__actions">
-              <Link className="button button--ghost" to="/">
-                Platform
-              </Link>
-              <Link className="button button--primary" to="/admin/login">
-                Admin login
-              </Link>
-            </div>
-          </div>
-        </div>
-
-        <div className="site-statusbar">
-          {publicStatusLines.map((line) => (
-            <span key={line} className="site-statusbar__pill">
-              {line}
-            </span>
-          ))}
-        </div>
+        <Navigation />
       </header>
 
       <main className="page page--public">
