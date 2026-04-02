@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Search, Download, Play, Image, Video, Music, X } from 'lucide-react'
 import './MediaIntelligenceEngine.css'
