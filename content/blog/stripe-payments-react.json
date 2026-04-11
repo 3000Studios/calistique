@@ -1,0 +1,133 @@
+{
+"updatedFor": "myappai",
+"slug": "stripe-payments-react",
+"title": "How to Add Stripe Payments to a React App",
+"description": "A complete guide to integrating Stripe Checkout into a React application — from API keys to webhooks to live payments.",
+"publishedAt": "2025-12-01T00:00:00.000Z",
+"author": "MyAppAI Team",
+"tags": ["Stripe", "payments", "React", "tutorial"],
+"body": "Adding payments to a web app used to be painful. Stripe has made it dramatically simpler — you can have a working checkout flow in under an hour. Here's the complete guide.
+
+## Prerequisites
+
+- A Stripe account (stripe.com)
+- A React frontend
+- A backend (Node.js/Express) to handle server-side operations
+
+## 1. Get Your API Keys
+
+In the Stripe dashboard, go to Developers > API Keys. You'll need:
+- **Publishable key** (`pk_live_...`) — safe to use in the browser
+- **Secret key** (`sk_live_...`) — server-side only, never expose this
+
+## 2. Install Stripe
+
+Frontend:
+```bash
+npm install @stripe/stripe-js @stripe/react-stripe-js
+```
+
+Backend:
+```bash
+npm install stripe
+```
+
+## 3. Create a Checkout Session (Backend)
+
+```javascript
+import Stripe from 'stripe'
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY)
+
+app.post('/api/create-checkout-session', async (req, res) => {
+  const session = await stripe.checkout.sessions.create({
+    payment_method_types: ['card'],
+    line_items: [{
+      price_data: {
+        currency: 'usd',
+        product_data: { name: 'Pro Plan' },
+        unit_amount: 2999, // $29.99 in cents
+      },
+      quantity: 1,
+    }],
+    mode: 'payment',
+    success_url: `${process.env.SITE_URL}/success?session_id={CHECKOUT_SESSION_ID}`,
+    cancel_url: `${process.env.SITE_URL}/pricing`,
+  })
+
+  res.json({ url: session.url })
+})
+```
+
+## 4. Redirect to Checkout (Frontend)
+
+```jsx
+import { loadStripe } from '@stripe/stripe-js'
+
+const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY)
+
+export default function CheckoutButton({ priceId }) {
+  async function handleCheckout() {
+    const res = await fetch('/api/create-checkout-session', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ priceId })
+    })
+    const { url } = await res.json()
+    window.location.href = url
+  }
+
+  return (
+    <button onClick={handleCheckout} className=\"button button--primary\">
+      Buy Now
+    </button>
+  )
+}
+```
+
+## 5. Handle Webhooks
+
+Webhooks let Stripe notify your server when payments complete. This is how you unlock features after purchase.
+
+```javascript
+app.post('/api/webhook', express.raw({ type: 'application/json' }), (req, res) => {
+  const sig = req.headers['stripe-signature']
+  let event
+
+  try {
+    event = stripe.webhooks.constructEvent(req.body, sig, process.env.STRIPE_WEBHOOK_SECRET)
+  } catch (err) {
+    return res.status(400).send(`Webhook Error: ${err.message}`)
+  }
+
+  if (event.type === 'checkout.session.completed') {
+    const session = event.data.object
+    // Fulfill the order — unlock features, send email, etc.
+    console.log('Payment succeeded:', session.customer_email)
+  }
+
+  res.json({ received: true })
+})
+```
+
+## 6. Test with Stripe CLI
+
+```bash
+stripe listen --forward-to localhost:3000/api/webhook
+```
+
+Use test card `4242 4242 4242 4242` with any future expiry and any CVC.
+
+## Subscriptions vs One-Time Payments
+
+For subscriptions, change `mode: 'payment'` to `mode: 'subscription'` and use a recurring price ID from your Stripe dashboard. Everything else stays the same.
+
+## Security Checklist
+
+- Never expose your secret key in frontend code
+- Always verify webhook signatures
+- Use HTTPS in production
+- Store the Stripe customer ID in your database to link payments to users
+- Enable Stripe Radar for fraud protection (free)
+
+Stripe handles PCI compliance for you — you never touch raw card data. That's the whole point."
+}
