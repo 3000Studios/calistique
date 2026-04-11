@@ -1,0 +1,98 @@
+{
+"updatedFor": "myappai",
+"slug": "cloudflare-pages-deploy-guide",
+"title": "How to Deploy Any Site to Cloudflare Pages in 5 Minutes",
+"description": "A step-by-step guide to deploying static sites and React apps to Cloudflare Pages using Wrangler CLI. Free, fast, and global.",
+"publishedAt": "2025-11-10T00:00:00.000Z",
+"author": "MyAppAI Team",
+"tags": ["deployment", "Cloudflare", "tutorial"],
+"body": "Cloudflare Pages is one of the best free deployment platforms available in 2025. You get a global CDN, instant cache invalidation, unlimited bandwidth on the free tier, and deployments that take seconds. Here's how to get a site live in under 5 minutes.
+
+## Prerequisites
+
+- Node.js 18+ installed
+- A Cloudflare account (free at cloudflare.com)
+- A static site or React/Vite app ready to build
+
+## Step 1: Install Wrangler
+
+Wrangler is Cloudflare's CLI tool. Install it globally:
+
+```bash
+npm install -g wrangler
+```
+
+Then authenticate:
+
+```bash
+wrangler login
+```
+
+This opens a browser window to authorize your Cloudflare account.
+
+## Step 2: Build Your Site
+
+For a Vite/React app:
+
+```bash
+npm run build
+```
+
+This outputs your built files to `dist/` by default.
+
+## Step 3: Create a Pages Project
+
+If this is your first deploy, create the project:
+
+```bash
+npx wrangler pages project create my-project-name
+```
+
+## Step 4: Deploy
+
+```bash
+npx wrangler pages deploy dist --project-name=my-project-name --branch=main
+```
+
+That's it. Cloudflare will give you a URL like `my-project-name.pages.dev` within seconds.
+
+## Step 5: Add a Custom Domain (Optional)
+
+In the Cloudflare dashboard, go to Pages > your project > Custom Domains. Add your domain and Cloudflare handles SSL automatically.
+
+## Configuring with wrangler.toml
+
+For repeatable deploys, add a `wrangler.toml` to your project root:
+
+```toml
+name = \"my-project-name\"
+pages_build_output_dir = \"dist\"
+```
+
+Now you can deploy with just:
+
+```bash
+npx wrangler pages deploy
+```
+
+## Environment Variables
+
+Set environment variables in the Cloudflare dashboard under Settings > Environment Variables, or via CLI:
+
+```bash
+npx wrangler pages secret put MY_API_KEY
+```
+
+## Tips
+
+- **Preview deployments:** Every branch gets its own preview URL automatically
+- **Rollbacks:** Cloudflare keeps your deployment history — roll back with one click
+- **Build caching:** Cloudflare caches node_modules between builds for faster deploys
+- **Free tier limits:** 500 builds/month, unlimited bandwidth, unlimited sites
+
+## Why Cloudflare Pages Over Vercel or Netlify?
+
+For most static sites and SPAs, Cloudflare Pages is faster (global Anycast network), cheaper (generous free tier), and simpler to configure. The main reason to choose Vercel is if you're using Next.js server-side features — Cloudflare Pages is best for static output.
+
+For React + Vite projects, Cloudflare Pages is the clear winner."
+}
