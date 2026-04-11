@@ -1,0 +1,142 @@
+{
+"updatedFor": "myappai",
+"slug": "seo-for-developers",
+"title": "SEO for Developers: The Technical Checklist That Actually Moves Rankings",
+"description": "Skip the fluff. Here's the technical SEO checklist that actually impacts rankings — meta tags, Core Web Vitals, structured data, sitemaps, and more.",
+"publishedAt": "2025-12-20T00:00:00.000Z",
+"author": "MyAppAI Team",
+"tags": ["SEO", "web development", "performance", "tutorial"],
+"body": "Most SEO advice is written for marketers. This is for developers — the technical changes that actually move rankings, explained in terms you'll understand.
+
+## 1. Meta Tags That Matter
+
+Only three meta tags significantly impact SEO:
+
+```html
+<title>Your Page Title — Site Name</title>
+<meta name=\"description\" content=\"150-160 character description of this specific page.\">
+<link rel=\"canonical\" href=\"https://yoursite.com/this-page\">
+```
+
+**Title:** 50-60 characters. Put the keyword first. Every page needs a unique title.
+**Description:** 150-160 characters. This is the text shown in search results. Write for humans, not bots.
+**Canonical:** Prevents duplicate content issues. Always set it, even if it matches the current URL.
+
+## 2. Open Graph Tags
+
+For social sharing (also used by some search engines):
+
+```html
+<meta property=\"og:title\" content=\"Your Page Title\">
+<meta property=\"og:description\" content=\"Your description\">
+<meta property=\"og:image\" content=\"https://yoursite.com/og-image.png\">
+<meta property=\"og:url\" content=\"https://yoursite.com/this-page\">
+<meta property=\"og:type\" content=\"article\">
+```
+
+OG image should be 1200x630px. This is what shows up when someone shares your link on Twitter/LinkedIn.
+
+## 3. Sitemap
+
+A sitemap tells search engines what pages exist on your site:
+
+```xml
+<?xml version=\"1.0\" encoding=\"UTF-8\"?>
+<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">
+  <url>
+    <loc>https://yoursite.com/</loc>
+    <lastmod>2025-12-01</lastmod>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://yoursite.com/blog/post-slug</loc>
+    <lastmod>2025-12-01</lastmod>
+    <priority>0.8</priority>
+  </url>
+</urlset>
+```
+
+Submit it at Google Search Console (search.google.com/search-console).
+
+## 4. robots.txt
+
+```
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /api/
+
+Sitemap: https://yoursite.com/sitemap.xml
+```
+
+Block admin and API routes. Always include the sitemap URL.
+
+## 5. Core Web Vitals
+
+Google uses these performance metrics as ranking signals:
+
+- **LCP (Largest Contentful Paint):** < 2.5s. Optimize your hero image and server response time.
+- **FID/INP (Interaction to Next Paint):** < 200ms. Minimize JavaScript blocking the main thread.
+- **CLS (Cumulative Layout Shift):** < 0.1. Set explicit width/height on images and embeds.
+
+Measure with: Lighthouse in Chrome DevTools, PageSpeed Insights (pagespeed.web.dev), or Web Vitals Chrome extension.
+
+## 6. Structured Data
+
+Structured data helps Google understand your content and can unlock rich results (star ratings, FAQs, etc.):
+
+```html
+<script type=\"application/ld+json\">
+{
+  \"@context\": \"https://schema.org\",
+  \"@type\": \"Article\",
+  \"headline\": \"Your Article Title\",
+  \"author\": {
+    \"@type\": \"Person\",
+    \"name\": \"Author Name\"
+  },
+  \"datePublished\": \"2025-12-01\",
+  \"description\": \"Article description\"
+}
+</script>
+```
+
+## 7. URL Structure
+
+- Use hyphens, not underscores: `/blog/my-post` not `/blog/my_post`
+- Keep URLs short and descriptive: `/blog/react-hooks` not `/blog/2025/12/01/everything-you-need-to-know-about-react-hooks`
+- Use lowercase only
+- Avoid query parameters in URLs when possible
+
+## 8. Internal Linking
+
+Link between your own pages using descriptive anchor text. This distributes PageRank and helps Google understand your site structure.
+
+```html
+<!-- Bad -->
+<a href=\"/blog/react-hooks\">click here</a>
+
+<!-- Good -->
+<a href=\"/blog/react-hooks\">how React hooks work</a>
+```
+
+## 9. Image Optimization
+
+```html
+<!-- Always include alt text -->
+<img src=\"/images/react-diagram.webp\" alt=\"React component lifecycle diagram\" width=\"800\" height=\"450\" loading=\"lazy\">
+```
+
+- Use WebP format (30-50% smaller than JPEG/PNG)
+- Set explicit width and height to prevent CLS
+- Use `loading=\"lazy\"` for below-the-fold images
+- Compress images before uploading (Squoosh, TinyPNG)
+
+## 10. HTTPS and Speed
+
+HTTPS is a ranking signal. Cloudflare gives you free SSL automatically. Speed matters — every 100ms of latency reduces conversions by ~1%.
+
+## The 80/20 of Technical SEO
+
+If you only do five things: unique title tags, meta descriptions, a sitemap, fast load times, and mobile-friendly design. Everything else is optimization on top of a solid foundation."
+}
