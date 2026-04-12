@@ -1,342 +1,239 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import PrismHeadline from '../components/PrismHeadline.jsx'
-import { fadeUp, staggerParent } from '../animations/variants.js'
-import { trackCtaClick } from '../src/siteApi.js'
+import './HomePage.css'
 
-function handleCtaClick(ctaId, intent) {
-  trackCtaClick({
-    ctaId,
-    intent,
-  }).catch(() => {})
+const apps = [
+{
+  id: 'myappai',
+  name: 'MyAppAI',
+  tagline: 'AI-powered operator platform',
+  description: 'Manage your entire web presence with plain-language instructions. Research, build, deploy — all from one dashboard.',
+  icon: '🚀',
+  category: 'Productivity',
+  status: 'live',
+  tags: ['AI', 'Operator', 'Deploy'],
+  url: 'https://myappai.net',
+},
+{
+  id: 'youtune',
+  name: 'YouTuneAI',
+  tagline: 'AI-powered YouTube toolkit',
+  description: 'Automate your YouTube workflow. Generate titles, descriptions, tags, and thumbnails with AI trained on what actually ranks.',
+  icon: '🎵',
+  category: 'Creator Tools',
+  status: 'beta',
+  tags: ['YouTube', 'AI', 'Creator'],
+  url: null,
+},
+{
+  id: 'findmerates',
+  name: 'FindMeRates',
+  tagline: 'Compare rates instantly',
+  description: 'Find the best rates for loans, insurance, and financial products. Real-time comparisons with no spam.',
+  icon: '💰',
+  category: 'Finance',
+  status: 'live',
+  tags: ['Finance', 'Rates', 'Compare'],
+  url: 'https://findmerates.pages.dev',
+},
+{
+  id: 'voicetowebsite',
+  name: 'VoiceToWebsite',
+  tagline: 'Speak your site into existence',
+  description: 'Record a voice memo describing what you want. Get a fully deployed website back. No code, no drag-and-drop.',
+  icon: '🎙️',
+  category: 'No-Code',
+  status: 'coming-soon',
+  tags: ['Voice', 'AI', 'No-Code'],
+  url: null,
+},
+{
+  id: 'shadowos',
+  name: 'ShadowOS Stack',
+  tagline: 'Next.js AI UI framework',
+  description: 'A full-stack Next.js starter with built-in AI UI, monetization engine, voice control, and auto-deploy system.',
+  icon: '🌑',
+  category: 'Developer Tools',
+  status: 'beta',
+  tags: ['Next.js', 'AI', 'Framework'],
+  url: null,
+},
+{
+  id: 'calistique',
+  name: 'Calistique',
+  tagline: 'Premium fitness & lifestyle',
+  description: 'Curated fitness gear, apparel, and wellness products. Built for people who take their health seriously.',
+  icon: '💪',
+  category: 'E-Commerce',
+  status: 'live',
+  tags: ['Fitness', 'Lifestyle', 'Shop'],
+  url: null,
+},
+]
+
+const categories = ['All', 'Productivity', 'Creator Tools', 'Finance', 'No-Code', 'Developer Tools', 'E-Commerce']
+
+const statusConfig = {
+live: { label: 'Live', color: '#22c55e', bg: 'rgba(34,197,94,0.12)' },
+beta: { label: 'Beta', color: '#f59e0b', bg: 'rgba(245,158,11,0.12)' },
+'coming-soon': { label: 'Coming Soon', color: '#6366f1', bg: 'rgba(99,102,241,0.12)' },
+}
+
+const fadeUp = {
+hidden: { opacity: 0, y: 24 },
+visible: (i = 0) => ({
+  opacity: 1,
+  y: 0,
+  transition: { delay: i * 0.07, duration: 0.4, ease: 'easeOut' },
+}),
 }
 
 export default function HomePage() {
-  const pillars = [
-    {
-      eyebrow: 'Research',
-      title: 'Browse before you build',
-      description:
-        'Ask for current information, source-backed summaries, or competitive scans and keep the research attached to the work that follows.',
-    },
-    {
-      eyebrow: 'Operate',
-      title: 'Describe the change once',
-      description:
-        'Use plain language to update copy, metadata, styling, workspace files, and deployment flows from the same operator surface.',
-    },
-    {
-      eyebrow: 'Deploy',
-      title: 'Ship directly from admin',
-      description:
-        'Review affected files, confirm the result, and send changes live through the integrated deploy pipeline.',
-    },
-  ]
+const [activeCategory, setActiveCategory] = useState('All')
 
-  const workflow = [
-    {
-      label: '01',
-      title: 'Prompt the operator',
-      description:
-        'Type what you want in a few sentences and let the backend interpret it into safe repository work.',
-    },
-    {
-      label: '02',
-      title: 'Inspect the plan',
-      description:
-        'See summaries, changed paths, deployment intent, and any blocked actions before risky work gets through.',
-    },
-    {
-      label: '03',
-      title: 'Deploy with confidence',
-      description:
-        'Run builds, deploy live, and keep operational status visible inside the same admin workspace.',
-    },
-  ]
+const filtered = activeCategory === 'All'
+  ? apps
+  : apps.filter(a => a.category === activeCategory)
 
-  const capabilities = [
-    {
-      label: 'Research mode',
-      title: 'Current-web intake with source tracking',
-      description:
-        'The operator can gather recent information, keep source links attached, and distinguish researched facts from code or content changes.',
-      stat: 'Sources attached',
-    },
-    {
-      label: 'Build mode',
-      title: 'Repo-aware updates without leaving the browser',
-      description:
-        'Homepage copy, metadata, styling, content files, and deploy preparation stay in one guided flow instead of scattered tools.',
-      stat: 'Workspace bounded',
-    },
-    {
-      label: 'Deploy mode',
-      title: 'Live delivery with visible deployment feedback',
-      description:
-        'Every operator action can return a deployment summary, changed files, and next steps so the site stays understandable while moving fast.',
-      stat: 'Cloudflare linked',
-    },
-  ]
+return (
+  <div className="storefront">
 
-  const operatingSignals = [
-    'Voice-ready operator workspace',
-    'Secure admin + protected logs',
-    'Manual Wrangler deployment flow',
-    'Mobile-responsive command surface',
-  ]
-
-  return (
-    <div className="stack-2xl">
-      <motion.section
-        className="hero hero--executive"
-        variants={staggerParent}
-        initial="hidden"
-        animate="visible"
+    {/* Hero */}
+    <section className="storefront-hero">
+      <motion.div
+        className="storefront-hero__inner"
+        initial={{ opacity: 0, y: 32 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
       >
-        <motion.div
-          className="hero__copy hero__copy--immersive"
-          variants={fadeUp}
-        >
-          <motion.span className="eyebrow" style={{ fontSize: '4em', color: 'blue' }} animate={{ opacity: [0, 1], transition: { duration: 2 } }} exit={{ opacity: 0 }} whileHover={{ scale: 1.1 }}>MyAppAI operator platform</motion.span>
-          <PrismHeadline text="Tell the site what to do." />
-          <p className="hero__lede">
-            For SaaS founders seeking to optimize processes, MyAppAI provides an
-            integrated platform for research, seamless UI updates, secure
-            automation, and effective live deployments. Manage your entire
-            workspace effortlessly.
-          </p>
-          <div className="tag-row">
-            {[
-              'Natural-language orchestration',
-              'Repo-safe editing',
-              'Approved integrations only',
-              'Deploy-ready',
-            ].map((signal) => (
-              <span key={signal} className="tag">
-                {signal}
-              </span>
-            ))}
-          </div>
-          <div className="hero__trust-grid">
-            {[
-              { label: 'Admin surface', value: 'Operator-first' },
-              { label: 'Execution scope', value: 'Repo + deploy + research' },
-              { label: 'Integrations', value: 'Cloudflare · GitHub · OpenAI' },
-            ].map((item) => (
-              <article key={item.label} className="hero-stat-card">
-                <span className="meta-line">{item.label}</span>
-                <strong>{item.value}</strong>
-              </article>
-            ))}
-          </div>
-          <div className="hero__actions">
-            <Link
-              className="button button--primary"
-              to="/admin/login"
-              onClick={() =>
-                handleCtaClick('home-admin-login', 'operator_access')
-              }
+        <span className="storefront-eyebrow">3000 Studios</span>
+        <h1 className="storefront-headline">
+          Apps built by<br />
+          <span className="storefront-headline--accent">Jeremy Swain</span>
+        </h1>
+        <p className="storefront-subhead">
+          A collection of AI-powered tools, platforms, and products — built in public, shipped fast.
+        </p>
+      </motion.div>
+    </section>
+
+    {/* Category Filter */}
+    <section className="storefront-filter">
+      <div className="storefront-filter__inner">
+        <div className="filter-tabs">
+          {categories.map((cat) => (
+            <button
+              key={cat}
+              className={`filter-tab ${activeCategory === cat ? 'active' : ''}`}
+              onClick={() => setActiveCategory(cat)}
             >
-              Open admin login
-            </Link>
-            <Link
-              className="button button--ghost"
-              to="/#homepage-workflow"
-              onClick={() =>
-                handleCtaClick('home-platform-overview', 'learn_more')
-              }
+              {cat}
+            </button>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    {/* App Grid */}
+    <section className="storefront-grid-section">
+      <div className="storefront-grid">
+        {filtered.map((app, i) => {
+          const status = statusConfig[app.status]
+          return (
+            <motion.div
+              key={app.id}
+              className="app-card"
+              variants={fadeUp}
+              initial="hidden"
+              animate="visible"
+              custom={i}
+              whileHover={{ y: -4, transition: { duration: 0.2 } }}
             >
-              See workflow
-            </Link>
-          </div>
-        </motion.div>
-
-        <motion.aside
-          className="hero__panel hero__panel--story"
-          variants={fadeUp}
-        >
-          <div className="hero-visual">
-            <div className="hero-visual__orb hero-visual__orb--a" />
-            <div className="hero-visual__orb hero-visual__orb--b" />
-            <div className="hero-visual__panel">
-              <span className="panel-kicker">Operator preview</span>
-              <div className="hero-visual__screen">
-                <div className="hero-visual__bar" />
-                <div className="hero-visual__grid">
-                  <div className="hero-visual__cell" />
-                  <div className="hero-visual__cell" />
-                  <div className="hero-visual__cell" />
-                </div>
+              <div className="app-card__header">
+                <div className="app-card__icon">{app.icon}</div>
+                <span
+                  className="app-card__status"
+                  style={{ color: status.color, background: status.bg }}
+                >
+                  {status.label}
+                </span>
               </div>
-              <div className="hero-visual__row">
-                <div className="hero-visual__metric">
-                  <span className="meta-line">Result mode</span>
-                  <strong>research_and_apply</strong>
-                </div>
-                <div className="hero-visual__metric">
-                  <span className="meta-line">Safety lane</span>
-                  <strong>repo bounded</strong>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="visual-grid">
-            {[
-              {
-                label: 'Prompt',
-                title: 'Rebrand the homepage and deploy',
-                value:
-                  'The operator interprets the request, edits approved files, and returns a deployment record.',
-              },
-              {
-                label: 'Research',
-                title: 'Find the latest references',
-                value:
-                  'Web research results attach sources so the operator can separate facts from applied code changes.',
-              },
-            ].map((item) => (
-              <article key={item.title} className="visual-card">
-                <span className="meta-line">{item.label}</span>
-                <h3>{item.title}</h3>
-                <p className="visual-card__body">{item.value}</p>
-              </article>
-            ))}
-          </div>
-        </motion.aside>
-      </motion.section>
 
-      <section className="section-card">
-        <div className="section-heading">
-          <div>
-            <span className="eyebrow">Platform scope</span>
-            <h2>
-              Built for operator-led website management, not a pile of
-              disconnected tools.
-            </h2>
-            <p className="section-intro">
-              The public surface stays intentionally minimal so the operational
-              power lives behind admin auth where browsing, editing, planning,
-              and deployment can happen in one place.
-            </p>
-          </div>
-        </div>
-        <div className="card-grid card-grid--compact">
-          {pillars.map((item) => (
-            <article key={item.title} className="content-card">
-              <span className="meta-line">{item.eyebrow}</span>
-              <h3>{item.title}</h3>
-              <p>{item.description}</p>
-            </article>
+              <div className="app-card__body">
+                <h3 className="app-card__name">{app.name}</h3>
+                <p className="app-card__tagline">{app.tagline}</p>
+                <p className="app-card__desc">{app.description}</p>
+              </div>
+
+              <div className="app-card__footer">
+                <div className="app-card__tags">
+                  {app.tags.map(tag => (
+                    <span key={tag} className="app-tag">{tag}</span>
+                  ))}
+                </div>
+                {app.url ? (
+                  <a
+                    href={app.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="app-card__cta"
+                  >
+                    Open app →
+                  </a>
+                ) : (
+                  <span className="app-card__cta app-card__cta--disabled">
+                    {app.status === 'coming-soon' ? 'Coming soon' : 'In development'}
+                  </span>
+                )}
+              </div>
+            </motion.div>
+          )
+        })}
+      </div>
+    </section>
+
+    {/* News Ticker */}
+    <section className="storefront-ticker-section">
+      <div className="ticker-wrapper">
+        <div className="ticker-track">
+          {[
+            '🚀 MyAppAI v2 launching soon',
+            '🎵 YouTuneAI beta open',
+            '💰 FindMeRates now live',
+            '🌑 ShadowOS Stack in development',
+            '🎙️ VoiceToWebsite coming Q3 2026',
+            '💪 Calistique store open',
+            '🔥 New apps dropping regularly',
+            '🚀 MyAppAI v2 launching soon',
+            '🎵 YouTuneAI beta open',
+            '💰 FindMeRates now live',
+            '🌑 ShadowOS Stack in development',
+            '🎙️ VoiceToWebsite coming Q3 2026',
+            '💪 Calistique store open',
+            '🔥 New apps dropping regularly',
+          ].map((item, i) => (
+            <span key={i} className="ticker-item">{item}</span>
           ))}
         </div>
-      </section>
+      </div>
+    </section>
 
-      <section id="homepage-workflow" className="section-card section-anchor">
-        <span className="eyebrow">Workflow</span>
-        <h2>From idea to live deploy in three moves.</h2>
-        <div className="card-grid card-grid--compact">
-          {workflow.map((entry) => (
-            <article key={entry.title} className="content-card">
-              <span className="meta-line">{entry.label}</span>
-              <h3>{entry.title}</h3>
-              <p>{entry.description}</p>
-            </article>
-          ))}
-        </div>
-      </section>
+    {/* Footer CTA */}
+    <section className="storefront-cta">
+      <motion.div
+        className="storefront-cta__inner"
+        initial={{ opacity: 0, y: 24 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.5 }}
+      >
+        <h2>Want to work together?</h2>
+        <p>I build AI-powered products and tools. If you have an idea, let's talk.</p>
+        <Link to="/contact" className="cta-btn">Get in touch →</Link>
+      </motion.div>
+    </section>
 
-      <section className="section-card section-card--split">
-        <div className="section-card__lede">
-          <span className="eyebrow">Control model</span>
-          <h2>Operate the site like a command center, not a pile of tabs.</h2>
-          <p className="section-intro">
-            The public homepage stays focused while the authenticated operator
-            page handles research, planning, changes, audits, logs, and deploy
-            control in one visual system.
-          </p>
-          <div className="signal-list">
-            {operatingSignals.map((signal) => (
-              <div key={signal} className="signal-pill">
-                {signal}
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <div className="operator-storyboard">
-          <div className="operator-storyboard__surface">
-            <div className="operator-storyboard__header">
-              <span className="panel-kicker">Live operator lane</span>
-              <span className="meta-line">browser → plan → apply → deploy</span>
-            </div>
-            <div className="operator-storyboard__prompt">
-              “Refresh the homepage for AI founders, keep the design premium,
-              update metadata, and prepare deployment.”
-            </div>
-            <div className="operator-storyboard__steps">
-              <div className="operator-storyboard__step">
-                <span>Intent</span>
-                <strong>homepage_update</strong>
-              </div>
-              <div className="operator-storyboard__step">
-                <span>Paths</span>
-                <strong>frontend + content</strong>
-              </div>
-              <div className="operator-storyboard__step">
-                <span>Status</span>
-                <strong>deploy ready</strong>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="section-card">
-        <span className="eyebrow">Capabilities</span>
-        <h2>Everything the operator page is designed to keep in one loop.</h2>
-        <div className="capability-grid">
-          {capabilities.map((item) => (
-            <article key={item.title} className="capability-card">
-              <span className="meta-line">{item.label}</span>
-              <h3>{item.title}</h3>
-              <p>{item.description}</p>
-              <div className="capability-card__footer">
-                <span className="mini-chip">{item.stat}</span>
-              </div>
-            </article>
-          ))}
-        </div>
-      </section>
-
-      <section className="section-card cta-band">
-        <div>
-          <span className="eyebrow">Start now</span>
-          <h2>Log in and work on the website from the website.</h2>
-          <p className="section-intro">
-            MyAppAI is designed so the authenticated operator workspace becomes
-            the place where you research, request, review, and ship changes.
-          </p>
-        </div>
-        <div className="hero__actions">
-          <Link
-            className="button button--primary"
-            to="/admin/login"
-            onClick={() =>
-              handleCtaClick('home-final-login', 'operator_access')
-            }
-          >
-            Go to admin login
-          </Link>
-          <Link
-            className="button button--ghost"
-            to="/"
-            onClick={() => handleCtaClick('home-final-overview', 'learn_more')}
-          >
-            Stay on homepage
-          </Link>
-        </div>
-      </section>
-    </div>
-  )
+  </div>
+)
 }
