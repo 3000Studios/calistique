@@ -3,18 +3,18 @@ import React from 'react'
 const snippet = {
   head: `<!-- Google AdSense -->
 <script async
-  src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXX"
+  src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-YOUR_PUBLISHER_ID"
   crossorigin="anonymous"></script>`,
   unit: `<ins class="adsbygoogle"
   style="display:block"
-  data-ad-client="ca-pub-XXXXXXXXXXXX"
+  data-ad-client="ca-pub-YOUR_PUBLISHER_ID"
   data-ad-slot="1234567890"
   data-ad-format="auto"
   data-full-width-responsive="true"></ins>
 <script>
   (adsbygoogle = window.adsbygoogle || []).push({});
 </script>`,
-  adsTxt: `google.com, pub-0000000000000000, DIRECT, f08c47fec0942fa0`,
+  adsTxt: `google.com, pub-YOUR_PUBLISHER_ID, DIRECT, f08c47fec0942fa0`,
   webAnalytics: `<script
   defer
   src="https://static.cloudflareinsights.com/beacon.min.js"
@@ -29,6 +29,10 @@ export default function AdSenseReviewPage() {
         <p className="prose-lead">
           The site includes clear ad labels, disclosure pages, a valid
           <code>ads.txt</code> file, and review-friendly placement surfaces.
+        </p>
+        <p className="prose-lead">
+          Replace <code>YOUR_PUBLISHER_ID</code> with the publisher id from
+          your approved AdSense account before review.
         </p>
       </header>
 

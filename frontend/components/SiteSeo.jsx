@@ -71,7 +71,7 @@ function getSeoForPath(pathname) {
     description: SITE_DEFAULT_DESCRIPTION,
     canonicalUrl,
     noindex: false,
-    adsEligible: false,
+    adsEligible: true,
     schemas: [],
   }
 
@@ -151,12 +151,14 @@ function getSeoForPath(pathname) {
       title: `${SITE_DISPLAY_NAME} | Protected operator route`,
       description: 'Protected operational route.',
       noindex: true,
+      adsEligible: false,
     }
   }
 
   return {
     ...base,
     noindex: true,
+    adsEligible: false,
   }
 }
 
