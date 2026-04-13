@@ -5,19 +5,19 @@ const runtimeEnv =
       ? process.env
       : {}
 
-export const REPOSITORY_URL = 'https://github.com/3000Studios/campdream'
+export const REPOSITORY_URL = 'https://github.com/3000Studios/calistique'
 
-export const SITE_DISPLAY_NAME = 'CampDream'
-export const SITE_LEGAL_NAME = 'CampDream'
-export const SITE_DOMAIN = 'campdream.store'
+export const SITE_DISPLAY_NAME = 'Calistique'
+export const SITE_LEGAL_NAME = 'Calistique'
+export const SITE_DOMAIN = 'calistique.com'
 export const SITE_URL = `https://${SITE_DOMAIN}`
 export const WWW_SITE_URL = `https://www.${SITE_DOMAIN}`
-export const SITE_CATEGORY = 'Commerce, content, and creator revenue'
-export const SITE_DEFAULT_TITLE = `${SITE_DISPLAY_NAME} | Content that earns`
+export const SITE_CATEGORY = 'Luxury clothing and jewelry storefront'
+export const SITE_DEFAULT_TITLE = `${SITE_DISPLAY_NAME} | Clothing and jewelry`
 export const SITE_DEFAULT_DESCRIPTION =
-  'CampDream combines editorial content, featured products, and ad inventory into a revenue-first storefront.'
+  'Calistique combines editorial product pages, featured products, and ad inventory into a luxury storefront.'
 export const COPYRIGHT_HOLDER = SITE_LEGAL_NAME
-export const SUPPORT_EMAIL = 'hello@campdream.store'
+export const SUPPORT_EMAIL = 'hello@calistique.com'
 export const CONTACT_EMAIL = SUPPORT_EMAIL
 export const PAYMENT_FALLBACK_LABEL = 'your configured checkout provider'
 export const ADSENSE_CLIENT_ID = runtimeEnv.VITE_ADSENSE_CLIENT_ID ?? ''

@@ -7,11 +7,13 @@ import HomePage from '../pages/HomePage.jsx'
 import ShopItemPage from '../pages/ShopItemPage.jsx'
 import CollectionPage from '../pages/CollectionPage.jsx'
 import DropPage from '../pages/DropPage.jsx'
+import AdsCompliancePage from '../pages/AdsCompliancePage.jsx'
 import AboutPage from '../pages/AboutPage.jsx'
 import ContactPage from '../pages/ContactPage.jsx'
 import PrivacyPage from '../pages/PrivacyPage.jsx'
 import TermsPage from '../pages/TermsPage.jsx'
 import DisclosurePage from '../pages/DisclosurePage.jsx'
+import AdSenseReviewPage from '../pages/AdSenseReviewPage.jsx'
 import ToolsPage from '../pages/ToolsPage.jsx'
 import ProductsPage from '../pages/ProductsPage.jsx'
 import BlogIndexPage from '../pages/BlogIndexPage.jsx'
@@ -52,11 +54,13 @@ return (
         <Route path="/products/:slug" element={<ShopItemPage />} />
         <Route path="/collections/:slug" element={<CollectionPage />} />
         <Route path="/drops/:slug" element={<DropPage />} />
+        <Route path="/ads-compliance" element={<AdsCompliancePage />} />
         <Route path="/about" element={<AboutPage />} />
         <Route path="/contact" element={<ContactPage />} />
         <Route path="/privacy" element={<PrivacyPage />} />
         <Route path="/terms" element={<TermsPage />} />
         <Route path="/disclosure" element={<DisclosurePage />} />
+        <Route path="/adsense-review" element={<AdSenseReviewPage />} />
         <Route path="/menu" element={<ToolsPage />} />
         <Route path="/tools" element={<ToolsPage />} />
         <Route path="/products" element={<ProductsPage />} />
