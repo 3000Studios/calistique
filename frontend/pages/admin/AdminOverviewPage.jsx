@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import PrismHeadline from '../../components/PrismHeadline.jsx'
 import AnalyticsPanel from '../../components/admin/AnalyticsPanel.jsx'
 import { useAdminDashboard } from '../../context/AdminDashboardContext.jsx'
@@ -19,6 +20,22 @@ export default function AdminOverviewPage() {
         </p>
       </div>
       <AnalyticsPanel analytics={analytics} />
+      <section className="admin-card admin-card--compact">
+        <div className="admin-card__header">
+          <div>
+            <span className="eyebrow">Protected app</span>
+            <h2>OpenClaw control center</h2>
+          </div>
+        </div>
+        <p className="section-intro">
+          Your app lives behind admin auth and opens from the dashboard.
+        </p>
+        <div className="admin-actions">
+          <Link className="button button--primary" to="/admin/openclaw">
+            Open OpenClaw
+          </Link>
+        </div>
+      </section>
       {lastResult ? (
         <section className="admin-card admin-card--compact">
           <div className="admin-card__header">
