@@ -7,6 +7,8 @@ export default function AdminConsolePage() {
   const {
     consoleMode,
     setConsoleMode,
+    browserMode,
+    setBrowserMode,
     commandText,
     setCommandText,
     naturalLanguagePrompt,
@@ -29,6 +31,8 @@ export default function AdminConsolePage() {
       <CommandConsole
         consoleMode={consoleMode}
         onConsoleModeChange={setConsoleMode}
+        browserMode={browserMode}
+        onBrowserModeChange={setBrowserMode}
         commandText={commandText}
         onCommandTextChange={setCommandText}
         naturalLanguagePrompt={naturalLanguagePrompt}

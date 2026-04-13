@@ -1,5 +1,5 @@
 {
-  "name": "calistique",
+  "name": "myappai",
   "version": "1.1.0",
   "private": true,
   "type": "module",
@@ -48,22 +48,22 @@
     "ci": "npm run check:full"
   },
   "keywords": [
-    "calistique",
-    "calistique.com",
-    "fashion",
-    "jewelry"
+    "myappai",
+    "website revenue",
+    "seo",
+    "adsense"
   ],
-  "homepage": "https://calistique.com/",
+  "homepage": "https://myappai.net/",
   "repository": {
     "type": "git",
-    "url": "https://github.com/3000Studios/calistique.git"
+    "url": "https://github.com/3000Studios/myappai.git"
   },
   "bugs": {
-    "url": "https://github.com/3000Studios/calistique/issues"
+    "url": "https://github.com/3000Studios/myappai/issues"
   },
   "author": "3000Studios",
   "license": "UNLICENSED",
-  "description": "Calistique luxury storefront for clothing and jewelry.",
+  "description": "MyAppAI premium website revenue and automation platform.",
   "lint-staged": {
     "*.{js,jsx,json,md,css}": [
       "prettier --write"

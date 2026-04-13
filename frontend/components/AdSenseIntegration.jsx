@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { ADSENSE_CLIENT_ID, ADS_ENABLED } from '../src/siteMeta.js'
+import { ADSENSE_CLIENT_ID, ADS_ENABLED, SITE_DISPLAY_NAME } from '../src/siteMeta.js'
 import './AdSenseIntegration.css'
 
 const AdSenseIntegration = () => {
@@ -11,7 +11,7 @@ const AdSenseIntegration = () => {
       return undefined
     }
 
-    if (document.querySelector('script[data-calistique-adsense="true"]')) {
+    if (document.querySelector('script[data-site-adsense="true"]')) {
       setAdLoaded(true)
       return undefined
     }
@@ -21,7 +21,7 @@ const AdSenseIntegration = () => {
       'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js'
     script.async = true
     script.crossOrigin = 'anonymous'
-    script.setAttribute('data-calistique-adsense', 'true')
+    script.setAttribute('data-site-adsense', 'true')
 
     script.onload = () => {
       setAdLoaded(true)
@@ -69,9 +69,19 @@ const AdSenseIntegration = () => {
 
   return (
     <div className="adsense-integration">
-      {/* Header Banner */}
       <div className="ad-container header-ad">
+        <div className="ad-container__label">Sponsored by {SITE_DISPLAY_NAME}</div>
         <AdUnit slot="1234567890" format="auto" responsive={true} />
+      </div>
+
+      <div className="ad-container mid-ad">
+        <div className="ad-container__label">Sponsored story</div>
+        <AdUnit slot="2345678901" format="auto" responsive={true} />
+      </div>
+
+      <div className="ad-container footer-ad">
+        <div className="ad-container__label">Sponsored offer</div>
+        <AdUnit slot="3456789012" format="auto" responsive={true} />
       </div>
 
       {adError && (

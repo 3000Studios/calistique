@@ -1,18 +1,17 @@
 import React, { useRef, useState, useEffect } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
-import { OrbitControls, Text, Box, Sphere } from '@react-three/drei'
+import { OrbitControls, Box, Sphere } from '@react-three/drei'
 import * as THREE from 'three'
 import './ThreeDAvatar.css'
 
 // Avatar Mesh Component
-function AvatarMesh({ isSpeaking, mood, expression }) {
+function AvatarMesh({ isSpeaking, mood }) {
   const meshRef = useRef()
   const headRef = useRef()
   const eyeLeftRef = useRef()
   const eyeRightRef = useRef()
   const mouthRef = useRef()
 
-  const [blinkTimer, setBlinkTimer] = useState(0)
   const [mouthOpen, setMouthOpen] = useState(0)
 
   // Blinking animation
@@ -160,9 +159,8 @@ function Cylinder(props) {
   )
 }
 
-function ThreeDAvatar({ isSpeaking, mood = 'neutral', expression = 'happy' }) {
+function ThreeDAvatar({ isSpeaking, mood = 'neutral' }) {
   const [isLoading, setIsLoading] = useState(true)
-  const [error, setError] = useState(null)
 
   useEffect(() => {
     // Simulate loading
@@ -172,17 +170,6 @@ function ThreeDAvatar({ isSpeaking, mood = 'neutral', expression = 'happy' }) {
 
     return () => clearTimeout(timer)
   }, [])
-
-  if (error) {
-    return (
-      <div className="avatar-error">
-        <div className="avatar-fallback">
-          <div className="avatar-icon">🦞</div>
-          <div className="avatar-status">AI Assistant</div>
-        </div>
-      </div>
-    )
-  }
 
   return (
     <div className="three-d-avatar">
@@ -206,7 +193,6 @@ function ThreeDAvatar({ isSpeaking, mood = 'neutral', expression = 'happy' }) {
             <AvatarMesh
               isSpeaking={isSpeaking}
               mood={mood}
-              expression={expression}
             />
 
             <OrbitControls

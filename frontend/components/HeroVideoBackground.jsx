@@ -14,7 +14,7 @@ const HeroVideoBackground = ({ videoSrc, children, overlayOpacity = 0.6 }) => {
 
       const handleCanPlay = () => {
         setIsLoaded(true)
-        video.play().catch((err) => {
+        video.play().catch(() => {
           console.log('Autoplay prevented, will play on user interaction')
         })
       }

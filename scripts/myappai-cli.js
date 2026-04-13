@@ -1,6 +1,5 @@
 #!/usr/bin/env node
-import { execFile, spawnSync } from 'node:child_process'
-import { promisify } from 'node:util'
+import { spawnSync } from 'node:child_process'
 import fs from 'node:fs'
 import path from 'node:path'
 import { bootstrapContent } from '../server/services/contentService.js'
@@ -14,8 +13,6 @@ import {
 
 loadEnvironment()
 
-const execFileAsync = promisify(execFile)
-
 const PROJECT_NAME = getPagesProjectName()
 const PRODUCTION_BRANCH = getProductionBranch()
 
@@ -28,7 +25,10 @@ const WRANGLER_CLI = path.join(
 )
 
 function runWrangler(args, options) {
-  return run(process.execPath, [WRANGLER_CLI, ...args], options)
+  return run(process.execPath, [WRANGLER_CLI, ...args], {
+    ...options,
+    shell: false,
+  })
 }
 
 function resolveExecutable(command) {
@@ -50,7 +50,12 @@ function resolveExecutable(command) {
 async function run(
   command,
   args,
-  { allowFailure = false, env = undefined, unsetEnv = [] } = {}
+  {
+    allowFailure = false,
+    env = undefined,
+    unsetEnv = [],
+    shell = process.platform === 'win32',
+  } = {}
 ) {
   const executable = resolveExecutable(command)
   const childEnv = env ? { ...process.env, ...env } : { ...process.env }
@@ -59,24 +64,24 @@ async function run(
     delete childEnv[key]
   }
 
-  try {
-    await execFileAsync(executable, args, {
-      cwd: process.cwd(),
-      env: childEnv,
-      windowsHide: true,
-      stdio: 'inherit',
-    })
-    return 0
-  } catch (error) {
-    const code = typeof error?.code === 'number' ? error.code : 1
-    if (allowFailure) {
-      return code
-    }
+  const result = spawnSync(executable, args, {
+    cwd: process.cwd(),
+    env: childEnv,
+    windowsHide: true,
+    stdio: 'inherit',
+    shell,
+  })
 
+  const exitCode = typeof result.status === 'number' ? result.status : 1
+
+  if (exitCode !== 0 && !allowFailure) {
+    const detail = String(result.stderr || result.stdout || '').trim()
     throw new Error(
-      `${command} ${args.join(' ')} exited with code ${code}: ${error?.message ?? ''}`
+      `${command} ${args.join(' ')} exited with code ${exitCode}: ${detail}`
     )
   }
+
+  return exitCode
 }
 
 function getCloudflareWriteEnv() {
@@ -186,7 +191,9 @@ function getGitOutput(args) {
 }
 
 async function runNpmScript(scriptName) {
-  await run('npm', ['run', scriptName])
+  await run('npm', ['run', scriptName], {
+    shell: process.platform === 'win32',
+  })
 }
 
 function printHelp() {
@@ -335,6 +342,12 @@ function parseCommandInput(args) {
 
   if (payload) {
     return payload
+  }
+
+  if (raw.toLowerCase().startsWith('browser:')) {
+    return {
+      browserCommand: raw.slice('browser:'.length).trim(),
+    }
   }
 
   return {

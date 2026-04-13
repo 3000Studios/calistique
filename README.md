@@ -1,6 +1,6 @@
-# MyAppAI
+# Calistique
 
-MyAppAI is a Vite + React public homepage with a local Express admin/API layer, a browser-based operator workspace, and manual Wrangler deployment support for safe operator-driven updates.
+Calistique is a high-fashion storefront built with Vite + React, a local Express admin/API layer, and Cloudflare Pages deployment support.
 
 ## Quick start
 
@@ -31,6 +31,20 @@ npm run maintenance:clean
 npm run cli -- command "refresh the homepage hero copy"
 npm run cli -- pages:list
 npm run cli:deploy
+```
+
+Browser control via Gemini is available on the local API:
+
+```bash
+POST /api/gemini/browser
+```
+
+Set `GEMINI_API_KEY` and keep `BROWSER_CONTROL_ENABLED=true` to allow it.
+
+For the CLI/operator flow, use:
+
+```bash
+npm run cli -- command "browser: open example.com and click sign in"
 ```
 
 ## Environment files
@@ -81,7 +95,7 @@ That runs cached linting, incremental typechecking, and unit tests without the h
 - `docs/CUSTOM_GPT_SITE_OPERATOR.md`
 - `docs/ENVIRONMENT_SETUP_MATRIX.md`
 - `docs/MASTER_1_ULTRA_PROMPT.md`
-- `docs/OPENCLAW_CLAUDE_BOT.md`
-- `docs/OLLAMA_FREE_ASSISTANT.md`
+- `docs/ADSENSE_REVIEW.md`
+- `docs/DEPLOYMENT.md`
 
-OpenClaw uses the free local Ollama path when `PUBLIC_ASSISTANT_PROVIDER=openclaw`.
+Calistique uses the free local Ollama path when `PUBLIC_ASSISTANT_PROVIDER=openclaw`.

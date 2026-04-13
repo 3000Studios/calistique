@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { SUPPORT_EMAIL, SITE_DISPLAY_NAME } from '../src/siteMeta.js'
+import { SUPPORT_EMAIL } from '../src/siteMeta.js'
 
 export default function ContactPage() {
 const [submitted, setSubmitted] = useState(false)

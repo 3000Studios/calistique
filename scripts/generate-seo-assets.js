@@ -8,7 +8,7 @@ const contentPagesDir = path.join(repoRoot, 'content', 'pages')
 const contentBlogDir = path.join(repoRoot, 'content', 'blog')
 const contentProductsDir = path.join(repoRoot, 'content', 'products')
 
-const SITE_URL = process.env.SITE_URL || 'https://thecajunmenu.site'
+const SITE_URL = process.env.SITE_URL || 'https://myappai.net'
 const ADSENSE_PUBLISHER_ID =
   process.env.ADSENSE_PUBLISHER_ID ||
   process.env.ADSENSE_PUBLISHER ||
@@ -65,6 +65,7 @@ async function generateRobots() {
   const content = `User-agent: *
 Allow: /
 Disallow: /admin
+Disallow: /api
 
 Sitemap: ${SITE_URL}/sitemap.xml
 `

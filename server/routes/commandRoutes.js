@@ -9,6 +9,7 @@ import {
   getOllamaProxyStatus,
   getRevenueQueue,
   patchLeadStage,
+  postGeminiBrowser,
   postGeminiGenerate,
   postGeminiStream,
   postWhisperTranscription,
@@ -44,6 +45,7 @@ router.get('/revenue', adminAuth, getRevenueQueue)
 router.patch('/revenue/leads/:id', adminAuth, patchLeadStage)
 router.post('/transcription/whisper', adminAuth, postWhisperTranscription)
 router.post('/gemini', adminAuth, postGeminiGenerate)
+router.post('/gemini/browser', adminAuth, postGeminiBrowser)
 router.post('/gemini/stream', adminAuth, postGeminiStream)
 router.use('/command', adminAuth, commandApiRouter)
 

@@ -18,6 +18,7 @@ import {
 import { transcribePublicMedia } from '../services/transcriptionService.js'
 import {
   generateGeminiText,
+  runGeminiBrowserControl,
   streamGeminiText,
 } from '../services/geminiService.js'
 
@@ -152,6 +153,16 @@ export async function postGeminiStream(request, response, next) {
     })
     response.write(`event: error\ndata: ${payload}\n\n`)
     response.end()
+  }
+}
+
+export async function postGeminiBrowser(request, response, next) {
+  try {
+    const { prompt, url, model } = request.body ?? {}
+    const result = await runGeminiBrowserControl({ prompt, url, model })
+    response.json(result)
+  } catch (error) {
+    next(error)
   }
 }
 

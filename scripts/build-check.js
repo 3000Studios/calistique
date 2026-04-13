@@ -218,9 +218,9 @@ const revenueOpportunities = [
   },
 ]
 
-revenueOpportunities.forEach((opp, index) => {
+revenueOpportunities.forEach((opp, idx) => {
   console.log(
-    `\n${index + 1}. ${opp.category} [${opp.potential} Potential, ${opp.implementation} Implementation]`
+    `\n${idx + 1}. ${opp.category} [${opp.potential} Potential, ${opp.implementation} Implementation]`
   )
   opp.ideas.forEach((idea, i) => {
     console.log(`   ${i + 1}. ${idea}`)
@@ -290,7 +290,7 @@ const missingFeatures = [
   },
 ]
 
-missingFeatures.forEach((feature, index) => {
+missingFeatures.forEach((feature) => {
   const status =
     feature.status === 'NOT IMPLEMENTED'
       ? '❌'

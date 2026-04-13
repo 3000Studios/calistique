@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Menu, X, ChevronRight } from 'lucide-react'
+import { X, ChevronRight } from 'lucide-react'
 import './ThreeDMobileNav.css'
 
 const ThreeDMobileNav = ({ items = [] }) => {
@@ -64,7 +64,7 @@ const ThreeDMobileNav = ({ items = [] }) => {
 
         oscillator.start(audioContext.currentTime)
         oscillator.stop(audioContext.currentTime + 0.1)
-      } catch (error) {
+      } catch (_error) {
         console.log('Audio play failed, continuing without sound')
       }
     }

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import './OpenClawSkills.css'
 
@@ -298,7 +298,7 @@ const OpenClawSkills = () => {
     {}
   )
 
-  const executeSkill = async (skillId) => {
+  const executeSkill = async () => {
     setIsExecuting(true)
     // Simulate skill execution
     setTimeout(() => {

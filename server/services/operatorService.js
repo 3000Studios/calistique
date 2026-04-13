@@ -4,6 +4,7 @@ import { applyPatch } from '../../api/patchEngine.js'
 import { routeCommand } from '../../ai/router/commandRouter.js'
 import { recordAiActivity } from './analyticsService.js'
 import { logOperatorEvent } from './logService.js'
+import { runGeminiBrowserControl } from './geminiService.js'
 import { searchWeb } from './researchService.js'
 
 const BLOCKED_PATTERNS = [
@@ -18,6 +19,13 @@ const RESEARCH_PATTERNS = [
   /\bfind\b/i,
   /\blook up\b/i,
 ]
+const BROWSER_CONTROL_PATTERNS = [
+  /\b(browser|web browser|website|web page|tab)\b/i,
+  /\b(open|go to|visit|navigate to|click|type|fill|submit|scroll)\b/i,
+]
+
+const EXPLICIT_BROWSER_CONTROL_PATTERN =
+  /\b(browser control|control my browser|control the browser|browser automation|open browser|run in browser|use the browser)\b/i
 /** Matches prompts that should only trigger a live deploy (no file edit). */
 const DEPLOY_ONLY_PATTERN =
   /^(please\s+)?(?:(can|could|would)\s+you\s+)?(deploy|ship live|push live|go live|publish(\s+live)?)\b/i
@@ -30,6 +38,22 @@ function isBlockedPrompt(command) {
 
 function needsResearch(command) {
   return RESEARCH_PATTERNS.some((pattern) => pattern.test(command))
+}
+
+function needsBrowserControl(command) {
+  const trimmed = String(command ?? '').trim()
+  if (!trimmed) {
+    return false
+  }
+
+  if (EXPLICIT_BROWSER_CONTROL_PATTERN.test(trimmed)) {
+    return true
+  }
+
+  return (
+    BROWSER_CONTROL_PATTERNS.some((pattern) => pattern.test(trimmed)) &&
+    /\b(and then|then|after that|next step|click|type|fill)\b/i.test(trimmed)
+  )
 }
 
 function isDeployOnlyPrompt(command) {
@@ -68,6 +92,19 @@ function sanitizeDeployCommitMessage(raw, fallback = 'Operator live deploy') {
 }
 
 function planOperatorPrompt(command) {
+  const trimmed = String(command ?? '').trim()
+  if (trimmed.toLowerCase().startsWith('browser:')) {
+    return {
+      intent: 'browser_control',
+      steps: [
+        'Parse explicit browser command',
+        'Generate Gemini browser plan',
+        'Run browser actions',
+        'Return execution summary',
+      ],
+    }
+  }
+
   const blockedPattern = isBlockedPrompt(command)
   if (blockedPattern) {
     return {
@@ -97,6 +134,18 @@ function planOperatorPrompt(command) {
         'Plan safe repository action',
         'Apply safe action if needed',
         'Return sources and status',
+      ],
+    }
+  }
+
+  if (needsBrowserControl(command)) {
+    return {
+      intent: 'browser_control',
+      steps: [
+        'Interpret browser task',
+        'Generate Gemini browser plan',
+        'Run browser actions',
+        'Return execution summary',
       ],
     }
   }
@@ -220,6 +269,25 @@ export async function runOperatorPrompt(command, options = {}) {
       deployment,
       nextSteps: ['Watch deployment status in the inspector panel.'],
       details: { plan },
+    })
+  }
+
+  if (plan.intent === 'browser_control') {
+    const browserResult = await runGeminiBrowserControl({ prompt: trimmed })
+    await recordAiActivity('browser_control', 'browser_control')
+    await logOperatorEvent({
+      level: 'info',
+      scope: 'operator',
+      title: 'Browser control requested',
+      message: trimmed,
+      details: browserResult,
+    })
+
+    return buildResult({
+      mode: 'browser_control',
+      summary: 'Browser task executed through Gemini control.',
+      nextSteps: ['Review the execution payload and screenshot path, if set.'],
+      details: { plan, browserResult },
     })
   }
 

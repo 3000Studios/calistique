@@ -10,6 +10,16 @@ const router = express.Router()
 export async function executeRepositoryCommand(payload) {
   const command =
     typeof payload?.command === 'string' ? payload.command.trim() : ''
+  const browserCommand =
+    typeof payload?.browserCommand === 'string'
+      ? payload.browserCommand.trim()
+      : ''
+
+  if (browserCommand) {
+    return runOperatorPrompt(browserCommand, {
+      shipLiveAfterEdit: false,
+    })
+  }
 
   if (command) {
     return runOperatorPrompt(command, {

@@ -73,7 +73,7 @@ export function getPagesProjectName() {
   return (
     process.env.CLOUDFLARE_PAGES_PROJECT_NAME?.trim() ||
     process.env.APP_NAME?.trim() ||
-    'myappai'
+    'calistique'
   )
 }
 

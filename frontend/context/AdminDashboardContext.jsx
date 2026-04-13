@@ -95,6 +95,9 @@ export function AdminDashboardProvider({ children }) {
   const [consoleMode, setConsoleMode] = useState(
     storedOperatorState?.consoleMode ?? 'prompt'
   )
+  const [browserMode, setBrowserMode] = useState(
+    storedOperatorState?.browserMode ?? false
+  )
   const [commandText, setCommandText] = useState(
     storedOperatorState?.commandText ?? defaultCommand
   )
@@ -179,6 +182,7 @@ export function AdminDashboardProvider({ children }) {
       OPERATOR_STATE_KEY,
       JSON.stringify({
         consoleMode,
+        browserMode,
         commandText,
         naturalLanguagePrompt,
         shipLiveAfterRun,
@@ -189,6 +193,7 @@ export function AdminDashboardProvider({ children }) {
   }, [
     commandText,
     consoleMode,
+    browserMode,
     lastResult,
     naturalLanguagePrompt,
     operatorHistory,
@@ -203,12 +208,21 @@ export function AdminDashboardProvider({ children }) {
   }, [])
 
   const handleRunCommand = useCallback(async () => {
+    let browserCommandLabel = ''
     try {
       setError('')
       setCommandBusy(true)
 
       let payload
-      if (consoleMode === 'json') {
+      if (browserMode) {
+        const browserPrompt = naturalLanguagePrompt.trim()
+        browserCommandLabel = browserPrompt.startsWith('browser:')
+          ? browserPrompt
+          : `browser: ${browserPrompt}`
+        payload = {
+          browserCommand: browserCommandLabel,
+        }
+      } else if (consoleMode === 'json') {
         payload = JSON.parse(commandText)
         if (
           payload &&
@@ -225,14 +239,20 @@ export function AdminDashboardProvider({ children }) {
         }
       }
 
-      if (consoleMode !== 'json' && !payload.command) {
+      if (browserMode) {
+        if (!payload.browserCommand) {
+          throw new Error('Enter a browser command for the operator workspace.')
+        }
+      } else if (consoleMode !== 'json' && !payload.command) {
         throw new Error('Enter a prompt for the operator workspace.')
       }
 
       const result = await sendCommand(adminSession, payload)
       recordResult(result, {
         prompt:
-          consoleMode === 'json'
+          browserMode
+            ? payload.browserCommand
+            : consoleMode === 'json'
             ? 'Structured JSON command'
             : naturalLanguagePrompt.trim(),
       })
@@ -244,12 +264,16 @@ export function AdminDashboardProvider({ children }) {
       recordResult(
         createOperatorFailureResult({
           summary:
-            consoleMode === 'json'
+            browserMode
+              ? 'Browser command failed before it could execute.'
+              : consoleMode === 'json'
               ? 'Command JSON failed before it could apply a safe change.'
               : 'Operator prompt failed before it could apply a safe change.',
           message,
           nextSteps:
-            consoleMode === 'json'
+            browserMode
+              ? ['Check the browser prompt and try a more explicit action.']
+              : consoleMode === 'json'
               ? [
                   'Check the action name and required fields in the JSON payload.',
                 ]
@@ -260,10 +284,16 @@ export function AdminDashboardProvider({ children }) {
         }),
         {
           prompt:
-            consoleMode === 'json'
+            browserMode
+              ? browserCommandLabel || naturalLanguagePrompt.trim()
+              : consoleMode === 'json'
               ? 'Structured JSON command'
               : naturalLanguagePrompt.trim(),
-          trigger: consoleMode === 'json' ? 'json-error' : 'prompt-error',
+          trigger: browserMode
+            ? 'browser-error'
+            : consoleMode === 'json'
+              ? 'json-error'
+              : 'prompt-error',
         }
       )
     } finally {
@@ -271,6 +301,7 @@ export function AdminDashboardProvider({ children }) {
     }
   }, [
     adminSession,
+    browserMode,
     commandText,
     consoleMode,
     naturalLanguagePrompt,
@@ -446,6 +477,7 @@ export function AdminDashboardProvider({ children }) {
 
   const clearOperatorSessionState = useCallback(() => {
     setConsoleMode('prompt')
+    setBrowserMode(false)
     setCommandText(defaultCommand)
     setNaturalLanguagePrompt(defaultPrompt)
     setShipLiveAfterRun(true)
@@ -478,6 +510,8 @@ export function AdminDashboardProvider({ children }) {
       initialLoadDone,
       consoleMode,
       setConsoleMode,
+      browserMode,
+      setBrowserMode,
       commandText,
       setCommandText,
       naturalLanguagePrompt,
@@ -517,6 +551,7 @@ export function AdminDashboardProvider({ children }) {
       adminSession,
       initialLoadDone,
       consoleMode,
+      browserMode,
       commandText,
       naturalLanguagePrompt,
       shipLiveAfterRun,

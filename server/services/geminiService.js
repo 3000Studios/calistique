@@ -1,4 +1,5 @@
 import { GoogleGenerativeAI } from '@google/generative-ai'
+import { runBrowserPlan } from './browserAutomationService.js'
 
 function isConfiguredValue(value) {
   const normalized = String(value ?? '').trim()
@@ -91,5 +92,91 @@ export async function streamGeminiText(
   return {
     ok: true,
     model: resolvedModel,
+  }
+}
+
+function parseJsonPayload(rawText) {
+  if (typeof rawText !== 'string') {
+    return null
+  }
+
+  const trimmed = rawText.trim()
+  const candidates = [trimmed]
+  const fencedMatch = trimmed.match(/```(?:json)?\s*([\s\S]*?)```/i)
+  if (fencedMatch?.[1]) {
+    candidates.push(fencedMatch[1].trim())
+  }
+
+  const start = trimmed.indexOf('{')
+  const end = trimmed.lastIndexOf('}')
+  if (start !== -1 && end > start) {
+    candidates.push(trimmed.slice(start, end + 1))
+  }
+
+  for (const candidate of candidates) {
+    try {
+      return JSON.parse(candidate)
+    } catch {
+      continue
+    }
+  }
+
+  return null
+}
+
+export async function runGeminiBrowserControl({
+  prompt,
+  url = '',
+  model = undefined,
+} = {}) {
+  if (typeof prompt !== 'string' || !prompt.trim()) {
+    throw new Error('A browser prompt is required.')
+  }
+
+  const plannerPrompt = `You are a browser control planner. Return JSON only.
+Shape:
+{
+  "actions": [
+    { "type": "goto", "url": "https://example.com" },
+    { "type": "click", "selector": "button" },
+    { "type": "type", "selector": "input", "value": "text" },
+    { "type": "press", "selector": "body", "key": "Enter" },
+    { "type": "wait", "timeoutMs": 1000 },
+    { "type": "extract_text", "selector": "body" },
+    { "type": "screenshot" }
+  ],
+  "outputPath": "C:/GPT/workspace/browser.png"
+}
+
+Rules:
+- Use only the listed actions.
+- Prefer the smallest workable plan.
+- If the task is ambiguous, use goto and extract_text.
+- Never request shell access or system control.
+
+Current URL: ${String(url ?? '').trim() || 'none'}
+User request: ${prompt.trim()}`
+
+  const plan = await generateGeminiText({ prompt: plannerPrompt, model })
+  const parsed = parseJsonPayload(plan.text)
+
+  if (!parsed || !Array.isArray(parsed.actions)) {
+    throw new Error('Gemini returned an invalid browser plan.')
+  }
+
+  const execution = await runBrowserPlan({
+    url,
+    actions: parsed.actions,
+    outputPath:
+      typeof parsed.outputPath === 'string' && parsed.outputPath.trim()
+        ? parsed.outputPath.trim()
+        : undefined,
+  })
+
+  return {
+    ok: true,
+    model: plan.model,
+    plan: parsed,
+    execution,
   }
 }

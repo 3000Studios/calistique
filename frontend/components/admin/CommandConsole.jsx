@@ -38,6 +38,8 @@ const jsonPresets = [
 export default function CommandConsole({
   consoleMode,
   onConsoleModeChange,
+  browserMode,
+  onBrowserModeChange,
   commandText,
   onCommandTextChange,
   naturalLanguagePrompt,
@@ -70,10 +72,46 @@ export default function CommandConsole({
           >
             Command JSON
           </button>
+          <button
+            className={`pill-button${browserMode ? ' pill-button--active' : ''}`}
+            type="button"
+            onClick={() => onBrowserModeChange?.(!browserMode)}
+          >
+            Browser
+          </button>
         </div>
       </div>
 
-      {consoleMode === 'prompt' ? (
+      {browserMode ? (
+        <>
+          <div className="preset-row">
+            {promptPresets.map((preset) => (
+              <button
+                key={preset}
+                className="pill-button"
+                type="button"
+                onClick={() =>
+                  onNaturalLanguagePromptChange(`browser: ${preset}`)
+                }
+              >
+                {preset}
+              </button>
+            ))}
+          </div>
+          <textarea
+            className="code-editor code-editor--large"
+            spellCheck="false"
+            value={naturalLanguagePrompt}
+            onChange={(event) =>
+              onNaturalLanguagePromptChange(event.target.value)
+            }
+          />
+          <p className="field-note">
+            Browser mode sends the prompt as <code>browserCommand</code> and
+            runs Gemini browser control directly.
+          </p>
+        </>
+      ) : consoleMode === 'prompt' ? (
         <>
           <div className="preset-row">
             {promptPresets.map((preset) => (
@@ -149,7 +187,9 @@ export default function CommandConsole({
         >
           {busy
             ? 'Running...'
-            : consoleMode === 'prompt'
+            : browserMode
+              ? 'Run browser task'
+              : consoleMode === 'prompt'
               ? shipLiveAfterRun
                 ? 'Run + ship live'
                 : 'Run custom GPT'

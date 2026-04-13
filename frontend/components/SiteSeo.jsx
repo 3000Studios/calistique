@@ -3,11 +3,11 @@ import { useLocation } from 'react-router-dom'
 import {
   ADSENSE_CLIENT_ID,
   ADS_ENABLED,
+  SITE_BRAND,
   SITE_DEFAULT_DESCRIPTION,
   SITE_DEFAULT_TITLE,
   SITE_DISPLAY_NAME,
   SITE_URL,
-  WWW_SITE_URL,
 } from '../src/siteMeta.js'
 
 function ensureMeta(selector, attributes) {
@@ -78,70 +78,83 @@ function getSeoForPath(pathname) {
   if (normalizedPath === '/') {
     return {
       ...base,
-      title: `${SITE_DISPLAY_NAME} | Cajun food, menus, and deals`,
+      title: `${SITE_DISPLAY_NAME} | Premium website revenue system`,
       description:
-        'The Cajun Menu helps visitors discover Cajun dishes, local specials, cookware, and money-making food content with ads, affiliates, and lead capture.',
+        'A premium AI system manager for building mobile-first, AdSense-ready, SEO-heavy websites with strict brand isolation.',
       schemas: [
         {
           '@context': 'https://schema.org',
-          '@type': 'SoftwareApplication',
-          name: SITE_DISPLAY_NAME,
-          applicationCategory: 'FoodEstablishment',
-          operatingSystem: 'Web',
-          description: SITE_DEFAULT_DESCRIPTION,
-          offers: {
-            '@type': 'Offer',
-            price: '0',
-            priceCurrency: 'USD',
-          },
-          creator: {
-            '@type': 'Organization',
-            name: SITE_DISPLAY_NAME,
-            url: SITE_URL,
-            sameAs: [SITE_URL, WWW_SITE_URL],
+          '@type': 'Organization',
+          name: SITE_BRAND.legalName,
+          url: SITE_BRAND.url,
+          sameAs: [SITE_BRAND.url, SITE_BRAND.wwwUrl],
+          description: SITE_BRAND.description,
+        },
+        {
+          '@context': 'https://schema.org',
+          '@type': 'WebSite',
+          name: SITE_BRAND.displayName,
+          url: SITE_BRAND.url,
+          potentialAction: {
+            '@type': 'SearchAction',
+            target: `${SITE_BRAND.url}/blog?q={search_term_string}`,
+            'query-input': 'required name=search_term_string',
           },
         },
       ],
     }
   }
 
-  if (normalizedPath.startsWith('/shop/')) {
+  if (normalizedPath.startsWith('/shop/') || normalizedPath.startsWith('/products/')) {
     return {
       ...base,
-      title: `${SITE_DISPLAY_NAME} | Curated product page`,
+      title: `${SITE_DISPLAY_NAME} | Product detail`,
       description:
-        'A Calistique product page with editorial styling, product imagery, and conversion-focused merchandising.',
-      adsEligible: true,
+        'Product detail page with conversion-focused layout, premium media, and clear purchase intent.',
     }
   }
 
   if (normalizedPath === '/blog') {
     return {
       ...base,
-      title: `${SITE_DISPLAY_NAME} Recipes | Cajun cooking guides`,
+      title: `${SITE_DISPLAY_NAME} | Blueprints and editorial content`,
       description:
-        'Evergreen Cajun recipes, local food guides, affiliate kitchen picks, and sponsored placements.',
-      adsEligible: true,
+        'Blueprints, SEO guidance, and monetization systems for premium websites.',
     }
   }
 
   if (normalizedPath === '/products') {
     return {
       ...base,
-      title: `${SITE_DISPLAY_NAME} Shop | Cajun cookware and spice picks`,
+      title: `${SITE_DISPLAY_NAME} | Products and offers`,
       description:
-        'Relevant cookware, seasoning kits, and kitchen products that fit the recipes and can earn affiliate revenue.',
-      adsEligible: true,
+        'Curated products and offers presented with a premium, mobile-first merchandising layout.',
     }
   }
 
   if (normalizedPath === '/revenue') {
     return {
       ...base,
-      title: `${SITE_DISPLAY_NAME} Revenue | Monetization stack`,
+      title: `${SITE_DISPLAY_NAME} | Revenue stack`,
       description:
-        'Display ads, affiliate links, newsletters, and lead forms built into one revenue-ready page.',
-      adsEligible: true,
+        'Ads, affiliate loops, lead capture, and conversion paths in one streamlined revenue page.',
+    }
+  }
+
+  if (normalizedPath === '/adsense-review') {
+    return {
+      ...base,
+      title: `${SITE_DISPLAY_NAME} | AdSense readiness`,
+      description:
+        'Compliance, policy, and structural checklist for AdSense review.',
+    }
+  }
+
+  if (normalizedPath === '/privacy' || normalizedPath === '/terms' || normalizedPath === '/contact' || normalizedPath === '/about' || normalizedPath === '/disclosure') {
+    return {
+      ...base,
+      title: `${SITE_DISPLAY_NAME} | ${normalizedPath.slice(1)}`,
+      description: `${SITE_DISPLAY_NAME} policy and trust page for visitors and reviewers.`,
     }
   }
 
@@ -209,6 +222,10 @@ export default function SiteSeo() {
     ensureMeta('meta[name="robots"]', {
       name: 'robots',
       content: seo.noindex ? 'noindex, nofollow' : 'index, follow',
+    })
+    ensureMeta('meta[name="theme-color"]', {
+      name: 'theme-color',
+      content: '#090d13',
     })
     ensureLink('link[rel="canonical"]', {
       rel: 'canonical',

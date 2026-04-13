@@ -22,12 +22,17 @@ const products = fromModules(
 
 export const theme = pages.theme ?? {
   palette: {
-    bg: '#0f0d0c',
-    surface: '#191614',
-    ink: '#f7f1ea',
-    accent: '#d7b98b',
-    highlight: '#f3e6d4',
-    line: 'rgba(255,255,255,0.1)',
+    bg: '#090d13',
+    surface: '#131826',
+    ink: '#f5f1ea',
+    accent: '#c8a26d',
+    highlight: '#f2dfbf',
+    line: 'rgba(255,255,255,0.08)',
+    glow: 'rgba(200,162,109,0.35)',
+    satin: 'rgba(138,170,255,0.16)',
+    bronze: '#a96f3d',
+    gold: '#d7b36b',
+    inkSoft: 'rgba(245,241,234,0.74)',
   },
 }
 

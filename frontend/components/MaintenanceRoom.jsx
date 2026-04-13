@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion } from 'framer-motion'
 import {
   AlertTriangle,
   CheckCircle,
@@ -44,14 +44,14 @@ const MaintenanceRoom = () => {
       try {
         const stepIssues = await step.check()
         issues.push(...stepIssues)
-      } catch (error) {
+      } catch (_error) {
         issues.push({
           id: `scan-error-${i}`,
           type: 'error',
           severity: 'high',
           category: 'system',
           title: `Scan Error: ${step.name}`,
-          description: `Failed to scan ${step.name}: ${error.message}`,
+          description: `Failed to scan ${step.name}: ${_error.message}`,
           fixAction: 'retry-scan',
           icon: <AlertTriangle size={20} />,
         })
@@ -88,7 +88,7 @@ const MaintenanceRoom = () => {
           icon: <Database size={20} />,
         })
       }
-    } catch (error) {
+    } catch (_error) {
       issues.push({
         id: 'db-connection-timeout',
         type: 'error',
@@ -110,7 +110,7 @@ const MaintenanceRoom = () => {
 
     try {
       const startTime = performance.now()
-      const response = await fetch('/api/health/response-time')
+      await fetch('/api/health/response-time')
       const endTime = performance.now()
       const responseTime = endTime - startTime
 
@@ -126,7 +126,7 @@ const MaintenanceRoom = () => {
           icon: <Activity size={20} />,
         })
       }
-    } catch (error) {
+    } catch (_error) {
       issues.push({
         id: 'api-response-check-failed',
         type: 'error',
@@ -166,7 +166,7 @@ const MaintenanceRoom = () => {
           })
         }
       }
-    } catch (error) {
+    } catch (_error) {
       issues.push({
         id: 'memory-check-failed',
         type: 'warning',
@@ -215,7 +215,7 @@ const MaintenanceRoom = () => {
           icon: <AlertTriangle size={20} />,
         })
       }
-    } catch (error) {
+    } catch (_error) {
       issues.push({
         id: 'error-rate-check-failed',
         type: 'warning',
@@ -271,7 +271,7 @@ const MaintenanceRoom = () => {
           icon: <Shield size={20} />,
         })
       }
-    } catch (error) {
+    } catch (_error) {
       issues.push({
         id: 'security-check-failed',
         type: 'warning',
@@ -325,7 +325,7 @@ const MaintenanceRoom = () => {
           icon: <Zap size={20} />,
         })
       }
-    } catch (error) {
+    } catch (_error) {
       issues.push({
         id: 'performance-check-failed',
         type: 'warning',
@@ -364,7 +364,7 @@ const MaintenanceRoom = () => {
           icon: <Database size={20} />,
         })
       }
-    } catch (error) {
+    } catch (_error) {
       issues.push({
         id: 'cache-check-failed',
         type: 'warning',
@@ -406,7 +406,7 @@ const MaintenanceRoom = () => {
           icon: <Zap size={20} />,
         })
       }
-    } catch (error) {
+    } catch (_error) {
       issues.push({
         id: 'resource-check-failed',
         type: 'warning',
@@ -495,8 +495,8 @@ const MaintenanceRoom = () => {
 
       // Remove fixed issue
       setSystemIssues((prev) => prev.filter((i) => i.id !== issueId))
-    } catch (error) {
-      console.error('Fix failed:', error)
+    } catch (_error) {
+      console.error('Fix failed:', _error)
     } finally {
       setFixingIssue(null)
     }
