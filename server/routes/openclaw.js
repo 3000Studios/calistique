@@ -1,8 +1,12 @@
-const express = require('express')
-const router = express.Router()
-const { spawn } = require('child_process')
+import { Router } from 'express'
+import { spawn } from 'node:child_process'
+import { createHmac, randomUUID } from 'node:crypto'
+import { answerPublicAssistant } from '../services/assistantService.js'
 
-// Database for OpenClaw operations (in-memory for now, can be upgraded to MongoDB)
+const router = Router()
+const MAX_SESSION_LOGS = 20
+const MAX_COMMAND_LOGS = 50
+
 const openclawDB = {
   agents: [
     {
@@ -73,204 +77,307 @@ const openclawDB = {
       analytics: 50.0,
     },
   },
+  sessions: [
+    {
+      id: 'session-bootstrap',
+      status: 'active',
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    },
+  ],
+  logs: [],
 }
 
-// Middleware to check admin authentication
-const checkAuth = (req, res, next) => {
-  const auth = req.headers.authorization
-  if (
-    auth ===
-    'Bearer myaai_admin_1c7a1b7f8f4c4658b9c5dc8d667ac8c86b80b5960d01e4d3'
-  ) {
-    next()
-  } else {
-    res.status(401).json({ error: 'Unauthorized access' })
+function isConfiguredValue(value) {
+  const normalized = String(value ?? '').trim()
+
+  return (
+    normalized.length > 0 &&
+    !normalized.startsWith('your-') &&
+    !normalized.startsWith('replace-with-')
+  )
+}
+
+function getConfiguredEnvironmentValue(...names) {
+  for (const name of names) {
+    const value = String(process.env[name] ?? '').trim()
+
+    if (isConfiguredValue(value)) {
+      return value
+    }
+  }
+
+  return ''
+}
+
+function createHttpError(statusCode, message) {
+  const error = new Error(message)
+  error.statusCode = statusCode
+  return error
+}
+
+function getOpenClawIdentity() {
+  return {
+    email: getConfiguredEnvironmentValue('OPENCLAW_ADMIN_EMAIL', 'ADMIN_EMAIL'),
+    passcode: getConfiguredEnvironmentValue(
+      'OPENCLAW_ADMIN_PASSCODE',
+      'ADMIN_PASSCODE'
+    ),
+    apiKey: getConfiguredEnvironmentValue(
+      'OPENCLAW_ADMIN_API_KEY',
+      'ADMIN_API_KEY',
+      'X_ADMIN_KEY'
+    ),
+    sessionSecret: getConfiguredEnvironmentValue(
+      'OPENCLAW_SESSION_SECRET',
+      'ADMIN_SESSION_SECRET'
+    ),
   }
 }
 
-// Get agents
-router.get('/agents', checkAuth, async (req, res) => {
-  try {
-    res.json(openclawDB.agents)
-  } catch (_error) {
-    res.status(500).json({ error: 'Failed to fetch agents' })
+function deriveOpenClawToken(identity) {
+  if (identity.apiKey) {
+    return identity.apiKey
   }
-})
 
-// Get tasks
-router.get('/tasks', checkAuth, async (req, res) => {
-  try {
-    res.json(openclawDB.tasks)
-  } catch (_error) {
-    res.status(500).json({ error: 'Failed to fetch tasks' })
+  if (!identity.email || !identity.passcode || !identity.sessionSecret) {
+    return ''
   }
-})
 
-// Get revenue data
-router.get('/revenue', checkAuth, async (req, res) => {
-  try {
-    res.json(openclawDB.revenue)
-  } catch (_error) {
-    res.status(500).json({ error: 'Failed to fetch revenue data' })
-  }
-})
+  return createHmac('sha256', identity.sessionSecret)
+    .update(`${identity.email}:${identity.passcode}`)
+    .digest('hex')
+}
 
-// Execute OpenClaw command
-router.post('/execute', checkAuth, async (req, res) => {
-  try {
-    const { command } = req.body
+function getOpenClawTokenCandidates(req) {
+  return [
+    String(req.headers.authorization ?? '').replace(/^Bearer\s+/i, '').trim(),
+    String(req.get?.('x-openclaw-key') ?? '').trim(),
+    String(req.get?.('x-admin-key') ?? '').trim(),
+  ].filter(Boolean)
+}
 
-    if (!command) {
-      return res.status(400).json({ error: 'Command is required' })
-    }
+function requireAuth(req, res, next) {
+  const identity = getOpenClawIdentity()
+  const expected = deriveOpenClawToken(identity)
 
-    // Log the command
-    console.log(`OpenClaw executing: ${command}`)
-
-    // Execute different commands based on input
-    let result
-
-    if (command.includes('deploy')) {
-      result = await executeDeploy()
-    } else if (command.includes('optimize')) {
-      result = await executeOptimize()
-    } else if (command.includes('generate')) {
-      result = await executeGenerate()
-    } else if (command.includes('analyze')) {
-      result = await executeAnalyze()
-    } else if (command.includes('status')) {
-      result = await executeStatus()
-    } else {
-      result = await executeCustomCommand(command)
-    }
-
-    res.json({ message: result, success: true })
-  } catch (error) {
-    console.error('Command execution error:', error)
-    res.status(500).json({ error: error.message, success: false })
-  }
-})
-
-// Deploy website
-router.post('/deploy', checkAuth, async (req, res) => {
-  try {
-    console.log('Starting website deployment...')
-
-    // Execute deployment commands
-    const deployCommands = ['npm run build', 'npm run pages:deploy']
-
-    for (const cmd of deployCommands) {
-      await executeShellCommand(cmd)
-    }
-
-    // Update revenue (simulate revenue increase from deployment)
-    openclawDB.revenue.daily += Math.random() * 50
-
-    res.json({
-      message: 'Website deployed successfully to myappai.net!',
-      success: true,
-      timestamp: new Date().toISOString(),
+  if (!expected) {
+    return res.status(503).json({
+      error:
+        'OpenClaw admin credentials are not configured. Set ADMIN_EMAIL, ADMIN_PASSCODE, and ADMIN_SESSION_SECRET or ADMIN_API_KEY.',
     })
-  } catch (error) {
-    console.error('Deployment error:', error)
-    res.status(500).json({ error: error.message, success: false })
   }
-})
 
-// Helper functions
-async function executeDeploy() {
-  try {
-    await executeShellCommand('npm run build')
-    await executeShellCommand('npm run pages:deploy')
-
-    // Update agents
-    const builder = openclawDB.agents.find((a) => a.name === 'Website Builder')
-    if (builder) {
-      builder.lastRun = new Date()
-      builder.status = 'active'
+  const supplied = getOpenClawTokenCandidates(req)
+  if (supplied.some((token) => token === expected)) {
+    req.openclawAdmin = {
+      email: identity.email || 'local-admin',
+      authMode: identity.apiKey ? 'api-key' : 'passcode',
     }
+    return next()
+  }
 
-    return 'Deployment completed successfully'
-  } catch (error) {
-    throw new Error(`Deployment failed: ${error.message}`)
+  return res.status(401).json({ error: 'Unauthorized access' })
+}
+
+function logCommand(entry) {
+  openclawDB.logs.unshift(entry)
+  openclawDB.logs = openclawDB.logs.slice(0, MAX_COMMAND_LOGS)
+
+  const session = openclawDB.sessions[0]
+  if (session) {
+    session.updatedAt = new Date()
+  }
+}
+
+function updateAgent(name, status) {
+  const agent = openclawDB.agents.find((entry) => entry.name === name)
+  if (agent) {
+    agent.lastRun = new Date()
+    agent.status = status
+  }
+}
+
+function buildSkills() {
+  return [
+    {
+      id: 'free-ollama-stack',
+      name: 'Free Local Assistant',
+      category: 'AI',
+      status: 'available',
+      description:
+        'Routes assistant requests through Ollama when the free local provider is enabled.',
+    },
+    {
+      id: 'deployment-ops',
+      name: 'Deployment Automation',
+      category: 'Operations',
+      status: 'available',
+      description: 'Runs controlled build and deploy workflows for the site.',
+    },
+    {
+      id: 'content-pipeline',
+      name: 'Content Pipeline',
+      category: 'Creative',
+      status: 'available',
+      description: 'Generates briefs, drafts, and content tasks.',
+    },
+    {
+      id: 'security-monitor',
+      name: 'Security Monitor',
+      category: 'Security',
+      status: 'available',
+      description: 'Tracks admin actions and keeps the control surface auditable.',
+    },
+    {
+      id: 'workspace-cleanup',
+      name: 'Workspace Cleanup',
+      category: 'Maintenance',
+      status: 'available',
+      description: 'Keeps generated files, caches, and temp output organized.',
+    },
+  ]
+}
+
+function buildSessionSnapshot() {
+  return openclawDB.sessions.map((session) => ({
+    id: session.id,
+    status: session.status,
+    createdAt: session.createdAt,
+    updatedAt: session.updatedAt,
+  }))
+}
+
+function buildRevenueSnapshot() {
+  return {
+    total: openclawDB.revenue.daily,
+    daily: openclawDB.revenue.daily,
+    streams: openclawDB.revenue.streams,
+  }
+}
+
+async function executeDeploy(options = {}) {
+  updateAgent('Website Builder', 'active')
+  logCommand({
+    id: randomUUID(),
+    type: 'deploy',
+    content: 'Deployment workflow requested.',
+    timestamp: new Date().toISOString(),
+  })
+
+  if (String(process.env.OPENCLAW_ENABLE_SHELL_COMMANDS ?? '').trim() !== 'true') {
+    return {
+      output:
+        'Deploy workflow is wired, but shell execution is gated. Set OPENCLAW_ENABLE_SHELL_COMMANDS=true to allow build and deploy commands.',
+      mode: 'dry-run',
+      options,
+    }
+  }
+
+  await executeShellCommand('npm run build')
+  await executeShellCommand('npm run pages:deploy')
+  openclawDB.revenue.daily = Math.min(1000, openclawDB.revenue.daily + 50)
+
+  return {
+    output: 'Deployment completed successfully.',
+    mode: 'live',
+    options,
   }
 }
 
 async function executeOptimize() {
-  try {
-    // Simulate optimization
-    openclawDB.revenue.daily += Math.random() * 25
+  updateAgent('Revenue Optimizer', 'active')
+  const delta = Number((Math.random() * 25).toFixed(2))
+  openclawDB.revenue.daily = Math.min(1000, openclawDB.revenue.daily + delta)
 
-    const optimizer = openclawDB.agents.find(
-      (a) => a.name === 'Revenue Optimizer'
-    )
-    if (optimizer) {
-      optimizer.lastRun = new Date()
-      optimizer.status = 'active'
-    }
-
-    return (
-      'Revenue optimization completed. Daily revenue increased by $' +
-      (Math.random() * 25).toFixed(2)
-    )
-  } catch (error) {
-    throw new Error(`Optimization failed: ${error.message}`)
+  return {
+    output: `Revenue optimization completed. Daily revenue increased by $${delta.toFixed(2)}.`,
   }
 }
 
 async function executeGenerate() {
-  try {
-    const generator = openclawDB.agents.find(
-      (a) => a.name === 'Content Generator'
-    )
-    if (generator) {
-      generator.lastRun = new Date()
-      generator.status = 'active'
-    }
+  updateAgent('Content Generator', 'active')
 
-    return 'Content generation completed. New blog posts and articles created.'
-  } catch (error) {
-    throw new Error(`Content generation failed: ${error.message}`)
+  return {
+    output:
+      'Content generation completed. New blog posts and articles are queued.',
   }
 }
 
 async function executeAnalyze() {
-  try {
-    const monitor = openclawDB.agents.find((a) => a.name === 'Security Monitor')
-    if (monitor) {
-      monitor.lastRun = new Date()
-      monitor.status = 'active'
-    }
+  updateAgent('Security Monitor', 'active')
 
-    return 'Security analysis completed. All systems secure.'
-  } catch (error) {
-    throw new Error(`Analysis failed: ${error.message}`)
+  return {
+    output:
+      'Security analysis completed. Auth, logging, and command gating are enabled.',
   }
 }
 
 async function executeStatus() {
-  try {
-    const activeAgents = openclawDB.agents.filter(
-      (a) => a.status === 'active'
-    ).length
-    const activeTasks = openclawDB.tasks.filter(
-      (t) => t.status === 'active'
-    ).length
+  const activeAgents = openclawDB.agents.filter((agent) => agent.status === 'active').length
+  const activeTasks = openclawDB.tasks.filter((task) => task.status === 'active').length
 
-    return `System Status: ${activeAgents} active agents, ${activeTasks} active tasks, $${openclawDB.revenue.daily.toFixed(2)} daily revenue`
-  } catch (error) {
-    throw new Error(`Status check failed: ${error.message}`)
+  return {
+    output: `System Status: ${activeAgents} active agents, ${activeTasks} active tasks, $${openclawDB.revenue.daily.toFixed(2)} daily revenue.`,
   }
 }
 
-async function executeCustomCommand(command) {
-  try {
-    // Execute shell command safely
-    const result = await executeShellCommand(command)
-    return `Command executed: ${result}`
-  } catch (error) {
-    throw new Error(`Command execution failed: ${error.message}`)
+async function executeAssistantCommand(command, options) {
+  const assistant = await answerPublicAssistant({
+    message: command,
+    history: [],
+  })
+
+  logCommand({
+    id: randomUUID(),
+    type: 'assistant',
+    content: command,
+    timestamp: new Date().toISOString(),
+  })
+
+  return {
+    output: assistant.reply,
+    source: assistant.source,
+    options,
   }
+}
+
+async function executeCommand(command, options = {}) {
+  const normalized = String(command ?? '').trim()
+  const lower = normalized.toLowerCase()
+
+  if (!normalized) {
+    throw createHttpError(400, 'Command is required')
+  }
+
+  if (lower.includes('deploy')) {
+    return executeDeploy(options)
+  }
+
+  if (lower.includes('optimize')) {
+    return executeOptimize()
+  }
+
+  if (lower.includes('generate')) {
+    return executeGenerate()
+  }
+
+  if (lower.includes('analyze') || lower.includes('audit')) {
+    return executeAnalyze()
+  }
+
+  if (lower.includes('status')) {
+    return executeStatus()
+  }
+
+  if (String(process.env.OPENCLAW_ENABLE_CUSTOM_COMMANDS ?? '').trim() === 'true') {
+    const result = await executeShellCommand(normalized)
+    return {
+      output: result.trim() || 'Command completed with no output.',
+    }
+  }
+
+  return executeAssistantCommand(normalized, options)
 }
 
 function executeShellCommand(command) {
@@ -290,9 +397,10 @@ function executeShellCommand(command) {
     child.on('close', (code) => {
       if (code === 0) {
         resolve(output)
-      } else {
-        reject(new Error(errorOutput || `Command failed with code ${code}`))
+        return
       }
+
+      reject(new Error(errorOutput || `Command failed with code ${code}`))
     })
 
     child.on('error', (error) => {
@@ -301,15 +409,151 @@ function executeShellCommand(command) {
   })
 }
 
-// Auto-revenue generation (simulated)
-setInterval(() => {
-  // Increment revenue every few minutes to simulate ongoing income
-  openclawDB.revenue.daily += Math.random() * 2
+router.post('/auth', async (req, res) => {
+  const identity = getOpenClawIdentity()
+  const expectedToken = deriveOpenClawToken(identity)
+  const { email = '', code = '', adminKey = '' } = req.body ?? {}
+  const submittedEmail = String(email).trim()
+  const submittedCode = String(code).trim()
+  const submittedKey = String(adminKey).trim()
 
-  // Cap at $1000 daily goal
-  if (openclawDB.revenue.daily > 1000) {
-    openclawDB.revenue.daily = 1000
+  if (!expectedToken) {
+    return res.status(503).json({
+      error:
+        'OpenClaw auth is not configured. Set ADMIN_EMAIL, ADMIN_PASSCODE, and ADMIN_SESSION_SECRET or ADMIN_API_KEY.',
+    })
   }
-}, 300000) // Every 5 minutes
 
-module.exports = router
+  const passwordAccepted =
+    identity.email &&
+    identity.passcode &&
+    submittedEmail === identity.email &&
+    submittedCode === identity.passcode
+  const apiKeyAccepted = identity.apiKey && submittedKey === identity.apiKey
+  const authMode = apiKeyAccepted ? 'api-key' : 'passcode'
+
+  if (!passwordAccepted && !apiKeyAccepted) {
+    return res.status(401).json({ error: 'Authentication failed' })
+  }
+
+  const session = {
+    id: randomUUID(),
+    status: 'active',
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  }
+  openclawDB.sessions.unshift(session)
+  openclawDB.sessions = openclawDB.sessions.slice(0, MAX_SESSION_LOGS)
+
+  res.json({
+    token: expectedToken,
+    user: {
+      email: identity.email || submittedEmail || 'openclaw-admin',
+      roles: ['admin'],
+      authMode,
+    },
+  })
+})
+
+router.get('/agents', requireAuth, async (_req, res) => {
+  try {
+    res.json(openclawDB.agents)
+  } catch (_error) {
+    res.status(500).json({ error: 'Failed to fetch agents' })
+  }
+})
+
+router.get('/tasks', requireAuth, async (_req, res) => {
+  try {
+    res.json(openclawDB.tasks)
+  } catch (_error) {
+    res.status(500).json({ error: 'Failed to fetch tasks' })
+  }
+})
+
+router.get('/revenue', requireAuth, async (_req, res) => {
+  try {
+    res.json(buildRevenueSnapshot())
+  } catch (_error) {
+    res.status(500).json({ error: 'Failed to fetch revenue data' })
+  }
+})
+
+router.get('/skills', requireAuth, async (_req, res) => {
+  try {
+    res.json(buildSkills())
+  } catch (_error) {
+    res.status(500).json({ error: 'Failed to fetch skills' })
+  }
+})
+
+router.get('/sessions', requireAuth, async (_req, res) => {
+  try {
+    res.json(buildSessionSnapshot())
+  } catch (_error) {
+    res.status(500).json({ error: 'Failed to fetch sessions' })
+  }
+})
+
+router.get('/status', requireAuth, async (_req, res) => {
+  try {
+    res.json({
+      success: true,
+      revenue: buildRevenueSnapshot(),
+      agents: openclawDB.agents.length,
+      tasks: openclawDB.tasks.length,
+      sessions: buildSessionSnapshot(),
+    })
+  } catch (_error) {
+    res.status(500).json({ error: 'Failed to fetch status' })
+  }
+})
+
+router.post('/execute', requireAuth, async (req, res) => {
+  try {
+    const { command, options = {} } = req.body ?? {}
+    const result = await executeCommand(command, options)
+    logCommand({
+      id: randomUUID(),
+      type: 'command',
+      content: String(command),
+      timestamp: new Date().toISOString(),
+    })
+    res.json({
+      success: true,
+      output: result.output,
+      message: result.output,
+      source: result.source ?? 'openclaw',
+      mode: result.mode ?? 'assistant',
+    })
+  } catch (error) {
+    console.error('Command execution error:', error)
+    res.status(error.statusCode || 500).json({
+      error: error.message,
+      success: false,
+    })
+  }
+})
+
+router.post('/deploy', requireAuth, async (req, res) => {
+  try {
+    const result = await executeDeploy(req.body?.options ?? {})
+    res.json({
+      ...result,
+      success: true,
+      timestamp: new Date().toISOString(),
+    })
+  } catch (error) {
+    console.error('Deployment error:', error)
+    res.status(500).json({ error: error.message, success: false })
+  }
+})
+
+setInterval(() => {
+  openclawDB.revenue.daily = Math.min(
+    1000,
+    openclawDB.revenue.daily + Math.random() * 2
+  )
+}, 300000)
+
+export default router

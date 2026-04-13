@@ -12,6 +12,12 @@ import {
   pipeOllamaProxyResponse,
 } from '../services/ollamaProxyService.js'
 import {
+  capturePayPalOrder,
+  createPayPalCheckout,
+  createStripeCheckout,
+  verifyStripeCheckoutSession,
+} from '../services/commerceService.js'
+import {
   assertTelegramWebhookRequest,
   getTelegramSetupSummary,
   handleTelegramWebhookUpdate,
@@ -86,6 +92,50 @@ export async function postLeadCapture(request, response, next) {
       ok: true,
       lead,
     })
+  } catch (error) {
+    next(error)
+  }
+}
+
+export async function postStripeCheckout(request, response, next) {
+  try {
+    const result = await createStripeCheckout({
+      slug: request.body?.slug ?? 'default',
+      origin: request.body?.origin ?? SITE_URL,
+    })
+
+    response.json(result)
+  } catch (error) {
+    next(error)
+  }
+}
+
+export async function postStripeCheckoutVerify(request, response, next) {
+  try {
+    const result = await verifyStripeCheckoutSession(request.body?.sessionId ?? '')
+    response.json(result)
+  } catch (error) {
+    next(error)
+  }
+}
+
+export async function postPayPalCheckout(request, response, next) {
+  try {
+    const result = await createPayPalCheckout({
+      slug: request.body?.slug ?? 'default',
+      origin: request.body?.origin ?? SITE_URL,
+    })
+
+    response.json(result)
+  } catch (error) {
+    next(error)
+  }
+}
+
+export async function postPayPalCapture(request, response, next) {
+  try {
+    const result = await capturePayPalOrder(request.body?.orderId ?? '')
+    response.json(result)
   } catch (error) {
     next(error)
   }

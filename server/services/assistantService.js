@@ -82,7 +82,7 @@ function getAssistantProvider() {
     provider === 'anthropic' ||
     provider === 'openclaw'
   ) {
-    return 'claude'
+    return provider === 'openclaw' ? 'ollama' : 'claude'
   }
 
   return 'openai'

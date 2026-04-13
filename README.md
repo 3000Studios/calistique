@@ -27,6 +27,7 @@ npm run test
 npm run test:unit
 npm run build
 npm run cli:doctor
+npm run maintenance:clean
 npm run cli -- command "refresh the homepage hero copy"
 npm run cli -- pages:list
 npm run cli:deploy
@@ -82,3 +83,5 @@ That runs cached linting, incremental typechecking, and unit tests without the h
 - `docs/MASTER_1_ULTRA_PROMPT.md`
 - `docs/OPENCLAW_CLAUDE_BOT.md`
 - `docs/OLLAMA_FREE_ASSISTANT.md`
+
+OpenClaw uses the free local Ollama path when `PUBLIC_ASSISTANT_PROVIDER=openclaw`.

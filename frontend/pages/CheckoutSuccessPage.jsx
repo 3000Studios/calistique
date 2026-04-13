@@ -113,7 +113,7 @@ export default function CheckoutSuccessPage() {
           </p>
         )}
         <div className="hero__actions">
-          <Link className="button button--primary" to="/products">
+          <Link className="button button--primary" to="/">
             View offers
           </Link>
           <Link className="button button--ghost" to="/contact">

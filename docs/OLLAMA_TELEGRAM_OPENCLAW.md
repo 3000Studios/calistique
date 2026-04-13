@@ -153,6 +153,9 @@ model: llama3.2:3b
 base URL: https://myappai.net/api/ollama
 ```
 
+In this repo, `PUBLIC_ASSISTANT_PROVIDER=openclaw` also resolves to the free Ollama path.
+Keep `OPENCLAW_ENABLE_SHELL_COMMANDS=false` unless you explicitly want the OpenClaw dashboard to run build/deploy commands.
+
 Example Clawdbot config:
 
 ```json

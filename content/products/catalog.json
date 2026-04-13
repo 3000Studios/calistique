@@ -1,4 +1,65 @@
 {
   "updatedFor": "myappai",
-  "products": []
+  "products": [
+    {
+      "slug": "cast-iron-skillet",
+      "name": "Cast Iron Skillet",
+      "summary": "A durable skillet for roux, cornbread, and high-heat searing.",
+      "description": "A heavyweight skillet that fits the site theme because it supports gumbo, blackened dishes, and content that naturally attracts cookware affiliate clicks.",
+      "affiliateUrl": "https://example.com/cast-iron-skillet",
+      "price": "$39",
+      "badge": "Affiliate",
+      "hero": "https://images.unsplash.com/photo-1528909514045-2fa4ac7a08ba?auto=format&fit=crop&w=1200&q=80",
+      "category": "Cookware",
+      "accent": "Best for roux"
+    },
+    {
+      "slug": "cajun-seasoning-kit",
+      "name": "Cajun Seasoning Kit",
+      "summary": "A blend bundle for gumbo, jambalaya, and blackened dishes.",
+      "description": "A spice kit that maps directly to recipe content, comparison posts, and seasonal promotions.",
+      "affiliateUrl": "https://example.com/cajun-seasoning-kit",
+      "price": "$24",
+      "badge": "Sponsored-ready",
+      "hero": "https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=1200&q=80",
+      "category": "Pantry",
+      "accent": "High repeat use"
+    },
+    {
+      "slug": "dutch-oven",
+      "name": "Enameled Dutch Oven",
+      "summary": "Ideal for low-and-slow gumbo, stews, and rice dishes.",
+      "description": "An aspirational mid-ticket product that pairs well with long-form cooking guides and premium ad placements.",
+      "affiliateUrl": "https://example.com/dutch-oven",
+      "price": "$79",
+      "badge": "Best value",
+      "hero": "https://images.unsplash.com/photo-1529692236671-f1f6cf9683ba?auto=format&fit=crop&w=1200&q=80",
+      "category": "Cookware",
+      "accent": "Long-form friendly"
+    },
+    {
+      "slug": "po-boy-delivery-gift-card",
+      "name": "Po-Boy Delivery Gift Card",
+      "summary": "A local-order gift card that turns guide traffic into immediate conversion.",
+      "description": "Useful for restaurant roundups and local intent pages where readers are ready to order now.",
+      "affiliateUrl": "https://example.com/po-boy-delivery",
+      "price": "$50",
+      "badge": "Local offer",
+      "hero": "https://images.unsplash.com/photo-1550547660-d9450f859349?auto=format&fit=crop&w=1200&q=80",
+      "category": "Delivery",
+      "accent": "High-intent"
+    },
+    {
+      "slug": "recipe-planner-notebook",
+      "name": "Recipe Planner Notebook",
+      "summary": "A premium notebook for meal planning, shopping lists, and content hooks.",
+      "description": "Adds a low-friction upsell and supports a newsletter-driven recurring audience.",
+      "affiliateUrl": "https://example.com/recipe-planner",
+      "price": "$18",
+      "badge": "Lead magnet",
+      "hero": "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1200&q=80",
+      "category": "Planning",
+      "accent": "Easy add-on"
+    }
+  ]
 }

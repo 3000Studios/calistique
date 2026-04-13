@@ -1,0 +1,29 @@
+{
+  "slug": "jambalaya-comparison",
+  "updatedFor": "myappai",
+  "publishedAt": "2026-04-13",
+  "title": "Cajun vs Creole jambalaya: what to order and what to cook",
+  "excerpt": "A comparison page that helps readers choose a style while pointing them toward pans, rice, and spice bundles.",
+  "sections": [
+    {
+      "heading": "Search intent",
+      "body": "This page targets people deciding between restaurant options or trying to cook at home, which makes it perfect for affiliate product links."
+    },
+    {
+      "heading": "Revenue layout",
+      "body": "Put a comparison table at the top, an AdSense unit after the first section, and a shoppable ingredient list near the end."
+    },
+    {
+      "heading": "Content refresh",
+      "body": "Rotate in seasonal specials and local restaurant names so the page keeps earning without feeling stale."
+    }
+  ],
+  "cta": {
+    "eyebrow": "Choose your plate",
+    "heading": "Add order links, kitchen gear, and local restaurant mentions.",
+    "body": "The page works for both local SEO and product monetization.",
+    "primaryHref": "/contact",
+    "primaryLabel": "List my restaurant"
+  },
+  "tags": ["jambalaya", "comparison", "local"]
+}

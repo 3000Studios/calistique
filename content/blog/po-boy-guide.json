@@ -1,0 +1,29 @@
+{
+  "slug": "po-boy-guide",
+  "updatedFor": "myappai",
+  "publishedAt": "2026-04-13",
+  "title": "How to find the best po-boy near you",
+  "excerpt": "Local restaurant discovery with delivery links, lunch specials, and affiliate-ready kitchen gear recommendations.",
+  "sections": [
+    {
+      "heading": "Local menu pages win",
+      "body": "People searching for po-boys want food now, which means menu pages can convert with restaurant leads, delivery links, and ads."
+    },
+    {
+      "heading": "Add useful monetization",
+      "body": "Include sponsored local spots, newsletter signup for specials, and affiliate links for sauce, bread, and fry tools."
+    },
+    {
+      "heading": "Keep it current",
+      "body": "Update opening hours, delivery partners, and lunch specials automatically when the content engine runs."
+    }
+  ],
+  "cta": {
+    "eyebrow": "Order now",
+    "heading": "Turn local traffic into clicks and catering leads.",
+    "body": "A clean call to action helps the page earn without looking cluttered.",
+    "primaryHref": "/contact",
+    "primaryLabel": "Add my spot"
+  },
+  "tags": ["po-boy", "local", "menu"]
+}

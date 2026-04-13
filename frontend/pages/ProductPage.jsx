@@ -30,7 +30,7 @@ export default function ProductPage() {
   const closeMode = product?.closeMode ?? liveOffer?.closeMode ?? 'checkout'
 
   if (!product) {
-    return <Navigate to="/products" replace />
+    return <Navigate to="/" replace />
   }
 
   return (

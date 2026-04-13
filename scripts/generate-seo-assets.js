@@ -8,17 +8,40 @@ const contentPagesDir = path.join(repoRoot, 'content', 'pages')
 const contentBlogDir = path.join(repoRoot, 'content', 'blog')
 const contentProductsDir = path.join(repoRoot, 'content', 'products')
 
-const SITE_URL = process.env.SITE_URL || 'https://myappai.net'
+const SITE_URL = process.env.SITE_URL || 'https://thecajunmenu.site'
 const ADSENSE_PUBLISHER_ID =
   process.env.ADSENSE_PUBLISHER_ID ||
   process.env.ADSENSE_PUBLISHER ||
   'pub-0000000000000000'
 
 async function collectRoutes() {
-  void contentPagesDir
-  void contentBlogDir
-  void contentProductsDir
-  return ['/']
+  const routes = new Set(['/'])
+
+  const readJsonFiles = async (directory, transform) => {
+    const entries = await fs.readdir(directory, { withFileTypes: true })
+    for (const entry of entries) {
+      if (!entry.isFile() || !entry.name.endsWith('.json')) continue
+      const slug = entry.name.replace(/\.json$/i, '')
+      const route = transform(slug)
+      if (route) routes.add(route)
+    }
+  }
+
+  await readJsonFiles(contentPagesDir, (slug) =>
+    ['homepage', 'platform', 'pricing'].includes(slug)
+      ? `/${slug}`
+      : slug === 'theme'
+        ? null
+        : `/${slug}`
+  )
+  await readJsonFiles(contentBlogDir, (slug) =>
+    slug === 'index' ? '/blog' : `/blog/${slug}`
+  )
+  await readJsonFiles(contentProductsDir, (slug) =>
+    slug === 'catalog' ? '/products' : `/menu/${slug}`
+  )
+
+  return [...routes].sort()
 }
 
 async function generateSitemap() {

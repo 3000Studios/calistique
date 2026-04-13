@@ -22,12 +22,12 @@ const products = fromModules(
 
 export const theme = pages.theme ?? {
   palette: {
-    bg: '#0a0a0b',
-    surface: '#141417',
-    ink: '#e2e2e7',
-    accent: '#3b82f6',
-    highlight: '#10b981',
-    line: 'rgba(255,255,255,0.08)',
+    bg: '#0f0d0c',
+    surface: '#191614',
+    ink: '#f7f1ea',
+    accent: '#d7b98b',
+    highlight: '#f3e6d4',
+    line: 'rgba(255,255,255,0.1)',
   },
 }
 

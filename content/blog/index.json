@@ -2,6 +2,27 @@
   "updatedFor": "myappai",
   "posts": [
     {
+      "slug": "gumbo-guide",
+      "title": "The best gumbo guide for home cooks and hungry search traffic",
+      "excerpt": "A complete Cajun gumbo guide with ingredient tips, cookware links, and a clean sponsor slot for monetization.",
+      "publishedAt": "2026-04-13",
+      "tags": ["cajun", "gumbo", "recipe"]
+    },
+    {
+      "slug": "jambalaya-comparison",
+      "title": "Cajun vs Creole jambalaya: what to order and what to cook",
+      "excerpt": "A comparison page that helps readers choose a style while pointing them toward pans, rice, and spice bundles.",
+      "publishedAt": "2026-04-13",
+      "tags": ["jambalaya", "comparison", "local"]
+    },
+    {
+      "slug": "po-boy-guide",
+      "title": "How to find the best po-boy near you",
+      "excerpt": "Local restaurant discovery with delivery links, lunch specials, and affiliate-ready kitchen gear recommendations.",
+      "publishedAt": "2026-04-13",
+      "tags": ["po-boy", "local", "menu"]
+    },
+    {
       "slug": "how-to-automate-marketing-with-ai",
       "title": "How how to automate marketing with AI strengthens an AI-run website stack",
       "excerpt": "A practical look at using how to automate marketing with AI inside a local-model content and deployment workflow.",

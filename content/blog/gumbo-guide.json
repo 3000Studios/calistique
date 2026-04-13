@@ -1,0 +1,29 @@
+{
+  "slug": "gumbo-guide",
+  "updatedFor": "myappai",
+  "publishedAt": "2026-04-13",
+  "title": "The best gumbo guide for home cooks and hungry search traffic",
+  "excerpt": "A complete Cajun gumbo guide with ingredient tips, cookware links, and a clean sponsor slot for monetization.",
+  "sections": [
+    {
+      "heading": "What gumbo actually needs",
+      "body": "Good gumbo is about stock, roux, seasoning, and patience. This page can rank for recipe searches and link out to the cookware people actually need."
+    },
+    {
+      "heading": "How to monetize it",
+      "body": "Use display ads above the fold, a sponsored ingredient box in the middle, and affiliate links for cast iron, ladles, and spice kits."
+    },
+    {
+      "heading": "Make it auto-update",
+      "body": "Refresh the ingredients section seasonally and swap in new local specials whenever restaurants change their menus."
+    }
+  ],
+  "cta": {
+    "eyebrow": "Cook tonight",
+    "heading": "Send readers to cookware, meal kits, and local specials.",
+    "body": "Add a lead form for catering and a newsletter for weekly Cajun recipes.",
+    "primaryHref": "/contact",
+    "primaryLabel": "Request catering"
+  },
+  "tags": ["cajun", "gumbo", "recipe"]
+}
