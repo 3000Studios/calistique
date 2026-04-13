@@ -39,7 +39,7 @@ Use these names when setting production variables for **MyAppAI**.
 - `AI_PROJECT_NAME=myappai`
 - `GH_BASE_BRANCH=main`
 - `CLOUDFLARE_PAGES_BRANCH=main`
-- `CLOUDFLARE_PAGES_PROJECT_NAME=myappai`
+- `CLOUDFLARE_PAGES_PROJECT_NAME=thecajunmenu`
 - `SITE_URL=https://myappai.net`
 - `WWW_SITE_URL=https://www.myappai.net`
 - `SITE_ORIGIN=https://myappai.net`
@@ -52,6 +52,7 @@ Use these names when setting production variables for **MyAppAI**.
 - `R2_PUBLIC_BASE_URL=...`
 - `VITE_ENABLE_ADS=false`
 - `VITE_ADSENSE_CLIENT_ID=ca-pub-...`
+- `VITE_CLOUDFLARE_WEB_ANALYTICS_TOKEN=...`
 - `VITE_GA4_MEASUREMENT_ID=G-...`
 - `VITE_GTM_CONTAINER_ID=GTM-...`
 - `VITE_META_PIXEL_ID=...`
