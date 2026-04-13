@@ -4,9 +4,14 @@ import SiteFrame from '../components/SiteFrame.jsx'
 import ExperienceOrchestrator from '../components/ExperienceOrchestrator.jsx'
 import AdminLayout from '../components/admin/AdminLayout.jsx'
 import HomePage from '../pages/HomePage.jsx'
+import ShopItemPage from '../pages/ShopItemPage.jsx'
 import AboutPage from '../pages/AboutPage.jsx'
 import ContactPage from '../pages/ContactPage.jsx'
+import PrivacyPage from '../pages/PrivacyPage.jsx'
+import TermsPage from '../pages/TermsPage.jsx'
+import DisclosurePage from '../pages/DisclosurePage.jsx'
 import ToolsPage from '../pages/ToolsPage.jsx'
+import BlogIndexPage from '../pages/BlogIndexPage.jsx'
 import BlogPostPage from '../pages/BlogPostPage.jsx'
 import AdminLoginPage from '../pages/AdminLoginPage.jsx'
 import AdminOperatorPage from '../pages/admin/AdminOperatorPage.jsx'
@@ -40,9 +45,15 @@ return (
     <Routes>
       <Route element={<SiteFrame />}>
         <Route path="/" element={<HomePage />} />
+        <Route path="/shop/:slug" element={<ShopItemPage />} />
         <Route path="/about" element={<AboutPage />} />
         <Route path="/contact" element={<ContactPage />} />
+        <Route path="/privacy" element={<PrivacyPage />} />
+        <Route path="/terms" element={<TermsPage />} />
+        <Route path="/disclosure" element={<DisclosurePage />} />
+        <Route path="/menu" element={<ToolsPage />} />
         <Route path="/tools" element={<ToolsPage />} />
+        <Route path="/blog" element={<BlogIndexPage />} />
         <Route path="/blog/:slug" element={<BlogPostPage />} />
         <Route path="/openclaw" element={<OpenClaw />} />
         <Route path="/revenue" element={<RevenueStreams />} />

@@ -78,15 +78,15 @@ function getSeoForPath(pathname) {
   if (normalizedPath === '/') {
     return {
       ...base,
-      title: `${SITE_DISPLAY_NAME} | Research, operate, and deploy from one workspace`,
+      title: `${SITE_DISPLAY_NAME} | Cajun food, menus, and deals`,
       description:
-        'MyAppAI gives you one authenticated operator workspace for research, code changes, safe repository edits, and live deployment.',
+        'The Cajun Menu helps visitors discover Cajun dishes, local specials, cookware, and money-making food content with ads, affiliates, and lead capture.',
       schemas: [
         {
           '@context': 'https://schema.org',
           '@type': 'SoftwareApplication',
           name: SITE_DISPLAY_NAME,
-          applicationCategory: 'BusinessApplication',
+          applicationCategory: 'FoodEstablishment',
           operatingSystem: 'Web',
           description: SITE_DEFAULT_DESCRIPTION,
           offers: {
@@ -102,6 +102,36 @@ function getSeoForPath(pathname) {
           },
         },
       ],
+    }
+  }
+
+  if (normalizedPath.startsWith('/shop/')) {
+    return {
+      ...base,
+      title: `${SITE_DISPLAY_NAME} | Curated product page`,
+      description:
+        'A Calistique product page with editorial styling, product imagery, and conversion-focused merchandising.',
+      adsEligible: true,
+    }
+  }
+
+  if (normalizedPath === '/blog') {
+    return {
+      ...base,
+      title: `${SITE_DISPLAY_NAME} Recipes | Cajun cooking guides`,
+      description:
+        'Evergreen Cajun recipes, local food guides, affiliate kitchen picks, and sponsored placements.',
+      adsEligible: true,
+    }
+  }
+
+  if (normalizedPath === '/revenue') {
+    return {
+      ...base,
+      title: `${SITE_DISPLAY_NAME} Revenue | Monetization stack`,
+      description:
+        'Display ads, affiliate links, newsletters, and lead forms built into one revenue-ready page.',
+      adsEligible: true,
     }
   }
 

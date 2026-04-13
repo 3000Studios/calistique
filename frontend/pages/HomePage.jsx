@@ -1,239 +1,160 @@
-import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import React from 'react'
 import { motion } from 'framer-motion'
+import { Link } from 'react-router-dom'
+import AdSenseIntegration from '../components/AdSenseIntegration.jsx'
+import { editorialDrops, featuredCollections, featuredProducts } from '../src/calistiqueContent.js'
 import './HomePage.css'
 
-const apps = [
-{
-  id: 'myappai',
-  name: 'MyAppAI',
-  tagline: 'AI-powered operator platform',
-  description: 'Manage your entire web presence with plain-language instructions. Research, build, deploy — all from one dashboard.',
-  icon: '🚀',
-  category: 'Productivity',
-  status: 'live',
-  tags: ['AI', 'Operator', 'Deploy'],
-  url: 'https://myappai.net',
-},
-{
-  id: 'youtune',
-  name: 'YouTuneAI',
-  tagline: 'AI-powered YouTube toolkit',
-  description: 'Automate your YouTube workflow. Generate titles, descriptions, tags, and thumbnails with AI trained on what actually ranks.',
-  icon: '🎵',
-  category: 'Creator Tools',
-  status: 'beta',
-  tags: ['YouTube', 'AI', 'Creator'],
-  url: null,
-},
-{
-  id: 'findmerates',
-  name: 'FindMeRates',
-  tagline: 'Compare rates instantly',
-  description: 'Find the best rates for loans, insurance, and financial products. Real-time comparisons with no spam.',
-  icon: '💰',
-  category: 'Finance',
-  status: 'live',
-  tags: ['Finance', 'Rates', 'Compare'],
-  url: 'https://findmerates.pages.dev',
-},
-{
-  id: 'voicetowebsite',
-  name: 'VoiceToWebsite',
-  tagline: 'Speak your site into existence',
-  description: 'Record a voice memo describing what you want. Get a fully deployed website back. No code, no drag-and-drop.',
-  icon: '🎙️',
-  category: 'No-Code',
-  status: 'coming-soon',
-  tags: ['Voice', 'AI', 'No-Code'],
-  url: null,
-},
-{
-  id: 'shadowos',
-  name: 'ShadowOS Stack',
-  tagline: 'Next.js AI UI framework',
-  description: 'A full-stack Next.js starter with built-in AI UI, monetization engine, voice control, and auto-deploy system.',
-  icon: '🌑',
-  category: 'Developer Tools',
-  status: 'beta',
-  tags: ['Next.js', 'AI', 'Framework'],
-  url: null,
-},
-{
-  id: 'calistique',
-  name: 'Calistique',
-  tagline: 'Premium fitness & lifestyle',
-  description: 'Curated fitness gear, apparel, and wellness products. Built for people who take their health seriously.',
-  icon: '💪',
-  category: 'E-Commerce',
-  status: 'live',
-  tags: ['Fitness', 'Lifestyle', 'Shop'],
-  url: null,
-},
-]
-
-const categories = ['All', 'Productivity', 'Creator Tools', 'Finance', 'No-Code', 'Developer Tools', 'E-Commerce']
-
-const statusConfig = {
-live: { label: 'Live', color: '#22c55e', bg: 'rgba(34,197,94,0.12)' },
-beta: { label: 'Beta', color: '#f59e0b', bg: 'rgba(245,158,11,0.12)' },
-'coming-soon': { label: 'Coming Soon', color: '#6366f1', bg: 'rgba(99,102,241,0.12)' },
-}
-
-const fadeUp = {
-hidden: { opacity: 0, y: 24 },
-visible: (i = 0) => ({
-  opacity: 1,
-  y: 0,
-  transition: { delay: i * 0.07, duration: 0.4, ease: 'easeOut' },
-}),
-}
-
 export default function HomePage() {
-const [activeCategory, setActiveCategory] = useState('All')
+  return (
+    <div className="calistique-home">
+      <section className="hero">
+        <div className="hero__glow hero__glow--left" />
+        <div className="hero__glow hero__glow--right" />
 
-const filtered = activeCategory === 'All'
-  ? apps
-  : apps.filter(a => a.category === activeCategory)
+        <motion.div
+          className="hero__content"
+          initial={{ opacity: 0, y: 28 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+        >
+          <p className="eyebrow">Calistique</p>
+          <h1>Clothing and jewelry with editorial restraint.</h1>
+          <p className="hero__lede">
+            A luxury storefront for elevated essentials, luminous jewelry, and the kind of pieces that make the whole outfit feel complete.
+          </p>
 
-return (
-  <div className="storefront">
+          <div className="hero__actions">
+            <a className="button button--primary" href="#products">Shop best sellers</a>
+            <Link className="button button--ghost" to="/contact">Private styling</Link>
+          </div>
 
-    {/* Hero */}
-    <section className="storefront-hero">
-      <motion.div
-        className="storefront-hero__inner"
-        initial={{ opacity: 0, y: 32 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-      >
-        <span className="storefront-eyebrow">3000 Studios</span>
-        <h1 className="storefront-headline">
-          Apps built by<br />
-          <span className="storefront-headline--accent">Jeremy Swain</span>
-        </h1>
-        <p className="storefront-subhead">
-          A collection of AI-powered tools, platforms, and products — built in public, shipped fast.
-        </p>
-      </motion.div>
-    </section>
+          <div className="hero__proof">
+            <span>Free shipping over $125</span>
+            <span>30-day returns</span>
+            <span>Gift-ready packaging</span>
+            <span>New drops every Friday</span>
+          </div>
+        </motion.div>
 
-    {/* Category Filter */}
-    <section className="storefront-filter">
-      <div className="storefront-filter__inner">
-        <div className="filter-tabs">
-          {categories.map((cat) => (
-            <button
-              key={cat}
-              className={`filter-tab ${activeCategory === cat ? 'active' : ''}`}
-              onClick={() => setActiveCategory(cat)}
-            >
-              {cat}
-            </button>
-          ))}
-        </div>
-      </div>
-    </section>
-
-    {/* App Grid */}
-    <section className="storefront-grid-section">
-      <div className="storefront-grid">
-        {filtered.map((app, i) => {
-          const status = statusConfig[app.status]
-          return (
-            <motion.div
-              key={app.id}
-              className="app-card"
-              variants={fadeUp}
-              initial="hidden"
-              animate="visible"
-              custom={i}
-              whileHover={{ y: -4, transition: { duration: 0.2 } }}
-            >
-              <div className="app-card__header">
-                <div className="app-card__icon">{app.icon}</div>
-                <span
-                  className="app-card__status"
-                  style={{ color: status.color, background: status.bg }}
-                >
-                  {status.label}
-                </span>
-              </div>
-
-              <div className="app-card__body">
-                <h3 className="app-card__name">{app.name}</h3>
-                <p className="app-card__tagline">{app.tagline}</p>
-                <p className="app-card__desc">{app.description}</p>
-              </div>
-
-              <div className="app-card__footer">
-                <div className="app-card__tags">
-                  {app.tags.map(tag => (
-                    <span key={tag} className="app-tag">{tag}</span>
-                  ))}
+        <motion.div
+          className="hero__visual"
+          initial={{ opacity: 0, scale: 0.98 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.7, delay: 0.1 }}
+        >
+          <div className="hero__reel">
+            {featuredCollections.map((collection) => (
+              <Link key={collection.slug} to={`/shop/${collection.slug}`} className="hero__reel-card">
+                <img src={collection.hero} alt={collection.name} />
+                <div>
+                  <span>{collection.tone}</span>
+                  <strong>{collection.name}</strong>
                 </div>
-                {app.url ? (
-                  <a
-                    href={app.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="app-card__cta"
-                  >
-                    Open app →
-                  </a>
-                ) : (
-                  <span className="app-card__cta app-card__cta--disabled">
-                    {app.status === 'coming-soon' ? 'Coming soon' : 'In development'}
-                  </span>
-                )}
-              </div>
-            </motion.div>
-          )
-        })}
-      </div>
-    </section>
+              </Link>
+            ))}
+          </div>
+          <div className="hero__visual-card hero__visual-card--small">
+            <span>Video reel</span>
+            <strong>Cinematic product motion, hover depth, and tactile luxury cues.</strong>
+          </div>
+        </motion.div>
+      </section>
 
-    {/* News Ticker */}
-    <section className="storefront-ticker-section">
-      <div className="ticker-wrapper">
-        <div className="ticker-track">
-          {[
-            '🚀 MyAppAI v2 launching soon',
-            '🎵 YouTuneAI beta open',
-            '💰 FindMeRates now live',
-            '🌑 ShadowOS Stack in development',
-            '🎙️ VoiceToWebsite coming Q3 2026',
-            '💪 Calistique store open',
-            '🔥 New apps dropping regularly',
-            '🚀 MyAppAI v2 launching soon',
-            '🎵 YouTuneAI beta open',
-            '💰 FindMeRates now live',
-            '🌑 ShadowOS Stack in development',
-            '🎙️ VoiceToWebsite coming Q3 2026',
-            '💪 Calistique store open',
-            '🔥 New apps dropping regularly',
-          ].map((item, i) => (
-            <span key={i} className="ticker-item">{item}</span>
+      <section className="ad-band">
+        <AdSenseIntegration />
+      </section>
+
+      <section className="collections">
+        <div className="section-heading">
+          <p className="eyebrow">Collections</p>
+          <h2>Curated around materials, not noise.</h2>
+        </div>
+
+        <div className="collection-grid">
+          {featuredCollections.map((collection, index) => (
+            <motion.article
+              key={collection.name}
+              className="collection-card"
+              variants={{
+                hidden: { opacity: 0, y: 20 },
+                visible: { opacity: 1, y: 0 },
+              }}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: '-80px' }}
+              transition={{ delay: index * 0.08 }}
+            >
+              <img src={collection.hero} alt={collection.name} />
+              <p>{collection.tone}</p>
+              <h3>{collection.name}</h3>
+              <span>{collection.copy}</span>
+              <strong>{collection.price}</strong>
+            </motion.article>
           ))}
         </div>
-      </div>
-    </section>
+      </section>
 
-    {/* Footer CTA */}
-    <section className="storefront-cta">
-      <motion.div
-        className="storefront-cta__inner"
-        initial={{ opacity: 0, y: 24 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.5 }}
-      >
-        <h2>Want to work together?</h2>
-        <p>I build AI-powered products and tools. If you have an idea, let's talk.</p>
-        <Link to="/contact" className="cta-btn">Get in touch →</Link>
-      </motion.div>
-    </section>
+      <section id="products" className="products">
+        <div className="section-heading section-heading--split">
+          <div>
+            <p className="eyebrow">Best sellers</p>
+            <h2>The products customers will actually want to buy.</h2>
+          </div>
+          <p className="section-copy">
+            A focused catalog of clothing and jewelry with strong margins, repeatable styling, and premium visual language.
+          </p>
+        </div>
 
-  </div>
-)
+        <div className="product-grid">
+          {featuredProducts.map((product, index) => (
+            <motion.article
+              key={product.name}
+              className="product-card"
+              initial={{ opacity: 0, y: 22 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-80px' }}
+              transition={{ delay: index * 0.08 }}
+            >
+              <Link to={`/shop/${product.slug}`} className="product-card__image">
+                <img src={product.image} alt={product.name} />
+                <span>{product.category}</span>
+              </Link>
+              <div className="product-card__meta">
+                <div>
+                  <h3>{product.name}</h3>
+                  <p>{product.accent}</p>
+                </div>
+                <strong>{product.price}</strong>
+              </div>
+            </motion.article>
+          ))}
+        </div>
+      </section>
+
+      <section className="editorial">
+        {editorialDrops.map((item) => (
+          <article key={item.slug} className="editorial-card">
+            <p className="eyebrow">Drop</p>
+            <h3>{item.title}</h3>
+            <p>{item.excerpt}</p>
+          </article>
+        ))}
+      </section>
+
+      <section className="signup">
+        <div className="signup__panel">
+          <div>
+            <p className="eyebrow">Launch list</p>
+            <h2>Get first access to new drops.</h2>
+            <p>Fresh content and product pages are added from the same catalog source.</p>
+          </div>
+          <form className="signup__form">
+            <input type="email" placeholder="Email address" aria-label="Email address" />
+            <button type="submit">Join list</button>
+          </form>
+        </div>
+      </section>
+    </div>
+  )
 }

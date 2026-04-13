@@ -38,16 +38,9 @@ export default function SiteFrame() {
       <footer className="site-footer">
         <div className="site-footer__grid">
           <section className="site-footer__brand">
-            <span className="eyebrow">Why MyAppAI</span>
-            <h2>
-              One operator surface for browsing, planning, coding, shipping, and
-              keeping your site live.
-            </h2>
-            <p>
-              MyAppAI turns plain-language instructions into safe repository
-              changes, research-backed updates, and deployment workflows you can
-              manage from anywhere.
-            </p>
+            <span className="eyebrow">Why Calistique</span>
+            <h2>A focused luxury storefront for clothing, jewelry, and editorial presentation.</h2>
+            <p>Calistique pairs premium product curation with a high-end visual language built for conversion and brand recall.</p>
           </section>
 
           <section className="site-footer__links">
@@ -63,22 +56,14 @@ export default function SiteFrame() {
           </section>
 
           <section className="site-footer__cta">
-            <span className="eyebrow">Start operating</span>
-            <p>
-              Sign in to the operator workspace to manage content, run guided
-              research, refine UI, and trigger live deploys from the same admin
-              page.
-            </p>
+            <span className="eyebrow">Start shopping</span>
+            <p>Browse the collection, launch the next drop, or open the studio route for site management.</p>
             <div className="hero__actions">
-              <Link className="button button--primary" to="/admin/login">
-                Open operator
+              <Link className="button button--primary" to="/">
+                Shop now
               </Link>
-              <a
-                className="button button--ghost"
-                href={REPOSITORY_URL}
-                rel="noreferrer"
-              >
-                Inspect source
+              <a className="button button--ghost" href={REPOSITORY_URL} rel="noreferrer">
+                Inspect repo
               </a>
             </div>
           </section>
@@ -98,14 +83,9 @@ export default function SiteFrame() {
           </a>
           <span aria-hidden="true"> · </span>
           <span>{getCopyrightLine()}</span>
-          <span aria-hidden="true"> · </span>
-          <a href={REPOSITORY_URL} rel="noopener noreferrer">
-            GitHub
-          </a>
         </p>
       </footer>
 
-      {/* Global Ticker */}
       <GlobalTicker />
     </div>
   )
