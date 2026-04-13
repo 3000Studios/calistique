@@ -1,11 +1,11 @@
 import React from 'react'
 import { Navigate, useParams } from 'react-router-dom'
 import AdSenseIntegration from '../components/AdSenseIntegration.jsx'
-import { featuredProducts } from '../src/calistiqueContent.js'
+import { productLookup } from '../src/siteData.js'
 
 export default function ShopItemPage() {
   const { slug } = useParams()
-  const product = featuredProducts.find((item) => item.slug === slug)
+  const product = productLookup[slug]
 
   if (!product) {
     return <Navigate to="/" replace />
@@ -15,19 +15,23 @@ export default function ShopItemPage() {
     <article className="shop-detail">
       <section className="shop-detail__hero">
         <div className="shop-detail__media">
-          <img src={product.image} alt={product.name} />
-          <div className="shop-detail__badge">{product.category}</div>
+          <div className="shop-detail__badge">{product.badge ?? 'Affiliate'}</div>
         </div>
         <div className="shop-detail__copy">
-          <p className="eyebrow">{product.accent}</p>
+          <p className="eyebrow">{product.category ?? 'Shop'}</p>
           <h1>{product.name}</h1>
-          <p className="section-copy">{product.description}</p>
+          <p className="section-copy">{product.summary ?? product.description}</p>
           <div className="hero__actions">
-            <a className="button button--primary" href="/contact">
-              Request styling
+            <a
+              className="button button--primary"
+              href={product.affiliateUrl ?? product.url ?? '/contact'}
+              rel="noopener noreferrer sponsored"
+              target={product.affiliateUrl || product.url ? '_blank' : undefined}
+            >
+              View product
             </a>
             <a className="button button--ghost" href="/">
-              Back to shop
+              Back home
             </a>
           </div>
         </div>
@@ -36,11 +40,11 @@ export default function ShopItemPage() {
       <section className="shop-detail__grid">
         <div className="shop-detail__card">
           <h2>Why it sells</h2>
-          <p>{product.name} is designed for high intent shoppers who want an easy yes.</p>
+          <p>{product.name} matches recipe intent and earns on relevant traffic.</p>
         </div>
         <div className="shop-detail__card">
           <h2>Merchandising</h2>
-          <p>Pair it with the homepage collection grid and promote it as a featured drop.</p>
+          <p>Pair it with recipe and menu pages so the recommendation feels useful.</p>
         </div>
         <div className="shop-detail__card">
           <h2>Ad placement</h2>

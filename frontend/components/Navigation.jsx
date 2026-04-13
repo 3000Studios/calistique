@@ -18,7 +18,6 @@ useEffect(() => {
 
 const navItems = [
   { path: '/', label: 'Home', icon: '🏠' },
-  { path: '/blog', label: 'Blog', icon: '📝' },
   { path: '/about', label: 'About', icon: '💡' },
   { path: '/contact', label: 'Contact', icon: '✉️' },
 ]
@@ -43,9 +42,9 @@ return (
             whileHover={{ scale: 1.1, rotate: 5 }}
             whileTap={{ scale: 0.95 }}
           >
-            🚀
+            ✦
           </motion.div>
-          <span className="brand-text">MyAppAI</span>
+          <span className="brand-text">CampDream</span>
         </Link>
       </div>
 
@@ -77,7 +76,7 @@ return (
       </div>
 
       <div className="nav-actions">
-        <Link to="/admin/login" className="nav-admin-btn">Admin</Link>
+          <Link to="/admin/login" className="nav-admin-btn">Studio</Link>
         <motion.button
           className="mobile-menu-toggle"
           onClick={() => setIsMenuOpen(!isMenuOpen)}
@@ -150,7 +149,7 @@ return (
                 onClick={() => setIsMenuOpen(false)}
               >
                 <span className="mobile-nav-icon">⚙️</span>
-                <span className="mobile-nav-label">Admin</span>
+              <span className="mobile-nav-label">Studio</span>
               </Link>
             </motion.div>
           </div>

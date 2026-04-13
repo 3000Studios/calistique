@@ -26,8 +26,8 @@ function canUseSameOriginApi() {
   }
 
   return (
-    hostname === 'myappai.net' ||
-    hostname === 'www.myappai.net' ||
+    hostname === 'calistique.com' ||
+    hostname === 'www.calistique.com' ||
     hostname.endsWith('.pages.dev')
   )
 }

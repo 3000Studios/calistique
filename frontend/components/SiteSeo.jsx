@@ -125,6 +125,16 @@ function getSeoForPath(pathname) {
     }
   }
 
+  if (normalizedPath === '/products') {
+    return {
+      ...base,
+      title: `${SITE_DISPLAY_NAME} Shop | Cajun cookware and spice picks`,
+      description:
+        'Relevant cookware, seasoning kits, and kitchen products that fit the recipes and can earn affiliate revenue.',
+      adsEligible: true,
+    }
+  }
+
   if (normalizedPath === '/revenue') {
     return {
       ...base,

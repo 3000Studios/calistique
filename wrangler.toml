@@ -1,18 +1,19 @@
 "$schema" = "./node_modules/wrangler/config-schema.json"
-name = "myappai"
+name = "campdream"
 pages_build_output_dir = "dist"
 compatibility_date = "2026-03-22"
 compatibility_flags = ["nodejs_compat"]
 
 [vars]
 NODE_ENV = "production"
-APP_NAME = "myappai"
-SITE_URL = "https://myappai.net"
-WWW_SITE_URL = "https://www.myappai.net"
-SITE_ORIGIN = "https://myappai.net"
-WWW_SITE_ORIGIN = "https://www.myappai.net"
+APP_NAME = "campdream"
+SITE_URL = "https://campdream.store"
+WWW_SITE_URL = "https://www.campdream.store"
+SITE_ORIGIN = "https://campdream.store"
+WWW_SITE_ORIGIN = "https://www.campdream.store"
 API_MODE = "repo-local"
-VITE_ENABLE_ADS = "false"
+VITE_ENABLE_ADS = "true"
+VITE_ADSENSE_CLIENT_ID = "ca-pub-0000000000000000"
 
 [[r2_buckets]]
 binding = "ASSETS_BUCKET"

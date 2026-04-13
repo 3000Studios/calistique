@@ -28,8 +28,8 @@ function canUseSameOriginApi() {
   }
 
   return (
-    hostname === 'myappai.net' ||
-    hostname === 'www.myappai.net' ||
+    hostname === 'campdream.store' ||
+    hostname === 'www.campdream.store' ||
     hostname.endsWith('.pages.dev')
   )
 }
@@ -137,5 +137,43 @@ export function submitLead(lead) {
   return request('/api/public/leads', {
     method: 'POST',
     body: lead,
+  })
+}
+
+export function startStripeCheckout(slug, origin = getCurrentPath()) {
+  return request('/api/public/commerce/checkout/stripe', {
+    method: 'POST',
+    body: {
+      slug,
+      origin: typeof window === 'undefined' ? origin : window.location.origin,
+    },
+  })
+}
+
+export function startPayPalCheckout(slug, origin = getCurrentPath()) {
+  return request('/api/public/commerce/checkout/paypal', {
+    method: 'POST',
+    body: {
+      slug,
+      origin: typeof window === 'undefined' ? origin : window.location.origin,
+    },
+  })
+}
+
+export function verifyStripeCheckout(sessionId) {
+  return request('/api/public/commerce/checkout/stripe/verify', {
+    method: 'POST',
+    body: {
+      sessionId,
+    },
+  })
+}
+
+export function capturePayPalCheckout(orderId) {
+  return request('/api/public/commerce/checkout/paypal/capture', {
+    method: 'POST',
+    body: {
+      orderId,
+    },
   })
 }

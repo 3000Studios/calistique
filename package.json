@@ -1,5 +1,5 @@
 {
-  "name": "myappai",
+  "name": "calistique",
   "version": "1.1.0",
   "private": true,
   "type": "module",
@@ -39,30 +39,31 @@
     "test:unit": "vitest run",
     "test:watch": "vitest",
     "check:fast": "npm run lint && npm run typecheck && npm run test:unit",
+    "verify:openclaw": "node --check server/routes/openclaw.js && node --check server/services/assistantService.js && node --input-type=module -e \"import('./server/routes/openclaw.js').then(() => { console.log('openclaw ok'); process.exit(0); }).catch((err) => { console.error(err); process.exit(1); })\"",
     "check:full": "npm run validate:env && npm run lint && npm run typecheck && npm run test && npm run build",
+    "maintenance:clean": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/housekeep-workspace.ps1",
     "validate:env": "node scripts/validate-environment.js",
     "verify-platform": "node scripts/verify-platform.js",
     "analyze": "cross-env ANALYZE=true vite build",
     "ci": "npm run check:full"
   },
   "keywords": [
-    "myappai",
-    "myappai.net",
-    "operator",
-    "deployment",
-    "automation"
+    "calistique",
+    "calistique.com",
+    "fashion",
+    "jewelry"
   ],
-  "homepage": "https://myappai.net/",
+  "homepage": "https://calistique.com/",
   "repository": {
     "type": "git",
-    "url": "https://github.com/3000Studios/myappai.git"
+    "url": "https://github.com/3000Studios/calistique.git"
   },
   "bugs": {
-    "url": "https://github.com/3000Studios/myappai/issues"
+    "url": "https://github.com/3000Studios/calistique/issues"
   },
   "author": "3000Studios",
   "license": "UNLICENSED",
-  "description": "MyAppAI operator platform for browser-based research, repository changes, and deployment workflows.",
+  "description": "Calistique luxury storefront for clothing and jewelry.",
   "lint-staged": {
     "*.{js,jsx,json,md,css}": [
       "prettier --write"

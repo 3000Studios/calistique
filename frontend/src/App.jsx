@@ -5,12 +5,15 @@ import ExperienceOrchestrator from '../components/ExperienceOrchestrator.jsx'
 import AdminLayout from '../components/admin/AdminLayout.jsx'
 import HomePage from '../pages/HomePage.jsx'
 import ShopItemPage from '../pages/ShopItemPage.jsx'
+import CollectionPage from '../pages/CollectionPage.jsx'
+import DropPage from '../pages/DropPage.jsx'
 import AboutPage from '../pages/AboutPage.jsx'
 import ContactPage from '../pages/ContactPage.jsx'
 import PrivacyPage from '../pages/PrivacyPage.jsx'
 import TermsPage from '../pages/TermsPage.jsx'
 import DisclosurePage from '../pages/DisclosurePage.jsx'
 import ToolsPage from '../pages/ToolsPage.jsx'
+import ProductsPage from '../pages/ProductsPage.jsx'
 import BlogIndexPage from '../pages/BlogIndexPage.jsx'
 import BlogPostPage from '../pages/BlogPostPage.jsx'
 import AdminLoginPage from '../pages/AdminLoginPage.jsx'
@@ -46,6 +49,9 @@ return (
       <Route element={<SiteFrame />}>
         <Route path="/" element={<HomePage />} />
         <Route path="/shop/:slug" element={<ShopItemPage />} />
+        <Route path="/products/:slug" element={<ShopItemPage />} />
+        <Route path="/collections/:slug" element={<CollectionPage />} />
+        <Route path="/drops/:slug" element={<DropPage />} />
         <Route path="/about" element={<AboutPage />} />
         <Route path="/contact" element={<ContactPage />} />
         <Route path="/privacy" element={<PrivacyPage />} />
@@ -53,6 +59,7 @@ return (
         <Route path="/disclosure" element={<DisclosurePage />} />
         <Route path="/menu" element={<ToolsPage />} />
         <Route path="/tools" element={<ToolsPage />} />
+        <Route path="/products" element={<ProductsPage />} />
         <Route path="/blog" element={<BlogIndexPage />} />
         <Route path="/blog/:slug" element={<BlogPostPage />} />
         <Route path="/openclaw" element={<OpenClaw />} />

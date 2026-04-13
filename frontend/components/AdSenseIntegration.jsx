@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { ADSENSE_CLIENT_ID, ADS_ENABLED } from '../src/siteMeta.js'
 import './AdSenseIntegration.css'
 
 const AdSenseIntegration = () => {
@@ -6,47 +7,59 @@ const AdSenseIntegration = () => {
   const [adError, setAdError] = useState(false)
 
   useEffect(() => {
-    // Load AdSense script
+    if (!ADS_ENABLED || !ADSENSE_CLIENT_ID) {
+      return undefined
+    }
+
+    if (document.querySelector('script[data-calistique-adsense="true"]')) {
+      setAdLoaded(true)
+      return undefined
+    }
+
     const script = document.createElement('script')
     script.src =
       'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js'
     script.async = true
     script.crossOrigin = 'anonymous'
+    script.setAttribute('data-calistique-adsense', 'true')
 
     script.onload = () => {
       setAdLoaded(true)
-      console.log('AdSense script loaded successfully')
     }
 
     script.onerror = () => {
       setAdError(true)
-      console.error('Failed to load AdSense script')
     }
 
     document.head.appendChild(script)
 
-    // Initialize AdSense
-    ;(window.adsbygoogle = window.adsbygoogle || []).push({
-      google_ad_client: 'ca-pub-YOUR-PUBLISHER-ID',
-      enable_page_level_ads: true,
-    })
-
     return () => {
-      // Cleanup script on unmount
       if (script.parentNode) {
         script.parentNode.removeChild(script)
       }
     }
   }, [])
 
+  useEffect(() => {
+    if (!adLoaded || !ADSENSE_CLIENT_ID || typeof window === 'undefined') {
+      return
+    }
+
+    try {
+      ;(window.adsbygoogle = window.adsbygoogle || []).push({})
+    } catch {
+      setAdError(true)
+    }
+  }, [adLoaded])
+
   const AdUnit = ({ slot, format = 'auto', responsive = true }) => {
-    if (!adLoaded || adError) return null
+    if (!ADS_ENABLED || !ADSENSE_CLIENT_ID || !adLoaded || adError) return null
 
     return (
       <ins
         className="adsbygoogle"
         style={{ display: 'block' }}
-        data-ad-client="ca-pub-YOUR-PUBLISHER-ID"
+        data-ad-client={ADSENSE_CLIENT_ID}
         data-ad-slot={slot}
         data-ad-format={format}
         data-full-width-responsive={responsive ? 'true' : 'false'}
@@ -58,22 +71,7 @@ const AdSenseIntegration = () => {
     <div className="adsense-integration">
       {/* Header Banner */}
       <div className="ad-container header-ad">
-        <AdUnit slot="1234567890" format="horizontal" responsive={true} />
-      </div>
-
-      {/* Sidebar Banner */}
-      <div className="ad-container sidebar-ad">
-        <AdUnit slot="0987654321" format="vertical" responsive={false} />
-      </div>
-
-      {/* Content Banner */}
-      <div className="ad-container content-ad">
-        <AdUnit slot="5678901234" format="rectangle" responsive={true} />
-      </div>
-
-      {/* Footer Banner */}
-      <div className="ad-container footer-ad">
-        <AdUnit slot="3456789012" format="horizontal" responsive={true} />
+        <AdUnit slot="1234567890" format="auto" responsive={true} />
       </div>
 
       {adError && (

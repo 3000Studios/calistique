@@ -1,6 +1,7 @@
 import React from 'react'
 import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
+import AdSenseSlot from '../components/AdSenseSlot.jsx'
 import AdSenseIntegration from '../components/AdSenseIntegration.jsx'
 import { editorialDrops, featuredCollections, featuredProducts } from '../src/calistiqueContent.js'
 import './HomePage.css'
@@ -43,6 +44,26 @@ export default function HomePage() {
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.7, delay: 0.1 }}
         >
+          <div className="hero__video-shell">
+            <video
+              className="hero__video"
+              autoPlay
+              muted
+              loop
+              playsInline
+              poster="https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=1200&q=80"
+            >
+              <source
+                src="https://cdn.coverr.co/videos/coverr-a-woman-in-a-black-dress-1555683961140?download=1080p"
+                type="video/mp4"
+              />
+            </video>
+            <div className="hero__video-overlay">
+              <span>Editorial motion</span>
+              <strong>Looped video, cinematic lighting, and premium texture.</strong>
+            </div>
+          </div>
+
           <div className="hero__reel">
             {featuredCollections.map((collection) => (
               <Link key={collection.slug} to={`/shop/${collection.slug}`} className="hero__reel-card">
@@ -54,15 +75,15 @@ export default function HomePage() {
               </Link>
             ))}
           </div>
-          <div className="hero__visual-card hero__visual-card--small">
-            <span>Video reel</span>
-            <strong>Cinematic product motion, hover depth, and tactile luxury cues.</strong>
-          </div>
         </motion.div>
       </section>
 
       <section className="ad-band">
         <AdSenseIntegration />
+      </section>
+
+      <section className="midpage-ad">
+        <AdSenseSlot slot="calistique-home-mid" label="Sponsored collection" />
       </section>
 
       <section className="collections">
@@ -76,20 +97,18 @@ export default function HomePage() {
             <motion.article
               key={collection.name}
               className="collection-card"
-              variants={{
-                hidden: { opacity: 0, y: 20 },
-                visible: { opacity: 1, y: 0 },
-              }}
-              initial="hidden"
-              whileInView="visible"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: '-80px' }}
               transition={{ delay: index * 0.08 }}
             >
-              <img src={collection.hero} alt={collection.name} />
-              <p>{collection.tone}</p>
-              <h3>{collection.name}</h3>
-              <span>{collection.copy}</span>
-              <strong>{collection.price}</strong>
+              <Link to={`/shop/${collection.slug}`} className="collection-card__link">
+                <img src={collection.hero} alt={collection.name} />
+                <p>{collection.tone}</p>
+                <h3>{collection.name}</h3>
+                <span>{collection.copy}</span>
+                <strong>{collection.price}</strong>
+              </Link>
             </motion.article>
           ))}
         </div>
@@ -134,11 +153,11 @@ export default function HomePage() {
 
       <section className="editorial">
         {editorialDrops.map((item) => (
-          <article key={item.slug} className="editorial-card">
+          <Link key={item.slug} to={`/drops/${item.slug}`} className="editorial-card">
             <p className="eyebrow">Drop</p>
             <h3>{item.title}</h3>
             <p>{item.excerpt}</p>
-          </article>
+          </Link>
         ))}
       </section>
 

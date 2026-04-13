@@ -1,102 +1,101 @@
 export const featuredCollections = [
   {
-    slug: 'silk-atelier',
-    name: 'Silk Atelier',
-    copy: 'Tailored silhouettes, fluid drape, and evening essentials.',
-    tone: 'Midnight / Pearl',
-    price: 'From $148',
-    hero: 'https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=1200&q=80',
+    slug: 'gumbo-guide',
+    name: 'Gumbo Guide',
+    copy: 'Recipe explainers, local restaurant picks, and cookware tie-ins.',
+    tone: 'Classic / Deep',
+    price: 'From $12',
+    hero: 'https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=1200&q=80',
     updatedAt: '2026-04-13',
   },
   {
-    slug: 'gold-line-jewelry',
-    name: 'Gold Line Jewelry',
-    copy: 'Layered chains, sculptural hoops, and stackable rings.',
-    tone: '14k / Vermeil',
-    price: 'From $68',
-    hero: 'https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?auto=format&fit=crop&w=1200&q=80',
+    slug: 'jambalaya-comparison',
+    name: 'Jambalaya Comparison',
+    copy: 'Side-by-side guides that rank well and route readers to offers.',
+    tone: 'Rice / Spice',
+    price: 'From $8',
+    hero: 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1200&q=80',
     updatedAt: '2026-04-13',
   },
   {
-    slug: 'studio-essentials',
-    name: 'Studio Essentials',
-    copy: 'Clean tees, refined denim, and elevated everyday staples.',
-    tone: 'Neutral / Warm',
-    price: 'From $42',
-    hero: 'https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=1200&q=80',
+    slug: 'po-boy-guide',
+    name: 'Po-Boy Guide',
+    copy: 'Local-order discovery pages with delivery and gift-card upsells.',
+    tone: 'Fast / Local',
+    price: 'From $10',
+    hero: 'https://images.unsplash.com/photo-1562967914-608f82629710?auto=format&fit=crop&w=1200&q=80',
     updatedAt: '2026-04-13',
   },
 ]
 
 export const featuredProducts = [
   {
-    slug: 'noir-column-dress',
-    name: 'Noir Column Dress',
-    category: 'Evening',
-    price: '$188',
-    accent: 'Sculpted fit',
+    slug: 'cast-iron-skillet',
+    name: 'Cast Iron Skillet',
+    category: 'Cookware',
+    price: '$39',
+    accent: 'Best for roux',
     description:
-      'A clean-lined statement dress with a soft sheen, precise drape, and a silhouette that photographs well from every angle.',
+      'A durable skillet for roux, cornbread, and high-heat searing.',
     image:
-      'https://images.unsplash.com/photo-1496747611176-843222e1e57c?auto=format&fit=crop&w=1200&q=80',
+      'https://images.unsplash.com/photo-1528909514045-2fa4ac7a08ba?auto=format&fit=crop&w=1200&q=80',
     updatedAt: '2026-04-13',
   },
   {
-    slug: 'luna-chain-necklace',
-    name: 'Luna Chain Necklace',
-    category: 'Jewelry',
-    price: '$92',
-    accent: 'Waterproof finish',
+    slug: 'cajun-seasoning-kit',
+    name: 'Cajun Seasoning Kit',
+    category: 'Pantry',
+    price: '$24',
+    accent: 'High repeat use',
     description:
-      'A luminous chain built for daily wear and easy layering with rings, earrings, or a structured neckline.',
+      'A blend bundle for gumbo, jambalaya, and blackened dishes.',
     image:
-      'https://images.unsplash.com/photo-1617038220319-276d3cfab638?auto=format&fit=crop&w=1200&q=80',
+      'https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=1200&q=80',
     updatedAt: '2026-04-13',
   },
   {
-    slug: 'satin-overshirt',
-    name: 'Satin Overshirt',
-    category: 'Layering',
-    price: '$124',
-    accent: 'Limited run',
+    slug: 'dutch-oven',
+    name: 'Enameled Dutch Oven',
+    category: 'Cookware',
+    price: '$79',
+    accent: 'Long-form friendly',
     description:
-      'A relaxed layer with a polished surface and enough structure to move between daywear and evening dressing.',
+      'Ideal for low-and-slow gumbo, stews, and rice dishes.',
     image:
-      'https://images.unsplash.com/photo-1487222477894-8943e31ef7b2?auto=format&fit=crop&w=1200&q=80',
+      'https://images.unsplash.com/photo-1529692236671-f1f6cf9683ba?auto=format&fit=crop&w=1200&q=80',
     updatedAt: '2026-04-13',
   },
   {
-    slug: 'auric-signet-ring',
-    name: 'Auric Signet Ring',
-    category: 'Jewelry',
-    price: '$76',
-    accent: 'Hand-polished',
+    slug: 'po-boy-delivery-gift-card',
+    name: 'Po-Boy Delivery Gift Card',
+    category: 'Delivery',
+    price: '$50',
+    accent: 'High-intent',
     description:
-      'Minimal with presence, this ring reads as subtle in daylight and sculptural in evening light.',
+      'A local-order gift card that turns guide traffic into immediate conversion.',
     image:
-      'https://images.unsplash.com/photo-1603974372039-adc49044b6bd?auto=format&fit=crop&w=1200&q=80',
+      'https://images.unsplash.com/photo-1550547660-d9450f859349?auto=format&fit=crop&w=1200&q=80',
     updatedAt: '2026-04-13',
   },
 ]
 
 export const editorialDrops = [
   {
-    slug: 'drop-01-luna-light',
-    title: 'Drop 01: Luna Light',
+    slug: 'drop-01-gumbo-night',
+    title: 'Drop 01: Gumbo Night',
     excerpt:
-      'A focused capsule of black tailoring, gold accents, and a jewelry stack that feels effortless.',
+      'A focused guide to dark roux, spicy sausage, and cookware that converts.',
   },
   {
-    slug: 'drop-02-soft-structure',
-    title: 'Drop 02: Soft Structure',
+    slug: 'drop-02-spice-loop',
+    title: 'Drop 02: Spice Loop',
     excerpt:
-      'Layerable clothing and quiet-luxury pieces with enough texture to keep the feed interesting.',
+      'A comparison page for seasonings, bundles, and recurring pantry replenishment.',
   },
   {
-    slug: 'drop-03-evening-form',
-    title: 'Drop 03: Evening Form',
+    slug: 'drop-03-local-intent',
+    title: 'Drop 03: Local Intent',
     excerpt:
-      'Silhouettes and accessories built for night events, dinner dates, and editorial campaigns.',
+      'Restaurant spotlights and delivery pages with strong affiliate and lead potential.',
   },
 ]
-
