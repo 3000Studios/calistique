@@ -12,10 +12,10 @@ export const SITE_LEGAL_NAME = 'Calistique'
 export const SITE_DOMAIN = 'calistique.com'
 export const SITE_URL = `https://${SITE_DOMAIN}`
 export const WWW_SITE_URL = `https://www.${SITE_DOMAIN}`
-export const SITE_CATEGORY = 'Luxury clothing and jewelry storefront'
-export const SITE_DEFAULT_TITLE = `${SITE_DISPLAY_NAME} | Clothing and jewelry`
+export const SITE_CATEGORY = 'High fashion storefront and luxury products'
+export const SITE_DEFAULT_TITLE = `${SITE_DISPLAY_NAME} | High fashion storefront`
 export const SITE_DEFAULT_DESCRIPTION =
-  'Calistique combines editorial product pages, featured products, and ad inventory into a luxury storefront.'
+  'Calistique is a responsive luxury storefront for clothing, jewelry, and premium fashion drops.'
 export const COPYRIGHT_HOLDER = SITE_LEGAL_NAME
 export const SUPPORT_EMAIL = 'hello@calistique.com'
 export const CONTACT_EMAIL = SUPPORT_EMAIL

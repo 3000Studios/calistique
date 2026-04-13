@@ -1,16 +1,16 @@
 "$schema" = "./node_modules/wrangler/config-schema.json"
-name = "thecajunmenu"
+name = "calistique"
 pages_build_output_dir = "dist"
 compatibility_date = "2026-03-22"
 compatibility_flags = ["nodejs_compat"]
 
 [vars]
 NODE_ENV = "production"
-APP_NAME = "thecajunmenu"
-SITE_URL = "https://thecajunmenu.site"
-WWW_SITE_URL = "https://www.thecajunmenu.site"
-SITE_ORIGIN = "https://thecajunmenu.site"
-WWW_SITE_ORIGIN = "https://www.thecajunmenu.site"
+APP_NAME = "calistique"
+SITE_URL = "https://calistique.com"
+WWW_SITE_URL = "https://www.calistique.com"
+SITE_ORIGIN = "https://calistique.com"
+WWW_SITE_ORIGIN = "https://www.calistique.com"
 API_MODE = "repo-local"
 VITE_ENABLE_ADS = "true"
 VITE_ADSENSE_CLIENT_ID = "ca-pub-0000000000000000"
@@ -18,5 +18,5 @@ VITE_CLOUDFLARE_WEB_ANALYTICS_TOKEN = "replace-with-cloudflare-web-analytics-tok
 
 [[r2_buckets]]
 binding = "ASSETS_BUCKET"
-bucket_name = "myappai"
-preview_bucket_name = "myappai-preview"
+  bucket_name = "calistique"
+  preview_bucket_name = "calistique-preview"

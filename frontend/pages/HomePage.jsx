@@ -20,9 +20,9 @@ export default function HomePage() {
           transition={{ duration: 0.6 }}
         >
           <p className="eyebrow">Calistique</p>
-          <h1>Clothing and jewelry with editorial restraint.</h1>
+          <h1>High fashion with editorial restraint.</h1>
           <p className="hero__lede">
-            A luxury storefront for elevated essentials, luminous jewelry, and the kind of pieces that make the whole outfit feel complete.
+            A luxury storefront for clothing, jewelry, and premium accessories built to sell fast and look sharp on any screen.
           </p>
 
           <div className="hero__actions">
@@ -31,10 +31,10 @@ export default function HomePage() {
           </div>
 
           <div className="hero__proof">
-            <span>Free shipping over $125</span>
+            <span>Free shipping over $150</span>
             <span>30-day returns</span>
             <span>Gift-ready packaging</span>
-            <span>New drops every Friday</span>
+            <span>New drops every week</span>
           </div>
         </motion.div>
 
@@ -89,7 +89,7 @@ export default function HomePage() {
       <section className="collections">
         <div className="section-heading">
           <p className="eyebrow">Collections</p>
-          <h2>Curated around materials, not noise.</h2>
+          <h2>Curated around silhouette, not noise.</h2>
         </div>
 
         <div className="collection-grid">
@@ -121,7 +121,7 @@ export default function HomePage() {
             <h2>The products customers will actually want to buy.</h2>
           </div>
           <p className="section-copy">
-            A focused catalog of clothing and jewelry with strong margins, repeatable styling, and premium visual language.
+            A focused catalog of clothing, jewelry, and accessories with strong margins, repeatable styling, and premium visual language.
           </p>
         </div>
 

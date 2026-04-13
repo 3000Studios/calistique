@@ -1,6 +1,6 @@
 # Production Config
 
-Use these names when setting production variables for **MyAppAI**.
+Use these names when setting production variables for **Calistique**.
 
 ## Required deployment secrets
 
@@ -35,19 +35,19 @@ Use these names when setting production variables for **MyAppAI**.
 ## Plaintext production variables
 
 - `NODE_ENV=production`
-- `APP_NAME=myappai`
-- `AI_PROJECT_NAME=myappai`
+- `APP_NAME=calistique`
+- `AI_PROJECT_NAME=calistique`
 - `GH_BASE_BRANCH=main`
 - `CLOUDFLARE_PAGES_BRANCH=main`
-- `CLOUDFLARE_PAGES_PROJECT_NAME=thecajunmenu`
-- `SITE_URL=https://myappai.net`
-- `WWW_SITE_URL=https://www.myappai.net`
-- `SITE_ORIGIN=https://myappai.net`
-- `WWW_SITE_ORIGIN=https://www.myappai.net`
+- `CLOUDFLARE_PAGES_PROJECT_NAME=calistique`
+- `SITE_URL=https://calistique.com`
+- `WWW_SITE_URL=https://www.calistique.com`
+- `SITE_ORIGIN=https://calistique.com`
+- `WWW_SITE_ORIGIN=https://www.calistique.com`
 - `API_MODE=repo-local`
 - `OPENAI_MODEL=gpt-4o`
 - `PAYPAL_ENV=live`
-- `R2_BUCKET_NAME=myappai`
+- `R2_BUCKET_NAME=calistique`
 - `R2_S3_ENDPOINT=...`
 - `R2_PUBLIC_BASE_URL=...`
 - `VITE_ENABLE_ADS=false`
