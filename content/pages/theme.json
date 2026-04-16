@@ -1,17 +1,17 @@
 {
-  "name": "Brass Operator",
+  "name": "Calistique Noir Atelier",
   "palette": {
-    "bg": "#071018",
-    "chrome": "#f7f2e8",
-    "surface": "rgba(14, 24, 37, 0.8)",
-    "surface-strong": "rgba(10, 16, 25, 0.94)",
-    "panel": "rgba(16, 31, 47, 0.88)",
-    "ink": "#fbf5ed",
-    "muted": "rgba(229, 225, 214, 0.76)",
-    "line": "rgba(255, 188, 108, 0.18)",
-    "prism-1": "#ff9b5e",
-    "prism-2": "#89efe3",
-    "prism-3": "#79a8ff"
+    "bg": "#0b0a10",
+    "chrome": "#f8f0e6",
+    "surface": "rgba(21, 15, 26, 0.82)",
+    "surface-strong": "rgba(14, 9, 19, 0.95)",
+    "panel": "rgba(30, 21, 37, 0.88)",
+    "ink": "#fef7ef",
+    "muted": "rgba(236, 223, 208, 0.8)",
+    "line": "rgba(228, 178, 118, 0.24)",
+    "prism-1": "#e5a15f",
+    "prism-2": "#d8b4ff",
+    "prism-3": "#a1b5ff"
   },
   "motion": {
     "hero": "stagger-rise",

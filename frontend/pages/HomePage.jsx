@@ -29,10 +29,10 @@ function useClickTone() {
 }
 
 const trustSignals = [
-  'One repo, one branch, one domain',
-  'SEO, ads, analytics, and legal pages',
-  'Free/open media where practical',
-  'Mobile-first and fast by default',
+  'Luxury visual storytelling and product-first UX',
+  'SEO, ads, analytics, and legal foundations in place',
+  'Stripe, PayPal, and affiliate-ready checkout paths',
+  'Mobile-first layout tuned for fashion discovery',
 ]
 
 export default function HomePage() {
@@ -66,19 +66,19 @@ export default function HomePage() {
             <p className="eyebrow">{SITE_CATEGORY}</p>
             <h1 className="prism-headline">
               <span className="prism-headline__text">
-                Premium portfolio systems that convert.
+                Calistique: high-fashion and jewelry that converts.
               </span>
             </h1>
             <p className="hero__lede">
-              A shared operating model for every site: one repo, one main
-              branch, one Cloudflare Pages project, one matching domain, and a
-              visually premium home page that stays fast on mobile.
+              A premium commerce experience for elevated apparel and jewelry,
+              combining editorial aesthetics with conversion-ready monetization
+              and secure checkout options.
             </p>
           </div>
 
           <div className="hero__actions">
             <a className="button button--primary" href="#workflow" onClick={clickTone}>
-              View the formula
+              View the collection formula
             </a>
             <Link className="button button--ghost" to="/adsense-review" onClick={clickTone}>
               AdSense checklist
@@ -118,7 +118,7 @@ export default function HomePage() {
             </video>
             <div className="hero__video-overlay">
               <p className="eyebrow">Flagship home</p>
-              <strong>Hero video, premium type, layered texture, and clear CTA hierarchy.</strong>
+              <strong>Runway-inspired visual hierarchy with clear product and checkout CTAs.</strong>
             </div>
           </div>
 
@@ -140,8 +140,8 @@ export default function HomePage() {
       <section className="hero-metrics">
         {[
           ['SEO', 'Canonical tags, schema, sitemap, robots, and social tags'],
-          ['Revenue', 'Ads, products, lead capture, and editorial funnels'],
-          ['Performance', 'Lazy media, compact interactions, and mobile-first layout'],
+          ['Revenue', 'Ads, direct checkout, affiliate offers, and editorial funnels'],
+          ['Performance', 'Lazy media, elegant motion, and mobile-first layout'],
         ].map(([label, text]) => (
           <article key={label} className="hero-metric">
             <p>{label}</p>
@@ -153,22 +153,22 @@ export default function HomePage() {
       <section id="workflow" className="collections">
         <div className="section-heading">
           <p className="eyebrow">Operating system</p>
-          <h2>The rule set stays the same across every brand.</h2>
+          <h2>Luxury brand rules with scalable commerce architecture.</h2>
         </div>
 
         <div className="collection-grid">
           {[
             {
               title: 'Identity lock',
-              copy: 'Repo name, project name, and custom domain stay aligned.',
+              copy: 'Brand, domain, and storefront metadata stay perfectly aligned.',
             },
             {
-              title: 'Premium shell',
-              copy: 'Textured colors, polished typography, responsive navigation, and tasteful motion.',
+              title: 'Editorial shell',
+              copy: 'Award-style visual depth, polished type, premium color, and responsive motion.',
             },
             {
               title: 'Monetization layer',
-              copy: 'AdSense-ready structure with legal pages, disclosures, and conversion paths.',
+              copy: 'AdSense-ready structure with affiliate, CJ, and direct checkout conversion paths.',
             },
           ].map((item, index) => (
             <motion.article
@@ -195,11 +195,11 @@ export default function HomePage() {
         <div className="section-heading section-heading--split">
           <div>
             <p className="eyebrow">Site system</p>
-            <h2>Use one production formula, then skin it per brand.</h2>
+            <h2>Build one elite storefront system, then scale curated drops.</h2>
           </div>
           <p className="section-copy">
-            Keep the visual quality high, the UX clean, and the load time low
-            while each brand keeps its own domain and content.
+            Maintain high-end visual quality while keeping speed, SEO, and
+            monetization performance consistent across the storefront.
           </p>
         </div>
 
@@ -229,10 +229,10 @@ export default function HomePage() {
         <div className="signup__panel">
           <div>
             <p className="eyebrow">Lead capture</p>
-            <h2>Newsletter, alerts, and recurring traffic loops.</h2>
+            <h2>Editorial newsletters, alerts, and recurring traffic loops.</h2>
             <p>
-              Every site can ship with forms, disclosures, and a modal that
-              invites subscribers after they have seen the brand.
+              Collect high-intent subscribers for drop announcements, style
+              edits, and affiliate partner campaigns.
             </p>
           </div>
           <form className="signup__form">
@@ -246,10 +246,10 @@ export default function HomePage() {
         <div className="lead-modal" role="dialog" aria-modal="true">
           <div className="lead-modal__card">
             <p className="eyebrow">Before you go</p>
-            <h2>Get the portfolio truth standard.</h2>
+            <h2>Get Calistique drop alerts first.</h2>
             <p>
-              Subscribe for the reusable homepage formula, SEO checklist, and
-              monetization guardrails used across every brand.
+              Join the list for early access to limited drops, jewelry edits,
+              and curated partner offers.
             </p>
             <div className="hero__actions">
               <button

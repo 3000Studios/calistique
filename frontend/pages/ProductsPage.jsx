@@ -6,27 +6,27 @@ const products = productCatalog.length
   ? productCatalog
   : [
       {
-        slug: 'cast-iron-skillet',
-        name: 'Cast Iron Skillet',
-        summary: 'A durable skillet for roux, cornbread, and high-heat searing.',
+        slug: 'silk-evening-dress',
+        name: 'Silk Evening Dress',
+        summary: 'A modern draped silhouette designed for gallery nights and formal events.',
         affiliateUrl: 'https://example.com',
-        price: '$39',
+        price: '$219',
         badge: 'Affiliate',
       },
       {
-        slug: 'cajun-seasoning-kit',
-        name: 'Cajun Seasoning Kit',
-        summary: 'A blend bundle for gumbo, jambalaya, and blackened dishes.',
+        slug: 'gold-chain-set',
+        name: 'Gold Chain Layer Set',
+        summary: 'Multi-length stackable chains for elevated day-to-night styling.',
         affiliateUrl: 'https://example.com',
-        price: '$24',
+        price: '$129',
         badge: 'Sponsored-ready',
       },
       {
-        slug: 'dutch-oven',
-        name: 'Enameled Dutch Oven',
-        summary: 'Ideal for low-and-slow gumbo, stews, and rice dishes.',
+        slug: 'structured-mini-bag',
+        name: 'Structured Mini Bag',
+        summary: 'Premium hardware and compact form factor for fashion-forward edits.',
         affiliateUrl: 'https://example.com',
-        price: '$79',
+        price: '$165',
         badge: 'Best value',
       },
     ]
@@ -36,10 +36,11 @@ export default function ProductsPage() {
     <article className="prose-page tools-page">
       <header className="prose-header">
         <span className="eyebrow">Shop</span>
-        <h1>Products that fit the menu.</h1>
+        <h1>Luxury fashion and jewelry essentials.</h1>
         <p className="prose-lead">
-          Use relevant cookware, spice kits, and meal helpers so the site earns
-          on the same pages that bring in food traffic.
+          Calistique combines direct checkout and curated affiliate links so each
+          product story can convert into revenue without compromising premium
+          editorial presentation.
         </p>
       </header>
 
@@ -58,6 +59,10 @@ export default function ProductsPage() {
             >
               View product
             </a>
+            <p className="field-note">
+              Affiliate-ready placement. Replace with your CJ affiliate deep link
+              or in-house product URL for live commerce.
+            </p>
             {index === 1 ? <AdSenseSlot slot="products-inline-1" /> : null}
           </article>
         ))}

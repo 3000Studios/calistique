@@ -6,15 +6,15 @@ const runtimeEnv =
       : {}
 
 const defaultSite = {
-  repositoryUrl: 'https://github.com/3000Studios/myappai',
-  displayName: 'MyAppAI',
-  legalName: 'MyAppAI',
-  domain: 'myappai.net',
-  category: 'AI system manager and website revenue platform',
-  supportEmail: 'hello@myappai.net',
-  title: 'MyAppAI | AI system manager',
+  repositoryUrl: 'https://github.com/3000Studios/calistique',
+  displayName: 'Calistique',
+  legalName: 'Calistique',
+  domain: 'calistique.com',
+  category: 'Luxury fashion and jewelry commerce brand',
+  supportEmail: 'hello@calistique.com',
+  title: 'Calistique | Luxury fashion and jewelry',
   description:
-    'MyAppAI is a premium AI system manager for building, optimizing, and monetizing production-ready websites.',
+    'Calistique is a premium fashion and jewelry destination featuring elevated drops, affiliate edit curation, and secure checkout.',
 }
 
 export const REPOSITORY_URL = runtimeEnv.VITE_REPOSITORY_URL ?? defaultSite.repositoryUrl
@@ -25,7 +25,7 @@ export const SITE_URL = `https://${SITE_DOMAIN}`
 export const WWW_SITE_URL = `https://www.${SITE_DOMAIN}`
 export const SITE_CATEGORY = runtimeEnv.VITE_SITE_CATEGORY ?? defaultSite.category
 export const SITE_DEFAULT_TITLE =
-  runtimeEnv.VITE_SITE_TITLE ?? `${SITE_DISPLAY_NAME} | AI system manager`
+  runtimeEnv.VITE_SITE_TITLE ?? `${SITE_DISPLAY_NAME} | Luxury fashion and jewelry`
 export const SITE_DEFAULT_DESCRIPTION =
   runtimeEnv.VITE_SITE_DESCRIPTION ?? defaultSite.description
 export const COPYRIGHT_HOLDER = SITE_LEGAL_NAME

@@ -3,4 +3,4 @@ Allow: /
 Disallow: /admin
 Disallow: /api
 
-Sitemap: https://thecajunmenu.site/sitemap.xml
+Sitemap: https://calistique.com/sitemap.xml
