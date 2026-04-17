@@ -25,9 +25,9 @@ export type SiteId = "citadel" | "referrals" | "usa" | "media";
   ];
 
   const baseFeed: ContentCard[] = [
-    { id: "r1", title: "Top Referral Funnels This Hour", category: "growth", site: "referrals", score: 94, excerpt: "High-conversion referral tactics from marketplace leaders.", url: "https://referrals.live" },
-    { id: "u1", title: "US Economic Signal Tracker", category: "news", site: "usa", score: 92, excerpt: "Daily analysis template populated via autonomous content engine.", url: "https://theunitedstates.site" },
-    { id: "m1", title: "Neon Session: TMACK48 Live Edit", category: "media", site: "media", score: 90, excerpt: "Behind-the-scenes music/video production showcase.", url: "https://tmack48.media" }
+    { id: "r1", title: "Top Referral Funnels This Hour", category: "growth", site: "referrals", score: 94, excerpt: "High-conversion referral tactics from marketplace leaders.", url: "https://referrals.3000studios.vip" },
+    { id: "u1", title: "US Economic Signal Tracker", category: "news", site: "usa", score: 92, excerpt: "Daily analysis template populated via autonomous content engine.", url: "https://usa.3000studios.vip" },
+    { id: "m1", title: "Neon Session: TMACK48 Live Edit", category: "media", site: "media", score: 90, excerpt: "Behind-the-scenes music/video production showcase.", url: "https://media.3000studios.vip" }
   ];
 
   export function generateTrendingFeed(seed = Date.now()): ContentCard[] {

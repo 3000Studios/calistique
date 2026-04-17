@@ -3,5 +3,9 @@ pages_build_output_dir = "dist"
 compatibility_date = "2026-04-17"
 
 [vars]
-APP_NAME = "tmack48-media"
-SITE_URL = "https://tmack48.media"
+ORG_NAME = "3000Studios"
+NETWORK_PRIMARY_DOMAIN = "3000studios.vip"
+APP_SLUG = "media"
+APP_DISPLAY_NAME = "TMACK48 Media"
+APP_BASE_URL = "https://media.3000studios.vip"
+ADSENSE_PUBLISHER_ID = "ca-pub-5800977493749262"

@@ -61,10 +61,10 @@ wrangler login
 
 ## Cloudflare domains target
 
-- `referrals.live`
-- `theunitedstates.site`
-- `tmack48.media`
-- `citadel.app`
+- `referrals.3000studios.vip`
+- `usa.3000studios.vip`
+- `media.3000studios.vip`
+- `3000studios.vip`
 
 ## Notes
 

@@ -1,3 +1,3 @@
 User-agent: *
 Allow: /
-Sitemap: https://theunitedstates.site/sitemap.xml
+Sitemap: https://usa.3000studios.vip/sitemap.xml
