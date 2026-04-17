@@ -1,0 +1,7 @@
+name = "referrals-live"
+pages_build_output_dir = "dist"
+compatibility_date = "2026-04-17"
+
+[vars]
+APP_NAME = "referrals-live"
+SITE_URL = "https://referrals.live"

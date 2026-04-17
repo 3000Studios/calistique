@@ -1,0 +1,8 @@
+{
+  "name": "EMPIRE CORE: CITADEL",
+  "short_name": "EMPIRE CORE",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#020617",
+  "theme_color": "#0f172a"
+}

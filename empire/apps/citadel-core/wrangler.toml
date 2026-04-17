@@ -1,0 +1,7 @@
+name = "citadel-core"
+pages_build_output_dir = "dist"
+compatibility_date = "2026-04-17"
+
+[vars]
+APP_NAME = "citadel-core"
+SITE_URL = "https://citadel.app"
