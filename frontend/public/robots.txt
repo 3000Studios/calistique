@@ -3,4 +3,4 @@ Allow: /
 Disallow: /admin
 Disallow: /api
 
-Sitemap: https://thecajunmenu.site/sitemap.xml
+Sitemap: SITE_URL=https://campdreamga.com/sitemap.xml
