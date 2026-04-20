@@ -3,8 +3,10 @@ import {
   getRemoteCommandUnavailableReason,
   handleRemoteOperatorCommand,
 } from './remoteOperator.js'
+import Stripe from 'stripe'
+import catalog from '../../content/products/catalog.json' with { type: 'json' }
 
-const SESSION_COOKIE = 'myappai_admin_session'
+const SESSION_COOKIE = 'calistique_admin_session'
 const SESSION_TTL_SECONDS = 60 * 60 * 12
 const DEFAULT_OLLAMA_MODEL = 'llama3.2:3b'
 const TELEGRAM_API_ORIGIN = 'https://api.telegram.org'
@@ -26,6 +28,205 @@ function jsonResponse(payload, status = 200, headers = {}) {
       ...headers,
     },
   })
+}
+
+function getStripeClient(env) {
+  const secretKey = String(env.STRIPE_SECRET_KEY ?? '').trim()
+  if (!secretKey || secretKey.startsWith('replace-with-')) return null
+  return new Stripe(secretKey, { apiVersion: '2025-01-27.acacia' })
+}
+
+function normalizeQuantity(value) {
+  const quantity = Number.parseInt(String(value), 10)
+  if (!Number.isFinite(quantity) || quantity <= 0) return 1
+  return Math.min(quantity, 10)
+}
+
+function getCatalogProduct(slug) {
+  const products = Array.isArray(catalog?.products) ? catalog.products : []
+  return products.find((p) => p?.slug === slug) ?? null
+}
+
+function getVariant(product, sku) {
+  const variants = Array.isArray(product?.variants) ? product.variants : []
+  return variants.find((v) => v?.sku === sku) ?? null
+}
+
+function buildLineItem({ product, variant, quantity }) {
+  const currency = String(catalog?.currency ?? 'usd').toLowerCase()
+  const name = `${product.name}${variant?.label ? ` — ${variant.label}` : ''}`
+  const images = Array.isArray(product.images) ? product.images : []
+
+  if (variant?.stripePriceId) {
+    return { price: variant.stripePriceId, quantity }
+  }
+
+  if (!variant?.priceCents || variant.priceCents <= 0) {
+    throw new Error('Invalid product pricing.')
+  }
+
+  return {
+    quantity,
+    price_data: {
+      currency,
+      unit_amount: variant.priceCents,
+      product_data: {
+        name,
+        images: images.length ? images.slice(0, 3) : undefined,
+        metadata: {
+          slug: product.slug,
+          sku: variant.sku,
+          category: product.category ?? '',
+          dropId: product.dropId ?? '',
+        },
+      },
+    },
+  }
+}
+
+async function handleStoreCheckoutSession(request, env) {
+  const stripe = getStripeClient(env)
+  if (!stripe) {
+    return jsonResponse(
+      {
+        ok: false,
+        error: 'StripeNotConfigured',
+        message: 'Stripe is not configured for this site yet.',
+      },
+      501
+    )
+  }
+
+  if (request.method === 'GET') {
+    const url = new URL(request.url)
+    const sessionId = url.searchParams.get('session_id') || ''
+    if (!sessionId) {
+      return jsonResponse(
+        { ok: false, error: 'MissingSession', message: 'Missing session_id.' },
+        400
+      )
+    }
+
+    const session = await stripe.checkout.sessions.retrieve(sessionId)
+    return jsonResponse({
+      ok: true,
+      status: session.status,
+      paymentStatus: session.payment_status,
+      amountTotal: session.amount_total,
+      currency: session.currency,
+      customerEmail: session.customer_details?.email ?? null,
+      receiptUrl: session?.receipt_url ?? null,
+    })
+  }
+
+  if (request.method !== 'POST') {
+    return jsonResponse({ ok: false, message: 'Method not allowed.' }, 405)
+  }
+
+  const payload = await request.json().catch(() => ({}))
+  const items = payload?.items ?? []
+  const referralId = typeof payload?.referralId === 'string' ? payload.referralId : ''
+
+  if (!Array.isArray(items) || items.length === 0) {
+    return jsonResponse({ ok: false, message: 'Cart is empty.' }, 400)
+  }
+
+  const lineItems = items.map((item) => {
+    const slug = String(item?.slug ?? '').trim()
+    const variantSku = String(item?.sku ?? '').trim()
+    if (!slug || !variantSku) throw new Error('Invalid cart item.')
+
+    const product = getCatalogProduct(slug)
+    if (!product) throw new Error(`Unknown product \"${slug}\".`)
+
+    const variant = getVariant(product, variantSku)
+    if (!variant) throw new Error(`Unknown variant \"${variantSku}\".`)
+
+    if (typeof variant.stock === 'number' && variant.stock <= 0) {
+      throw new Error(`\"${product.name}\" is out of stock.`)
+    }
+
+    return buildLineItem({
+      product,
+      variant,
+      quantity: normalizeQuantity(item?.quantity),
+    })
+  })
+
+  const origin = new URL(request.url).origin
+  const successUrl = `${origin}/order/success?session_id={CHECKOUT_SESSION_ID}`
+  const cancelUrl = `${origin}/order/cancel`
+
+  const session = await stripe.checkout.sessions.create({
+    mode: 'payment',
+    line_items: lineItems,
+    allow_promotion_codes: true,
+    billing_address_collection: 'required',
+    shipping_address_collection: {
+      allowed_countries: Array.isArray(catalog?.shipping?.allowedCountries)
+        ? catalog.shipping.allowedCountries
+        : ['US', 'CA'],
+    },
+    phone_number_collection: { enabled: true },
+    automatic_tax: { enabled: true },
+    success_url: successUrl,
+    cancel_url: cancelUrl,
+    metadata: {
+      referralId: referralId || undefined,
+      orderSource: 'calistique_storefront',
+    },
+  })
+
+  return jsonResponse({ ok: true, checkoutUrl: session.url, sessionId: session.id })
+}
+
+async function handleStripeWebhook(request, env) {
+  const stripe = getStripeClient(env)
+  if (!stripe) {
+    return jsonResponse(
+      { ok: false, error: 'StripeNotConfigured', message: 'Stripe is not configured.' },
+      501
+    )
+  }
+
+  const webhookSecret = String(env.STRIPE_WEBHOOK_SECRET ?? '').trim()
+  if (!webhookSecret || webhookSecret.startsWith('replace-with-')) {
+    return jsonResponse(
+      { ok: false, error: 'WebhookNotConfigured', message: 'Webhook secret missing.' },
+      501
+    )
+  }
+
+  const signature = request.headers.get('stripe-signature')
+  if (!signature) {
+    return jsonResponse({ ok: false, error: 'MissingSignature', message: 'Missing signature.' }, 400)
+  }
+
+  const body = await request.text()
+
+  let event
+  try {
+    event = stripe.webhooks.constructEvent(body, signature, webhookSecret)
+  } catch (error) {
+    return jsonResponse(
+      { ok: false, error: 'InvalidSignature', message: error?.message ?? 'Invalid signature.' },
+      400
+    )
+  }
+
+  if (event.type === 'checkout.session.completed') {
+    const session = event.data?.object
+    console.log('stripe.checkout.session.completed', {
+      id: session?.id,
+      amount_total: session?.amount_total,
+      currency: session?.currency,
+      email: session?.customer_details?.email,
+      metadata: session?.metadata,
+      payment_intent: session?.payment_intent,
+    })
+  }
+
+  return jsonResponse({ ok: true })
 }
 
 function toBase64Url(value) {
@@ -1158,6 +1359,27 @@ async function handleApi(request, env) {
       },
       201
     )
+  }
+
+  if (
+    pathname === '/api/checkout/session' &&
+    (request.method === 'GET' || request.method === 'POST')
+  ) {
+    try {
+      return await handleStoreCheckoutSession(request, env)
+    } catch (error) {
+      return jsonResponse(
+        {
+          ok: false,
+          message: error instanceof Error ? error.message : String(error),
+        },
+        400
+      )
+    }
+  }
+
+  if (pathname === '/api/stripe/webhook' && request.method === 'POST') {
+    return handleStripeWebhook(request, env)
   }
 
   if (pathname === '/api/public/assistant' && request.method === 'POST') {
