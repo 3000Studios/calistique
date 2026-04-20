@@ -4,6 +4,7 @@ import AuroraBackdrop from '../backgrounds/AuroraBackdrop.jsx'
 import SiteSeo from './SiteSeo.jsx'
 import Navigation from './Navigation.jsx'
 import GlobalTicker from './GlobalTicker.jsx'
+import CartDrawer from './CartDrawer.jsx'
 import { publicTickerItems, publicNavItems } from '../src/siteChrome.js'
 import {
   REPOSITORY_URL,
@@ -36,16 +37,18 @@ export default function SiteFrame() {
         <Outlet />
       </main>
 
+      <CartDrawer />
+
       <footer className="site-footer">
         <div className="site-footer__grid">
           <section className="site-footer__brand">
-            <span className="eyebrow">Portfolio Standard</span>
+            <span className="eyebrow">Calistique</span>
             <h2>
-              One brand, one repo, one domain, one production rule set.
+              Drop-first streetwear. Statement jewelry. Premium fulfillment.
             </h2>
             <p>
-              {SITE_DISPLAY_NAME} is structured for revenue, SEO, product pages,
-              newsletter capture, and clear disclosures without clutter.
+              {SITE_DISPLAY_NAME} ships with clean product pages, secure checkout,
+              and the legal/SEO foundation needed for growth and ad review.
             </p>
           </section>
 
@@ -65,26 +68,20 @@ export default function SiteFrame() {
           </section>
 
           <section className="site-footer__cta">
-            <span className="eyebrow">Operating Truth</span>
+            <span className="eyebrow">Early Access</span>
             <p>
-              Publish new offers, update content, and keep monetization current
-              without changing the standard.
+              Get drop alerts, bundle offers, and private restock windows.
             </p>
             <div className="hero__actions">
-              <Link className="button button--primary" to="/blog">
-                Read blueprints
+              <Link className="button button--primary" to="/products">
+                Shop now
               </Link>
-              <a
-                className="button button--ghost"
-                href={REPOSITORY_URL}
-                rel="noreferrer"
-              >
-                Inspect repo
-              </a>
+              <Link className="button button--ghost" to="/blog">
+                Style notes
+              </Link>
             </div>
             <p className="site-footer__note">
-              AdSense and disclosure settings live in the repo so review and
-              compliance checks are visible before deploy.
+              Read our disclosure and privacy policy for affiliate/ad and data practices.
             </p>
           </section>
         </div>

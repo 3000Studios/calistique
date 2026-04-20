@@ -2,25 +2,24 @@ import { SITE_DOMAIN } from './siteMeta.js'
 
 export const publicNavItems = [
   { label: 'Home', to: '/' },
-  { label: 'Blueprints', to: '/blog' },
-  { label: 'Products', to: '/products' },
-  { label: 'Revenue', to: '/revenue' },
-  { label: 'AdSense', to: '/adsense-review' },
+  { label: 'Drop', to: '/drops/drop-001-obsidian' },
+  { label: 'Shop', to: '/products' },
+  { label: 'Style Notes', to: '/blog' },
   { label: 'About', to: '/about' },
   { label: 'Contact', to: '/contact' },
   { label: 'Admin', to: '/admin/login' },
 ]
 
 export const publicStatusLines = [
-  'PORTFOLIO STANDARD',
-  'REVENUE READY',
-  'MOBILE FIRST',
+  'DROP-READY',
+  'STRIPE CHECKOUT',
+  'FAST SHIPPING',
   SITE_DOMAIN,
 ]
 
 export const publicTickerItems = [
-  '// ONE REPO, ONE DOMAIN, ONE MAIN BRANCH PER BRAND',
-  '// SEO, ADSENSE, ANALYTICS, AND LEGAL PAGES ON BY DEFAULT',
-  '// LIGHTWEIGHT MOTION, LAZY MEDIA, AND FAST MOBILE LAYOUTS',
-  '// PREMIUM VISUAL SYSTEM WITH TEXTURED COLOR PALETTES',
+  '// LUXURY STREETWEAR + STATEMENT JEWELRY',
+  '// DROP-FIRST MERCHANDISING',
+  '// STRIPE CHECKOUT · FAST MOBILE UI',
+  '// SEO + ADSENSE READINESS ON BY DEFAULT',
 ]

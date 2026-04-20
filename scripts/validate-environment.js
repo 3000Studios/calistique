@@ -111,6 +111,27 @@ function validateAiVariables() {
   }
 }
 
+function validateStripeVariables() {
+  const missing = []
+
+  if (isMissing('STRIPE_SECRET_KEY')) {
+    missing.push('STRIPE_SECRET_KEY')
+  }
+
+  if (isMissing('STRIPE_WEBHOOK_SECRET')) {
+    missing.push('STRIPE_WEBHOOK_SECRET')
+  }
+
+  return {
+    ok: missing.length === 0,
+    name: 'stripe_env',
+    message:
+      missing.length === 0
+        ? 'Stripe variables are present.'
+        : `Missing Stripe variables: ${missing.join(', ')}. Add them to your Pages/Worker environment.`,
+  }
+}
+
 function validateTelegramVariables() {
   const botTokenConfigured = !isMissing('TELEGRAM_BOT_TOKEN')
   const webhookUrlConfigured = !isMissing('TELEGRAM_WEBHOOK_URL')
@@ -152,6 +173,7 @@ const checks = [
   validateAdminVariables(),
   validateSiteVariables(),
   validateAiVariables(),
+  validateStripeVariables(),
   validateTelegramVariables(),
 ]
 const blockingFailures = checks.filter(

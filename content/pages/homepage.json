@@ -1,32 +1,32 @@
 {
-  "updatedFor": "myappai",
-  "headline": "MyAppAI operator workspace",
-  "subheadline": "Research, plan, edit your repository, and deploy from one browser-based control plane.",
+  "updatedFor": "calistique",
+  "headline": "OBSIDIAN DROP is live.",
+  "subheadline": "Luxury streetwear and statement jewelry engineered for clean silhouettes and premium hardware.",
   "primaryCta": {
-    "label": "Open admin login",
-    "to": "/admin/login"
+    "label": "Shop Drop",
+    "to": "/drops/drop-001-obsidian"
   },
   "secondaryCta": {
-    "label": "Stay on homepage",
-    "to": "/"
+    "label": "Shop all",
+    "to": "/products"
   },
   "heroSignals": [
-    "Natural-language orchestration",
-    "Repo-safe execution",
-    "Deploy-ready"
+    "Secure Stripe Checkout",
+    "Fast shipping",
+    "30-day returns (unworn)"
   ],
   "heroStats": [
     {
-      "label": "Primary route",
-      "value": "/admin/operator"
+      "label": "Drop",
+      "value": "001"
     },
     {
-      "label": "Deploy target",
-      "value": "myappai.net"
+      "label": "Checkout",
+      "value": "Stripe"
     },
     {
-      "label": "Integrations",
-      "value": "Cloudflare · GitHub · OpenAI"
+      "label": "Shipping",
+      "value": "1–3 days"
     }
   ],
   "updatedAt": "2026-03-25T00:00:00.000Z"

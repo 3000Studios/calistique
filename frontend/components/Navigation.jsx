@@ -2,12 +2,14 @@ import React, { useState, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { SITE_DISPLAY_NAME } from '../src/siteMeta.js'
+import { useCart } from '../src/cartStore.jsx'
 import './Navigation.css'
 
 const Navigation = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const location = useLocation()
+  const { cart, toggleCart } = useCart()
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 24)
@@ -21,9 +23,9 @@ const Navigation = () => {
 
   const navItems = [
     { path: '/', label: 'Home', icon: '◌' },
-    { path: '/blog', label: 'Blueprints', icon: '◔' },
-    { path: '/products', label: 'Products', icon: '✦' },
-    { path: '/adsense-review', label: 'AdSense', icon: '✦' },
+    { path: '/drops/drop-001-obsidian', label: 'Drop', icon: '◔' },
+    { path: '/products', label: 'Shop', icon: '✦' },
+    { path: '/blog', label: 'Style Notes', icon: '✦' },
     { path: '/contact', label: 'Contact', icon: '↗' },
   ]
 
@@ -42,9 +44,12 @@ const Navigation = () => {
       <div className="nav-container">
         <div className="nav-brand">
           <Link to="/" className="brand-link">
-            <motion.div className="brand-logo" whileHover={{ scale: 1.08 }} whileTap={{ scale: 0.96 }}>
-              M
-            </motion.div>
+            <motion.div
+              className="brand-orb"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.97 }}
+              aria-hidden="true"
+            />
             <span className="brand-text">{SITE_DISPLAY_NAME}</span>
           </Link>
         </div>
@@ -69,6 +74,12 @@ const Navigation = () => {
         </div>
 
         <div className="nav-actions">
+          <button className="nav-cart-btn" onClick={toggleCart} aria-label="Open cart">
+            Cart
+            <span className="cart-count" aria-label="Cart count">
+              {cart.length}
+            </span>
+          </button>
           <Link to="/admin/login" className="nav-admin-btn">
             Admin
           </Link>

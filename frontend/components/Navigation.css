@@ -48,6 +48,42 @@
   border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
+.brand-orb {
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 999px;
+  background:
+    radial-gradient(circle at 30% 30%, rgba(114, 241, 214, 0.22), transparent 55%),
+    radial-gradient(circle at 70% 70%, rgba(142, 162, 255, 0.22), transparent 55%),
+    linear-gradient(135deg, rgba(200, 162, 109, 0.22), rgba(255, 255, 255, 0.03));
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 0 40px rgba(97, 212, 255, 0.12);
+  position: relative;
+  overflow: hidden;
+}
+
+.brand-orb::before {
+  content: '';
+  position: absolute;
+  inset: -40%;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.12) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.12) 1px, transparent 1px);
+  background-size: 16px 16px;
+  opacity: 0.18;
+  transform: rotate(18deg);
+  animation: orbSpin 10s linear infinite;
+}
+
+@keyframes orbSpin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 .brand-text {
   color: #f5f1ea;
   font-size: 1rem;
@@ -105,6 +141,38 @@
   display: flex;
   align-items: center;
   gap: 0.75rem;
+}
+
+.nav-cart-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.55rem 0.85rem;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.04);
+  color: rgba(245, 241, 234, 0.88);
+  cursor: pointer;
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.nav-cart-btn:hover {
+  transform: translateY(-1px);
+  background: rgba(255, 255, 255, 0.07);
+}
+
+.cart-count {
+  display: inline-grid;
+  place-items: center;
+  min-width: 1.35rem;
+  height: 1.35rem;
+  padding: 0 0.35rem;
+  border-radius: 999px;
+  background: rgba(200, 162, 109, 0.18);
+  border: 1px solid rgba(200, 162, 109, 0.35);
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.8rem;
 }
 
 .nav-admin-btn {

@@ -3,6 +3,7 @@ import { describe, it, expect, vi } from 'vitest'
 import { render, screen } from '@testing-library/react'
 import { MemoryRouter, Route, Routes } from 'react-router-dom'
 import SiteFrame from '../components/SiteFrame.jsx'
+import { CartProvider } from './cartStore.jsx'
 
 vi.mock('../src/siteApi.js', () => ({
   trackConversionEvent: vi.fn(() => Promise.resolve()),
@@ -11,18 +12,19 @@ vi.mock('../src/siteApi.js', () => ({
 describe('SiteFrame', () => {
   it('renders brand, footer trust copy and global ticker', () => {
     render(
-      <MemoryRouter initialEntries={['/']}>
-        <Routes>
-          <Route element={<SiteFrame />}>
-            <Route path="/" element={<h1>Home</h1>} />
-          </Route>
-        </Routes>
-      </MemoryRouter>
+      <CartProvider>
+        <MemoryRouter initialEntries={['/']}>
+          <Routes>
+            <Route element={<SiteFrame />}>
+              <Route path="/" element={<h1>Home</h1>} />
+            </Route>
+          </Routes>
+        </MemoryRouter>
+      </CartProvider>
     )
 
-    expect(screen.getByText('MyAppAI')).toBeInTheDocument()
+    expect(screen.getAllByText('Calistique').length).toBeGreaterThan(0)
     expect(screen.getByRole('contentinfo')).toBeInTheDocument()
-    expect(screen.getByText(/Portfolio Standard/i)).toBeInTheDocument()
     expect(screen.getByText('Loading live data...')).toBeInTheDocument()
   })
 })

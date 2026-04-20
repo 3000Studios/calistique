@@ -6,15 +6,15 @@ const runtimeEnv =
       : {}
 
 const defaultSite = {
-  repositoryUrl: 'https://github.com/3000Studios/myappai',
-  displayName: 'MyAppAI',
-  legalName: 'MyAppAI',
-  domain: 'myappai.net',
-  category: 'AI system manager and website revenue platform',
-  supportEmail: 'hello@myappai.net',
-  title: 'MyAppAI | AI system manager',
+  repositoryUrl: 'https://github.com/3000Studios/calistique',
+  displayName: 'Calistique',
+  legalName: 'Calistique',
+  domain: 'calistique.xyz',
+  category: 'Luxury streetwear and statement jewelry',
+  supportEmail: 'hello@calistique.xyz',
+  title: 'Calistique | Luxury streetwear + statement jewelry',
   description:
-    'MyAppAI is a premium AI system manager for building, optimizing, and monetizing production-ready websites.',
+    'Calistique is a luxury streetwear and statement-jewelry studio built around limited drops, elevated essentials, and flawless fulfillment.',
 }
 
 export const REPOSITORY_URL = runtimeEnv.VITE_REPOSITORY_URL ?? defaultSite.repositoryUrl

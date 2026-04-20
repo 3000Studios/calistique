@@ -1,4 +1,4 @@
-function fromModules(modules) {
+function fromModulesForSite(modules, updatedFor) {
   return Object.fromEntries(
     Object.entries(modules)
       .map(([filePath, moduleValue]) => {
@@ -6,18 +6,23 @@ function fromModules(modules) {
         const data = moduleValue.default ?? moduleValue
         return [slug, data]
       })
-      .filter(([, data]) => data?.updatedFor === 'myappai')
+      .filter(([, data]) => data?.updatedFor === updatedFor)
   )
 }
 
-const pages = fromModules(
-  import.meta.glob('../../content/pages/*.json', { eager: true })
+const SITE_KEY = 'calistique'
+
+const pages = fromModulesForSite(
+  import.meta.glob('../../content/pages/*.json', { eager: true }),
+  SITE_KEY
 )
-const blog = fromModules(
-  import.meta.glob('../../content/blog/*.json', { eager: true })
+const blog = fromModulesForSite(
+  import.meta.glob('../../content/blog/*.json', { eager: true }),
+  SITE_KEY
 )
-const products = fromModules(
-  import.meta.glob('../../content/products/*.json', { eager: true })
+const products = fromModulesForSite(
+  import.meta.glob('../../content/products/*.json', { eager: true }),
+  SITE_KEY
 )
 
 export const theme = pages.theme ?? {
@@ -50,6 +55,8 @@ export const blogLookup = Object.fromEntries(
   blogPosts.map((entry) => [entry.slug, entry])
 )
 export const productCatalog = products.catalog?.products ?? []
+export const storeConfig = products.catalog?.store ?? {}
+export const storeDrops = products.catalog?.drops ?? []
 export const productLookup = Object.fromEntries(
   Object.values(products)
     .filter((entry) => entry.slug)

@@ -18,6 +18,21 @@ export default function BlogPostPage() {
         <span className="meta-line">{post.publishedAt}</span>
         <PrismHeadline text={post.title} />
         <p className="section-intro">{post.excerpt}</p>
+        {post.videoUrl ? (
+          <div className="hero__media-frame">
+            <video
+              className="hero__video"
+              autoPlay
+              muted
+              loop
+              playsInline
+              preload="metadata"
+              poster={post.videoPoster ?? undefined}
+            >
+              <source src={post.videoUrl} type="video/mp4" />
+            </video>
+          </div>
+        ) : null}
       </section>
 
       <section className="stack-xl article-stack">

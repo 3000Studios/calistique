@@ -28,8 +28,11 @@ import RevenueStreams from '../pages/RevenueStreams.jsx'
 import ReferralZone from '../pages/ReferralZone.jsx'
 import AdminReferralUpload from '../pages/AdminReferralUpload.jsx'
 import NotFoundPage from '../pages/NotFoundPage.jsx'
+import OrderSuccessPage from '../pages/OrderSuccessPage.jsx'
+import OrderCancelPage from '../pages/OrderCancelPage.jsx'
 import { SiteRuntimeProvider } from './SiteRuntimeContext.jsx'
 import { theme } from './siteData.js'
+import { CartProvider } from './cartStore.jsx'
 import '../styles/app.css'
 
 function applyTheme(themeConfig) {
@@ -46,41 +49,45 @@ useEffect(() => {
 
 return (
   <SiteRuntimeProvider>
-    <ExperienceOrchestrator />
-    <Routes>
-      <Route element={<SiteFrame />}>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/shop/:slug" element={<ShopItemPage />} />
-        <Route path="/products/:slug" element={<ShopItemPage />} />
-        <Route path="/collections/:slug" element={<CollectionPage />} />
-        <Route path="/drops/:slug" element={<DropPage />} />
-        <Route path="/ads-compliance" element={<AdsCompliancePage />} />
-        <Route path="/about" element={<AboutPage />} />
-        <Route path="/contact" element={<ContactPage />} />
-        <Route path="/privacy" element={<PrivacyPage />} />
-        <Route path="/terms" element={<TermsPage />} />
-        <Route path="/disclosure" element={<DisclosurePage />} />
-        <Route path="/adsense-review" element={<AdSenseReviewPage />} />
-        <Route path="/menu" element={<ToolsPage />} />
-        <Route path="/tools" element={<ToolsPage />} />
-        <Route path="/products" element={<ProductsPage />} />
-        <Route path="/blog" element={<BlogIndexPage />} />
-        <Route path="/blog/:slug" element={<BlogPostPage />} />
-        <Route path="/openclaw" element={<OpenClaw />} />
-        <Route path="/revenue" element={<RevenueStreams />} />
-        <Route path="/referral/:referralId" element={<ReferralZone />} />
-      </Route>
-      <Route path="/admin/login" element={<AdminLoginPage />} />
-      <Route path="/admin" element={<AdminLayout />}>
-        <Route index element={<Navigate to="operator" replace />} />
-        <Route path="operator" element={<AdminOperatorPage />} />
-        <Route path="openclaw" element={<AdminOpenClawPage />} />
-        <Route path="logs" element={<AdminLogsPage />} />
-        <Route path="secure-logs" element={<AdminSecureLogsPage />} />
-        <Route path="referral-upload" element={<AdminReferralUpload />} />
-      </Route>
-      <Route path="*" element={<NotFoundPage />} />
-    </Routes>
+    <CartProvider>
+      <ExperienceOrchestrator />
+      <Routes>
+        <Route element={<SiteFrame />}>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/shop/:slug" element={<ShopItemPage />} />
+          <Route path="/products/:slug" element={<ShopItemPage />} />
+          <Route path="/collections/:slug" element={<CollectionPage />} />
+          <Route path="/drops/:slug" element={<DropPage />} />
+          <Route path="/ads-compliance" element={<AdsCompliancePage />} />
+          <Route path="/about" element={<AboutPage />} />
+          <Route path="/contact" element={<ContactPage />} />
+          <Route path="/privacy" element={<PrivacyPage />} />
+          <Route path="/terms" element={<TermsPage />} />
+          <Route path="/disclosure" element={<DisclosurePage />} />
+          <Route path="/adsense-review" element={<AdSenseReviewPage />} />
+          <Route path="/menu" element={<ToolsPage />} />
+          <Route path="/tools" element={<ToolsPage />} />
+          <Route path="/products" element={<ProductsPage />} />
+          <Route path="/order/success" element={<OrderSuccessPage />} />
+          <Route path="/order/cancel" element={<OrderCancelPage />} />
+          <Route path="/blog" element={<BlogIndexPage />} />
+          <Route path="/blog/:slug" element={<BlogPostPage />} />
+          <Route path="/openclaw" element={<OpenClaw />} />
+          <Route path="/revenue" element={<RevenueStreams />} />
+          <Route path="/referral/:referralId" element={<ReferralZone />} />
+        </Route>
+        <Route path="/admin/login" element={<AdminLoginPage />} />
+        <Route path="/admin" element={<AdminLayout />}>
+          <Route index element={<Navigate to="operator" replace />} />
+          <Route path="operator" element={<AdminOperatorPage />} />
+          <Route path="openclaw" element={<AdminOpenClawPage />} />
+          <Route path="logs" element={<AdminLogsPage />} />
+          <Route path="secure-logs" element={<AdminSecureLogsPage />} />
+          <Route path="referral-upload" element={<AdminReferralUpload />} />
+        </Route>
+        <Route path="*" element={<NotFoundPage />} />
+      </Routes>
+    </CartProvider>
   </SiteRuntimeProvider>
 )
 }
