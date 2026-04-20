@@ -198,5 +198,5 @@ const catalog = {
     },
   ],
 }
-\n+export default catalog
 
+export default catalog
