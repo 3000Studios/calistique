@@ -8,11 +8,20 @@ const contentPagesDir = path.join(repoRoot, 'content', 'pages')
 const contentBlogDir = path.join(repoRoot, 'content', 'blog')
 const contentProductsDir = path.join(repoRoot, 'content', 'products')
 
-const SITE_URL = process.env.SITE_URL || 'https://myappai.net'
+const SITE_URL = process.env.SITE_URL || 'https://calistique.xyz'
+
+const inferredPublisherIdFromClient = (() => {
+  const clientId = process.env.VITE_ADSENSE_CLIENT_ID
+  if (!clientId) return null
+  const match = clientId.match(/^ca-pub-(\d+)$/i)
+  return match ? `pub-${match[1]}` : null
+})()
+
 const ADSENSE_PUBLISHER_ID =
   process.env.ADSENSE_PUBLISHER_ID ||
   process.env.ADSENSE_PUBLISHER ||
-  'pub-0000000000000000'
+  inferredPublisherIdFromClient ||
+  'pub-5800977493749262'
 
 async function collectRoutes() {
   const routes = new Set(['/'])

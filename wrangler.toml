@@ -6,14 +6,14 @@ compatibility_flags = ["nodejs_compat"]
 
 [vars]
 NODE_ENV = "production"
-APP_NAME = "myappai"
-SITE_URL = "https://myappai.net"
-WWW_SITE_URL = "https://www.myappai.net"
-SITE_ORIGIN = "https://myappai.net"
-WWW_SITE_ORIGIN = "https://www.myappai.net"
+APP_NAME = "calistique"
+SITE_URL = "https://calistique.xyz"
+WWW_SITE_URL = "https://www.calistique.xyz"
+SITE_ORIGIN = "https://calistique.xyz"
+WWW_SITE_ORIGIN = "https://www.calistique.xyz"
 API_MODE = "repo-local"
 VITE_ENABLE_ADS = "true"
-VITE_ADSENSE_CLIENT_ID = "ca-pub-0000000000000000"
+VITE_ADSENSE_CLIENT_ID = "ca-pub-5800977493749262"
 VITE_CLOUDFLARE_WEB_ANALYTICS_TOKEN = "replace-with-cloudflare-web-analytics-token"
 
 [[r2_buckets]]
