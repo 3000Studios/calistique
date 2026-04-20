@@ -4,7 +4,7 @@ import {
   handleRemoteOperatorCommand,
 } from './remoteOperator.js'
 import Stripe from 'stripe'
-import catalog from '../../content/products/catalog.json' with { type: 'json' }
+import catalog from './storeCatalog.js'
 
 const SESSION_COOKIE = 'calistique_admin_session'
 const SESSION_TTL_SECONDS = 60 * 60 * 12
