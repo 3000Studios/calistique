@@ -75,6 +75,10 @@ function installSonicFeedback() {
 }
 
 function installMotionTelemetry() {
+  const prefersReducedMotion = window.matchMedia(
+    '(prefers-reduced-motion: reduce)'
+  ).matches
+
   function handleScroll() {
     const progress =
       window.scrollY /
@@ -111,16 +115,36 @@ function installMotionTelemetry() {
   }
 }
 
+function installCursorSpotlight() {
+  const prefersReducedMotion = window.matchMedia(
+    '(prefers-reduced-motion: reduce)'
+  ).matches
+
+  if (prefersReducedMotion) {
+    return () => {}
+  }
+
+  function handleMove(event) {
+    document.documentElement.style.setProperty('--cursor-x', `${event.clientX}px`)
+    document.documentElement.style.setProperty('--cursor-y', `${event.clientY}px`)
+  }
+
+  window.addEventListener('pointermove', handleMove, { passive: true })
+  return () => window.removeEventListener('pointermove', handleMove)
+}
+
 export default function ExperienceOrchestrator() {
   useEffect(() => {
     const cleanupReveal = installRevealObserver()
     const cleanupSound = installSonicFeedback()
     const cleanupMotion = installMotionTelemetry()
+    const cleanupSpotlight = installCursorSpotlight()
 
     return () => {
       cleanupReveal()
       cleanupSound()
       cleanupMotion()
+      cleanupSpotlight()
     }
   }, [])
 

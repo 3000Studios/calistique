@@ -7,7 +7,7 @@ const runtimeEnv =
 
 const defaultSite = {
   repositoryUrl: 'https://github.com/3000Studios/calistique',
-  displayName: 'Calistique',
+  displayName: 'Calistique.xyz',
   legalName: 'Calistique',
   domain: 'calistique.xyz',
   category: 'Luxury streetwear and statement jewelry',

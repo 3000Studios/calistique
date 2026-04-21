@@ -39,6 +39,8 @@
   --tilt-x: 0;
   --tilt-y: 0;
   --scroll-progress: 0;
+  --cursor-x: 50vw;
+  --cursor-y: 30vh;
 }
 
 * {
@@ -93,7 +95,12 @@ body::after {
 body::before {
   background-image:
     linear-gradient(rgba(255, 255, 255, 0.018) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.018) 1px, transparent 1px);
+    linear-gradient(90deg, rgba(255, 255, 255, 0.018) 1px, transparent 1px),
+    radial-gradient(
+      circle 240px at var(--cursor-x) var(--cursor-y),
+      rgba(97, 212, 255, 0.12),
+      transparent 60%
+    );
   background-size: 72px 72px;
   mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.85), transparent 90%);
   opacity: 0.35;
@@ -334,6 +341,29 @@ body::after {
   object-fit: cover;
   display: block;
   background: linear-gradient(135deg, rgba(114, 241, 214, 0.14), rgba(142, 162, 255, 0.12));
+}
+
+.product-card__media img {
+  transition: transform 0.35s var(--ease-premium), filter 0.35s var(--ease-premium);
+}
+
+.product-card:hover .product-card__media img {
+  transform: scale(1.06);
+  filter: saturate(1.15) contrast(1.08);
+}
+
+.product-card__media::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 30% 20%, rgba(114, 241, 214, 0.12), transparent 55%);
+  opacity: 0;
+  transition: opacity 0.25s ease;
+  pointer-events: none;
+}
+
+.product-card:hover .product-card__media::after {
+  opacity: 1;
 }
 
 .product-card__badge {
