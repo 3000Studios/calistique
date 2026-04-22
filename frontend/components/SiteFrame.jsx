@@ -1,11 +1,9 @@
 import React, { useEffect } from 'react'
 import { Outlet, useLocation, Link } from 'react-router-dom'
-import AuroraBackdrop from '../backgrounds/AuroraBackdrop.jsx'
 import SiteSeo from './SiteSeo.jsx'
 import Navigation from './Navigation.jsx'
-import GlobalTicker from './GlobalTicker.jsx'
 import CartDrawer from './CartDrawer.jsx'
-import { publicTickerItems, publicNavItems } from '../src/siteChrome.js'
+import { publicNavItems } from '../src/siteChrome.js'
 import {
   REPOSITORY_URL,
   getCopyrightLine,
@@ -27,7 +25,6 @@ export default function SiteFrame() {
   return (
     <div className="shell">
       <SiteSeo />
-      <AuroraBackdrop variant="public" />
 
       <header className="site-header">
         <Navigation />
@@ -42,18 +39,16 @@ export default function SiteFrame() {
       <footer className="site-footer">
         <div className="site-footer__grid">
           <section className="site-footer__brand">
-            <span className="eyebrow">Calistique</span>
-            <h2>
-              Drop-first streetwear. Statement jewelry. Premium fulfillment.
-            </h2>
+            <span className="eyebrow">Calistique.xyz</span>
+            <h2>Elegance redefined for modern luxury commerce.</h2>
             <p>
-              {SITE_DISPLAY_NAME} ships with clean product pages, secure checkout,
-              and the legal/SEO foundation needed for growth and ad review.
+              {SITE_DISPLAY_NAME} combines premium merchandising, secure checkout,
+              and the foundation required for Google review and revenue growth.
             </p>
           </section>
 
           <section className="site-footer__links">
-            <span className="eyebrow">Access</span>
+            <span className="eyebrow">Navigate</span>
             {publicNavItems.map((item) => (
               <Link key={item.to} to={item.to}>
                 {item.label}
@@ -62,36 +57,23 @@ export default function SiteFrame() {
             <Link to="/privacy">Privacy</Link>
             <Link to="/terms">Terms</Link>
             <Link to="/disclosure">Disclosure</Link>
-            <a href={REPOSITORY_URL} rel="noreferrer">
-              GitHub repository
-            </a>
           </section>
 
           <section className="site-footer__cta">
-            <span className="eyebrow">Early Access</span>
-            <p>
-              Get drop alerts, bundle offers, and private restock windows.
-            </p>
-            <div className="hero__actions">
-              <Link className="button button--primary" to="/products">
-                Shop now
+            <span className="eyebrow">Inner Circle</span>
+            <p>Get private drop alerts, styling updates, and concierge support.</p>
+            <div className="lux-button-row">
+              <Link className="lux-button lux-button--primary" to="/products">
+                Shop collection
               </Link>
-              <Link className="button button--ghost" to="/blog">
+              <Link className="lux-button lux-button--ghost" to="/blog">
                 Style notes
               </Link>
             </div>
             <p className="site-footer__note">
-              Read our disclosure and privacy policy for affiliate/ad and data practices.
+              Read our disclosure and privacy policy for payment, ad, and data practices.
             </p>
           </section>
-        </div>
-
-        <div className="site-ticker">
-          {publicTickerItems.map((item) => (
-            <span key={item} className="site-ticker__item">
-              {item}
-            </span>
-          ))}
         </div>
 
         <p className="site-footer__legal">
@@ -108,8 +90,6 @@ export default function SiteFrame() {
           <a href="/blog">Blog</a>
         </p>
       </footer>
-
-      <GlobalTicker />
     </div>
   )
 }

@@ -1,32 +1,29 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { SITE_DISPLAY_NAME } from '../src/siteMeta.js'
 import { useCart } from '../src/cartStore.jsx'
+import { productCatalog } from '../src/siteData.js'
 import './Navigation.css'
 
 const Navigation = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const [scrolled, setScrolled] = useState(false)
+  const [searchOpen, setSearchOpen] = useState(false)
+  const [query, setQuery] = useState('')
   const location = useLocation()
   const { cart, toggleCart } = useCart()
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 24)
-    window.addEventListener('scroll', handleScroll, { passive: true })
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
-
-  useEffect(() => {
     setIsMenuOpen(false)
+    setSearchOpen(false)
+    setQuery('')
   }, [location.pathname])
 
   const navItems = [
-    { path: '/', label: 'Home', icon: '◌' },
-    { path: '/drops/drop-001-obsidian', label: 'Drop', icon: '◔' },
-    { path: '/products', label: 'Shop', icon: '✦' },
-    { path: '/blog', label: 'Style Notes', icon: '✦' },
-    { path: '/contact', label: 'Contact', icon: '↗' },
+    { path: '/', label: 'Home' },
+    { path: '/products', label: 'Shop' },
+    { path: '/about', label: 'About' },
+    { path: '/blog', label: 'Style Notes' },
   ]
 
   const isActive = (path) => {
@@ -34,112 +31,133 @@ const Navigation = () => {
     return location.pathname.startsWith(path)
   }
 
-  return (
-    <motion.nav
-      className={`navigation ${scrolled ? 'scrolled' : ''}`}
-      initial={{ y: -100 }}
-      animate={{ y: 0 }}
-      transition={{ duration: 0.3 }}
-    >
-      <div className="nav-container">
-        <div className="nav-brand">
-          <Link to="/" className="brand-link">
-            <motion.div
-              className="brand-orb"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.97 }}
-              aria-hidden="true"
-            />
-            <span className="brand-text">{SITE_DISPLAY_NAME}</span>
-          </Link>
-        </div>
+  const results = useMemo(() => {
+    const normalized = query.trim().toLowerCase()
+    if (!normalized) return []
+    return productCatalog
+      .filter((product) =>
+        `${product.name} ${product.description} ${product.category} ${product.dropId ?? ''}`
+          .toLowerCase()
+          .includes(normalized)
+      )
+      .slice(0, 6)
+  }, [query])
 
-        <div className="nav-menu">
-          <div className="nav-links">
+  return (
+    <>
+      <motion.nav className="lux-nav" initial={{ y: -100 }} animate={{ y: 0 }} transition={{ duration: 0.3 }}>
+        <div className="lux-nav__inner">
+          <Link to="/" className="lux-nav__brand">
+            <span className="lux-nav__orb" aria-hidden="true" />
+            <span className="lux-nav__wordmark">
+              {SITE_DISPLAY_NAME.replace('.xyz', '')}
+              <small>.xyz</small>
+            </span>
+          </Link>
+
+          <div className="lux-nav__links">
             {navItems.map((item, index) => (
-              <motion.div
-                key={item.path}
-                className={`nav-item ${isActive(item.path) ? 'active' : ''}`}
-                initial={{ opacity: 0, y: -12 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.07 }}
-              >
-                <Link to={item.path} className="nav-link">
-                  <span className="nav-label">{item.label}</span>
+              <motion.div key={item.path} initial={{ opacity: 0, y: -12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: index * 0.07 }}>
+                <Link
+                  to={item.path}
+                  className={`lux-nav__link ${isActive(item.path) ? 'lux-nav__link--active' : ''}`}
+                >
+                  {item.label}
                 </Link>
-                {isActive(item.path) && <motion.div className="active-indicator" layoutId="activeIndicator" />}
               </motion.div>
             ))}
           </div>
-        </div>
 
-        <div className="nav-actions">
-          <button className="nav-cart-btn" onClick={toggleCart} aria-label="Open cart">
-            Cart
-            <span className="cart-count" aria-label="Cart count">
-              {cart.length}
-            </span>
-          </button>
-          <Link to="/admin/login" className="nav-admin-btn">
-            Admin
-          </Link>
-          <motion.button
-            className="mobile-menu-toggle"
-            onClick={() => setIsMenuOpen((value) => !value)}
-            whileHover={{ scale: 1.04 }}
-            whileTap={{ scale: 0.94 }}
-            aria-label="Toggle navigation"
-          >
-            <AnimatePresence mode="wait">
-              {isMenuOpen ? (
-                <motion.span key="close" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-                  ✕
-                </motion.span>
-              ) : (
-                <motion.span key="menu" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-                  ☰
-                </motion.span>
-              )}
-            </AnimatePresence>
-          </motion.button>
+          <div className="lux-nav__actions">
+            <button
+              className="lux-icon-button"
+              type="button"
+              aria-label="Search"
+              onClick={() => setSearchOpen((value) => !value)}
+            >
+              ⌕
+            </button>
+            <button className="lux-icon-button" onClick={toggleCart} aria-label="Open cart" type="button">
+              <span style={{ position: 'relative', display: 'inline-block' }}>
+                👜
+                {cart.length > 0 ? <span className="lux-cart-badge">{cart.length}</span> : null}
+              </span>
+            </button>
+            <Link className="lux-icon-button" to="/account" aria-label="Account">
+              ◌
+            </Link>
+            <button
+              className="lux-icon-button lux-mobile-toggle"
+              type="button"
+              aria-label="Toggle navigation"
+              onClick={() => setIsMenuOpen((value) => !value)}
+            >
+              {isMenuOpen ? '✕' : '☰'}
+            </button>
+          </div>
         </div>
-      </div>
+      </motion.nav>
 
       <AnimatePresence>
-        {isMenuOpen && (
-          <motion.div
-            className="mobile-menu"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
-          >
-            <div className="mobile-menu-content">
-              {navItems.map((item, index) => (
-                <motion.div
-                  key={item.path}
-                  className={`mobile-nav-item ${isActive(item.path) ? 'active' : ''}`}
-                  initial={{ opacity: 0, y: 16 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.05 }}
-                >
-                  <Link to={item.path} className="mobile-nav-link">
-                    <span className="mobile-nav-icon">{item.icon}</span>
-                    <span className="mobile-nav-label">{item.label}</span>
+        {searchOpen ? (
+          <motion.div className="lux-search" initial={{ opacity: 0, y: -12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -12 }}>
+            <div className="lux-search__inner">
+              <div className="lux-search__row">
+                <input
+                  className="lux-search__input"
+                  type="text"
+                  placeholder="Search products, collections..."
+                  value={query}
+                  onChange={(event) => setQuery(event.target.value)}
+                />
+                <button className="lux-icon-button" type="button" onClick={() => setSearchOpen(false)}>
+                  ✕
+                </button>
+              </div>
+
+              <div className="lux-search__results">
+                {query.trim() && results.length === 0 ? (
+                  <div className="lux-search__result">
+                    <strong>No products found</strong>
+                  </div>
+                ) : null}
+
+                {results.map((product) => (
+                  <Link
+                    key={product.slug}
+                    className="lux-search__result"
+                    to={`/products/${product.slug}`}
+                    onClick={() => setSearchOpen(false)}
+                  >
+                    <strong>{product.name}</strong>
+                    <span>
+                      {product.category}
+                      {product.variants?.[0]?.priceCents
+                        ? ` · $${Math.round(product.variants[0].priceCents / 100)}`
+                        : ''}
+                    </span>
                   </Link>
-                </motion.div>
-              ))}
-              <motion.div className="mobile-nav-item" initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}>
-                <Link to="/admin/login" className="mobile-nav-link mobile-admin-link">
-                  <span className="mobile-nav-icon">⚙</span>
-                  <span className="mobile-nav-label">Admin</span>
-                </Link>
-              </motion.div>
+                ))}
+              </div>
             </div>
           </motion.div>
-        )}
+        ) : null}
       </AnimatePresence>
-    </motion.nav>
+
+      <AnimatePresence>
+        {isMenuOpen ? (
+          <motion.div className="lux-mobile-menu" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+            {navItems.map((item) => (
+              <Link key={item.path} to={item.path}>
+                {item.label}
+              </Link>
+            ))}
+            <Link to="/account">Account</Link>
+            <Link to="/contact">Contact</Link>
+          </motion.div>
+        ) : null}
+      </AnimatePresence>
+    </>
   )
 }
 

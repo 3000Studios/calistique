@@ -22,7 +22,7 @@ export default function ProductsPage() {
   const { addItem } = useCart()
   const [query, setQuery] = useState('')
   const [category, setCategory] = useState('All')
-  const [sort, setSort] = useState('New')
+  const [sort, setSort] = useState('featured')
 
   const categories = useMemo(() => {
     const unique = new Set(productCatalog.map((p) => p.category).filter(Boolean))
@@ -42,10 +42,12 @@ export default function ProductsPage() {
     })
 
     const sorted = [...base]
-    if (sort === 'PriceLow') {
+    if (sort === 'price-low') {
       sorted.sort((a, b) => lowestVariantPriceCents(a) - lowestVariantPriceCents(b))
-    } else if (sort === 'PriceHigh') {
+    } else if (sort === 'price-high') {
       sorted.sort((a, b) => lowestVariantPriceCents(b) - lowestVariantPriceCents(a))
+    } else if (sort === 'newest') {
+      sorted.sort((a, b) => String(b.slug).localeCompare(String(a.slug)))
     } else {
       sorted.sort((a, b) => (a.featuredRank ?? 999) - (b.featuredRank ?? 999))
     }
@@ -54,38 +56,51 @@ export default function ProductsPage() {
   }, [category, query, sort])
 
   return (
-    <article className="prose-page">
-      <header className="prose-header">
-        <span className="eyebrow">Shop</span>
-        <h1>Streetwear + statement jewelry, curated for drops.</h1>
-        <p className="prose-lead">
-          Focused catalog. Clean silhouettes. Hardware that reads premium.
+    <article className="page-shell">
+      <header className="lux-section-heading lux-section-heading--split">
+        <div>
+          <span className="lux-eyebrow">Shop</span>
+          <h1>Streetwear + statement jewelry, curated for luxury conversion.</h1>
+        </div>
+        <p>
+          Focused catalog, premium presentation, and direct checkout paths for buyers
+          ready to pay now.
         </p>
       </header>
 
-      <section className="filter-row">
+      <section>
+        <div className="lux-filter-row">
+          {categories.map((value) => (
+            <button
+              key={value}
+              type="button"
+              className={`lux-filter ${category === value ? 'lux-filter--active' : ''}`}
+              onClick={() => setCategory(value)}
+            >
+              {value}
+            </button>
+          ))}
+        </div>
+
+        <div className="lux-toolbar">
         <input
-          className="input"
+          className="lux-input"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           placeholder="Search tees, jewelry, add-ons…"
           aria-label="Search products"
         />
-        <select className="input" value={category} onChange={(e) => setCategory(e.target.value)}>
-          {categories.map((value) => (
-            <option key={value} value={value}>
-              {value}
-            </option>
-          ))}
-        </select>
-        <select className="input" value={sort} onChange={(e) => setSort(e.target.value)} aria-label="Sort products">
-          <option value="New">Featured</option>
-          <option value="PriceLow">Price: Low</option>
-          <option value="PriceHigh">Price: High</option>
-        </select>
+          <span className="lux-eyebrow">Sort by:</span>
+          <select className="lux-select" value={sort} onChange={(e) => setSort(e.target.value)} aria-label="Sort products">
+            <option value="featured">Featured</option>
+            <option value="price-low">Price: Low to High</option>
+            <option value="price-high">Price: High to Low</option>
+            <option value="newest">Newest</option>
+          </select>
+        </div>
       </section>
 
-      <section className="product-grid">
+      <section className="lux-grid-4">
         {filtered.map((product) => {
           const image = Array.isArray(product.images) ? product.images[0] : null
           const variants = Array.isArray(product.variants) ? product.variants : []
@@ -97,43 +112,35 @@ export default function ProductsPage() {
               : variants.some((v) => (typeof v.stock === 'number' ? v.stock > 0 : true))
 
           return (
-            <article key={product.slug} className="product-card">
-              <Link to={`/products/${product.slug}`} className="product-card__media">
+            <article key={product.slug} className="lux-product-card">
+              <Link to={`/products/${product.slug}`} className="lux-product-card__media">
                 {image ? (
                   <img src={image} alt={product.name} loading="lazy" />
                 ) : (
-                  <div className="media-fallback" aria-hidden="true" />
-                )}
-                <div className="product-card__badge">
-                  {product.badges?.[0] ?? (inStock ? 'Available' : 'Sold out')}
-                </div>
-              </Link>
-
-              <div className="product-card__body">
-                <div className="product-card__titleRow">
-                  <div>
-                    <p className="muted">{product.category}</p>
-                    <h2 className="product-card__title">{product.name}</h2>
+                  <div className="lux-product-card__mediaFallback" aria-hidden="true">
+                    ✦
                   </div>
-                  <strong>{formatMoney(priceCents)}</strong>
-                </div>
-                <p className="muted">{product.description}</p>
-
-                <div className="product-card__actions">
-                  <Link className="button button--ghost" to={`/products/${product.slug}`}>
-                    View
-                  </Link>
+                )}
+                <div className="lux-product-card__overlay">
                   <button
-                    className="button button--primary"
+                    className="lux-button lux-button--primary"
                     disabled={!firstVariant || !inStock}
-                    onClick={() => {
+                    onClick={(event) => {
+                      event.preventDefault()
                       if (!firstVariant) return
                       addItem({ slug: product.slug, sku: firstVariant.sku, quantity: 1 })
                     }}
                   >
-                    Quick add
+                    Add to Bag
                   </button>
                 </div>
+              </Link>
+
+              <div className="lux-product-card__body">
+                <p className="lux-eyebrow">{product.category}</p>
+                <h3>{product.name}</h3>
+                <p>{product.description}</p>
+                <p className="lux-price">{formatMoney(priceCents)}</p>
               </div>
             </article>
           )

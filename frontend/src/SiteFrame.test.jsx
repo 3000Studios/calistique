@@ -10,7 +10,7 @@ vi.mock('../src/siteApi.js', () => ({
 }))
 
 describe('SiteFrame', () => {
-  it('renders brand, footer trust copy and global ticker', () => {
+  it('renders brand and luxury footer content', () => {
     render(
       <CartProvider>
         <MemoryRouter initialEntries={['/']}>
@@ -23,8 +23,11 @@ describe('SiteFrame', () => {
       </CartProvider>
     )
 
-    expect(screen.getAllByText('Calistique').length).toBeGreaterThan(0)
+    expect(screen.getAllByText(/Calistique/i).length).toBeGreaterThan(0)
     expect(screen.getByRole('contentinfo')).toBeInTheDocument()
-    expect(screen.getByText('Loading live data...')).toBeInTheDocument()
+    expect(
+      screen.getByText('Elegance redefined for modern luxury commerce.')
+    ).toBeInTheDocument()
+    expect(screen.getByRole('link', { name: 'Privacy' })).toBeInTheDocument()
   })
 })

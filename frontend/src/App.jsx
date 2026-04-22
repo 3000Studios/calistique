@@ -27,6 +27,7 @@ import OpenClaw from '../pages/OpenClaw.jsx'
 import RevenueStreams from '../pages/RevenueStreams.jsx'
 import ReferralZone from '../pages/ReferralZone.jsx'
 import AdminReferralUpload from '../pages/AdminReferralUpload.jsx'
+import AccountPage from '../pages/AccountPage.jsx'
 import NotFoundPage from '../pages/NotFoundPage.jsx'
 import OrderSuccessPage from '../pages/OrderSuccessPage.jsx'
 import OrderCancelPage from '../pages/OrderCancelPage.jsx'
@@ -34,6 +35,7 @@ import { SiteRuntimeProvider } from './SiteRuntimeContext.jsx'
 import { theme } from './siteData.js'
 import { CartProvider } from './cartStore.jsx'
 import '../styles/app.css'
+import '../styles/luxury-storefront.css'
 
 function applyTheme(themeConfig) {
 const palette = themeConfig.palette ?? {}
@@ -72,6 +74,7 @@ return (
           <Route path="/order/cancel" element={<OrderCancelPage />} />
           <Route path="/blog" element={<BlogIndexPage />} />
           <Route path="/blog/:slug" element={<BlogPostPage />} />
+          <Route path="/account" element={<AccountPage />} />
           <Route path="/openclaw" element={<OpenClaw />} />
           <Route path="/revenue" element={<RevenueStreams />} />
           <Route path="/referral/:referralId" element={<ReferralZone />} />

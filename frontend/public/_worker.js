@@ -229,6 +229,234 @@ async function handleStripeWebhook(request, env) {
   return jsonResponse({ ok: true })
 }
 
+function getPayPalMode(env) {
+  const mode = String(env.PAYPAL_ENV ?? 'live').trim().toLowerCase()
+  return mode === 'sandbox' ? 'sandbox' : 'live'
+}
+
+function getPayPalApiBase(env) {
+  return getPayPalMode(env) === 'sandbox'
+    ? 'https://api-m.sandbox.paypal.com'
+    : 'https://api-m.paypal.com'
+}
+
+async function getPayPalAccessToken(env) {
+  const clientId = String(env.PAYPAL_CLIENT_ID ?? '').trim()
+  const clientSecret = String(env.PAYPAL_CLIENT_SECRET ?? '').trim()
+
+  if (
+    !clientId ||
+    !clientSecret ||
+    clientId.startsWith('replace-with-') ||
+    clientSecret.startsWith('replace-with-')
+  ) {
+    return ''
+  }
+
+  const response = await fetch(`${getPayPalApiBase(env)}/v1/oauth2/token`, {
+    method: 'POST',
+    headers: {
+      authorization: `Basic ${btoa(`${clientId}:${clientSecret}`)}`,
+      'content-type': 'application/x-www-form-urlencoded',
+    },
+    body: 'grant_type=client_credentials',
+  })
+
+  if (!response.ok) {
+    throw new Error(`PayPal auth failed with ${response.status}.`)
+  }
+
+  const payload = await response.json()
+  return String(payload?.access_token ?? '')
+}
+
+function buildPayPalItem({ product, variant, quantity }) {
+  return {
+    name: `${product.name}${variant?.label ? ` - ${variant.label}` : ''}`.slice(0, 127),
+    quantity: String(quantity),
+    unit_amount: {
+      currency_code: String(catalog?.currency ?? 'usd').toUpperCase(),
+      value: ((Number(variant?.priceCents ?? 0) || 0) / 100).toFixed(2),
+    },
+    sku: variant?.sku ?? product.slug,
+    category: 'PHYSICAL_GOODS',
+  }
+}
+
+async function handlePayPalCheckout(request, env) {
+  if (request.method !== 'POST') {
+    return jsonResponse({ ok: false, message: 'Method not allowed.' }, 405)
+  }
+
+  const payload = await request.json().catch(() => ({}))
+  const items = Array.isArray(payload?.items) ? payload.items : []
+  const referralId = typeof payload?.referralId === 'string' ? payload.referralId : ''
+
+  if (items.length === 0) {
+    return jsonResponse({ ok: false, message: 'Cart is empty.' }, 400)
+  }
+
+  const paymentLink = String(env.PAYPAL_PAYMENT_LINK_STARTER ?? '').trim()
+  if (paymentLink && /^https?:\/\//u.test(paymentLink)) {
+    return jsonResponse({ ok: true, checkoutUrl: paymentLink, mode: 'payment-link' })
+  }
+
+  const accessToken = await getPayPalAccessToken(env).catch(() => '')
+  if (!accessToken) {
+    return jsonResponse(
+      {
+        ok: false,
+        error: 'PayPalNotConfigured',
+        message: 'PayPal client credentials or payment link are not configured yet.',
+      },
+      501
+    )
+  }
+
+  let total = 0
+  const paypalItems = items.map((item) => {
+    const product = getCatalogProduct(String(item?.slug ?? '').trim())
+    if (!product) throw new Error('Unknown product.')
+    const variant = getVariant(product, String(item?.sku ?? '').trim())
+    if (!variant) throw new Error('Unknown variant.')
+    const quantity = normalizeQuantity(item?.quantity)
+    total += (Number(variant.priceCents ?? 0) || 0) * quantity
+    return buildPayPalItem({ product, variant, quantity })
+  })
+
+  const origin = new URL(request.url).origin
+  const response = await fetch(`${getPayPalApiBase(env)}/v2/checkout/orders`, {
+    method: 'POST',
+    headers: {
+      authorization: `Bearer ${accessToken}`,
+      'content-type': 'application/json',
+      prefer: 'return=representation',
+    },
+    body: JSON.stringify({
+      intent: 'CAPTURE',
+      purchase_units: [
+        {
+          reference_id: `calistique-${Date.now()}`,
+          custom_id: referralId || undefined,
+          amount: {
+            currency_code: String(catalog?.currency ?? 'usd').toUpperCase(),
+            value: (total / 100).toFixed(2),
+            breakdown: {
+              item_total: {
+                currency_code: String(catalog?.currency ?? 'usd').toUpperCase(),
+                value: (total / 100).toFixed(2),
+              },
+            },
+          },
+          items: paypalItems,
+        },
+      ],
+      application_context: {
+        brand_name: 'Calistique.xyz',
+        user_action: 'PAY_NOW',
+        shipping_preference: 'GET_FROM_FILE',
+        return_url: `${origin}/order/success?provider=paypal`,
+        cancel_url: `${origin}/order/cancel?provider=paypal`,
+      },
+    }),
+  })
+
+  if (!response.ok) {
+    const body = await response.text()
+    return jsonResponse(
+      { ok: false, error: 'PayPalOrderFailed', message: body.slice(0, 240) },
+      400
+    )
+  }
+
+  const order = await response.json()
+  const approveLink = Array.isArray(order?.links)
+    ? order.links.find((link) => link?.rel === 'approve')?.href
+    : ''
+
+  if (!approveLink) {
+    return jsonResponse(
+      { ok: false, error: 'PayPalApproveMissing', message: 'PayPal approval link missing.' },
+      400
+    )
+  }
+
+  return jsonResponse({ ok: true, checkoutUrl: approveLink, orderId: order.id })
+}
+
+let cjTokenCache = {
+  accessToken: '',
+  accessTokenExpiryDate: '',
+}
+
+function isValidFutureDate(value) {
+  const time = new Date(value).getTime()
+  return Number.isFinite(time) && time > Date.now() + 60_000
+}
+
+async function getCJAccessToken(env) {
+  if (cjTokenCache.accessToken && isValidFutureDate(cjTokenCache.accessTokenExpiryDate)) {
+    return cjTokenCache.accessToken
+  }
+
+  const apiKey = String(env.CJ_API_KEY ?? '').trim()
+  if (!apiKey || apiKey.startsWith('replace-with-')) {
+    return ''
+  }
+
+  const response = await fetch('https://developers.cjdropshipping.com/api2.0/v1/authentication/getAccessToken', {
+    method: 'POST',
+    headers: { 'content-type': 'application/json' },
+    body: JSON.stringify({ apiKey }),
+  })
+
+  if (!response.ok) {
+    throw new Error(`CJ auth failed with ${response.status}.`)
+  }
+
+  const payload = await response.json()
+  const data = payload?.data ?? payload
+  cjTokenCache = {
+    accessToken: String(data?.accessToken ?? ''),
+    accessTokenExpiryDate: String(data?.accessTokenExpiryDate ?? ''),
+  }
+
+  return cjTokenCache.accessToken
+}
+
+async function handleCJProducts(request, env) {
+  const token = await getCJAccessToken(env).catch(() => '')
+  if (!token) {
+    return jsonResponse(
+      { ok: false, error: 'CJNotConfigured', message: 'CJdropshipping API key is not configured yet.' },
+      501
+    )
+  }
+
+  const url = new URL(request.url)
+  const page = Math.max(1, Number.parseInt(url.searchParams.get('page') || '1', 10) || 1)
+  const size = Math.min(20, Math.max(1, Number.parseInt(url.searchParams.get('size') || '10', 10) || 10))
+  const keyword = String(url.searchParams.get('q') ?? '').trim()
+  const target = new URL('https://developers.cjdropshipping.com/api2.0/v1/product/listV2')
+  target.searchParams.set('page', String(page))
+  target.searchParams.set('size', String(size))
+  if (keyword) target.searchParams.set('keyWord', keyword)
+
+  const response = await fetch(target.toString(), {
+    headers: {
+      'CJ-Access-Token': token,
+    },
+  })
+
+  if (!response.ok) {
+    const body = await response.text()
+    return jsonResponse({ ok: false, message: body.slice(0, 240) }, 400)
+  }
+
+  const payload = await response.json()
+  return jsonResponse({ ok: true, provider: 'cjdropshipping', payload })
+}
+
 function toBase64Url(value) {
   const bytes =
     typeof value === 'string'
@@ -1382,6 +1610,17 @@ async function handleApi(request, env) {
     return handleStripeWebhook(request, env)
   }
 
+  if (pathname === '/api/paypal/checkout' && request.method === 'POST') {
+    try {
+      return await handlePayPalCheckout(request, env)
+    } catch (error) {
+      return jsonResponse(
+        { ok: false, message: error instanceof Error ? error.message : String(error) },
+        400
+      )
+    }
+  }
+
   if (pathname === '/api/public/assistant' && request.method === 'POST') {
     const body = await request.json().catch(() => ({}))
 
@@ -1449,6 +1688,10 @@ async function handleApi(request, env) {
 
   if (pathname === '/api/analytics' && request.method === 'GET') {
     return jsonResponse(buildAnalyticsSnapshot())
+  }
+
+  if (pathname === '/api/admin/cj/products' && request.method === 'GET') {
+    return handleCJProducts(request, env)
   }
 
   if (pathname === '/api/deployments' && request.method === 'GET') {

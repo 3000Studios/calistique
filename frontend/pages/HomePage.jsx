@@ -1,236 +1,139 @@
-import React, { useEffect, useMemo, useState } from 'react'
-import { motion } from 'framer-motion'
+import React, { useMemo } from 'react'
 import { Link } from 'react-router-dom'
 import { productCatalog } from '../src/siteData.js'
-import { SITE_CATEGORY, SITE_DISPLAY_NAME } from '../src/siteMeta.js'
-
-const trustSignals = [
-  'Secure Stripe Checkout',
-  '1–3 business day shipping',
-  '30-day returns (unworn)',
-  'Drop-first merchandising',
-]
+import { SITE_DISPLAY_NAME } from '../src/siteMeta.js'
 
 export default function HomePage() {
-  const [showLeadModal, setShowLeadModal] = useState(false)
-
-  useEffect(() => {
-    const timer = setTimeout(() => setShowLeadModal(true), 45000)
-    return () => clearTimeout(timer)
-  }, [])
-
   const featured = useMemo(() => {
     return [...productCatalog]
       .sort((a, b) => (a.featuredRank ?? 999) - (b.featuredRank ?? 999))
       .slice(0, 6)
   }, [])
 
-  const categories = useMemo(() => {
-    const counts = new Map()
-    for (const product of productCatalog) {
-      const key = product.category ?? 'Other'
-      counts.set(key, (counts.get(key) ?? 0) + 1)
-    }
-    return [...counts.entries()]
-      .sort((a, b) => b[1] - a[1])
-      .slice(0, 4)
-      .map(([name, count]) => ({ name, count }))
-  }, [])
+  const collections = [
+    {
+      slug: 'lumiere',
+      title: 'Lumière',
+      subtitle: 'Diamond Collection',
+      description: 'Refined shine, luminous finishes, and statement detail.',
+    },
+    {
+      slug: 'nocturne',
+      title: 'Nocturne',
+      subtitle: 'Evening Wear',
+      description: 'Monochrome tailoring and after-dark silhouettes.',
+    },
+    {
+      slug: 'eternite',
+      title: 'Éternité',
+      subtitle: 'Bridal Jewellery',
+      description: 'Heirloom mood with a sharper modern profile.',
+    },
+  ]
 
   return (
-    <div className="calistique-home">
-      <section className="hero hero--store">
-        <motion.div
-          className="hero__copy hero__copy--immersive"
-          initial={{ opacity: 0, y: 28 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-        >
-          <div className="stack-md">
-            <p className="eyebrow">{SITE_CATEGORY}</p>
-            <h1 className="prism-headline">
-              <span className="prism-headline__text">
-                {SITE_DISPLAY_NAME}. Built for the drop.
-              </span>
-            </h1>
-            <p className="hero__lede">
-              Luxury streetwear and statement jewelry engineered for clean
-              silhouettes, premium hardware, and conversion-first product pages.
-            </p>
-          </div>
-
-          <div className="hero__actions">
-            <Link className="button button--primary" to="/drops/drop-001-obsidian">
+    <div className="page-shell">
+      <section className="lux-hero">
+        <div className="lux-hero__content">
+          <p className="lux-eyebrow">Est. MMXXIV · Luxury Fashion &amp; Fine Jewellery</p>
+          <h1>Where Elegance Meets Desire</h1>
+          <p>
+            {SITE_DISPLAY_NAME} curates drop-driven fashion and fine jewelry for buyers
+            who want premium visuals, statement detail, and direct conversion.
+          </p>
+          <div className="lux-button-row">
+            <Link className="lux-button lux-button--primary" to="/products">
+              Explore Collection
+            </Link>
+            <Link className="lux-button lux-button--ghost" to="/drops/drop-001-obsidian">
               Shop Drop
             </Link>
-            <Link className="button button--ghost" to="/products">
-              New arrivals
-            </Link>
           </div>
-
-          <div className="hero__proof-grid">
-            {trustSignals.map((item) => (
-              <article key={item} className="hero-stat-card">
-                <p className="eyebrow">Standard</p>
-                <strong>{item}</strong>
-              </article>
-            ))}
-          </div>
-        </motion.div>
-
-        <motion.div
-          className="hero__panel hero__panel--story"
-          initial={{ opacity: 0, scale: 0.98 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.7, delay: 0.08 }}
-        >
-          <div className="hero__media-frame">
-            <video
-              className="hero__video"
-              autoPlay
-              muted
-              loop
-              playsInline
-              preload="metadata"
-              poster="https://images.pexels.com/photos/845434/pexels-photo-845434.jpeg?auto=compress&cs=tinysrgb&w=1600"
-            >
-              <source
-                src="https://cdn.coverr.co/videos/coverr-a-person-poses-while-wearing-sunglasses-8492/1080p.mp4"
-                type="video/mp4"
-              />
-            </video>
-            <div className="hero__video-overlay">
-              <p className="eyebrow">Drop 001</p>
-              <strong>OBSIDIAN — monochrome essentials with hardware that hits.</strong>
-            </div>
-          </div>
-
-          <div className="hero__kicker-row">
-            <article className="hero-stat-card">
-              <p>Featured</p>
-              <strong>Limited quantities</strong>
-            </article>
-            <article className="hero-stat-card">
-              <p>Checkout</p>
-              <strong>Stripe</strong>
-            </article>
-            <article className="hero-stat-card">
-              <p>Shipping</p>
-              <strong>1–3 days</strong>
-            </article>
-          </div>
-        </motion.div>
+        </div>
       </section>
 
-      <section className="collections">
-        <div className="section-heading section-heading--split">
-          <div>
-            <p className="eyebrow">Shop by category</p>
-            <h2>Build the fit. Stack the hardware.</h2>
-          </div>
-          <p className="section-copy">
-            Categories are curated so the catalog stays premium, fast, and easy to buy.
-          </p>
+      <section className="lux-section">
+        <div className="lux-section-heading">
+          <span className="lux-eyebrow">Discover</span>
+          <h2>Our Collections</h2>
         </div>
 
-        <div className="collection-grid">
-          {categories.map((item, index) => (
-            <motion.article
-              key={item.name}
-              className="collection-card"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: '-80px' }}
-              transition={{ delay: index * 0.08 }}
-            >
-              <p>{item.count} items</p>
-              <h3>{item.name}</h3>
-              <span>Explore the category in the Shop.</span>
-              <Link className="button button--ghost" to="/products">
-                Browse
-              </Link>
-            </motion.article>
+        <div className="lux-grid-3">
+          {collections.map((collection) => (
+            <Link key={collection.slug} className="lux-collection-card" to="/products">
+              <div>
+                <div className="lux-collection-card__icon" aria-hidden="true" />
+                <h3>{collection.title}</h3>
+                <p>{collection.subtitle}</p>
+                <p>{collection.description}</p>
+                <span className="lux-collection-card__cta">View Collection →</span>
+              </div>
+            </Link>
           ))}
         </div>
       </section>
 
-      <section className="products">
-        <div className="section-heading section-heading--split">
+      <section className="lux-section">
+        <div className="lux-section-heading lux-section-heading--split">
           <div>
-            <p className="eyebrow">Featured</p>
-            <h2>Best sellers from the current drop.</h2>
+            <span className="lux-eyebrow">Featured</span>
+            <h2>Best sellers from the current rotation.</h2>
           </div>
-          <p className="section-copy">
-            Designed for clean silhouettes and camera-ready shine.
+          <p>
+            Top styles stay front and center while the broader catalog remains indexed
+            for search, retention, and repeat purchase.
           </p>
         </div>
 
-        <div className="product-grid">
-          {featured.map((product, index) => (
-            <motion.article
-              key={product.slug}
-              className="product-card"
-              initial={{ opacity: 0, y: 22 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: '-80px' }}
-              transition={{ delay: index * 0.08 }}
-            >
-              <div className="product-card__meta">
-                <div>
+        <div className="lux-grid-4">
+          {featured.map((product) => {
+            const image = Array.isArray(product.images) ? product.images[0] : null
+            return (
+              <article key={product.slug} className="lux-product-card">
+                <Link className="lux-product-card__media" to={`/products/${product.slug}`}>
+                  {image ? (
+                    <img src={image} alt={product.name} loading="lazy" />
+                  ) : (
+                    <div className="lux-product-card__mediaFallback" aria-hidden="true">
+                      ✦
+                    </div>
+                  )}
+                  <div className="lux-product-card__overlay">
+                    <span className="lux-button lux-button--primary">View Product</span>
+                  </div>
+                </Link>
+                <div className="lux-product-card__body">
                   <h3>{product.name}</h3>
                   <p>{product.description}</p>
+                  <p className="lux-price">
+                    {product.variants?.[0]?.priceCents
+                      ? `$${Math.round(product.variants[0].priceCents / 100)}`
+                      : ''}
+                  </p>
                 </div>
-                <Link className="button button--primary" to={`/products/${product.slug}`}>
-                  View
-                </Link>
-              </div>
-            </motion.article>
-          ))}
+              </article>
+            )
+          })}
         </div>
       </section>
 
-      <section className="signup">
-        <div className="signup__panel">
-          <div>
-            <p className="eyebrow">Early access</p>
-            <h2>Get drop alerts before the sell-out.</h2>
-            <p>Subscribe for early access, restocks, and limited bundles.</p>
-          </div>
-          <form className="signup__form" onSubmit={(e) => e.preventDefault()}>
-            <input type="email" placeholder="Email address" aria-label="Email address" />
-            <button type="submit">Join list</button>
-          </form>
+      <section className="lux-section">
+        <div className="lux-section-heading lux-section-heading--center">
+          <span className="lux-eyebrow">Stay Enchanted</span>
+          <h2>Join the Inner Circle</h2>
+          <p>
+            Receive exclusive previews, private sale invitations, and first access to new
+            collections.
+          </p>
         </div>
-      </section>
 
-      {showLeadModal && (
-        <div className="lead-modal" role="dialog" aria-modal="true">
-          <div className="lead-modal__card">
-            <p className="eyebrow">Before you go</p>
-            <h2>Want early access?</h2>
-            <p>
-              Get drop alerts, bundle offers, and private restock windows.
-            </p>
-            <div className="hero__actions">
-              <button
-                className="button button--primary"
-                type="button"
-                onClick={() => setShowLeadModal(false)}
-              >
-                Join list
-              </button>
-              <button
-                className="button button--ghost"
-                type="button"
-                onClick={() => setShowLeadModal(false)}
-              >
-                Not now
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+        <form className="lux-button-row" onSubmit={(event) => event.preventDefault()}>
+          <input className="lux-input" type="email" placeholder="Your email address" aria-label="Email address" />
+          <button className="lux-button lux-button--primary" type="submit">
+            Subscribe
+          </button>
+        </form>
+      </section>
     </div>
   )
 }
-

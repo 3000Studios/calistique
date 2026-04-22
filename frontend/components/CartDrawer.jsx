@@ -19,6 +19,22 @@ async function createCheckoutSession({ items, referralId }) {
   return payload
 }
 
+async function createPayPalCheckout({ items, referralId }) {
+  const response = await fetch('/api/paypal/checkout', {
+    method: 'POST',
+    headers: { 'content-type': 'application/json' },
+    body: JSON.stringify({ items, referralId }),
+  })
+
+  const payload = await response.json().catch(() => ({}))
+  if (!response.ok || !payload?.checkoutUrl) {
+    const message = payload?.message || 'PayPal checkout failed.'
+    throw new Error(message)
+  }
+
+  return payload
+}
+
 export default function CartDrawer() {
   const {
     cart,
@@ -35,6 +51,7 @@ export default function CartDrawer() {
   } = useCart()
 
   const [checkoutLoading, setCheckoutLoading] = useState(false)
+  const [paypalLoading, setPaypalLoading] = useState(false)
   const [error, setError] = useState('')
 
   const referralId = useMemo(() => {
@@ -62,6 +79,26 @@ export default function CartDrawer() {
       setError(err?.message ?? 'Checkout failed.')
     } finally {
       setCheckoutLoading(false)
+    }
+  }
+
+  const handlePayPalCheckout = async () => {
+    setError('')
+    setPaypalLoading(true)
+    try {
+      const { checkoutUrl } = await createPayPalCheckout({
+        items: cart.map((item) => ({
+          slug: item.slug,
+          sku: item.sku,
+          quantity: item.quantity,
+        })),
+        referralId,
+      })
+      window.location.assign(checkoutUrl)
+    } catch (err) {
+      setError(err?.message ?? 'PayPal checkout failed.')
+    } finally {
+      setPaypalLoading(false)
     }
   }
 
@@ -196,11 +233,18 @@ export default function CartDrawer() {
                   </div>
 
                   <button
-                    className="button button--primary cart-drawer__checkout"
+                    className="lux-button lux-button--primary cart-drawer__checkout"
                     onClick={handleCheckout}
                     disabled={checkoutLoading || cart.some((i) => !i.inStock)}
                   >
                     {checkoutLoading ? 'Starting checkout…' : 'Checkout'}
+                  </button>
+                  <button
+                    className="lux-button lux-button--ghost cart-drawer__checkout"
+                    onClick={handlePayPalCheckout}
+                    disabled={paypalLoading || cart.some((i) => !i.inStock)}
+                  >
+                    {paypalLoading ? 'Starting PayPal…' : 'Pay with PayPal'}
                   </button>
 
                   <div className="cart-drawer__upsells">
@@ -210,7 +254,7 @@ export default function CartDrawer() {
                     </p>
                   </div>
 
-                  <button className="button button--ghost" onClick={clearCart}>
+                  <button className="lux-button lux-button--ghost" onClick={clearCart}>
                     Clear cart
                   </button>
                 </div>
