@@ -26,6 +26,8 @@ function canUseSameOriginApi() {
   }
 
   return (
+    hostname === 'calistique.xyz' ||
+    hostname === 'www.calistique.xyz' ||
     hostname === 'calistique.com' ||
     hostname === 'www.calistique.com' ||
     hostname.endsWith('.pages.dev')
