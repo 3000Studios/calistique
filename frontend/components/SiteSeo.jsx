@@ -9,6 +9,7 @@ import {
   SITE_DISPLAY_NAME,
   SITE_URL,
 } from '../src/siteMeta.js'
+import { productCatalog } from '../src/siteData.js'
 
 function ensureMeta(selector, attributes) {
   let element = document.head.querySelector(selector)
@@ -106,11 +107,50 @@ function getSeoForPath(pathname) {
   }
 
   if (normalizedPath.startsWith('/shop/') || normalizedPath.startsWith('/products/')) {
+    const productSlug = normalizedPath.split('/').at(-1)
+    const product = productCatalog.find((entry) => entry.slug === productSlug)
+    const firstVariant = Array.isArray(product?.variants) ? product.variants[0] : null
+
     return {
       ...base,
-      title: `${SITE_DISPLAY_NAME} | Product detail`,
+      title: product
+        ? `${product.name} | ${SITE_DISPLAY_NAME}`
+        : `${SITE_DISPLAY_NAME} | Product detail`,
       description:
+        product?.description ??
         'Product detail page with conversion-focused layout, premium media, and clear purchase intent.',
+      schemas: product
+        ? [
+            {
+              '@context': 'https://schema.org',
+              '@type': 'Product',
+              name: product.name,
+              description: product.description,
+              image: Array.isArray(product.images) ? product.images : [],
+              sku: firstVariant?.sku ?? product.slug,
+              brand: {
+                '@type': 'Brand',
+                name: product.brand ?? 'Calistique',
+              },
+              offers: {
+                '@type': 'Offer',
+                url: canonicalUrl,
+                priceCurrency: 'USD',
+                price: firstVariant?.priceCents
+                  ? (firstVariant.priceCents / 100).toFixed(2)
+                  : undefined,
+                availability:
+                  product.availability ?? 'https://schema.org/InStock',
+                itemCondition:
+                  product.condition ?? 'https://schema.org/NewCondition',
+                seller: {
+                  '@type': 'Organization',
+                  name: product.seller ?? SITE_DISPLAY_NAME,
+                },
+              },
+            },
+          ]
+        : [],
     }
   }
 

@@ -1,19 +1,21 @@
 import React from 'react'
+import { ADSENSE_CLIENT_ID } from '../src/siteMeta.js'
 
+const publisherId = ADSENSE_CLIENT_ID.replace(/^ca-/, '') || 'pub-5800977493749262'
 const adsenseSnippet = `<!-- Google AdSense -->
 <script async
-  src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXX"
+  src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE_CLIENT_ID || 'ca-pub-5800977493749262'}"
   crossorigin="anonymous"></script>`
 
-const adsTxtSnippet = `google.com, pub-XXXXXXXXXXXX, DIRECT, f08c47fec0942fa0`
+const adsTxtSnippet = `google.com, ${publisherId}, DIRECT, f08c47fec0942fa0`
 
 const complianceChecklist = [
-  'Use a real publisher ID in ads.txt and the AdSense script.',
+  'Use the live Calistique publisher ID in ads.txt and the AdSense script.',
   'Keep ads labeled and separate from editorial content.',
   'Do not place ads on protected admin pages.',
   'Add privacy policy, terms, and disclosure pages before review.',
   'Keep CSP allowlists limited to Google AdSense and Cloudflare assets.',
-  'Use the exact publisher id from your approved AdSense account.',
+  'Keep only original catalog, editorial, and policy content live during review.',
 ]
 
 export default function AdsCompliancePage() {

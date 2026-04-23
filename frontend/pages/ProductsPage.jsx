@@ -140,6 +140,9 @@ export default function ProductsPage() {
                 <p className="lux-eyebrow">{product.category}</p>
                 <h3>{product.name}</h3>
                 <p>{product.description}</p>
+                <p className="lux-product-card__caption">
+                  {product.fulfillment ?? 'Ready to ship now.'}
+                </p>
                 <p className="lux-price">{formatMoney(priceCents)}</p>
               </div>
             </article>

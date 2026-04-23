@@ -3,4 +3,4 @@ Allow: /
 Disallow: /admin
 Disallow: /api
 
-Sitemap: SITE_URL=https://campdreamga.com/sitemap.xml
+Sitemap: https://calistique.xyz/sitemap.xml

@@ -8,7 +8,30 @@ const contentPagesDir = path.join(repoRoot, 'content', 'pages')
 const contentBlogDir = path.join(repoRoot, 'content', 'blog')
 const contentProductsDir = path.join(repoRoot, 'content', 'products')
 
-const SITE_URL = process.env.SITE_URL || 'https://calistique.xyz'
+function normalizeSiteUrl(value) {
+  const raw = String(value ?? '').trim()
+  if (!raw) return 'https://calistique.xyz'
+
+  const stripped = raw.includes('SITE_URL=')
+    ? raw.split('SITE_URL=').at(-1).trim()
+    : raw
+
+  const withProtocol = /^https?:\/\//i.test(stripped)
+    ? stripped
+    : `https://${stripped.replace(/^\/+/u, '')}`
+
+  try {
+    const url = new URL(withProtocol)
+    if (/campdreamga/i.test(url.hostname)) {
+      return 'https://calistique.xyz'
+    }
+    return `${url.protocol}//${url.hostname}`.replace(/\/+$/u, '')
+  } catch {
+    return 'https://calistique.xyz'
+  }
+}
+
+const SITE_URL = normalizeSiteUrl(process.env.SITE_URL)
 
 const inferredPublisherIdFromClient = (() => {
   const clientId = process.env.VITE_ADSENSE_CLIENT_ID

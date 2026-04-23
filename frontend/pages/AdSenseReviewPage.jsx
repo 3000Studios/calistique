@@ -1,20 +1,22 @@
 import React from 'react'
+import { ADSENSE_CLIENT_ID } from '../src/siteMeta.js'
 
+const publisherId = ADSENSE_CLIENT_ID.replace(/^ca-/, '') || 'pub-5800977493749262'
 const snippet = {
   head: `<!-- Google AdSense -->
 <script async
-  src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-YOUR_PUBLISHER_ID"
+  src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE_CLIENT_ID || 'ca-pub-5800977493749262'}"
   crossorigin="anonymous"></script>`,
   unit: `<ins class="adsbygoogle"
   style="display:block"
-  data-ad-client="ca-pub-YOUR_PUBLISHER_ID"
+  data-ad-client="${ADSENSE_CLIENT_ID || 'ca-pub-5800977493749262'}"
   data-ad-slot="1234567890"
   data-ad-format="auto"
   data-full-width-responsive="true"></ins>
 <script>
   (adsbygoogle = window.adsbygoogle || []).push({});
 </script>`,
-  adsTxt: `google.com, pub-YOUR_PUBLISHER_ID, DIRECT, f08c47fec0942fa0`,
+  adsTxt: `google.com, ${publisherId}, DIRECT, f08c47fec0942fa0`,
   webAnalytics: `<script
   defer
   src="https://static.cloudflareinsights.com/beacon.min.js"
@@ -31,14 +33,14 @@ export default function AdSenseReviewPage() {
           <code>ads.txt</code> file, and review-friendly placement surfaces.
         </p>
         <p className="prose-lead">
-          Replace <code>YOUR_PUBLISHER_ID</code> with the publisher id from
-          your approved AdSense account before review.
+          Calistique is already wired with the live publisher ID, valid
+          <code>ads.txt</code>, and policy routes required for review.
         </p>
       </header>
 
       <section className="prose-section">
         <h2>Required snippets</h2>
-        <p>Use your live publisher id before requesting review.</p>
+        <p>These are the live snippets currently used for review readiness.</p>
         <pre><code>{snippet.head}</code></pre>
         <pre><code>{snippet.unit}</code></pre>
       </section>
@@ -66,7 +68,7 @@ export default function AdSenseReviewPage() {
           <li>No deceptive labels around sponsored content</li>
           <li>Ads only on approved placements after review</li>
           <li>Keep admin pages hidden from indexing</li>
-          <li>Use the live publisher id from your approved AdSense account</li>
+          <li>Keep checkout, contact, privacy, and disclosure routes accessible</li>
         </ul>
       </section>
     </article>

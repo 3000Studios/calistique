@@ -72,6 +72,9 @@ export default function ShopItemPage() {
             <span>{inStock ? 'In stock' : 'Out of stock'}</span>
           </div>
           <p>{product.description}</p>
+          <p className="lux-detail__support">
+            {product.fulfillment ?? 'Merchant fulfilled.'} · Secure checkout with Stripe and PayPal.
+          </p>
 
           <div className="lux-detail__info">
             <label className="lux-eyebrow" htmlFor="variant">
@@ -155,6 +158,10 @@ export default function ShopItemPage() {
               <div className="lux-detail__fact">
                 <span className="lux-eyebrow">Returns</span>
                 <span>{product.returnsBlurb}</span>
+              </div>
+              <div className="lux-detail__fact">
+                <span className="lux-eyebrow">Seller</span>
+                <span>{product.seller ?? 'Calistique.xyz'}</span>
               </div>
             </div>
           </div>

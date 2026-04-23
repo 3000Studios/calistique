@@ -576,6 +576,12 @@ body::after { display: none; }
   font-weight: 300;
 }
 
+.lux-product-card__caption {
+  color: rgba(240, 236, 228, 0.72);
+  font-size: 0.78rem;
+  line-height: 1.5;
+}
+
 .lux-price { color: var(--lux-accent); }
 
 .lux-detail {
@@ -610,6 +616,11 @@ body::after { display: none; }
   font-size: 2rem;
   font-weight: 300;
   color: var(--lux-accent);
+}
+
+.lux-detail__support {
+  color: rgba(201, 169, 110, 0.88);
+  font-size: 0.92rem;
 }
 
 .lux-detail__info,
