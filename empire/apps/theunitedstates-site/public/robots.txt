@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://usa.3000studios.vip/sitemap.xml

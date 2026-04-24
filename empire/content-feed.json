@@ -1,0 +1,21 @@
+{
+  "generatedAt": "2026-04-17T09:20:19.383Z",
+  "status": "ok",
+  "featured": [
+    {
+      "id": "auto-1",
+      "title": "Hourly market pulse",
+      "site": "referrals-live"
+    },
+    {
+      "id": "auto-2",
+      "title": "US trendline update",
+      "site": "theunitedstates-site"
+    },
+    {
+      "id": "auto-3",
+      "title": "Media drop spotlight",
+      "site": "tmack48-media"
+    }
+  ]
+}

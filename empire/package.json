@@ -1,0 +1,30 @@
+{
+  "name": "empire-core-workspace",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "npm run dev --workspace apps/citadel-core",
+    "dev:all": "concurrently --names \"citadel,referrals,usa,media\" \"npm:dev:citadel\" \"npm:dev:referrals\" \"npm:dev:usa\" \"npm:dev:media\"",
+    "dev:citadel": "npm run dev --workspace apps/citadel-core",
+    "dev:referrals": "npm run dev --workspace apps/referrals-live",
+    "dev:usa": "npm run dev --workspace apps/theunitedstates-site",
+    "dev:media": "npm run dev --workspace apps/tmack48-media",
+    "build": "npm run build --workspaces --if-present",
+    "build:apps": "npm run build --workspace apps/citadel-core && npm run build --workspace apps/referrals-live && npm run build --workspace apps/theunitedstates-site && npm run build --workspace apps/tmack48-media",
+    "lint": "npm run lint --workspaces --if-present",
+    "test": "npm run test --workspaces --if-present",
+    "content:tick": "node scripts/content-engine.mjs",
+    "deploy:citadel": "npm run deploy --workspace apps/citadel-core",
+    "deploy:referrals": "npm run deploy --workspace apps/referrals-live",
+    "deploy:usa": "npm run deploy --workspace apps/theunitedstates-site",
+    "deploy:media": "npm run deploy --workspace apps/tmack48-media"
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.1"
+  }
+}

@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://referrals.3000studios.vip/sitemap.xml
