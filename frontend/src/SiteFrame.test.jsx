@@ -23,7 +23,7 @@ describe('SiteFrame', () => {
       </CartProvider>
     )
 
-    expect(screen.getAllByText(/Calistique/i).length).toBeGreaterThan(0)
+    expect(screen.getByText('Calistique')).toBeInTheDocument()
     expect(screen.getByRole('contentinfo')).toBeInTheDocument()
     expect(
       screen.getByText('Elegance redefined for modern luxury commerce.')

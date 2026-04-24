@@ -1,0 +1,43 @@
+{
+  "agent": {
+    "defaultMode": "autonomous",
+    "effort": "medium",
+    "verbosity": "concise",
+    "preferSmallDiffs": true,
+    "requirePlanForLargeChanges": true,
+    "alwaysRunValidation": true
+  },
+  "costControl": {
+    "strategy": "cheap-first",
+    "defaultModelClass": "fast",
+    "escalateOnlyWhenNeeded": true,
+    "maxFullContextFiles": 8,
+    "preferTargetedSearch": true,
+    "preferSubagentsForBroadExploration": true
+  },
+  "automation": {
+    "autoRunSafeCommands": true,
+    "autoRunWorkspaceValidationOnSave": false,
+    "enableCommandAllowlist": true,
+    "allowlist": [
+      "npm run lint",
+      "npm run test",
+      "npm run build",
+      "npm run check:fast",
+      "npm run validate:env",
+      "npm run secrets:test",
+      "npm run pages:deploy"
+    ]
+  },
+  "context": {
+    "preferRepoDocsForPolicy": true,
+    "policyFiles": [
+      "AGENTS.md",
+      ".cursor/rules/auto-accept.mdc",
+      "docs/LOCAL_SECRETS.md",
+      "docs/ENV_AUDIT_PLAYBOOK.md",
+      "docs/CALISTIQUE_DEPLOYMENT_REVIEW.md"
+    ],
+    "skipLargeGeneratedFiles": true
+  }
+}

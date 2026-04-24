@@ -1,13 +1,13 @@
 {
   "updatedFor": "calistique",
-  "headline": "OBSIDIAN DROP is live.",
-  "subheadline": "Luxury streetwear and statement jewelry engineered for clean silhouettes and premium hardware.",
+  "headline": "Calistique — new drop live.",
+  "subheadline": "Luxury streetwear and statement jewelry built for clean silhouettes and premium hardware.",
   "primaryCta": {
-    "label": "Shop Drop",
-    "to": "/drops/drop-001-obsidian"
+    "label": "Shop now",
+    "to": "/products"
   },
   "secondaryCta": {
-    "label": "Shop all",
+    "label": "Explore products",
     "to": "/products"
   },
   "heroSignals": [
@@ -16,10 +16,6 @@
     "30-day returns (unworn)"
   ],
   "heroStats": [
-    {
-      "label": "Drop",
-      "value": "001"
-    },
     {
       "label": "Checkout",
       "value": "Stripe"

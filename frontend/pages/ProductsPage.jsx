@@ -14,7 +14,7 @@ function formatMoney(cents, currency = 'USD') {
 
 function lowestVariantPriceCents(product) {
   const variants = Array.isArray(product?.variants) ? product.variants : []
-  const prices = variants.map((v) => v.priceCents).filter((v) => typeof v === 'number')
+  const prices = variants.map((variant) => variant.priceCents).filter((value) => typeof value === 'number')
   return prices.length ? Math.min(...prices) : 0
 }
 
@@ -25,47 +25,38 @@ export default function ProductsPage() {
   const [sort, setSort] = useState('featured')
 
   const categories = useMemo(() => {
-    const unique = new Set(productCatalog.map((p) => p.category).filter(Boolean))
+    const unique = new Set(productCatalog.map((product) => product.category).filter(Boolean))
     return ['All', ...Array.from(unique)]
   }, [])
 
   const filtered = useMemo(() => {
-    const q = query.trim().toLowerCase()
-    const base = productCatalog.filter((product) => {
-      const matchesQuery = !q
-        ? true
-        : `${product.name} ${product.category} ${product.description}`
-            .toLowerCase()
-            .includes(q)
-      const matchesCategory = category === 'All' ? true : product.category === category
-      return matchesQuery && matchesCategory
+    const normalizedQuery = query.trim().toLowerCase()
+    const matches = productCatalog.filter((product) => {
+      if (category !== 'All' && product.category !== category) return false
+      if (!normalizedQuery) return true
+      return (
+        product.name.toLowerCase().includes(normalizedQuery) ||
+        product.description.toLowerCase().includes(normalizedQuery) ||
+        String(product.category ?? '').toLowerCase().includes(normalizedQuery)
+      )
     })
 
-    const sorted = [...base]
-    if (sort === 'price-low') {
-      sorted.sort((a, b) => lowestVariantPriceCents(a) - lowestVariantPriceCents(b))
-    } else if (sort === 'price-high') {
-      sorted.sort((a, b) => lowestVariantPriceCents(b) - lowestVariantPriceCents(a))
-    } else if (sort === 'newest') {
-      sorted.sort((a, b) => String(b.slug).localeCompare(String(a.slug)))
-    } else {
-      sorted.sort((a, b) => (a.featuredRank ?? 999) - (b.featuredRank ?? 999))
+    const sorters = {
+      featured: (a, b) => (a.featuredRank ?? 999) - (b.featuredRank ?? 999),
+      'price-low': (a, b) => lowestVariantPriceCents(a) - lowestVariantPriceCents(b),
+      'price-high': (a, b) => lowestVariantPriceCents(b) - lowestVariantPriceCents(a),
+      newest: (a, b) => (b.addedAt ?? 0) - (a.addedAt ?? 0),
     }
 
-    return sorted
+    return [...matches].sort(sorters[sort] ?? sorters.featured)
   }, [category, query, sort])
 
   return (
     <article className="page-shell">
-      <header className="lux-section-heading lux-section-heading--split">
-        <div>
-          <span className="lux-eyebrow">Shop</span>
-          <h1>Streetwear + statement jewelry, curated for luxury conversion.</h1>
-        </div>
-        <p>
-          Focused catalog, premium presentation, and direct checkout paths for buyers
-          ready to pay now.
-        </p>
+      <header className="lux-page-header">
+        <span className="lux-eyebrow">Products</span>
+        <h1>Shop the drop</h1>
+        <p>Premium hardware, clean silhouettes, and fast checkout.</p>
       </header>
 
       <section>
@@ -83,15 +74,20 @@ export default function ProductsPage() {
         </div>
 
         <div className="lux-toolbar">
-        <input
-          className="lux-input"
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          placeholder="Search tees, jewelry, add-ons…"
-          aria-label="Search products"
-        />
+          <input
+            className="lux-input"
+            value={query}
+            onChange={(event) => setQuery(event.target.value)}
+            placeholder="Search products…"
+            aria-label="Search products"
+          />
           <span className="lux-eyebrow">Sort by:</span>
-          <select className="lux-select" value={sort} onChange={(e) => setSort(e.target.value)} aria-label="Sort products">
+          <select
+            className="lux-select"
+            value={sort}
+            onChange={(event) => setSort(event.target.value)}
+            aria-label="Sort products"
+          >
             <option value="featured">Featured</option>
             <option value="price-low">Price: Low to High</option>
             <option value="price-high">Price: High to Low</option>
@@ -109,7 +105,9 @@ export default function ProductsPage() {
           const inStock =
             variants.length === 0
               ? true
-              : variants.some((v) => (typeof v.stock === 'number' ? v.stock > 0 : true))
+              : variants.some((variant) =>
+                  typeof variant.stock === 'number' ? variant.stock > 0 : true
+                )
 
           return (
             <article key={product.slug} className="lux-product-card">

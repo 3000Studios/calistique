@@ -7,7 +7,7 @@ const runtimeEnv =
 
 const defaultSite = {
   repositoryUrl: 'https://github.com/3000Studios/calistique',
-  displayName: 'Calistique.xyz',
+  displayName: 'Calistique',
   legalName: 'Calistique',
   domain: 'calistique.xyz',
   category: 'Luxury streetwear and statement jewelry',
@@ -25,7 +25,7 @@ export const SITE_URL = `https://${SITE_DOMAIN}`
 export const WWW_SITE_URL = `https://www.${SITE_DOMAIN}`
 export const SITE_CATEGORY = runtimeEnv.VITE_SITE_CATEGORY ?? defaultSite.category
 export const SITE_DEFAULT_TITLE =
-  runtimeEnv.VITE_SITE_TITLE ?? `${SITE_DISPLAY_NAME} | AI system manager`
+  runtimeEnv.VITE_SITE_TITLE ?? `${SITE_DISPLAY_NAME} | Luxury fashion and jewelry`
 export const SITE_DEFAULT_DESCRIPTION =
   runtimeEnv.VITE_SITE_DESCRIPTION ?? defaultSite.description
 export const COPYRIGHT_HOLDER = SITE_LEGAL_NAME
