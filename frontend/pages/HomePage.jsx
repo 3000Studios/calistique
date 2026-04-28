@@ -15,19 +15,19 @@ export default function HomePage() {
       slug: 'lumiere',
       title: 'Lumière',
       subtitle: 'Diamond Collection',
-      description: 'Refined shine, luminous finishes, and statement detail.',
+      description: 'Refined brilliance, luminous metals, and signature diamond detail.',
     },
     {
       slug: 'nocturne',
       title: 'Nocturne',
-      subtitle: 'Evening Wear',
-      description: 'Monochrome tailoring and after-dark silhouettes.',
+      subtitle: 'Evening Tailoring',
+      description: 'Black-tie silhouettes, satin structure, and after-dark confidence.',
     },
     {
       slug: 'eternite',
       title: 'Éternité',
       subtitle: 'Bridal Jewellery',
-      description: 'Heirloom mood with a sharper modern profile.',
+      description: 'Heirloom sentiment with a sharper modern profile.',
     },
   ]
 
@@ -35,18 +35,18 @@ export default function HomePage() {
     <div className="page-shell">
       <section className="lux-hero">
         <div className="lux-hero__content">
-          <p className="lux-eyebrow">Luxury streetwear &amp; statement jewelry</p>
+          <p className="lux-eyebrow">Est. MMXXVI · Luxury Fashion &amp; Fine Jewellery</p>
           <h1>{SITE_DISPLAY_NAME}</h1>
           <p>
-            Drop-driven essentials, premium hardware, and a conversion-first storefront built for modern
-            luxury.
+            Where elegance meets desire — couture silhouettes, elevated essentials, and statement
+            jewellery curated for modern luxury.
           </p>
           <div className="lux-button-row">
             <Link className="lux-button lux-button--primary" to="/products">
-              Shop products
+              Explore collection
             </Link>
-            <Link className="lux-button lux-button--ghost" to="/blog">
-              Read the blog
+            <Link className="lux-button lux-button--ghost" to="/about">
+              Our maison
             </Link>
           </div>
         </div>
@@ -55,7 +55,7 @@ export default function HomePage() {
       <section className="lux-section">
         <div className="lux-section-heading">
           <span className="lux-eyebrow">Discover</span>
-          <h2>Collections</h2>
+          <h2>Our collections</h2>
         </div>
 
         <div className="lux-grid-3">
@@ -76,7 +76,7 @@ export default function HomePage() {
       <section className="lux-section">
         <div className="lux-section-heading">
           <span className="lux-eyebrow">Featured</span>
-          <h2>Drop picks</h2>
+          <h2>Signature pieces</h2>
         </div>
 
         <div className="lux-grid-3">
@@ -91,6 +91,25 @@ export default function HomePage() {
               </div>
             </Link>
           ))}
+        </div>
+      </section>
+
+      <section className="lux-section">
+        <div className="lux-panel lux-panel--centered">
+          <span className="lux-eyebrow">Inner Circle</span>
+          <h2>Private previews. First access. Concierge updates.</h2>
+          <p>
+            Join the Calistique list for new drop alerts, styling notes, and early access to limited
+            jewellery and tailoring releases.
+          </p>
+          <div className="lux-button-row">
+            <Link className="lux-button lux-button--primary" to="/contact">
+              Request access
+            </Link>
+            <Link className="lux-button lux-button--ghost" to="/blog">
+              Read style notes
+            </Link>
+          </div>
         </div>
       </section>
     </div>

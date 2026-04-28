@@ -79,9 +79,9 @@ function getSeoForPath(pathname) {
   if (normalizedPath === '/') {
     return {
       ...base,
-      title: `${SITE_DISPLAY_NAME} | Premium website revenue system`,
+      title: `${SITE_DISPLAY_NAME} | Luxury fashion and fine jewellery`,
       description:
-        'A premium AI system manager for building mobile-first, AdSense-ready, SEO-heavy websites with strict brand isolation.',
+        'Luxury clothing and fine jewellery designed for modern eveningwear, elevated essentials, and gift-ready statement pieces.',
       schemas: [
         {
           '@context': 'https://schema.org',
@@ -157,18 +157,18 @@ function getSeoForPath(pathname) {
   if (normalizedPath === '/blog') {
     return {
       ...base,
-      title: `${SITE_DISPLAY_NAME} | Blueprints and editorial content`,
+      title: `${SITE_DISPLAY_NAME} | Style notes and journal`,
       description:
-        'Blueprints, SEO guidance, and monetization systems for premium websites.',
+        'Editorial style notes, drop updates, fit guidance, and luxury gifting inspiration from Calistique.',
     }
   }
 
   if (normalizedPath === '/products') {
     return {
       ...base,
-      title: `${SITE_DISPLAY_NAME} | Products and offers`,
+      title: `${SITE_DISPLAY_NAME} | Shop luxury clothing and jewellery`,
       description:
-        'Curated products and offers presented with a premium, mobile-first merchandising layout.',
+        'Shop Calistique luxury fashion, premium essentials, and statement jewellery with secure checkout and tracked fulfillment.',
     }
   }
 
@@ -186,7 +186,7 @@ function getSeoForPath(pathname) {
       ...base,
       title: `${SITE_DISPLAY_NAME} | AdSense readiness`,
       description:
-        'Compliance, policy, and structural checklist for AdSense review.',
+        'AdSense compliance, trust signals, policy pages, and storefront structure prepared for review.',
     }
   }
 

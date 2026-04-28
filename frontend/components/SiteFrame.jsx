@@ -42,8 +42,8 @@ export default function SiteFrame() {
             <span className="eyebrow">Calistique.xyz</span>
             <h2>Elegance redefined for modern luxury commerce.</h2>
             <p>
-              {SITE_DISPLAY_NAME} combines premium merchandising, secure checkout,
-              and the foundation required for Google review and revenue growth.
+              {SITE_DISPLAY_NAME} pairs luxury merchandising, secure checkout, and trust-first
+              storefront infrastructure built for search visibility and AdSense review.
             </p>
           </section>
 

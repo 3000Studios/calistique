@@ -7,7 +7,6 @@ export const publicNavItems = [
   { label: 'Style Notes', to: '/blog' },
   { label: 'About', to: '/about' },
   { label: 'Contact', to: '/contact' },
-  { label: 'Admin', to: '/admin/login' },
 ]
 
 export const publicStatusLines = [
@@ -18,8 +17,8 @@ export const publicStatusLines = [
 ]
 
 export const publicTickerItems = [
-  '// LUXURY STREETWEAR + STATEMENT JEWELRY',
-  '// DROP-FIRST MERCHANDISING',
-  '// STRIPE CHECKOUT · FAST MOBILE UI',
-  '// SEO + ADSENSE READINESS ON BY DEFAULT',
+  '// LUXURY FASHION + FINE JEWELLERY',
+  '// SECURE STRIPE + PAYPAL CHECKOUT',
+  '// READY FOR ADSENSE REVIEW',
+  '// CALISTIQUE XYZ · MODERN MAISON',
 ]

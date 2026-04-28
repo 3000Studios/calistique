@@ -414,6 +414,12 @@ body::after { display: none; }
   text-align: center;
 }
 
+.lux-panel--centered {
+  max-width: 52rem;
+  margin: 0 auto;
+  text-align: center;
+}
+
 .lux-collection-card::after,
 .lux-product-card::after,
 .lux-panel::after {
