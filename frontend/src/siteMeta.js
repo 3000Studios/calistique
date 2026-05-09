@@ -10,11 +10,11 @@ const defaultSite = {
   displayName: 'Calistique',
   legalName: 'Calistique',
   domain: 'calistique.xyz',
-  category: 'Luxury streetwear and statement jewelry',
+  category: 'Luxury clothing and fine jewellery',
   supportEmail: 'hello@calistique.xyz',
-  title: 'Calistique | Luxury streetwear + statement jewelry',
+  title: 'Calistique | Luxury fashion and fine jewellery',
   description:
-    'Calistique is a luxury streetwear and statement-jewelry studio built around limited drops, elevated essentials, and flawless fulfillment.',
+    'Calistique is a luxury fashion and fine-jewellery maison built around elevated essentials, statement pieces, and flawless fulfillment.',
 }
 
 export const REPOSITORY_URL = runtimeEnv.VITE_REPOSITORY_URL ?? defaultSite.repositoryUrl
