@@ -1,0 +1,36 @@
+{
+  "updatedFor": "calistique",
+  "slug": "jewelry-care-guide",
+  "title": "How to keep stainless steel and PVD jewelry looking new",
+  "excerpt": "Proper care for PVD-finished stainless steel — what damages it, what maintains it, and how long it should last.",
+  "publishedAt": "2026-05-12",
+  "sections": [
+    {
+      "heading": "Why PVD-finished stainless steel",
+      "body": "Physical Vapor Deposition (PVD) is a thin-film coating process that bonds a layer of titanium nitride or similar compound to the base metal. The result is a finish that is significantly more scratch-resistant and tarnish-resistant than gold plating. Unlike plating, PVD does not easily rub off — it is a bonded surface, not a sprayed one."
+    },
+    {
+      "heading": "What to avoid",
+      "body": "Harsh chemicals are the primary enemy of PVD finishes. Chlorine, bleach, and aggressive detergents can degrade the coating over time. Swimming in a chlorinated pool while wearing your jewelry is the most common way to accelerate fading. Remove pieces before entering pools, hot tubs, or using cleaning products."
+    },
+    {
+      "heading": "Sweat and daily wear",
+      "body": "Sweat is mildly acidic and can accumulate in chain links and around ring bands. After heavy exercise or high-heat days, wipe your pieces with a dry, soft cloth. A microfiber cloth works well. Avoid paper towels — they are abrasive enough to dull a finish over time."
+    },
+    {
+      "heading": "Storage",
+      "body": "Store jewelry in a cool, dry place away from direct sunlight. Humidity accelerates oxidation on any metal surface. If you wear your pieces daily, a small tray on a dresser is fine. For longer storage, a soft pouch or jewelry box with separated compartments prevents chains from tangling and scratching each other."
+    },
+    {
+      "heading": "Expected lifespan",
+      "body": "Well-maintained PVD-finished stainless steel should retain its finish for two to five years of daily wear. Pieces that are stored carefully, kept away from chemicals, and wiped regularly can last much longer. The base metal — stainless steel — is effectively permanent. The finish is what requires care."
+    }
+  ],
+  "cta": {
+    "eyebrow": "Built to last",
+    "heading": "PVD-finished hardware in every Calistique piece.",
+    "body": "All Obsidian Drop jewelry uses stainless steel with PVD finish — designed for daily wear and long-term value.",
+    "primaryLabel": "Shop jewelry",
+    "primaryHref": "/products/obsidian-chain-necklace"
+  }
+}

@@ -46,34 +46,71 @@ const ADSENSE_PUBLISHER_ID =
   inferredPublisherIdFromClient ||
   'pub-5800977493749262'
 
-async function collectRoutes() {
-  const routes = new Set(['/'])
-
-  const readJsonFiles = async (directory, transform) => {
-    const entries = await fs.readdir(directory, { withFileTypes: true })
-    for (const entry of entries) {
-      if (!entry.isFile() || !entry.name.endsWith('.json')) continue
-      const slug = entry.name.replace(/\.json$/i, '')
-      const route = transform(slug)
-      if (route) routes.add(route)
+async function readJsonFiltered(directory, key, expectedValue) {
+  const entries = await fs.readdir(directory, { withFileTypes: true }).catch(() => [])
+  const results = []
+  for (const entry of entries) {
+    if (!entry.isFile() || !entry.name.endsWith('.json')) continue
+    try {
+      const raw = await fs.readFile(path.join(directory, entry.name), 'utf8')
+      const parsed = JSON.parse(raw)
+      if (!key || !expectedValue || parsed[key] === expectedValue) {
+        results.push({ slug: entry.name.replace(/\.json$/i, ''), data: parsed })
+      }
+    } catch {
+      // skip malformed JSON
     }
   }
+  return results
+}
 
-  await readJsonFiles(contentPagesDir, (slug) =>
-    ['homepage', 'platform', 'pricing'].includes(slug)
-      ? `/${slug}`
-      : slug === 'theme'
-        ? null
-        : `/${slug}`
-  )
-  await readJsonFiles(contentBlogDir, (slug) =>
-    slug === 'index' ? '/blog' : `/blog/${slug}`
-  )
-  await readJsonFiles(contentProductsDir, (slug) =>
-    slug === 'catalog' ? '/products' : `/menu/${slug}`
-  )
+async function collectRoutes() {
+  const routes = new Set([
+    '/',
+    '/products',
+    '/blog',
+    '/about',
+    '/contact',
+    '/privacy',
+    '/terms',
+    '/disclosure',
+    '/drops/drop-001-obsidian',
+  ])
+
+  // Blog posts — only Calistique-tagged entries
+  const blogFiles = await readJsonFiltered(contentBlogDir, 'updatedFor', 'calistique')
+  for (const { slug, data } of blogFiles) {
+    if (slug === 'index' || !data.slug) continue
+    routes.add(`/blog/${data.slug}`)
+  }
+
+  // Products — from catalog
+  try {
+    const catalogPath = path.join(contentProductsDir, 'catalog.json')
+    const raw = await fs.readFile(catalogPath, 'utf8')
+    const catalog = JSON.parse(raw)
+    const products = Array.isArray(catalog?.products) ? catalog.products : []
+    for (const product of products) {
+      if (product?.slug) {
+        routes.add(`/products/${product.slug}`)
+      }
+    }
+  } catch {
+    // catalog missing or invalid — skip product routes
+  }
 
   return [...routes].sort()
+}
+
+function routePriority(route) {
+  if (route === '/') return { priority: '1.0', changefreq: 'weekly' }
+  if (route === '/products') return { priority: '0.9', changefreq: 'weekly' }
+  if (route === '/blog') return { priority: '0.85', changefreq: 'weekly' }
+  if (route.startsWith('/drops/')) return { priority: '0.85', changefreq: 'monthly' }
+  if (route.startsWith('/products/')) return { priority: '0.8', changefreq: 'monthly' }
+  if (route.startsWith('/blog/')) return { priority: '0.75', changefreq: 'monthly' }
+  if (['/about', '/contact'].includes(route)) return { priority: '0.7', changefreq: 'monthly' }
+  return { priority: '0.5', changefreq: 'yearly' }
 }
 
 async function generateSitemap() {
@@ -81,11 +118,14 @@ async function generateSitemap() {
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${routes
-  .map(
-    (route) => `  <url>
+  .map((route) => {
+    const { priority, changefreq } = routePriority(route)
+    return `  <url>
     <loc>${SITE_URL}${route === '/' ? '' : route}</loc>
+    <changefreq>${changefreq}</changefreq>
+    <priority>${priority}</priority>
   </url>`
-  )
+  })
   .join('\n')}
 </urlset>
 `

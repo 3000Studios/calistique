@@ -1,0 +1,36 @@
+{
+  "updatedFor": "calistique",
+  "slug": "monochrome-styling-guide",
+  "title": "How to do all-black without looking flat",
+  "excerpt": "Texture, silhouette, and hardware — the three tools that make monochrome outfits read as intentional instead of accidental.",
+  "publishedAt": "2026-05-10",
+  "sections": [
+    {
+      "heading": "The flat black problem",
+      "body": "An all-black outfit fails when every piece has the same weight, texture, and finish. When there is no contrast, the eye has nowhere to land and the outfit reads as unplanned rather than deliberate. Black on black works — but only when the pieces are doing different things."
+    },
+    {
+      "heading": "Texture is your contrast",
+      "body": "A heavyweight jersey tee paired with dense fleece creates immediate contrast without breaking the color story. Add a matte fabric pant with visible structure and you have three distinct textures reading in the same palette. The eye sees depth, not sameness."
+    },
+    {
+      "heading": "Silhouette does the work",
+      "body": "In a monochrome outfit, silhouette becomes the primary visual statement. An oversized tee cropped into a boxy silhouette reads completely differently than a fitted one. A tapered cargo pant with structure reads differently than a baggy one. Choose each piece based on what shape it contributes to the overall composition."
+    },
+    {
+      "heading": "Hardware as punctuation",
+      "body": "A single chain necklace or signet ring in a contrasting finish breaks the flat black in the best possible way. Black PVD hardware keeps everything in the same tonal family while adding shine. Silver or gold creates a deliberate accent point. Either works — the key is that the hardware looks intentional, not accidental."
+    },
+    {
+      "heading": "The one accent rule",
+      "body": "An all-black outfit is a canvas. Add one accent — one chain, one ring, one shoe color — and the outfit reads complete. Add three accents and you dilute the impact. Restraint is the discipline that separates premium styling from busy styling."
+    }
+  ],
+  "cta": {
+    "eyebrow": "Monochrome build",
+    "heading": "The OBSIDIAN DROP was designed for this.",
+    "body": "Heavyweight tee, cropped hoodie, cargo pant — every piece in flat black with clean structure.",
+    "primaryLabel": "Shop the drop",
+    "primaryHref": "/drops/drop-001-obsidian"
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "updatedFor": "calistique",
+  "slug": "drop-model-explained",
+  "title": "What is a fashion drop — and why it works",
+  "excerpt": "Limited releases, curated collections, and the psychology behind scarcity-driven retail.",
+  "publishedAt": "2026-05-25",
+  "sections": [
+    {
+      "heading": "The drop model defined",
+      "body": "A fashion drop is a time-limited release of a curated product collection — typically smaller in quantity and more cohesive in aesthetic than traditional seasonal retail. Instead of a continuous catalog with hundreds of SKUs, a drop is a deliberate edit: these pieces, at this time, in these quantities. When they sell out, they are gone."
+    },
+    {
+      "heading": "Why scarcity works",
+      "body": "Scarcity is not a gimmick — it is a genuine signal of quality and exclusivity. When a brand commits to limited quantities, they are committing to production standards they could not maintain at scale. Small-batch production allows tighter quality control, better materials, and more attention to construction. The buyer gets a piece that fewer people own — and that was made with more care."
+    },
+    {
+      "heading": "The curated edit advantage",
+      "body": "A drop with six to ten coherent pieces is easier to shop than a catalog with three hundred. Every item in a well-designed drop is designed to work with every other item. This is intentional design for mix-and-match wearability. When you buy a tee from a drop, you are buying into an ecosystem where the chain necklace, the cargo pant, and the hoodie all make sense together."
+    },
+    {
+      "heading": "What happens when a drop sells out",
+      "body": "Sold-out inventory creates secondary demand. Pieces from strong drops retain or appreciate their perceived value precisely because they are no longer available at retail. This is the same dynamic that drives resale markets for sneakers and luxury goods — the combination of genuine quality and genuine scarcity creates real collectibility."
+    },
+    {
+      "heading": "How to shop a drop",
+      "body": "Move quickly on pieces you are genuinely interested in. Drop inventory is real and quantities are finite. If a piece is available in your size, the time to buy it is when you see it — not after you think about it for a week. The pieces that sell out first in any drop are always the ones everyone regrets not getting."
+    }
+  ],
+  "cta": {
+    "eyebrow": "Drop 001",
+    "heading": "OBSIDIAN DROP — limited quantities, live now.",
+    "body": "Six pieces. Real quantities. When they are gone, they are gone.",
+    "primaryLabel": "Shop the drop",
+    "primaryHref": "/drops/drop-001-obsidian"
+  }
+}

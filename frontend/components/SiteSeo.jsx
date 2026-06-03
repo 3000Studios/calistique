@@ -9,7 +9,7 @@ import {
   SITE_DISPLAY_NAME,
   SITE_URL,
 } from '../src/siteMeta.js'
-import { productCatalog } from '../src/siteData.js'
+import { blogLookup, productCatalog } from '../src/siteData.js'
 
 function ensureMeta(selector, attributes) {
   let element = document.head.querySelector(selector)
@@ -159,7 +159,51 @@ function getSeoForPath(pathname) {
       ...base,
       title: `${SITE_DISPLAY_NAME} | Style notes and journal`,
       description:
-        'Editorial style notes, drop updates, fit guidance, and luxury gifting inspiration from Calistique.',
+        'Editorial style notes, drop updates, jewelry styling guides, and luxury gifting inspiration from Calistique.',
+    }
+  }
+
+  if (normalizedPath.startsWith('/blog/')) {
+    const postSlug = normalizedPath.split('/').at(-1)
+    const post = blogLookup[postSlug]
+    return {
+      ...base,
+      title: post ? `${post.title} | ${SITE_DISPLAY_NAME}` : `${SITE_DISPLAY_NAME} | Style notes`,
+      description: post?.excerpt ?? 'Style guides, jewelry tips, and drop strategy from Calistique.',
+      schemas: post
+        ? [
+            {
+              '@context': 'https://schema.org',
+              '@type': 'Article',
+              headline: post.title,
+              description: post.excerpt,
+              datePublished: post.publishedAt,
+              author: {
+                '@type': 'Organization',
+                name: SITE_BRAND.displayName,
+                url: SITE_BRAND.url,
+              },
+              publisher: {
+                '@type': 'Organization',
+                name: SITE_BRAND.legalName,
+                url: SITE_BRAND.url,
+              },
+              mainEntityOfPage: {
+                '@type': 'WebPage',
+                '@id': canonicalUrl,
+              },
+            },
+          ]
+        : [],
+    }
+  }
+
+  if (normalizedPath.startsWith('/drops/')) {
+    return {
+      ...base,
+      title: `OBSIDIAN DROP | ${SITE_DISPLAY_NAME}`,
+      description:
+        'Limited-edition monochrome streetwear and statement jewelry from Calistique. Shop Drop 001 while quantities last.',
     }
   }
 

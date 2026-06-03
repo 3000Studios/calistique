@@ -1,0 +1,36 @@
+{
+  "updatedFor": "calistique",
+  "slug": "luxury-gift-guide",
+  "title": "Luxury gifts that actually land: a buyer's guide",
+  "excerpt": "The gifts people keep, wear, and remember — not the ones that get returned in January.",
+  "publishedAt": "2026-05-08",
+  "sections": [
+    {
+      "heading": "Why most gifts fail",
+      "body": "Most gifts fail because they are purchased for a hypothetical version of the person rather than for who they actually are and what they actually wear. The safest luxury gift is one that fits seamlessly into an existing wardrobe or routine — not one that requires a new life to accommodate it."
+    },
+    {
+      "heading": "Jewelry as a gift: what works",
+      "body": "Jewelry is one of the highest-retention gift categories because it is personal, visible, and emotionally weighted. The gifts that land are the ones with clear aesthetic identity: a clean PVD chain necklace, a well-shaped signet ring, a layered chain set. They work across styles and are not trend-dependent."
+    },
+    {
+      "heading": "Avoid personalization without certainty",
+      "body": "Engraving and monogramming are gestures that feel meaningful but limit utility. If you are not certain the recipient wants their initials on their jewelry, skip it. A clean, unmarked piece is more versatile and more likely to be worn daily. Personalize only when asked."
+    },
+    {
+      "heading": "Packaging matters more than people admit",
+      "body": "The unboxing experience is part of the gift. A premium piece delivered in generic packaging loses half its impact. If you are gifting jewelry, a matte gift bag with tissue adds real perceived value. The presentation signals the level of intention behind the purchase."
+    },
+    {
+      "heading": "The practical luxury gifts that always win",
+      "body": "A heavyweight tee in a great fabric. A statement chain necklace. A signet ring in the recipient's size. A layered chain set. These are not flashy gifts — they are considered ones. They read as thoughtful because they are actually wearable, not decorative."
+    }
+  ],
+  "cta": {
+    "eyebrow": "Gift-ready",
+    "heading": "Premium packaging available on every order.",
+    "body": "Add a gift bag at checkout. Ships same day on business orders placed before 2pm ET.",
+    "primaryLabel": "Shop gifts",
+    "primaryHref": "/products"
+  }
+}
