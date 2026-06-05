@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import { useCart } from '../src/cartStore.jsx'
+import { saveOrder } from '../src/orderService.js'
 
 async function fetchSession(sessionId) {
   const response = await fetch(`/api/checkout/session?session_id=${encodeURIComponent(sessionId)}`, {
@@ -19,6 +20,7 @@ export default function OrderSuccessPage() {
   const sessionId = params.get('session_id') || ''
   const { clearCart } = useCart()
   const [state, setState] = useState({ status: 'loading', data: null, error: '' })
+  const savedRef = useRef(false)
 
   useEffect(() => {
     if (!sessionId) {
@@ -27,11 +29,22 @@ export default function OrderSuccessPage() {
     }
     let active = true
     fetchSession(sessionId)
-      .then((payload) => {
+      .then(async (payload) => {
         if (!active) return
         setState({ status: 'ready', data: payload, error: '' })
-        if (payload?.paymentStatus === 'paid' || payload?.status === 'complete') {
+        const isPaid = payload?.paymentStatus === 'paid' || payload?.status === 'complete'
+        if (isPaid) {
           clearCart()
+          if (!savedRef.current) {
+            savedRef.current = true
+            await saveOrder({
+              sessionId,
+              paymentStatus: payload.paymentStatus,
+              amountTotal: payload.amountTotal,
+              currency: payload.currency,
+              customerEmail: payload.customerEmail,
+            })
+          }
         }
       })
       .catch((error) => {
@@ -43,12 +56,18 @@ export default function OrderSuccessPage() {
     }
   }, [clearCart, sessionId])
 
+  const data = state.data
+  const amountLabel =
+    typeof data?.amountTotal === 'number'
+      ? new Intl.NumberFormat(undefined, { style: 'currency', currency: data.currency ?? 'USD', maximumFractionDigits: 0 }).format(data.amountTotal / 100)
+      : null
+
   return (
     <article className="prose-page">
       <header className="prose-header">
-        <span className="eyebrow">Order</span>
+        <span className="eyebrow">Order confirmed</span>
         <h1>Payment received.</h1>
-        <p className="prose-lead">Your order is confirmed. We’ll ship it fast.</p>
+        <p className="prose-lead">Your order is confirmed. We'll ship it fast.</p>
       </header>
 
       {state.status === 'loading' ? <p className="muted">Verifying checkout session…</p> : null}
@@ -58,26 +77,22 @@ export default function OrderSuccessPage() {
         <section className="shop-detail__grid">
           <div className="shop-detail__card">
             <h2>Status</h2>
-            <p className="muted">
-              {state.data?.paymentStatus ?? state.data?.status ?? 'unknown'}
+            <p className="muted" style={{ textTransform: 'capitalize' }}>
+              {data?.paymentStatus ?? data?.status ?? 'confirmed'}
             </p>
           </div>
           <div className="shop-detail__card">
             <h2>Total</h2>
-            <p className="muted">
-              {typeof state.data?.amountTotal === 'number'
-                ? `$${Math.round(state.data.amountTotal / 100)}`
-                : '—'}
-            </p>
+            <p className="muted">{amountLabel ?? '—'}</p>
           </div>
           <div className="shop-detail__card">
             <h2>Receipt</h2>
-            {state.data?.receiptUrl ? (
-              <a className="button button--primary" href={state.data.receiptUrl} target="_blank" rel="noreferrer">
+            {data?.receiptUrl ? (
+              <a className="button button--primary" href={data.receiptUrl} target="_blank" rel="noreferrer">
                 View receipt
               </a>
             ) : (
-              <p className="muted">Receipt link will appear once available.</p>
+              <p className="muted">Check your email for the receipt.</p>
             )}
           </div>
         </section>

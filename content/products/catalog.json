@@ -17,7 +17,15 @@
       "id": "drop-001-obsidian",
       "name": "OBSIDIAN DROP",
       "tagline": "Monochrome essentials with hardware that hits.",
-      "launchAt": "2026-04-27T16:00:00.000Z"
+      "launchAt": "2026-04-27T16:00:00.000Z",
+      "heroVideo": "https://cdn.coverr.co/videos/coverr-a-model-in-a-jacket-1535/1080p.mp4"
+    },
+    {
+      "id": "drop-002-noir",
+      "name": "NOIR DROP",
+      "tagline": "After-dark essentials. Pure edge.",
+      "launchAt": "2026-07-01T16:00:00.000Z",
+      "heroVideo": "https://cdn.coverr.co/videos/coverr-man-walking-in-slow-motion-6232/1080p.mp4"
     }
   ],
   "products": [
@@ -37,9 +45,12 @@
       "availability": "https://schema.org/InStock",
       "condition": "https://schema.org/NewCondition",
       "seller": "Calistique.xyz",
-      "fulfillment": "Merchant fulfilled from New York",
+      "fulfillment": "Ships from New York, 1–3 business days.",
+      "video": "https://cdn.coverr.co/videos/coverr-a-man-wearing-white-t-shirt-walks-past-bushes-2591/1080p.mp4",
       "images": [
-        "https://images.pexels.com/photos/845434/pexels-photo-845434.jpeg?auto=compress&cs=tinysrgb&w=1400&h=1400&dpr=1"
+        "https://images.pexels.com/photos/845434/pexels-photo-845434.jpeg?auto=compress&cs=tinysrgb&w=1400&h=1400&dpr=1",
+        "https://images.pexels.com/photos/2220316/pexels-photo-2220316.jpeg?auto=compress&cs=tinysrgb&w=1400&h=1400&dpr=1",
+        "https://images.pexels.com/photos/1598507/pexels-photo-1598507.jpeg?auto=compress&cs=tinysrgb&w=1400&h=1400&dpr=1"
       ],
       "variants": [
         { "sku": "OBSTEE-BLK-S", "label": "Black / S", "priceCents": 6800, "stock": 18, "weight": 0.45 },
@@ -65,9 +76,12 @@
       "availability": "https://schema.org/InStock",
       "condition": "https://schema.org/NewCondition",
       "seller": "Calistique.xyz",
-      "fulfillment": "Merchant fulfilled from New York",
+      "fulfillment": "Ships from New York, 1–3 business days.",
+      "video": "https://cdn.coverr.co/videos/coverr-a-model-in-a-jacket-1535/1080p.mp4",
       "images": [
-        "https://images.pexels.com/photos/1040945/pexels-photo-1040945.jpeg?auto=compress&cs=tinysrgb&w=1400&h=1400&dpr=1"
+        "https://images.pexels.com/photos/1040945/pexels-photo-1040945.jpeg?auto=compress&cs=tinysrgb&w=1400&h=1400&dpr=1",
+        "https://images.pexels.com/photos/1183266/pexels-photo-1183266.jpeg?auto=compress&cs=tinysrgb&w=1400&h=1400&dpr=1",
+        "https://images.pexels.com/photos/1021693/pexels-photo-1021693.jpeg?auto=compress&cs=tinysrgb&w=1400&h=1400&dpr=1"
       ],
       "variants": [
         { "sku": "OBSHOOD-BLK-S", "label": "Black / S", "priceCents": 12800, "stock": 12, "weight": 0.9 },
@@ -92,9 +106,12 @@
       "availability": "https://schema.org/InStock",
       "condition": "https://schema.org/NewCondition",
       "seller": "Calistique.xyz",
-      "fulfillment": "Merchant fulfilled from New York",
+      "fulfillment": "Ships from New York, 1–3 business days.",
+      "video": "https://cdn.coverr.co/videos/coverr-man-walking-in-slow-motion-6232/1080p.mp4",
       "images": [
-        "https://images.pexels.com/photos/4046306/pexels-photo-4046306.jpeg?auto=compress&cs=tinysrgb&w=1400&h=1400&dpr=1"
+        "https://images.pexels.com/photos/4046306/pexels-photo-4046306.jpeg?auto=compress&cs=tinysrgb&w=1400&h=1400&dpr=1",
+        "https://images.pexels.com/photos/1598505/pexels-photo-1598505.jpeg?auto=compress&cs=tinysrgb&w=1400&h=1400&dpr=1",
+        "https://images.pexels.com/photos/3622591/pexels-photo-3622591.jpeg?auto=compress&cs=tinysrgb&w=1400&h=1400&dpr=1"
       ],
       "variants": [
         { "sku": "OBSCARGO-BLK-30", "label": "Black / 30", "priceCents": 14800, "stock": 10, "weight": 0.75 },
@@ -102,6 +119,66 @@
         { "sku": "OBSCARGO-BLK-34", "label": "Black / 34", "priceCents": 14800, "stock": 8, "weight": 0.82 }
       ],
       "crossSell": ["obsidian-chain-necklace", "obsidian-signet-ring"]
+    },
+    {
+      "slug": "noir-bomber-jacket",
+      "name": "Noir Bomber Jacket",
+      "category": "Streetwear",
+      "description": "Structured MA-1 silhouette in clean matte black. Ribbed cuffs, interior lining, and a fit that sits premium on camera.",
+      "materials": ["Nylon shell", "Polyester fill", "Ribbed trim"],
+      "care": "Spot clean only. Hang to air dry.",
+      "shippingBlurb": "Ships in 2–4 business days.",
+      "returnsBlurb": "30-day returns on unworn items with tags.",
+      "badges": ["Drop 002", "New"],
+      "featuredRank": 4,
+      "dropId": "drop-002-noir",
+      "brand": "Calistique",
+      "availability": "https://schema.org/InStock",
+      "condition": "https://schema.org/NewCondition",
+      "seller": "Calistique.xyz",
+      "fulfillment": "Ships from New York, 2–4 business days.",
+      "video": "https://cdn.coverr.co/videos/coverr-a-model-in-a-jacket-1535/1080p.mp4",
+      "images": [
+        "https://images.pexels.com/photos/1040424/pexels-photo-1040424.jpeg?auto=compress&cs=tinysrgb&w=1400&h=1400&dpr=1",
+        "https://images.pexels.com/photos/1040946/pexels-photo-1040946.jpeg?auto=compress&cs=tinysrgb&w=1400&h=1400&dpr=1",
+        "https://images.pexels.com/photos/2220312/pexels-photo-2220312.jpeg?auto=compress&cs=tinysrgb&w=1400&h=1400&dpr=1"
+      ],
+      "variants": [
+        { "sku": "NOIRBOMB-BLK-S", "label": "Black / S", "priceCents": 19800, "stock": 8, "weight": 0.95 },
+        { "sku": "NOIRBOMB-BLK-M", "label": "Black / M", "priceCents": 19800, "stock": 10, "weight": 1.0 },
+        { "sku": "NOIRBOMB-BLK-L", "label": "Black / L", "priceCents": 19800, "stock": 9, "weight": 1.05 },
+        { "sku": "NOIRBOMB-BLK-XL", "label": "Black / XL", "priceCents": 19800, "stock": 6, "weight": 1.1 }
+      ],
+      "crossSell": ["obsidian-chain-necklace", "obsidian-layered-chain-set"]
+    },
+    {
+      "slug": "noir-track-pants",
+      "name": "Noir Track Pants",
+      "category": "Streetwear",
+      "description": "Slim tapered track pants with a clean ankle hem and side-seam pockets. Built for the street-to-studio commute.",
+      "materials": ["Poly-cotton blend", "Elastic waist with drawstring"],
+      "care": "Machine wash cold. Tumble low.",
+      "shippingBlurb": "Ships in 1–3 business days.",
+      "returnsBlurb": "30-day returns on unworn items with tags.",
+      "badges": ["Drop 002"],
+      "featuredRank": 5,
+      "dropId": "drop-002-noir",
+      "brand": "Calistique",
+      "availability": "https://schema.org/InStock",
+      "condition": "https://schema.org/NewCondition",
+      "seller": "Calistique.xyz",
+      "fulfillment": "Ships from New York, 1–3 business days.",
+      "images": [
+        "https://images.pexels.com/photos/1895943/pexels-photo-1895943.jpeg?auto=compress&cs=tinysrgb&w=1400&h=1400&dpr=1",
+        "https://images.pexels.com/photos/3622616/pexels-photo-3622616.jpeg?auto=compress&cs=tinysrgb&w=1400&h=1400&dpr=1"
+      ],
+      "variants": [
+        { "sku": "NOIRTRACK-BLK-S", "label": "Black / S", "priceCents": 9800, "stock": 14, "weight": 0.5 },
+        { "sku": "NOIRTRACK-BLK-M", "label": "Black / M", "priceCents": 9800, "stock": 18, "weight": 0.52 },
+        { "sku": "NOIRTRACK-BLK-L", "label": "Black / L", "priceCents": 9800, "stock": 16, "weight": 0.55 },
+        { "sku": "NOIRTRACK-BLK-XL", "label": "Black / XL", "priceCents": 9800, "stock": 10, "weight": 0.58 }
+      ],
+      "crossSell": ["noir-bomber-jacket", "obsidian-signet-ring"]
     },
     {
       "slug": "obsidian-chain-necklace",
@@ -113,15 +190,18 @@
       "shippingBlurb": "Ships in 1–2 business days.",
       "returnsBlurb": "Jewelry returns accepted in original packaging.",
       "badges": ["Drop 001", "Best seller"],
-      "featuredRank": 4,
+      "featuredRank": 6,
       "dropId": "drop-001-obsidian",
       "brand": "Calistique",
       "availability": "https://schema.org/InStock",
       "condition": "https://schema.org/NewCondition",
       "seller": "Calistique.xyz",
-      "fulfillment": "Merchant fulfilled from New York",
+      "fulfillment": "Ships from New York, 1–2 business days.",
+      "video": "https://cdn.coverr.co/videos/coverr-woman-with-jewelry-1765/1080p.mp4",
       "images": [
-        "https://images.pexels.com/photos/1191531/pexels-photo-1191531.jpeg?auto=compress&cs=tinysrgb&w=1400&h=1400&dpr=1"
+        "https://images.pexels.com/photos/1191531/pexels-photo-1191531.jpeg?auto=compress&cs=tinysrgb&w=1400&h=1400&dpr=1",
+        "https://images.pexels.com/photos/8100784/pexels-photo-8100784.jpeg?auto=compress&cs=tinysrgb&w=1400&h=1400&dpr=1",
+        "https://images.pexels.com/photos/10812882/pexels-photo-10812882.jpeg?auto=compress&cs=tinysrgb&w=1400&h=1400&dpr=1"
       ],
       "variants": [
         { "sku": "OBSCHAIN-18", "label": "18 in", "priceCents": 9800, "stock": 28, "weight": 0.12 },
@@ -139,15 +219,18 @@
       "shippingBlurb": "Ships in 1–2 business days.",
       "returnsBlurb": "Jewelry returns accepted in original packaging.",
       "badges": ["Bundle", "High AOV"],
-      "featuredRank": 5,
+      "featuredRank": 7,
       "dropId": "drop-001-obsidian",
       "brand": "Calistique",
       "availability": "https://schema.org/InStock",
       "condition": "https://schema.org/NewCondition",
       "seller": "Calistique.xyz",
-      "fulfillment": "Merchant fulfilled from New York",
+      "fulfillment": "Ships from New York, 1–2 business days.",
+      "video": "https://cdn.coverr.co/videos/coverr-woman-with-jewelry-1765/1080p.mp4",
       "images": [
-        "https://images.pexels.com/photos/8100784/pexels-photo-8100784.jpeg?auto=compress&cs=tinysrgb&w=1400&h=1400&dpr=1"
+        "https://images.pexels.com/photos/8100784/pexels-photo-8100784.jpeg?auto=compress&cs=tinysrgb&w=1400&h=1400&dpr=1",
+        "https://images.pexels.com/photos/1191531/pexels-photo-1191531.jpeg?auto=compress&cs=tinysrgb&w=1400&h=1400&dpr=1",
+        "https://images.pexels.com/photos/248077/pexels-photo-248077.jpeg?auto=compress&cs=tinysrgb&w=1400&h=1400&dpr=1"
       ],
       "variants": [
         { "sku": "OBSLAYER-SET", "label": "Set", "priceCents": 16800, "stock": 14, "weight": 0.22 }
@@ -164,15 +247,17 @@
       "shippingBlurb": "Ships in 1–2 business days.",
       "returnsBlurb": "Jewelry returns accepted in original packaging.",
       "badges": ["Drop 001"],
-      "featuredRank": 6,
+      "featuredRank": 8,
       "dropId": "drop-001-obsidian",
       "brand": "Calistique",
       "availability": "https://schema.org/InStock",
       "condition": "https://schema.org/NewCondition",
       "seller": "Calistique.xyz",
-      "fulfillment": "Merchant fulfilled from New York",
+      "fulfillment": "Ships from New York, 1–2 business days.",
       "images": [
-        "https://images.pexels.com/photos/1126993/pexels-photo-1126993.jpeg?auto=compress&cs=tinysrgb&w=1400&h=1400&dpr=1"
+        "https://images.pexels.com/photos/1126993/pexels-photo-1126993.jpeg?auto=compress&cs=tinysrgb&w=1400&h=1400&dpr=1",
+        "https://images.pexels.com/photos/3735654/pexels-photo-3735654.jpeg?auto=compress&cs=tinysrgb&w=1400&h=1400&dpr=1",
+        "https://images.pexels.com/photos/248077/pexels-photo-248077.jpeg?auto=compress&cs=tinysrgb&w=1400&h=1400&dpr=1"
       ],
       "variants": [
         { "sku": "OBSSIGNET-7", "label": "Size 7", "priceCents": 7200, "stock": 16, "weight": 0.03 },
@@ -180,6 +265,113 @@
         { "sku": "OBSSIGNET-9", "label": "Size 9", "priceCents": 7200, "stock": 15, "weight": 0.03 }
       ],
       "crossSell": ["obsidian-chain-necklace", "obsidian-layered-chain-set"]
+    },
+    {
+      "slug": "noir-cuff-bracelet",
+      "name": "Noir Cuff Bracelet",
+      "category": "Jewelry",
+      "description": "Wide PVD-finished cuff with a matte edge and polished interior. Sits clean on the wrist. Converts on camera.",
+      "materials": ["Stainless steel", "PVD matte finish"],
+      "care": "Wipe with a soft cloth. Store in pouch.",
+      "shippingBlurb": "Ships in 1–2 business days.",
+      "returnsBlurb": "Jewelry returns accepted in original packaging within 30 days.",
+      "badges": ["Drop 002", "New"],
+      "featuredRank": 9,
+      "dropId": "drop-002-noir",
+      "brand": "Calistique",
+      "availability": "https://schema.org/InStock",
+      "condition": "https://schema.org/NewCondition",
+      "seller": "Calistique.xyz",
+      "fulfillment": "Ships from New York, 1–2 business days.",
+      "video": "https://cdn.coverr.co/videos/coverr-woman-with-jewelry-1765/1080p.mp4",
+      "images": [
+        "https://images.pexels.com/photos/3735641/pexels-photo-3735641.jpeg?auto=compress&cs=tinysrgb&w=1400&h=1400&dpr=1",
+        "https://images.pexels.com/photos/1460838/pexels-photo-1460838.jpeg?auto=compress&cs=tinysrgb&w=1400&h=1400&dpr=1"
+      ],
+      "variants": [
+        { "sku": "NOIRCUFF-SM", "label": "S / M", "priceCents": 8400, "stock": 20, "weight": 0.08 },
+        { "sku": "NOIRCUFF-ML", "label": "M / L", "priceCents": 8400, "stock": 18, "weight": 0.09 }
+      ],
+      "crossSell": ["obsidian-chain-necklace", "obsidian-signet-ring"]
+    },
+    {
+      "slug": "noir-hoop-earrings",
+      "name": "Noir Hoop Earrings",
+      "category": "Jewelry",
+      "description": "Thick PVD hoops that balance between bold and minimal. Designed for daily wear — tarnish resistant.",
+      "materials": ["Stainless steel", "PVD black finish"],
+      "care": "Wipe clean. Store dry.",
+      "shippingBlurb": "Ships in 1–2 business days.",
+      "returnsBlurb": "Jewelry returns in original packaging.",
+      "badges": ["Drop 002"],
+      "featuredRank": 10,
+      "dropId": "drop-002-noir",
+      "brand": "Calistique",
+      "availability": "https://schema.org/InStock",
+      "condition": "https://schema.org/NewCondition",
+      "seller": "Calistique.xyz",
+      "fulfillment": "Ships from New York, 1–2 business days.",
+      "images": [
+        "https://images.pexels.com/photos/1395967/pexels-photo-1395967.jpeg?auto=compress&cs=tinysrgb&w=1400&h=1400&dpr=1",
+        "https://images.pexels.com/photos/2533266/pexels-photo-2533266.jpeg?auto=compress&cs=tinysrgb&w=1400&h=1400&dpr=1"
+      ],
+      "variants": [
+        { "sku": "NOIRHOOPS-25MM", "label": "25mm", "priceCents": 5200, "stock": 30, "weight": 0.02 },
+        { "sku": "NOIRHOOPS-35MM", "label": "35mm", "priceCents": 5200, "stock": 28, "weight": 0.025 }
+      ],
+      "crossSell": ["noir-cuff-bracelet", "obsidian-layered-chain-set"]
+    },
+    {
+      "slug": "noir-dad-cap",
+      "name": "Noir Dad Cap",
+      "category": "Accessories",
+      "description": "Unstructured 6-panel with a curved brim and minimal tonal embroidery. Sits clean with streetwear and tailoring.",
+      "materials": ["100% cotton twill", "Brass buckle strap"],
+      "care": "Hand wash cold. Air dry.",
+      "shippingBlurb": "Ships in 1–3 business days.",
+      "returnsBlurb": "30-day returns on unworn items.",
+      "badges": ["Drop 002", "New"],
+      "featuredRank": 11,
+      "dropId": "drop-002-noir",
+      "brand": "Calistique",
+      "availability": "https://schema.org/InStock",
+      "condition": "https://schema.org/NewCondition",
+      "seller": "Calistique.xyz",
+      "fulfillment": "Ships from New York, 1–3 business days.",
+      "images": [
+        "https://images.pexels.com/photos/1124465/pexels-photo-1124465.jpeg?auto=compress&cs=tinysrgb&w=1400&h=1400&dpr=1",
+        "https://images.pexels.com/photos/2081389/pexels-photo-2081389.jpeg?auto=compress&cs=tinysrgb&w=1400&h=1400&dpr=1"
+      ],
+      "variants": [
+        { "sku": "NOIRCAP-OS", "label": "One Size", "priceCents": 3600, "stock": 40, "weight": 0.15 }
+      ],
+      "crossSell": ["obsidian-oversized-tee", "noir-bomber-jacket"]
+    },
+    {
+      "slug": "noir-tote-bag",
+      "name": "Noir Canvas Tote",
+      "category": "Accessories",
+      "description": "Heavy canvas tote with reinforced straps and a clean interior. Built for daily carry. Minimal branding.",
+      "materials": ["14oz canvas", "Cotton webbing straps"],
+      "care": "Machine wash cold. Air dry.",
+      "shippingBlurb": "Ships in 1–3 business days.",
+      "returnsBlurb": "30-day returns.",
+      "badges": ["Utility"],
+      "featuredRank": 12,
+      "dropId": null,
+      "brand": "Calistique",
+      "availability": "https://schema.org/InStock",
+      "condition": "https://schema.org/NewCondition",
+      "seller": "Calistique.xyz",
+      "fulfillment": "Ships from New York, 1–3 business days.",
+      "images": [
+        "https://images.pexels.com/photos/1152077/pexels-photo-1152077.jpeg?auto=compress&cs=tinysrgb&w=1400&h=1400&dpr=1",
+        "https://images.pexels.com/photos/3316918/pexels-photo-3316918.jpeg?auto=compress&cs=tinysrgb&w=1400&h=1400&dpr=1"
+      ],
+      "variants": [
+        { "sku": "NOIRTOTE-BLK", "label": "Black", "priceCents": 4800, "stock": 35, "weight": 0.3 }
+      ],
+      "crossSell": ["obsidian-oversized-tee", "noir-dad-cap"]
     },
     {
       "slug": "gift-bag-premium",
@@ -197,7 +389,7 @@
       "availability": "https://schema.org/InStock",
       "condition": "https://schema.org/NewCondition",
       "seller": "Calistique.xyz",
-      "fulfillment": "Merchant fulfilled from New York",
+      "fulfillment": "Ships with your order.",
       "images": [
         "https://images.pexels.com/photos/634755/pexels-photo-634755.jpeg?auto=compress&cs=tinysrgb&w=1400&h=1400&dpr=1"
       ],
@@ -222,7 +414,7 @@
       "availability": "https://schema.org/InStock",
       "condition": "https://schema.org/NewCondition",
       "seller": "Calistique.xyz",
-      "fulfillment": "Merchant fulfilled from New York",
+      "fulfillment": "Ships with your order.",
       "images": [
         "https://images.pexels.com/photos/1457801/pexels-photo-1457801.jpeg?auto=compress&cs=tinysrgb&w=1400&h=1400&dpr=1"
       ],

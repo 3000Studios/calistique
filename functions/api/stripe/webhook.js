@@ -73,14 +73,28 @@ export async function onRequestPost(context) {
 
   if (event.type === 'checkout.session.completed') {
     const session = event.data?.object
+    const customerEmail = session?.customer_details?.email
     console.log('stripe.checkout.session.completed', {
       id: session?.id,
       amount_total: session?.amount_total,
       currency: session?.currency,
-      email: session?.customer_details?.email,
+      email: customerEmail,
       metadata: session?.metadata,
-      payment_intent: session?.payment_intent,
     })
+
+    if (customerEmail && context.env?.RESEND_API_KEY) {
+      const origin = new URL(context.request.url).origin
+      await fetch(`${origin}/api/orders/confirm`, {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({
+          sessionId: session?.id,
+          customerEmail,
+          amountTotal: session?.amount_total,
+          currency: session?.currency,
+        }),
+      }).catch(() => {})
+    }
   }
 
   return json({ ok: true })
