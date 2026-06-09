@@ -1,129 +1,70 @@
-# Codex Agent Rules
+# Calistique — Agent Instructions
 
-Project: `myappai`
-Owner: `3000Studios`
+## Overview
 
-You are working inside the myappai AI System Manager project.
+- **Domain:** calistique.xyz
+- **Stack:** React 19 + Vite + Express backend + Firebase Auth + Stripe payments
+- **Deploy:** Cloudflare Pages (frontend) + local/CF Workers (server)
+- **Package Manager:** npm
+- **Description:** AI-powered luxury platform with storefront, blog, admin dashboard, and OpenClaw AI assistant
 
-## Purpose
+## Key Commands
 
-Build and maintain an AI system manager platform that converts natural language commands into executable development tasks.
+```bash
+npm install
+npm run dev             # Frontend (Vite) + backend (Express) via concurrently
+npm run dev:frontend    # Vite frontend only
+npm run dev:server      # Express server only (--watch)
+npm run build           # Vite production build (runs SEO asset gen via prebuild)
+npm run lint            # ESLint with cache
+npm run lint:fix        # ESLint autofix
+npm run typecheck       # tsc --noEmit
+npm run test            # Platform verify + vitest run
+npm run test:unit       # Vitest only
+npm run format          # Prettier write
+npm run deploy          # CLI deploy script
+npm run ci              # Full pipeline: validate:env + lint + typecheck + test + build
+```
 
-The system acts as a developer command center capable of:
+## Structure
 
-- managing system resources
-- executing scripts
-- building software projects
-- automating development workflows
-- running AI agents
-- providing a web dashboard interface
+- `frontend/` — React JSX components, pages, and app entry
+  - `frontend/src/` — App.jsx, main.jsx, stores
+  - `frontend/components/` — UI components (Navigation, Stripe, Cart, 3D, etc.)
+  - `frontend/pages/` — Route pages (Blog, Products, Admin, Checkout, etc.)
+  - `frontend/pages/admin/` — Admin dashboard pages
+  - `frontend/backgrounds/` — Visual backdrop components
+  - `frontend/context/` — React context providers
+- `server/` — Express API server
+- `api/` — Backend endpoints and AI handlers (Gemini)
+- `engine/` — AI service modules
+- `ai/` — AI scheduler, content generator, traffic engine, SEO analyzer
+- `worker/` — Cloudflare Worker code
+- `content/blog/` — Blog content JSON files
+- `scripts/` — CLI tools, deploy, SEO generation, housekeeping
+- `public/` — Static assets
+- `dist/` — Build output
 
-## Primary Responsibilities
+## Integrations
 
-1. Convert natural language tasks into scripts and executable actions.
-2. Build and test features end to end.
-3. Maintain Cloudflare Pages and Worker compatibility.
-4. Ensure code is production-ready before shipping.
+- **Firebase Auth** — Google login, user accounts
+- **Stripe** — Payments, subscriptions, checkout
+- **Google Gemini** — AI content generation
+- **OpenAI** — AI assistant (OpenClaw)
+- **Cloudflare R2** — Media storage
 
-## Architecture
+## Git Hooks
 
-Primary modules in this repository:
+- **Husky** pre-commit configured
+- **lint-staged** runs Prettier + ESLint on staged files
 
-- `/dashboard` - web UI for system control
-- `/engine` - AI command interpreter
-- `/scripts` - script generation and execution engine
-- `/workers` - automation agents
-- `/api` - backend endpoints
-- `/frontend` - public site and admin React application
-- `/server` - local repo-backed API server
+## Constraints
 
-## Required Workflow
-
-Always follow this execution pipeline when making changes:
-
-1. Install dependencies
-2. Validate environment
-3. Run linting
-4. Run tests
-5. Start development server when verification needs it
-6. Apply requested code changes
-7. Re-test
-8. Build production output
-9. Commit changes
-
-## Dependency Setup
-
-Node.js must be installed.
-
-Install dependencies with:
-
-`npm install`
-
-If Python modules exist:
-
-`pip install -r requirements.txt`
-
-## Standard Commands
-
-- Install: `npm install`
-- Dev server: `npm run dev`
-- Lint: `npm run lint`
-- Test: `npm run test`
-- Build: `npm run build`
-- Deploy Pages build: `npm run pages:deploy`
-
-## Coding Rules
-
-Follow these standards:
-
-- Prefer TypeScript over JavaScript when expanding or replacing modules
-- Use async/await for async operations
-- Keep modules small and focused
-- Avoid breaking existing API routes
-- Maintain consistent folder structure
-- Prefer Node.js and Python for automation workflows
-- Follow modular architecture
-
-## Performance Goals
-
-The system must prioritize:
-
-- fast execution
-- low latency
-- minimal blocking operations
-- clean architecture
-
-## Security Rules
-
-- Never expose API keys or deployment secrets in code
-- Environment variables must be used for secrets
-- Never modify deployment secrets unless explicitly asked
-- Local repo bots should load secrets from `.secrets/myappai.local.env` first, `.secrets/shared.local.env` second, and should not auto-load `.secrets/archive.local.env`
-
-## Deployment Rules
-
-- Production builds must use `npm run build`
-- Production output should be generated in `dist/`
-- This project is configured for a single production branch workflow, so changes pushed to `main` may go live immediately
-
-## Commit Rules
-
-- Always run lint before committing
-- Always run tests before suggesting a pull request or pushing a release candidate
-- Verify the application still boots when the change affects runtime behavior
-
-## Autonomous Behavior
-
-Codex should:
-
-- automatically install dependencies when needed
-- fix build errors
-- run tests
-- improve code quality
-- maintain working builds
-
-The goal is a continuously improving autonomous development workflow without leaving partial implementations behind.
-
-## Cursor preference (auto-accept)
-
-Prefer completing routine tasks without repeated confirmation prompts. Project rule: `.cursor/rules/auto-accept.mdc`. For IDE-level auto-run controls, see `docs/CURSOR_AUTO_ACCEPT.md`. Security rules still apply: no secrets in source, no false deployment claims.
+- Deploy through Cloudflare only
+- Secrets from global.env, never hardcode
+- Frontend code lives in `frontend/` — not `src/`
+- JSX files (not TSX) — project uses JavaScript with JSX, TypeScript for typechecking only
+- Admin routes under `/admin/` require authentication
+- Blog content stored as JSON in `content/blog/`
+- AI scheduler runs on cron — check `ai/scheduler/` before modifying
+- Multiple AI providers (Gemini + OpenAI) — route through `ai/router/modelRouter.js`
