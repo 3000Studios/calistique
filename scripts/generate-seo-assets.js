@@ -4,7 +4,6 @@ import path from 'node:path'
 import { repoRoot } from '../server/services/platformPaths.js'
 
 const publicDir = path.join(repoRoot, 'frontend', 'public')
-const contentPagesDir = path.join(repoRoot, 'content', 'pages')
 const contentBlogDir = path.join(repoRoot, 'content', 'blog')
 const contentProductsDir = path.join(repoRoot, 'content', 'products')
 

@@ -107,7 +107,10 @@ function installMotionTelemetry() {
   handleScroll()
 
   window.addEventListener('scroll', handleScroll, { passive: true })
-  window.addEventListener('deviceorientation', handleOrientation)
+  // Skip motion-sickness-inducing device tilt when the user prefers reduced motion.
+  if (!prefersReducedMotion) {
+    window.addEventListener('deviceorientation', handleOrientation)
+  }
 
   return () => {
     window.removeEventListener('scroll', handleScroll)

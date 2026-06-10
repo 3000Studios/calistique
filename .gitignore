@@ -20,3 +20,10 @@ dist
 .tmp-pagesdev-out.log
 .tmp-pagesdev-err.log
 .cache
+
+# Large CDN-backed media cache — served from R2/CDN, never commit (2.7GB local)
+public/shared-media/
+
+# Local secrets master file (must never be committed)
+global.env
+*.env.local

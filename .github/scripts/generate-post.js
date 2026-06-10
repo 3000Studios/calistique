@@ -76,7 +76,7 @@ async function main() {
     try {
       const content = JSON.parse(fs.readFileSync(path.join(BLOG_DIR, file), 'utf-8'));
       if (content.title) existingTitles.add(content.title.toLowerCase());
-    } catch (e) {
+    } catch {
       // skip malformed files
     }
   }
@@ -130,7 +130,7 @@ Return ONLY valid JSON (no markdown fences) with this exact shape:
   try {
     const cleaned = raw.replace(/```json\s*/g, '').replace(/```\s*/g, '').trim();
     post = JSON.parse(cleaned);
-  } catch (e) {
+  } catch {
     console.error('Failed to parse Gemini response:', raw);
     return;
   }

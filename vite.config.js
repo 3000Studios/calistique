@@ -72,5 +72,26 @@ export default defineConfig({
   build: {
     outDir: distRoot,
     emptyOutDir: true,
+    cssCodeSplit: true,
+    rollupOptions: {
+      output: {
+        manualChunks(id) {
+          if (!id.includes('node_modules')) return undefined
+          if (/[\\/]node_modules[\\/](react|react-dom|react-router|react-router-dom|scheduler)[\\/]/.test(id)) {
+            return 'react-vendor'
+          }
+          if (/[\\/]node_modules[\\/](@firebase|firebase)[\\/]/.test(id)) {
+            return 'firebase-vendor'
+          }
+          if (/[\\/]node_modules[\\/](framer-motion|motion)[\\/]/.test(id)) {
+            return 'motion-vendor'
+          }
+          if (/[\\/]node_modules[\\/](three|@react-three)[\\/]/.test(id)) {
+            return 'three-vendor'
+          }
+          return 'vendor'
+        },
+      },
+    },
   },
 })

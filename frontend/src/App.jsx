@@ -1,41 +1,53 @@
-import React, { useEffect } from 'react'
+import React, { Suspense, lazy, useEffect } from 'react'
 import { Navigate, Route, Routes } from 'react-router-dom'
 import SiteFrame from '../components/SiteFrame.jsx'
 import ExperienceOrchestrator from '../components/ExperienceOrchestrator.jsx'
-import AdminLayout from '../components/admin/AdminLayout.jsx'
 import HomePage from '../pages/HomePage.jsx'
-import ShopItemPage from '../pages/ShopItemPage.jsx'
-import CollectionPage from '../pages/CollectionPage.jsx'
-import DropPage from '../pages/DropPage.jsx'
-import AdsCompliancePage from '../pages/AdsCompliancePage.jsx'
-import AboutPage from '../pages/AboutPage.jsx'
-import ContactPage from '../pages/ContactPage.jsx'
-import PrivacyPage from '../pages/PrivacyPage.jsx'
-import TermsPage from '../pages/TermsPage.jsx'
-import DisclosurePage from '../pages/DisclosurePage.jsx'
-import AdSenseReviewPage from '../pages/AdSenseReviewPage.jsx'
-import ToolsPage from '../pages/ToolsPage.jsx'
-import ProductsPage from '../pages/ProductsPage.jsx'
-import BlogIndexPage from '../pages/BlogIndexPage.jsx'
-import BlogPostPage from '../pages/BlogPostPage.jsx'
-import AdminLoginPage from '../pages/AdminLoginPage.jsx'
-import AdminOperatorPage from '../pages/admin/AdminOperatorPage.jsx'
-import AdminOpenClawPage from '../pages/admin/AdminOpenClawPage.jsx'
-import AdminLogsPage from '../pages/admin/AdminLogsPage.jsx'
-import AdminSecureLogsPage from '../pages/admin/AdminSecureLogsPage.jsx'
-import OpenClaw from '../pages/OpenClaw.jsx'
-import RevenueStreams from '../pages/RevenueStreams.jsx'
-import ReferralZone from '../pages/ReferralZone.jsx'
-import AdminReferralUpload from '../pages/AdminReferralUpload.jsx'
-import AccountPage from '../pages/AccountPage.jsx'
-import NotFoundPage from '../pages/NotFoundPage.jsx'
-import OrderSuccessPage from '../pages/OrderSuccessPage.jsx'
-import OrderCancelPage from '../pages/OrderCancelPage.jsx'
 import { SiteRuntimeProvider } from './SiteRuntimeContext.jsx'
 import { theme } from './siteData.js'
 import { CartProvider } from './cartStore.jsx'
 import '../styles/app.css'
 import '../styles/luxury-storefront.css'
+
+// Route-level code splitting: keep the landing page eager for fast first paint,
+// lazy-load everything else so the initial bundle stays lean.
+const AdminLayout = lazy(() => import('../components/admin/AdminLayout.jsx'))
+const ShopItemPage = lazy(() => import('../pages/ShopItemPage.jsx'))
+const CollectionPage = lazy(() => import('../pages/CollectionPage.jsx'))
+const DropPage = lazy(() => import('../pages/DropPage.jsx'))
+const AdsCompliancePage = lazy(() => import('../pages/AdsCompliancePage.jsx'))
+const AboutPage = lazy(() => import('../pages/AboutPage.jsx'))
+const ContactPage = lazy(() => import('../pages/ContactPage.jsx'))
+const PrivacyPage = lazy(() => import('../pages/PrivacyPage.jsx'))
+const TermsPage = lazy(() => import('../pages/TermsPage.jsx'))
+const DisclosurePage = lazy(() => import('../pages/DisclosurePage.jsx'))
+const AdSenseReviewPage = lazy(() => import('../pages/AdSenseReviewPage.jsx'))
+const ToolsPage = lazy(() => import('../pages/ToolsPage.jsx'))
+const ProductsPage = lazy(() => import('../pages/ProductsPage.jsx'))
+const BlogIndexPage = lazy(() => import('../pages/BlogIndexPage.jsx'))
+const BlogPostPage = lazy(() => import('../pages/BlogPostPage.jsx'))
+const AdminLoginPage = lazy(() => import('../pages/AdminLoginPage.jsx'))
+const AdminOperatorPage = lazy(() => import('../pages/admin/AdminOperatorPage.jsx'))
+const AdminOpenClawPage = lazy(() => import('../pages/admin/AdminOpenClawPage.jsx'))
+const AdminLogsPage = lazy(() => import('../pages/admin/AdminLogsPage.jsx'))
+const AdminSecureLogsPage = lazy(() => import('../pages/admin/AdminSecureLogsPage.jsx'))
+const OpenClaw = lazy(() => import('../pages/OpenClaw.jsx'))
+const RevenueStreams = lazy(() => import('../pages/RevenueStreams.jsx'))
+const ReferralZone = lazy(() => import('../pages/ReferralZone.jsx'))
+const AdminReferralUpload = lazy(() => import('../pages/AdminReferralUpload.jsx'))
+const AccountPage = lazy(() => import('../pages/AccountPage.jsx'))
+const NotFoundPage = lazy(() => import('../pages/NotFoundPage.jsx'))
+const OrderSuccessPage = lazy(() => import('../pages/OrderSuccessPage.jsx'))
+const OrderCancelPage = lazy(() => import('../pages/OrderCancelPage.jsx'))
+
+function RouteFallback() {
+  return (
+    <div className="route-fallback" role="status" aria-live="polite" aria-busy="true">
+      <span className="route-fallback__spinner" aria-hidden="true" />
+      <span className="sr-only">Loading…</span>
+    </div>
+  )
+}
 
 function applyTheme(themeConfig) {
 const palette = themeConfig.palette ?? {}
@@ -53,6 +65,7 @@ return (
   <SiteRuntimeProvider>
     <CartProvider>
       <ExperienceOrchestrator />
+      <Suspense fallback={<RouteFallback />}>
       <Routes>
         <Route element={<SiteFrame />}>
           <Route path="/" element={<HomePage />} />
@@ -90,6 +103,7 @@ return (
         </Route>
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
+      </Suspense>
     </CartProvider>
   </SiteRuntimeProvider>
 )
