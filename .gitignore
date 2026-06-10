@@ -27,3 +27,14 @@ public/shared-media/
 # Local secrets master file (must never be committed)
 global.env
 *.env.local
+
+.env
+.env.*
+!.env.example
+*.local
+serviceAccount*.json
+firebase-service-account*.json
+.google-credentials*.json
+.gitleaks-report.json
+.trivy-report.json
+.semgrep/
