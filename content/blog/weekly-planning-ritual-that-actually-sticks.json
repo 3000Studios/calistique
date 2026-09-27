@@ -1,0 +1,48 @@
+{
+  "updatedFor": "calistique",
+  "slug": "weekly-planning-ritual-that-actually-sticks",
+  "title": "The Weekly Planning Ritual That Actually Sticks",
+  "excerpt": "Most planning systems die by Wednesday. This 30-minute weekly review is built around why they die — and how to keep yours alive.",
+  "publishedAt": "2026-09-27",
+  "sections": [
+    {
+      "heading": "Introduction",
+      "body": "Everyone has tried a planning system. Most of them die the same way: an ambitious Sunday setup, a decent Monday, a chaotic Wednesday, and by Friday the planner is a guilt object sitting on the desk. The problem usually isn't discipline. It's that the system was designed for a fantasy week, not your actual one. This ritual is different because it's built around maintenance, not ambition. Thirty minutes, once a week, same time. Here's the full procedure."
+    },
+    {
+      "heading": "Pick your time and defend it",
+      "body": "The ritual needs a fixed slot. Sunday evening works for most people — the week is visible, the weekend's noise has settled. But the best time is the one you'll actually keep. Friday afternoon (planning while the week is fresh), Monday morning (planning with coffee before email) — all fine. What doesn't work: \"whenever I get to it.\" That's not a ritual, that's a wish. Put it on the calendar as a real appointment. Thirty minutes. Phone on Do Not Disturb."
+    },
+    {
+      "heading": "Part 1: The review (10 minutes)",
+      "body": "Before you plan forward, look back. This is the step everyone skips, and it's the reason systems die — without review, you keep making the same planning mistakes every week. Pull up last week's plan (or calendar, or task list) and ask three questions:\n\nWhat got done? Acknowledge it. Actually write it down or say it out loud. Your brain needs the win registered, or the week feels like failure regardless of reality.\n\nWhat didn't get done, and why? Be honest but not cruel. \"Didn't call the dentist because I kept scheduling it at 4pm when I'm fried\" is useful data. \"I'm lazy\" is not data — throw it out.\n\nWhat ambushed me? The unexpected meeting, the sick kid, the urgent request. You can't plan for specifics, but you can see patterns: if every week has 5+ hours of ambush, your plans need 5+ hours of slack built in.\n\nWrite one sentence capturing the lesson. Examples: \"Mornings are my only reliable focus time — stop scheduling deep work after lunch.\" \"Tuesdays are meeting-heavy; keep task load light.\" This sentence is the most valuable output of the whole ritual."
+    },
+    {
+      "heading": "Part 2: The brain dump (5 minutes)",
+      "body": "Empty your head onto paper (or a blank doc). Everything — tasks, errands, \"I should really…\", worries, ideas, the thing you remembered in the shower. Don't organize yet. Don't prioritize. Just dump. The goal is to get your working memory clear. Research on this is consistent: your brain keeps nagging you about undone tasks (\"the Zeigarnik effect\") until they're captured somewhere trustworthy. Five minutes of dumping buys you a week of reduced background anxiety."
+    },
+    {
+      "heading": "Part 3: The triage (10 minutes)",
+      "body": "Now sort the dump into three buckets. Be ruthless — most people's dumps are 60% things that don't need doing this week. Bucket A: Must happen this week (3–5 items max). The non-negotiables with real deadlines or consequences. If everything feels must-do, you're lying to yourself — pick the five with actual stakes. Bucket B: Should happen (up to 10 items). Important but flexible. These get scheduled if time allows. Bucket C: Someday / not now. Everything else. This isn't deletion — it's honest parking. Review this bucket monthly; most of it will expire on its own, which tells you it never mattered. Now assign Bucket A items to specific days, respecting what you learned in the review. Deep work goes in your proven focus windows. Errands batch together geographically. Nothing important goes in a slot where it died last week."
+    },
+    {
+      "heading": "Part 4: The calendar check (5 minutes)",
+      "body": "Last step: reconcile the plan with reality.\n\nScan the week's existing appointments. Any conflicts with your Bucket A placements? Move things now, not Wednesday.\n\nCheck for prep needs: meetings that need reading done beforehand, events needing a gift or outfit, travel needing packing. Add the prep as its own task — \"prepare for Thursday meeting\" is a task; the meeting itself is not.\n\nConfirm the week's one big thing. If you could only accomplish one thing this week, what would it be? Name it. Everything else orbits it."
+    },
+    {
+      "heading": "Why this one survives",
+      "body": "Three design choices keep this ritual alive where others die: It's time-boxed. Thirty minutes, timer on. Planning systems that expand to fill an hour get skipped. This one fits between dinner and a show. It learns. The review step means your system gets smarter every week instead of repeating the same fantasy schedule. After a month, your plans start matching your actual capacity — and matching capacity is what makes plans feel achievable instead of oppressive. It's forgiving. Miss a week? The next review just covers two weeks. No streak to break, no guilt spiral. The ritual works when you do it and waits patiently when you don't."
+    },
+    {
+      "heading": "The tools question",
+      "body": "Use whatever you'll actually open: a paper planner, a notes app, a whiteboard, index cards. The system matters roughly 10%; the weekly repetition matters 90%. Don't spend your first three weeks shopping for the perfect planner — that's procrastination wearing a productivity costume. Pick the thing in arm's reach and start this week."
+    }
+  ],
+  "cta": {
+    "eyebrow": "Calistique",
+    "heading": "Keep reading",
+    "body": "More practical notes on style, planning, and getting organized.",
+    "primaryLabel": "Browse all articles",
+    "primaryHref": "/blog"
+  }
+}

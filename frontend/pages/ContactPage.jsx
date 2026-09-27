@@ -21,9 +21,19 @@ return (
   <header className="prose-header">
     <h1>Contact Us</h1>
     <p className="prose-lead">
-      Have a question, bug report, or partnership inquiry? We read every message and respond within 1-2 business days.
+      We'd love to hear from you. Whether you've spotted an error in an article, have a topic you'd like us to cover, or just want to say hello — every message gets read by a real person on our small editorial team.
     </p>
   </header>
+
+  <section className="prose-section">
+    <h2>What to send us</h2>
+    <ul>
+      <li><b>Corrections</b> — found something wrong? Tell us which page and what's off.</li>
+      <li><b>Topic requests</b> — style, planning, or organization topics we haven't covered.</li>
+      <li><b>Feedback</b> — tried one of our methods? Tell us how it went.</li>
+      <li><b>Business inquiries</b> — advertising, partnership, or press — include "Business" in your subject line.</li>
+    </ul>
+  </section>
 
   <section className="prose-section">
     <h2>Get in Touch</h2>
@@ -59,12 +69,13 @@ return (
   </section>
 
   <section className="prose-section">
-    <h2>Other Ways to Reach Us</h2>
-    <ul>
-      <li><b>Email:</b> <a href={`mailto:${SUPPORT_EMAIL}`}>{SUPPORT_EMAIL}</a></li>
-      <li><b>GitHub:</b> <a href="https://github.com/3000Studios" rel="noopener noreferrer">github.com/3000Studios</a></li>
-      <li><b>Response time:</b> 1-2 business days</li>
-    </ul>
+    <h2>Response time</h2>
+    <p>We aim to respond within 3–5 business days.</p>
+  </section>
+
+  <section className="prose-section">
+    <h2>Please note</h2>
+    <p>Calistique is an informational publication — we can't offer personal styling consultations. We don't accept unsolicited guest posts or paid link placements.</p>
   </section>
 </article>
 )
