@@ -40,7 +40,6 @@ export default function AdSenseReviewPage() {
 
       <section className="prose-section">
         <h2>Required snippets</h2>
-        <p>These are the live snippets currently used for review readiness.</p>
         <pre><code>{snippet.head}</code></pre>
         <pre><code>{snippet.unit}</code></pre>
       </section>
