@@ -238,7 +238,7 @@ function getSeoForPath(pathname) {
     return {
       ...base,
       title: `${SITE_DISPLAY_NAME} | ${normalizedPath.slice(1)}`,
-      description: `${SITE_DISPLAY_NAME} policy and trust page for visitors and reviewers.`,
+      description: `${SITE_DISPLAY_NAME} — about the publication, how to contact us, and our privacy, terms, and disclosure policies.`,
     }
   }
 
