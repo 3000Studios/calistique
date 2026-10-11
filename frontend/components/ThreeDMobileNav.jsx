@@ -129,7 +129,7 @@ const ThreeDMobileNav = ({ items = [] }) => {
               <div className="nav-header">
                 <div className="nav-logo">
                   <span className="logo-icon">🦞</span>
-                  <span className="logo-text">MyAppAI</span>
+                  <span className="logo-text">Calistique</span>
                 </div>
                 <motion.button
                   className="close-button"

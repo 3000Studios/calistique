@@ -6,7 +6,7 @@ export default function NotFoundPage() {
   return (
     <div className="section-card centered-card">
       <span className="eyebrow">404</span>
-      <PrismHeadline text="That route is not part of MyAppAI." />
+      <PrismHeadline text="That route is not part of Calistique." />
       <p className="section-intro">
         Head back to the homepage or open the admin login to continue working
         from the operator platform.

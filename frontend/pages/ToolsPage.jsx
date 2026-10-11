@@ -27,24 +27,6 @@ const MENU = [
   {
     category: 'Money Makers',
     items: [
-      {
-        name: 'Cast Iron Skillet',
-        tagline: 'Cookware affiliate with real utility',
-        description:
-          'Recommended gear for roux, cornbread, and searing that can earn commission while helping the reader.',
-        url: 'https://example.com',
-        badge: 'Affiliate',
-        tags: ['cookware', 'affiliate', 'home'],
-      },
-      {
-        name: 'Cajun Spice Blend',
-        tagline: 'Seasoning product placement',
-        description:
-          'Spice kit roundups, Amazon-style recommendations, and bundle offers fit naturally on recipe pages.',
-        url: 'https://example.com',
-        badge: 'Sponsored-ready',
-        tags: ['spice', 'product', 'sponsored'],
-      },
     ],
   },
 ]

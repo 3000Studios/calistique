@@ -339,7 +339,7 @@ const ArcadeFooter = () => {
           <a href="/about">About</a>
         </div>
         <div className="footer-copyright">
-          <p>© 2026 MyAppAI Arcade - Powered by Elite AI Systems</p>
+          <p>© 2026 Calistique</p>
         </div>
       </div>
     </div>
